@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+<!--   <me.ibrahimsn.lib.SmoothBottomBar-->
+<!--       android:id="@+id/bottomBar"-->
+<!--       android:layout_width="match_parent"-->
+<!--       android:layout_height="56dp"-->
+<!--       android:elevation="12dp"-->
+<!--       app:iconMargin="8dp"-->
+<!--       app:iconSize="24dp"-->
+<!--       app:indicatorRadius="8dp"-->
+<!--       app:textSize="14sp"-->
+
+<!--       app:menu="@menu/bottom_menu"-->
+<!--       app:layout_constraintBottom_toBottomOf="parent"-->
+<!--       app:layout_constraintEnd_toEndOf="parent"-->
+<!--       app:layout_constraintEnd_toStartOf="parent"-->
+
+<!--       />-->
+<TextView
+    android:text="@string/app_name"
+    android:fontFamily="@font/nunito_medium"
+    android:textSize="25sp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+
+
+    <TextView
+        android:text="@string/app_name"
+        android:textSize="25sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">CryptoApp</string>
+    <string name="login">Login</string>
+    <string name="next">Next</string>
+    <string name="email">Email</string>
+    <string name="email_number">Email/Number</string>
+    <string name="password">Password</string>
+    <string name="new_password">New Password</string>
+    <string name="reenter_password">Reenter Password</string>
+    <string name="welcome_to_crypto">Welcome to crypto</string>
+    <string name="welcome_back">Welcome back!</string>
+    <string name="create_a_crypto_account">Create a crypto account</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="reset_your_password">Reset Your Password </string>
+    <string name="phone_number">Phone Number</string>
+    <string name="create_personal_account">Create Personal \nAccount</string>
+    <string name="create_account">Create Personal Account</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="valid_email">[a-zA-Z0-9._-]+@[a-z]+\.+[a-z]+</string>
+    <string name="valid_error">This field is required</string>
+    <string name="email_error">Email field is required</string>
+    <string name="phone_error">Phone Number is required</string>
+    <string name="password_error">Password field is required</string>
+    <string name="repassword_error">Reenter Password field is required</string>
+
+</resources>
