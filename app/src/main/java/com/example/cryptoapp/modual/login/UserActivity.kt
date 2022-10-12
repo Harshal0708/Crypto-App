@@ -1,11 +1,12 @@
 package com.example.cryptoapp.modual.login
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.view.View
+import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
-import com.example.cryptoapp.databinding.ActivityMainBinding
-import com.example.cryptoapp.databinding.ActivitySignUpBinding
+import com.example.cryptoapp.databinding.ActivityUserBinding
 import com.example.cryptoapp.modual.login.adapter.ViewPagerAdapter
 import com.example.cryptoapp.modual.login.adapter.ZoomOutPageTransformer
 import com.example.cryptoapp.modual.login.fragment.DocumentFragment
@@ -13,26 +14,28 @@ import com.example.cryptoapp.modual.login.fragment.ScriptFragment
 import com.example.cryptoapp.modual.login.fragment.UserFragment
 
 
-class SignUpActivity : AppCompatActivity() {
+class UserActivity : AppCompatActivity(), View.OnClickListener {
 
-    private lateinit var binding: ActivitySignUpBinding
+    private lateinit var binding: ActivityUserBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_sign_up)
+        setContentView(R.layout.activity_user)
 
-        binding = ActivitySignUpBinding.inflate(layoutInflater)
+        binding = ActivityUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupViewPager2()
     }
 
     private fun setupViewPager2() {
-        val colorList = arrayListOf(UserFragment(),DocumentFragment(),ScriptFragment())
+        val colorList = arrayListOf(UserFragment(), DocumentFragment(), ScriptFragment())
         binding.viewPager.adapter = ViewPagerAdapter(this, colorList)
 
         binding.viewPager.setPageTransformer(ZoomOutPageTransformer())
+        binding.circleIndicator.setViewPager(binding.viewPager)
+        binding.userSkip.setOnClickListener(this)
     }
 
     override fun onBackPressed() {
@@ -41,6 +44,18 @@ class SignUpActivity : AppCompatActivity() {
             super.onBackPressed()
         } else {
             viewPager.currentItem = viewPager.currentItem - 1
+        }
+    }
+
+    override fun onClick(p0: View?) {
+        val id = p0!!.id
+        when (id) {
+            binding.userSkip.id -> {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
         }
     }
 
