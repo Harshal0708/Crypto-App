@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Receiver.SmsBroadcastReceiver
 import com.example.cryptoapp.Response.LoginResponse
@@ -41,7 +42,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         otp_verification?.setText(intent.getStringExtra("register"))
         otp?.setOnClickListener(this)
 
-        startSmartUserConsent()
+      //  startSmartUserConsent()
     }
 
     private fun startSmartUserConsent() {
@@ -88,12 +89,12 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onStart() {
         super.onStart()
-        registerBroadcastReceiver()
+        //registerBroadcastReceiver()
     }
 
     override fun onStop() {
         super.onStop()
-        unregisterReceiver(smsBroadcastReceiver)
+        //unregisterReceiver(smsBroadcastReceiver)
     }
 
     override fun onClick(p0: View?) {
@@ -107,9 +108,16 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     }
     fun addOtp() {
 
-        var intent = Intent(this@OtpActivity, LoginActivity::class.java)
-        startActivity(intent)
+        if(intent.getBooleanExtra("isRegister",false) == true){
 
+            var intent = Intent(this@OtpActivity, LoginActivity::class.java)
+            startActivity(intent)
+
+        }else{
+            var intent = Intent(this@OtpActivity, UserActivity::class.java)
+            startActivity(intent)
+
+        }
     }
 
 

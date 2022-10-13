@@ -159,10 +159,12 @@ class RegisterActivity : AppCompatActivity(),OnClickListener {
         val intent = Intent(this, OtpActivity::class.java)
         if (isUser == false) {
             intent.putExtra("register", sp_et_email?.text.toString())
+
         }else{
 
             intent.putExtra("register", mn_et_phone?.text.toString())
         }
+        intent.putExtra("isRegister", true)
         startActivity(intent)
         return true
         }

@@ -41,7 +41,8 @@ class PasswordActivity : AppCompatActivity(), OnClickListener {
         val id = p0!!.id
         when (id) {
             R.id.pwd_login -> {
-                var intent = Intent(this@PasswordActivity, UserActivity::class.java)
+                var intent = Intent(this@PasswordActivity, OtpActivity::class.java)
+                intent.putExtra("isRegister", false)
                 startActivity(intent)
                 finish()
                 //addLogin()
@@ -64,7 +65,8 @@ class PasswordActivity : AppCompatActivity(), OnClickListener {
                         response: retrofit2.Response<LoginResponse>
                     ) {
 
-                        var intent = Intent(this@PasswordActivity, UserActivity::class.java)
+                        var intent = Intent(this@PasswordActivity, OtpActivity::class.java)
+                        intent.putExtra("isRegister", false)
                         startActivity(intent)
 
 
