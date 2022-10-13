@@ -25,10 +25,10 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity, var colorList: ArrayL
 
     override fun createFragment(position: Int): Fragment {
         when (position) {
-            0 -> return UserFragment()
-            1 -> return DocumentFragment()
+            0 -> return DocumentFragment()
+            1 -> return UserFragment()
             2 -> return ScriptFragment()
-            else -> return UserFragment()
+            else -> return DocumentFragment()
         }
     }
 }

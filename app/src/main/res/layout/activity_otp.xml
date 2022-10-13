@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="2"
-    tools:context=".modual.login.PasswordActivity">
+    tools:context=".modual.login.OtpActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -26,23 +25,23 @@
             android:fontFamily="@font/nunito_bold"
             android:textColor="@color/black"
             android:textSize="24sp"
-            android:text="@string/welcome_back"
+            android:text="@string/phone_verification"
             android:gravity="center"
             android:layout_marginTop="4dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/pwd_emailOrPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:id="@+id/otp_verification"
+            android:textStyle="bold"
             android:fontFamily="@font/nunito_bold"
-            android:gravity="center"
-            android:text="@string/welcome_back"
             android:textColor="@color/black"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            android:text="@string/phone_verification"
+            android:gravity="center"
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:layout_margin="16dp"
@@ -52,7 +51,8 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:hint="@string/password"
+                android:id="@+id/et_otp"
+                android:hint="@string/code"
                 android:textSize="18dp"
                 android:padding="8dp"
                 android:drawableEnd="@drawable/ic_lock"
@@ -62,22 +62,22 @@
                 android:layout_height="wrap_content"/>
 
             <Button
-                android:id="@+id/pwd_login"
-                android:text="@string/login"
+                android:id="@+id/otp"
+                android:text="@string/submit"
+                android:textAllCaps="false"
                 android:layout_margin="16dp"
                 android:textColor="@color/white"
-                android:textAllCaps="false"
                 android:background="@drawable/background_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/forgot_password"
+                android:id="@+id/resend_code"
                 android:textStyle="bold"
                 android:fontFamily="@font/nunito_bold"
                 android:textColor="@color/black"
                 android:textSize="12sp"
-                android:text="@string/forgot_password"
+                android:text="@string/resend_code"
                 android:gravity="center"
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
@@ -86,5 +86,6 @@
 
 
     </LinearLayout>
+
 
 </LinearLayout>
