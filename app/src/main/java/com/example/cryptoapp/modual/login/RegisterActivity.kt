@@ -1,31 +1,44 @@
 package com.example.cryptoapp.modual.login
 
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.view.View.GONE
 import android.view.View.OnClickListener
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import com.example.cryptoapp.R
+import com.example.cryptoapp.Response.RegisterResponse
+import com.example.cryptoapp.model.RegisterPayload
+import com.example.cryptoapp.network.RestApi
+import com.example.cryptoapp.network.ServiceBuilder
+import com.google.gson.Gson
 import java.util.regex.Pattern
 
-class RegisterActivity : AppCompatActivity(),OnClickListener {
+class RegisterActivity : AppCompatActivity(), OnClickListener {
 
 
-    var user_btn_email: Button? = null
-    var user_btn_password: Button? = null
-    var create_account: Button? = null
+    var create_account: TextView? = null
     var sp_et_email: EditText? = null
     var mn_et_phone: EditText? = null
     var sp_et_firstName: EditText? = null
     var sp_et_lastName: EditText? = null
     var sp_et_password: EditText? = null
     var sp_et_rePassword: EditText? = null
-    var isUser: Boolean = false
+    var register_progressBar: ProgressBar? = null
+
     private lateinit var email: String
+    private lateinit var phone: String
+    private lateinit var firsName: String
+    private lateinit var lastName: String
+    private lateinit var password: String
+    private lateinit var rePassword: String
+
 
     val EMAIL_ADDRESS_PATTERN = Pattern.compile(
         "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -51,59 +64,108 @@ class RegisterActivity : AppCompatActivity(),OnClickListener {
     }
 
     fun init() {
-        user_btn_email = findViewById(R.id.user_btn_email)
-        user_btn_password = findViewById(R.id.user_btn_password)
+
         create_account = findViewById(R.id.create_account)
-        sp_et_firstName =findViewById(R.id.sp_et_firstName)
+        sp_et_firstName = findViewById(R.id.sp_et_firstName)
         sp_et_lastName = findViewById(R.id.sp_et_lastName)
-        sp_et_password = findViewById(R.id.sp_et_password)
         sp_et_password = findViewById(R.id.sp_et_password)
         sp_et_rePassword = findViewById(R.id.sp_et_rePassword)
 
         sp_et_email = findViewById(R.id.sp_et_email)
         mn_et_phone = findViewById(R.id.mn_et_phone)
 
-        user_btn_password!!.setBackgroundColor(0)
-        sp_et_email?.visibility = View.VISIBLE
-        mn_et_phone?.visibility = View.GONE
-        isUser = false
+        register_progressBar = findViewById(R.id.register_progressBar)
+        register_progressBar?.visibility = GONE
 
-        user_btn_email!!.setOnClickListener(this)
-        user_btn_password!!.setOnClickListener(this)
         create_account!!.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
         val id = p0!!.id
         when (id) {
-            R.id.user_btn_email -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    this?.let { it1 -> user_btn_email!!.setBackgroundColor(it1.getColor(R.color.light_grey)) }
-                }
-                user_btn_password!!.setBackgroundColor(0)
-                mn_et_phone?.visibility = View.GONE
-                sp_et_email?.visibility = View.VISIBLE
-                isUser = false
-            }
-            R.id.user_btn_password -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    this?.getColor(R.color.light_grey)
-                        ?.let { it1 -> user_btn_password!!.setBackgroundColor(it1) }
-                }
-                user_btn_email!!.setBackgroundColor(0)
-                mn_et_phone?.visibility = View.VISIBLE
-                sp_et_email?.visibility = View.GONE
-                isUser = true
-            }
-
             R.id.create_account -> {
-                signUp(isUser)
+
+                email = sp_et_email?.text.toString()
+                phone = mn_et_phone?.text.toString()
+                firsName = sp_et_firstName?.text.toString()
+                lastName = sp_et_lastName?.text.toString()
+                password = sp_et_password?.text.toString()
+                rePassword = sp_et_rePassword?.text.toString()
+
+                val intent = Intent(this@RegisterActivity, OtpActivity::class.java)
+                intent.putExtra("email",email)
+                intent.putExtra("phone",phone)
+                startActivity(intent)
+
+//                if(validation() == true){
+//
+//                    addCreateAccount()
+//
+//                }
             }
         }
     }
 
 
-    fun signUp(isUser: Boolean): Boolean {
+    fun addCreateAccount() {
+
+        register_progressBar?.visibility=View.VISIBLE
+        val response = ServiceBuilder.buildService(RestApi::class.java)
+
+        val payload = RegisterPayload(password,rePassword,email,firsName,lastName,"","","","","",phone,"Appu25")
+        val gson = Gson()
+        val json = gson.toJson(payload)
+
+        Log.d("test",json)
+//        response.addRegister(registerPayload = RegisterPayload(password,rePassword,email,firsName,lastName,"","","","","",phone,"Appu1111"))
+        response.addRegister(payload)
+            .enqueue(
+                object : retrofit2.Callback<RegisterResponse> {
+                    override fun onResponse(
+                        call: retrofit2.Call<RegisterResponse>,
+                        response: retrofit2.Response<RegisterResponse>
+                    ) {
+
+                        Log.d("test",response.toString())
+                        Log.d("test",response.body().toString())
+
+                        if(response.body()?.code == "200"){
+                            register_progressBar?.visibility=GONE
+                            Toast.makeText(
+                                this@RegisterActivity,
+                                response.body()?.message,
+                                Toast.LENGTH_LONG
+                            ).show()
+                            val intent = Intent(this@RegisterActivity, OtpActivity::class.java)
+                            intent.putExtra("register", mn_et_phone?.text.toString())
+                            startActivity(intent)
+                        }else{
+
+                            register_progressBar?.visibility=GONE
+                            Toast.makeText(
+                                this@RegisterActivity,
+                                "User not created!",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+
+                    }
+
+                    override fun onFailure(call: retrofit2.Call<RegisterResponse>, t: Throwable) {
+                        Log.d("test",t.toString())
+
+                        register_progressBar?.visibility=GONE
+                        Toast.makeText(this@RegisterActivity, t.toString(), Toast.LENGTH_LONG)
+                            .show()
+                    }
+
+                }
+            )
+
+
+    }
+
+    fun validation(): Boolean {
 
         if (sp_et_firstName?.length() == 0) {
             sp_et_firstName?.setError(getString(R.string.valid_error));
@@ -115,34 +177,28 @@ class RegisterActivity : AppCompatActivity(),OnClickListener {
             return false;
         }
 
-        if (isUser == false) {
-
-            if (sp_et_email?.length() == 0) {
-                sp_et_email?.setError(getString(R.string.valid_error));
-                return false;
-            }else{
-
-                val str_email = sp_et_email?.text.toString().trim()
-                if (!(EMAIL_ADDRESS_PATTERN.toRegex().matches(str_email))) {
-                    sp_et_email?.setError(getString(R.string.email_error));
-                    return false;
-                }
-            }
-
-
-        } else {
-
-            if (mn_et_phone?.length() == 0) {
-                mn_et_phone?.setError(getString(R.string.valid_error));
-                return false;
-            }
-
-            val str_number = mn_et_phone?.text.toString().trim()
-            if (!(PHONE_NUMBER_PATTERN.toRegex().matches(str_number))) {
-                mn_et_phone?.setError(getString(R.string.phone_error));
-                return false;
-            }
+        if (sp_et_email?.length() == 0) {
+            sp_et_email?.setError(getString(R.string.valid_error));
+            return false;
         }
+
+        email = sp_et_email?.text.toString().trim()
+        if (!(EMAIL_ADDRESS_PATTERN.toRegex().matches(email))) {
+            sp_et_email?.setError(getString(R.string.email_error));
+            return false;
+        }
+
+        if (mn_et_phone?.length() == 0) {
+            mn_et_phone?.setError(getString(R.string.valid_error));
+            return false;
+        }
+
+        phone = mn_et_phone?.text.toString().trim()
+        if (!(PHONE_NUMBER_PATTERN.toRegex().matches(phone))) {
+            mn_et_phone?.setError(getString(R.string.phone_error));
+            return false;
+        }
+
 
         if (sp_et_password?.length() == 0) {
             sp_et_password?.setError(getString(R.string.password_error));
@@ -154,20 +210,14 @@ class RegisterActivity : AppCompatActivity(),OnClickListener {
             return false;
         }
 
-
-
-        val intent = Intent(this, OtpActivity::class.java)
-        if (isUser == false) {
-            intent.putExtra("register", sp_et_email?.text.toString())
-
-        }else{
-
-            intent.putExtra("register", mn_et_phone?.text.toString())
+        if(!sp_et_password?.text.toString().equals(sp_et_rePassword?.text.toString())){
+            sp_et_rePassword?.setError(getString(R.string.password_not_error));
+            return false;
         }
-        intent.putExtra("isRegister", true)
-        startActivity(intent)
+
         return true
-        }
-
-
     }
+
+}
+
+
