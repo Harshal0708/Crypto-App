@@ -15,12 +15,17 @@
     <string name="welcome_back">Welcome back!</string>
     <string name="phone_verification">Phone Verification</string>
     <string name="kyc_verification">KYC Verification</string>
+    <string name="document_verification">Document Verification</string>
+    <string name="api_key">Api Key</string>
+    <string name="secret">Secret</string>
     <string name="aadhar_card_number">Aadhar card number</string>
     <string name="valid_aadhar_number">Please enter valid 12 Digit Aadhar card number</string>
     <string name="valid_pan_number">Please enter valid 10 Digit Pan card number</string>
+    <string name="valid_otp">Please enter valid OTP</string>
+    <string name="otp_verify_done">OTP verify done</string>
     <string name="pan_number">PAN number</string>
     <string name="create_a_crypto_account">Create a crypto account</string>
-    <string name="forgot_password">Forgot password?</string>
+    <string name="forgot_password">Forgot password ?</string>
     <string name="reset_your_password">Reset Your Password</string>
     <string name="resend_code">Resend Code</string>
     <string name="phone_number">Phone Number</string>
@@ -29,10 +34,10 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="valid_email">[a-zA-Z0-9._-]+@[a-z]+\.+[a-z]+</string>
-    <string name="valid_error">This field is required</string>
-    <string name="email_error">Email field is required</string>
-    <string name="phone_error">Phone Number is required</string>
-    <string name="password_error">Password field is required</string>
-    <string name="repassword_error">Reenter Password field is required</string>
-
+    <string name="valid_error">This field is required!</string>
+    <string name="email_error">Email field is required!</string>
+    <string name="phone_error">Phone Number is required!</string>
+    <string name="password_error">Password field is required!</string>
+    <string name="repassword_error">Reenter Password field is required!</string>
+    <string name="password_not_error">Password and Reenter Password field Not Match!</string>
 </resources>

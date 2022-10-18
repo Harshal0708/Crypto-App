@@ -7,26 +7,68 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".modual.login.fragment.UserFragment">
 
-    <ImageView
-        android:id="@+id/labelHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_splash"
-        app:layout_constraintBottom_toTopOf="@+id/label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="User"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:textStyle="bold"
+            android:fontFamily="@font/nunito_bold"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:text="@string/document_verification"
+            android:gravity="center"
+            android:layout_marginTop="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_margin="16dp"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/doc_api_key"
+                android:hint="@string/api_key"
+                android:textSize="18dp"
+                android:padding="8dp"
+                android:inputType="number"
+                android:maxLength="12"
+                android:drawableEnd="@drawable/ic_card"
+                android:background="@drawable/background_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:id="@+id/doc_secret"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:maxLength="10"
+                android:inputType="textCapCharacters"
+                android:background="@drawable/background_edittext"
+                android:drawableEnd="@drawable/ic_card"
+                android:hint="@string/secret"
+                android:padding="8dp"
+                android:textSize="18dp" />
+
+
+            <Button
+                android:id="@+id/doc_submit"
+                android:text="@string/submit"
+                android:layout_margin="16dp"
+                android:textColor="@color/white"
+                android:background="@drawable/background_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 </LinearLayout>

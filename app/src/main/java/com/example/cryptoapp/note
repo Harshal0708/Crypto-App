@@ -7,3 +7,19 @@
 3) Dummy Api Url
 - https://dummy.restapiexample.com/
 
+4) OTP Verification
+- https://www.youtube.com/watch?v=pJmW8yAjgUA
+
+5) Login Button Loading
+- https://github.com/4mirfor3v3r/ButtonLoadingAnimation
+- https://www.youtube.com/watch?v=sHL8XbvxZdA
+
+6)
+val gson = Gson()
+val json = gson.toJson(topic)
+
+val json = getJson()
+val topic = gson.fromJson(json, Topic::class.java)
+
+
+- com.google.gson.JsonSyntaxException: java.lang.IllegalStateException: Expected a string but was BEGIN_OBJECT at line 1 column 46 path $.data

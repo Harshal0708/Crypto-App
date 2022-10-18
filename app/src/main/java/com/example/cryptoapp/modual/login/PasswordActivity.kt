@@ -18,6 +18,7 @@ import com.example.cryptoapp.network.ServiceBuilder
 class PasswordActivity : AppCompatActivity(), OnClickListener {
     var forgot_password: TextView? = null
     var pwd_emailOrPassword: TextView? = null
+    var reset_your_password: TextView? = null
     var pwd_login: Button? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,10 +31,12 @@ class PasswordActivity : AppCompatActivity(), OnClickListener {
 
         forgot_password = findViewById(R.id.forgot_password)
         pwd_emailOrPassword = findViewById(R.id.pwd_emailOrPassword)
+        reset_your_password = findViewById(R.id.reset_your_password)
         pwd_login = findViewById(R.id.pwd_login)
 
         pwd_login?.setOnClickListener(this)
         forgot_password?.setOnClickListener(this)
+        reset_your_password?.setOnClickListener(this)
         pwd_emailOrPassword?.setText(intent.getStringExtra("emailOrPassword"))
     }
 
@@ -50,6 +53,11 @@ class PasswordActivity : AppCompatActivity(), OnClickListener {
                 val intent = Intent(this, ForgotPasswordActivity::class.java)
                 startActivity(intent)
             }
+            R.id.reset_your_password -> {
+                val intent = Intent(this, ResetPasswordActivity::class.java)
+                startActivity(intent)
+            }
+
         }
     }
 
@@ -66,7 +74,6 @@ class PasswordActivity : AppCompatActivity(), OnClickListener {
 
                         var intent = Intent(this@PasswordActivity, UserActivity::class.java)
                         startActivity(intent)
-
 
                         Toast.makeText(
                             this@PasswordActivity,
