@@ -22,6 +22,8 @@
     <string name="valid_aadhar_number">Please enter valid 12 Digit Aadhar card number</string>
     <string name="valid_pan_number">Please enter valid 10 Digit Pan card number</string>
     <string name="valid_otp">Please enter valid OTP</string>
+    <string name="valid_password">Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:</string>
+    <string name="resend_in">RESEND IN :- </string>
     <string name="otp_verify_done">OTP verify done</string>
     <string name="pan_number">PAN number</string>
     <string name="create_a_crypto_account">Create a crypto account</string>
@@ -40,4 +42,6 @@
     <string name="password_error">Password field is required!</string>
     <string name="repassword_error">Reenter Password field is required!</string>
     <string name="password_not_error">Password and Reenter Password field Not Match!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

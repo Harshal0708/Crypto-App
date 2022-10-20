@@ -12,14 +12,14 @@
         android:id="@+id/market"
         android:enabled="true"
         android:icon="@drawable/ic_chart"
-        android:title="Home"
+        android:title="Crypto"
         app:showAsAction="always"
         />
     <item
-        android:id="@+id/matchList"
+        android:id="@+id/setting"
         android:enabled="true"
         android:icon="@drawable/ic_bookmark"
-        android:title="Home"
+        android:title="Setting"
         app:showAsAction="always"
         />
 

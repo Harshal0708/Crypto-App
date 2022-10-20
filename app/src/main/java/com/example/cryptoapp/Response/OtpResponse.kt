@@ -1,7 +1,8 @@
 package com.example.cryptoapp.Response
 
-data class LoginResponse(
+data class OtpResponse(
     val code : String,
     val message : String,
-    val data : LoginUserDataResponse,
+    val data : OtpUserDataResponse,
 )
+

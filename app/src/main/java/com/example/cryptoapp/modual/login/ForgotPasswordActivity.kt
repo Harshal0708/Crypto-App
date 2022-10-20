@@ -25,18 +25,11 @@ import java.util.regex.Pattern
 
 class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
-    var fp_btn_email: Button? = null
-    var fp_btn_password: Button? = null
     var forgot: TextView? = null
     var fp_et_email: EditText? = null
-    var fp_et_phone: EditText? = null
-    var fp_et_password: EditText? = null
-    var fp_et_rePassword: EditText? = null
     var forgot_progressBar: ProgressBar? = null
 
     private lateinit var email: String
-    private lateinit var passowrd: String
-    private lateinit var rePassowrd: String
 
     val EMAIL_ADDRESS_PATTERN = Pattern.compile(
         "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -56,26 +49,15 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun init() {
-        fp_btn_email = findViewById(R.id.fp_btn_email)
-        fp_btn_password = findViewById(R.id.fp_btn_password)
         fp_et_email = findViewById(R.id.fp_et_email)
-        fp_et_phone = findViewById(R.id.fp_et_phone)
-        fp_et_password = findViewById(R.id.fp_et_password)
-        fp_et_rePassword = findViewById(R.id.fp_et_rePassword)
         forgot = findViewById(R.id.forgot)
         forgot_progressBar = findViewById(R.id.forgot_progressBar)
         forgot_progressBar?.visibility=View.GONE
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            fp_btn_email!!.setBackgroundColor(getColor(R.color.light_grey))
-        }
-        fp_btn_password!!.setBackgroundColor(0)
+
         fp_et_email!!.visibility = View.VISIBLE
-        fp_et_phone!!.visibility = View.GONE
 
         forgot?.setOnClickListener(this)
-        fp_btn_email?.setOnClickListener(this)
-        fp_btn_password?.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
@@ -83,33 +65,10 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
         when (id) {
             R.id.forgot -> {
                 email = fp_et_email?.text.toString()
-                passowrd = fp_et_password?.text.toString()
-                rePassowrd = fp_et_rePassword?.text.toString()
-
                 if (validation() == true) {
                     forgotPassword()
                 }
             }
-
-            R.id.fp_btn_email -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    fp_btn_email!!.setBackgroundColor(getColor(R.color.light_grey))
-                }
-                fp_btn_password!!.setBackgroundColor(0)
-                fp_et_email!!.visibility = View.VISIBLE
-                fp_et_phone!!.visibility = View.GONE
-            }
-
-            R.id.fp_btn_password -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    fp_btn_password!!.setBackgroundColor(getColor(R.color.light_grey))
-                }
-                fp_btn_email!!.setBackgroundColor(0)
-                fp_et_email!!.visibility = View.GONE
-                fp_et_phone!!.visibility = View.VISIBLE
-            }
-
-
         }
     }
 
@@ -125,21 +84,6 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
             return false;
         }
 
-        if (fp_et_password?.length() == 0) {
-            fp_et_password?.setError(getString(R.string.password_error));
-            return false;
-        }
-
-        if (fp_et_rePassword?.length() == 0) {
-            fp_et_rePassword?.setError(getString(R.string.repassword_error));
-            return false;
-        }
-
-        if (!fp_et_password?.text.toString().equals(fp_et_rePassword?.text.toString())) {
-            fp_et_rePassword?.setError(getString(R.string.password_not_error));
-            return false;
-        }
-
         return true
     }
 
@@ -149,7 +93,7 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
         forgot_progressBar?.visibility=View.VISIBLE
         val response = ServiceBuilder.buildService(RestApi::class.java)
 
-        val payload = ForgotPayload(email, "200", rePassowrd)
+        val payload = ForgotPayload(email)
         val gson = Gson()
         val json = gson.toJson(payload)
 

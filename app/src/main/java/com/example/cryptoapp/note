@@ -1,3 +1,13 @@
+
+Login
+
+9722183897
+Admin@123
+
+tejas.patel083@gmail.com
+9913594062
+------------------------------------------------------------------------------
+
 1) https://www.youtube.com/watch?v=TTw3mVuLUC4&list=PL6Rs84MkNq7kxiqWbFouRTv_j5rbr8goX&index=2
 - https://github.com/ibrahimsn98/SmoothBottomBar
 
@@ -21,5 +31,7 @@ val json = gson.toJson(topic)
 val json = getJson()
 val topic = gson.fromJson(json, Topic::class.java)
 
-
-- com.google.gson.JsonSyntaxException: java.lang.IllegalStateException: Expected a string but was BEGIN_OBJECT at line 1 column 46 path $.data
+7) Crypto UI
+-https://www.uplabs.com/posts/crypto-819acc15-fc11-405f-8b53-fb41ee69c8fc
+-https://www.uplabs.com/posts/cryptocurrency-app-e26c067b-6b39-43ad-a7fd-969ca09fba73
+-https://www.uplabs.com/posts/cryptocurrency-mobile-app-e3937f2c-fda4-4f98-8411-6b6e88246236
