@@ -68,8 +68,12 @@ class PasswordActivity : AppCompatActivity(), OnClickListener {
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     pwd_password?.setError(getString(R.string.valid_password))
-                }else{
-                    Toast.makeText(this@PasswordActivity,"Password Verify Done!",Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(
+                        this@PasswordActivity,
+                        "Password Verify Done!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -156,16 +160,15 @@ class PasswordActivity : AppCompatActivity(), OnClickListener {
                         response: retrofit2.Response<LoginResponse>
                     ) {
 
-
                         Log.d("test", response.toString())
                         Log.d("test", response.body().toString())
 
                         if (response.body()?.code == "200") {
                             register_progressBar?.visibility = View.GONE
                             var intent = Intent(this@PasswordActivity, LoginOtpActivity::class.java)
-                            intent.putExtra("phone",response.body()?.data?.mobile)
-                            intent.putExtra("email",response.body()?.data?.email)
-                            intent.putExtra("mobileOtp",response.body()?.data?.otp)
+                            intent.putExtra("phone", response.body()?.data?.mobile)
+                            intent.putExtra("email", response.body()?.data?.email)
+                            intent.putExtra("mobileOtp", response.body()?.data?.otp)
                             startActivity(intent)
                             finish()
 
@@ -184,7 +187,6 @@ class PasswordActivity : AppCompatActivity(), OnClickListener {
                             ).show()
                         }
 
-
                     }
 
                     override fun onFailure(call: retrofit2.Call<LoginResponse>, t: Throwable) {
@@ -194,9 +196,5 @@ class PasswordActivity : AppCompatActivity(), OnClickListener {
 
                 }
             )
-
-
     }
-
-
 }

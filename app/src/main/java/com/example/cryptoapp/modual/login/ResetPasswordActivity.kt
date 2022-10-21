@@ -166,14 +166,15 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
                             startActivity(intent)
                             finish()
                         } else {
+
                             register_progressBar?.visibility=View.GONE
                             Toast.makeText(
                                 this@ResetPasswordActivity,
                                 "Forgot Password not completed!",
                                 Toast.LENGTH_LONG
                             ).show()
-                        }
 
+                        }
                     }
 
                     override fun onFailure(call: Call<ResetResponse>, t: Throwable) {
