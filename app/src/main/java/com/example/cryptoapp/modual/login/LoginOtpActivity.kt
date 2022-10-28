@@ -59,7 +59,7 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
         phone = intent.getStringExtra("phone").toString()
         email = intent.getStringExtra("email").toString()
         otp_phone_verification?.setText(phone)
-        otp_phone_verification?.setText(email)
+        otp_email_verification?.setText(email)
         phone_otp = intent.getStringExtra("mobileOtp").toString()
         otp?.setOnClickListener(this)
 

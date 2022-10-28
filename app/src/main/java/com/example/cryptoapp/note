@@ -35,3 +35,15 @@ val topic = gson.fromJson(json, Topic::class.java)
 -https://www.uplabs.com/posts/crypto-819acc15-fc11-405f-8b53-fb41ee69c8fc
 -https://www.uplabs.com/posts/cryptocurrency-app-e26c067b-6b39-43ad-a7fd-969ca09fba73
 -https://www.uplabs.com/posts/cryptocurrency-mobile-app-e3937f2c-fda4-4f98-8411-6b6e88246236
+
+8) MPAndroidChart
+- https://github.com/PhilJay/MPAndroidChart
+
+9) Bar chart
+- https://www.geeksforgeeks.org/android-create-barchart-with-kotlin/
+
+10) Line Chart
+- https://medium.com/cnk-tech/android-line-chart-621f56410883
+
+11) Pie Chart
+- https://medium.com/@clyeung0714/using-mpandroidchart-for-android-application-piechart-123d62d4ddc0

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".chart.ChartActivity">
+
+    <TextView
+        android:id="@+id/pieChart"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_margin="12dp"
+        android:layout_height="wrap_content"
+        android:text="Pie Chart"
+        android:textSize="28dp"
+        />
+
+    <TextView
+        android:id="@+id/barChart"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_margin="12dp"
+        android:layout_height="wrap_content"
+        android:text="Bar Chart"
+        android:textSize="28dp"
+        />
+
+    <TextView
+        android:id="@+id/groupBarChart"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_margin="12dp"
+        android:layout_height="wrap_content"
+        android:text="Group Bar Chart"
+        android:textSize="28dp"
+        />
+
+    <TextView
+        android:id="@+id/lineChart"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_margin="12dp"
+        android:layout_height="wrap_content"
+        android:text="Line Chart"
+        android:textSize="28dp"
+        />
+
+    <TextView
+        android:id="@+id/candleChart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:gravity="center"
+        android:text="Candle Stick Chart"
+        android:textSize="28dp" />
+
+</LinearLayout>

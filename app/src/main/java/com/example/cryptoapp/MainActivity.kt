@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.cryptoapp.button.BtnLoadingProgressbar
+import com.example.cryptoapp.modual.dashbord.CryptoFragment
 import com.example.cryptoapp.modual.dashbord.HomeFragment
 import com.example.cryptoapp.modual.dashbord.ProfileFragment
 import com.example.cryptoapp.modual.dashbord.SettingFragment
@@ -31,19 +32,18 @@ class MainActivity : AppCompatActivity() {
                     return@setOnNavigationItemReselectedListener
                 }
                 R.id.market -> {
-                    loadFragment(ProfileFragment())
+                    loadFragment(CryptoFragment())
                     return@setOnNavigationItemReselectedListener
                 }
                 R.id.setting -> {
-                    loadFragment(SettingFragment())
+                    loadFragment(ProfileFragment())
                     return@setOnNavigationItemReselectedListener
                 }
-
             }
         }
     }
 
-    private  fun loadFragment(fragment: Fragment){
+    private fun loadFragment(fragment: Fragment){
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container,fragment)
         transaction.addToBackStack(null)
