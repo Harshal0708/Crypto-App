@@ -4,22 +4,22 @@
     <item
         android:id="@+id/home"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_home_24"
+        android:icon="@drawable/icon_selection_one"
         android:title="Home"
         app:showAsAction="always"
         />
     <item
         android:id="@+id/market"
         android:enabled="true"
-        android:icon="@drawable/ic_chart"
-        android:title="Home"
+        android:icon="@drawable/icon_selection_two"
+        android:title="Crypto"
         app:showAsAction="always"
         />
     <item
-        android:id="@+id/matchList"
+        android:id="@+id/setting"
         android:enabled="true"
-        android:icon="@drawable/ic_bookmark"
-        android:title="Home"
+        android:icon="@drawable/icon_selection_three"
+        android:title="Setting"
         app:showAsAction="always"
         />
 

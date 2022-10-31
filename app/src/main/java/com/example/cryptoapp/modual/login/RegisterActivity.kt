@@ -3,6 +3,8 @@ package com.example.cryptoapp.modual.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.View.GONE
@@ -39,7 +41,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     private lateinit var password: String
     private lateinit var rePassword: String
 
-
     val EMAIL_ADDRESS_PATTERN = Pattern.compile(
         "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                 "\\@" +
@@ -54,6 +55,9 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         "[0-9]{10}"
     )
 
+    val PASSWORD = Pattern.compile(
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +82,53 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         register_progressBar?.visibility = GONE
 
         create_account!!.setOnClickListener(this)
+
+
+        sp_et_password?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                var pwd = sp_et_password?.text.toString().trim()
+
+                if (!(PASSWORD.toRegex().matches(pwd))) {
+                    sp_et_password?.setError(getString(R.string.valid_password))
+                }else{
+                    Toast.makeText(this@RegisterActivity,"Password Verify Done!",Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+
+        sp_et_rePassword?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                var pwd = sp_et_rePassword?.text.toString().trim()
+
+
+                if (!(PASSWORD.toRegex().matches(pwd))) {
+                    sp_et_rePassword?.setError(getString(R.string.valid_password))
+                }else{
+                    Toast.makeText(this@RegisterActivity,"Repassword Verify Done!",Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
     }
 
     override fun onClick(p0: View?) {
@@ -92,32 +143,38 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                 password = sp_et_password?.text.toString()
                 rePassword = sp_et_rePassword?.text.toString()
 
-                val intent = Intent(this@RegisterActivity, OtpActivity::class.java)
-                intent.putExtra("email",email)
-                intent.putExtra("phone",phone)
-                startActivity(intent)
-
-//                if(validation() == true){
-//
-//                    addCreateAccount()
-//
-//                }
+                if (validation() == true) {
+                    addCreateAccount()
+                }
             }
         }
     }
 
-
     fun addCreateAccount() {
 
-        register_progressBar?.visibility=View.VISIBLE
+        register_progressBar?.visibility = View.VISIBLE
         val response = ServiceBuilder.buildService(RestApi::class.java)
 
-        val payload = RegisterPayload(password,rePassword,email,firsName,lastName,"","","","","",phone,"Appu25")
+        //val payload = RegisterPayload(password,rePassword,email,firsName,lastName,"","","","","",phone,"Appu25")
+        val payload = RegisterPayload(
+            email,
+            firsName,
+            lastName,
+            rePassword,
+            email,
+            "",
+            "",
+            "",
+            "",
+            "",
+            phone,
+            false,
+            false,
+            false
+        )
         val gson = Gson()
         val json = gson.toJson(payload)
-
-        Log.d("test",json)
-//        response.addRegister(registerPayload = RegisterPayload(password,rePassword,email,firsName,lastName,"","","","","",phone,"Appu1111"))
+        Log.d("test", json)
         response.addRegister(payload)
             .enqueue(
                 object : retrofit2.Callback<RegisterResponse> {
@@ -126,22 +183,29 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                         response: retrofit2.Response<RegisterResponse>
                     ) {
 
-                        Log.d("test",response.toString())
-                        Log.d("test",response.body().toString())
+                        Log.d("test", response.toString())
+                        Log.d("test", response.body().toString())
 
-                        if(response.body()?.code == "200"){
-                            register_progressBar?.visibility=GONE
+                        if (response.body()?.code == "200") {
+                            register_progressBar?.visibility = GONE
                             Toast.makeText(
                                 this@RegisterActivity,
                                 response.body()?.message,
                                 Toast.LENGTH_LONG
                             ).show()
-                            val intent = Intent(this@RegisterActivity, OtpActivity::class.java)
-                            intent.putExtra("register", mn_et_phone?.text.toString())
-                            startActivity(intent)
-                        }else{
 
-                            register_progressBar?.visibility=GONE
+
+                            val intent = Intent(this@RegisterActivity, OtpActivity::class.java)
+                            intent.putExtra("email",  response.body()?.data?.email)
+                            intent.putExtra("phone", response.body()?.data?.mobile_No)
+                            intent.putExtra("emailOtp", response.body()?.data?.email_OTP)
+                            intent.putExtra("mobileOtp", response.body()?.data?.mobile_OTP)
+                            startActivity(intent)
+
+
+                        } else {
+
+                            register_progressBar?.visibility = GONE
                             Toast.makeText(
                                 this@RegisterActivity,
                                 "User not created!",
@@ -152,9 +216,9 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                     }
 
                     override fun onFailure(call: retrofit2.Call<RegisterResponse>, t: Throwable) {
-                        Log.d("test",t.toString())
+                        Log.d("test", t.toString())
 
-                        register_progressBar?.visibility=GONE
+                        register_progressBar?.visibility = GONE
                         Toast.makeText(this@RegisterActivity, t.toString(), Toast.LENGTH_LONG)
                             .show()
                     }
@@ -210,7 +274,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
             return false;
         }
 
-        if(!sp_et_password?.text.toString().equals(sp_et_rePassword?.text.toString())){
+        if (!sp_et_password?.text.toString().equals(sp_et_rePassword?.text.toString())) {
             sp_et_rePassword?.setError(getString(R.string.password_not_error));
             return false;
         }

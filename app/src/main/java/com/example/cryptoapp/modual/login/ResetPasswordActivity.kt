@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -45,6 +47,11 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
                 ")+"
     )
 
+    val PASSWORD = Pattern.compile(
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+    )
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reset_password)
@@ -62,13 +69,58 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
         register_progressBar?.visibility=View.GONE
         resent?.setOnClickListener(this)
 
+
+        rp_et_password?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                var pwd = rp_et_password?.text.toString().trim()
+
+
+                if (!(PASSWORD.toRegex().matches(pwd))) {
+                    rp_et_password?.setError(getString(R.string.valid_password))
+                }else{
+                    Toast.makeText(this@ResetPasswordActivity,"Password Verify Done!",Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+        rp_et_rePassword?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                var pwd = rp_et_rePassword?.text.toString().trim()
+
+
+                if (!(PASSWORD.toRegex().matches(pwd))) {
+                    rp_et_rePassword?.setError(getString(R.string.valid_password))
+                }else{
+                    Toast.makeText(this@ResetPasswordActivity,"Password Verify Done!",Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
     }
 
     override fun onClick(p0: View?) {
         val id = p0!!.id
         when (id) {
             R.id.resent -> {
-
                 email = rp_et_email?.text.toString()
                 passowrd = rp_et_password?.text.toString()
                 rePassowrd = rp_et_rePassword?.text.toString()
@@ -78,17 +130,14 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
-
     }
-
-
 
     fun resentPassword() {
 
         register_progressBar?.visibility=View.VISIBLE
         val response = ServiceBuilder.buildService(RestApi::class.java)
 
-        val payload = ResetPayload(email, passowrd, rePassowrd,"200")
+        val payload = ResetPayload(email,rePassowrd)
         val gson = Gson()
         val json = gson.toJson(payload)
 
@@ -117,14 +166,15 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
                             startActivity(intent)
                             finish()
                         } else {
+
                             register_progressBar?.visibility=View.GONE
                             Toast.makeText(
                                 this@ResetPasswordActivity,
                                 "Forgot Password not completed!",
                                 Toast.LENGTH_LONG
                             ).show()
-                        }
 
+                        }
                     }
 
                     override fun onFailure(call: Call<ResetResponse>, t: Throwable) {

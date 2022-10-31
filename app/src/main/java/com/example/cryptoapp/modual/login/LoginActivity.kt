@@ -23,6 +23,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener {
     var btn_loading_layout_tv: TextView? = null
     var login_emailNumber: EditText? = null
     private var view: View? = null
+    private var isMobile: Boolean = false
 //    val EMAIL_ADDRESS_PATTERN = Pattern.compile(
 //        "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
 //                "\\@" +
@@ -37,8 +38,6 @@ class LoginActivity : AppCompatActivity(), OnClickListener {
    val EMAIL_ADDRESS_PATTERN = Pattern.compile(
        "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
     )
-
-
 
     val PHONE_NUMBER_PATTERN = Pattern.compile(
         "[0-9]{10}"
@@ -84,6 +83,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener {
                     progressbar.reset()
                     val intent = Intent(this, PasswordActivity::class.java)
                     intent.putExtra("emailOrPassword", login_emailNumber?.text.toString())
+                    intent.putExtra("isMobile", isMobile)
                     startActivity(intent)
                 }, 1500)
             }
@@ -117,7 +117,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener {
     }
 
     fun btLogin(): Boolean {
-        login_emailNumber?.setText("9714675391")
+       // login_emailNumber?.setText("9722183897")
         if (login_emailNumber?.length() == 0) {
             login_emailNumber?.setError(getString(R.string.valid_error));
             return false;
@@ -126,6 +126,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener {
 
         if (login_emailNumber?.text.toString().contains("@")) {
             val str_email = login_emailNumber?.text.toString().trim()
+            isMobile = false
             if (!(EMAIL_ADDRESS_PATTERN.toRegex().matches(str_email))) {
                 login_emailNumber?.setError(getString(R.string.email_error));
                 return false;
@@ -133,6 +134,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener {
         } else {
             if (TextUtils.isDigitsOnly(login_emailNumber?.text.toString())) {
                 val str_number = login_emailNumber?.text.toString().trim()
+                isMobile = true
                 if (!(PHONE_NUMBER_PATTERN.toRegex().matches(str_number))) {
                     login_emailNumber?.setError(getString(R.string.phone_error));
                     return false;

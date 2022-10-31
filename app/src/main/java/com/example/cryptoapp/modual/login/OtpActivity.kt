@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Message
 import android.provider.Telephony.Sms
 import android.text.Editable
@@ -12,32 +13,41 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Receiver.SmsBroadcastReceiver
-import com.example.cryptoapp.Response.LoginResponse
-import com.example.cryptoapp.model.LoginPayload
+import com.example.cryptoapp.Response.OtpResendResponse
+import com.example.cryptoapp.Response.OtpResponse
+import com.example.cryptoapp.Response.RegisterResponse
+import com.example.cryptoapp.model.OtpPayload
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.google.android.gms.auth.api.phone.SmsRetriever
+import com.google.gson.Gson
+import retrofit2.Call
 import java.util.regex.Pattern
 
 class OtpActivity : AppCompatActivity(), View.OnClickListener {
-    var otp: Button? = null
+    var otp: TextView? = null
+    var register_progressBar: ProgressBar? = null
     var resend_code: TextView? = null
     var otp_phone_verification: TextView? = null
     var email_otp_verification: TextView? = null
+    var resend_timer: TextView? = null
     var et_phone_otp: EditText? = null
     var et_email_otp: EditText? = null
     val REQ_USER_CONSENT = 200
     var smsBroadcastReceiver: SmsBroadcastReceiver? = null
 
-    var email_otp: String = "123456"
-    var phone_otp: String = "123456"
+    var email_otp: String = ""
+    var phone_otp: String = ""
+    var email: String = ""
+    var phone: String = ""
     var str_phone_otp: String? = null
     var str_email_otp: String? = null
+    var timer: CountDownTimer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,14 +58,28 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
     fun init() {
 
+
         otp = findViewById(R.id.otp)
         resend_code = findViewById(R.id.resend_code)
         et_phone_otp = findViewById(R.id.et_phone_otp)
         et_email_otp = findViewById(R.id.et_email_otp)
+        resend_timer = findViewById(R.id.resend_timer)
         otp_phone_verification = findViewById(R.id.otp_phone_verification)
         email_otp_verification = findViewById(R.id.email_otp_verification)
-        otp_phone_verification?.setText(intent.getStringExtra("phone"))
-        email_otp_verification?.setText(intent.getStringExtra("email"))
+        register_progressBar = findViewById(R.id.register_progressBar)
+        register_progressBar?.visibility=View.GONE
+        email = intent.getStringExtra("email").toString()
+        phone = intent.getStringExtra("phone").toString()
+        otp_phone_verification?.setText(phone)
+        email_otp_verification?.setText(email)
+        email_otp = intent.getStringExtra("emailOtp").toString()
+        phone_otp = intent.getStringExtra("mobileOtp").toString()
+
+        Log.d("test",email)
+        Log.d("test",phone)
+        Log.d("test",email_otp)
+        Log.d("test",phone_otp)
+        resend_code?.isEnabled = false
         otp?.setOnClickListener(this)
         resend_code?.setOnClickListener(this)
 
@@ -69,7 +93,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                 var otp = et_phone_otp?.text.toString().trim()
 
                 if (otp != phone_otp) {
-                    et_phone_otp?.setError(getString(R.string.valid_otp));
+                    et_phone_otp?.setError(getString(R.string.valid_password));
                 } else {
                     str_phone_otp = otp
                     Toast.makeText(
@@ -117,7 +141,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
         })
 
-
+        countdownTimer()
         //  startSmartUserConsent()
     }
 
@@ -178,23 +202,197 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         val id = p0!!.id
         when (id) {
             R.id.otp -> {
-                addOtp()
+
+                if (validation() == true) {
+                    addOtp()
+                }
+
             }
             R.id.resend_code -> {
                 et_phone_otp?.text?.clear()
                 et_email_otp?.text?.clear()
 
-                phone_otp = "123123"
-                email_otp = "123123"
+//                phone_otp = "123123"
+//                email_otp = "123123"
 
+
+                    addResendOtp()
+
+
+                timer?.start()
             }
         }
     }
 
+    private fun countdownTimer() {
+        timer = object : CountDownTimer(60000, 1000) {
+            override fun onTick(reming: Long) {
+
+                resend_code?.isEnabled = false
+                var remainingTime = 60
+                remainingTime = (reming / 1000).toInt();
+                resend_timer?.text = getString(R.string.resend_in) + remainingTime.toString()
+            }
+
+            override fun onFinish() {
+                resend_timer?.text = "Done!"
+                resend_code?.isEnabled = true
+            }
+
+        }
+
+        timer?.start()
+    }
+//
+//    fun addOtp() {
+//        Log.d("test", str_phone_otp + "")
+//        Log.d("test", str_email_otp + "")
+//        var intent = Intent(this@OtpActivity, LoginActivity::class.java)
+//        startActivity(intent)
+//    }
+
+
     fun addOtp() {
-        Log.d("test", str_phone_otp + "")
-        Log.d("test", str_email_otp + "")
-        var intent = Intent(this@OtpActivity, LoginActivity::class.java)
-        startActivity(intent)
+
+        register_progressBar?.visibility = View.VISIBLE
+        val response = ServiceBuilder.buildService(RestApi::class.java)
+
+        val payload = OtpPayload(
+            str_phone_otp.toString(),
+            str_email_otp.toString(),
+            email,
+            phone
+        )
+
+//        val payload = OtpPayload(
+//            "166439",
+//            "851744",
+//            "apurva.skyttus@gmail.com",
+//            "9714675391"
+//        )
+        val gson = Gson()
+        val json = gson.toJson(payload)
+        Log.d("test", json)
+        response.addOtp(str_phone_otp.toString(), str_email_otp.toString(),email,phone)
+            .enqueue(
+                object : retrofit2.Callback<OtpResponse> {
+                    override fun onResponse(
+                        call: Call<OtpResponse>,
+                        response: retrofit2.Response<OtpResponse>
+                    ) {
+
+                        Log.d("test", response.toString())
+                        Log.d("test", response.body().toString())
+
+                        if (response.body()?.code == "200") {
+                            register_progressBar?.visibility = View.GONE
+                            Toast.makeText(
+                                this@OtpActivity,
+                                response.body()?.message,
+                                Toast.LENGTH_LONG
+                            ).show()
+
+//                            Log.d("test", str_phone_otp + "")
+//                            Log.d("test", str_email_otp + "")
+                            var intent = Intent(this@OtpActivity, LoginActivity::class.java)
+                            startActivity(intent)
+
+                        } else {
+
+                            register_progressBar?.visibility = View.GONE
+                            Toast.makeText(
+                                this@OtpActivity,
+                                "User not created!",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+
+                    }
+
+
+                    override fun onFailure(call: Call<OtpResponse>, t: Throwable) {
+                        Log.d("test", t.toString())
+
+                        register_progressBar?.visibility = View.GONE
+                        Toast.makeText(this@OtpActivity, t.toString(), Toast.LENGTH_LONG)
+                            .show()
+                    }
+
+                }
+            )
+
+
+    }
+    fun addResendOtp() {
+
+        register_progressBar?.visibility = View.VISIBLE
+        val response = ServiceBuilder.buildService(RestApi::class.java)
+
+        response.addResendOtp(email,phone)
+      //  response.addResendOtp("apurva.skyttus@gmail.com","9714675391")
+            .enqueue(
+                object : retrofit2.Callback<OtpResendResponse> {
+                    override fun onResponse(
+                        call: Call<OtpResendResponse>,
+                        response: retrofit2.Response<OtpResendResponse>
+                    ) {
+
+                        Log.d("test", response.toString())
+                        Log.d("test", response.body().toString())
+
+                        if (response.body()?.code == "200") {
+                            register_progressBar?.visibility = View.GONE
+
+
+                            phone_otp = response.body()?.data?.mobile_OTP.toString()
+                            email_otp = response.body()?.data?.email_OTP.toString()
+
+                            Toast.makeText(
+                                this@OtpActivity,
+                                response.body()?.message,
+                                Toast.LENGTH_LONG
+                            ).show()
+
+                        } else {
+
+                            register_progressBar?.visibility = View.GONE
+                            Toast.makeText(
+                                this@OtpActivity,
+                                "User not created!",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+
+                    }
+
+
+                    override fun onFailure(call: Call<OtpResendResponse>, t: Throwable) {
+                        Log.d("test", t.toString())
+
+                        register_progressBar?.visibility = View.GONE
+                        Toast.makeText(this@OtpActivity, t.toString(), Toast.LENGTH_LONG)
+                            .show()
+                    }
+
+                }
+            )
+
+
+    }
+
+    fun validation(): Boolean {
+
+        if (et_phone_otp?.length() == 0) {
+            et_phone_otp?.setError(getString(R.string.valid_error));
+            return false;
+        }
+
+        if (et_email_otp?.length() == 0) {
+            et_email_otp?.setError(getString(R.string.valid_error));
+            return false;
+        }
+
+
+        return true
     }
 }
