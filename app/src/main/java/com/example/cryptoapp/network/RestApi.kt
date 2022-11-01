@@ -1,5 +1,6 @@
 package com.example.cryptoapp.network
 
+import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Response.*
 import com.example.cryptoapp.Response.crypto.CryptoRespo
 import com.example.cryptoapp.model.*
@@ -11,21 +12,21 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface RestApi {
-    @POST("login")
+    @POST(Constants.login)
     fun addLogin(@Body loginPayload: LoginPayload): Call<LoginResponse>
 
-    @POST("register")
+    @POST(Constants.register)
     fun addRegister(@Body registerPayload: RegisterPayload): Call<RegisterResponse>
 
-    @POST("forgotpassword")
+    @POST(Constants.forgotpassword)
     fun addForgotPassword(@Body forgotPayload: ForgotPayload): Call<ForgotResponse>
 
 
-    @POST("resetpassword")
+    @POST(Constants.resetpassword)
     fun addResetpassword(@Body resetPayload: ResetPayload): Call<ResetResponse>
 
 
-    @POST("registrationconfirm")
+    @POST(Constants.registrationconfirm)
     fun addOtp(
         @Query("emailOtp") emailOtp: String,
         @Query("mobileOtp") mobileOtp: String,
@@ -34,14 +35,14 @@ interface RestApi {
     ): Call<OtpResponse>
 
 
-    @POST("resendotp")
+    @POST(Constants.resendotp)
     fun addResendOtp(
         @Query("email") email: String,
         @Query("mobile") mobile: String,
     ): Call<OtpResendResponse>
 
 
-    @GET("data-api/v3/cryptocurrency/listing?start=1&limit=10")
+    @GET(Constants.cryptocurrencylist)
    suspend fun getMarketDate(): Response<CryptoRespo>
    // fun getMarketDate(): Call<CryptoRespo>
 }
