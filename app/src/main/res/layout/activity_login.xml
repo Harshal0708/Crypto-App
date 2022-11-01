@@ -9,7 +9,7 @@
     tools:context=".modual.login.LoginActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/fp_img"
         android:layout_weight="1"
 
         android:layout_width="wrap_content"

@@ -7,11 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.ForgotResponse
 import com.example.cryptoapp.Response.RegisterResponse
@@ -25,9 +21,12 @@ import java.util.regex.Pattern
 
 class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
-    var forgot: TextView? = null
     var fp_et_email: EditText? = null
-    var forgot_progressBar: ProgressBar? = null
+
+    lateinit var view: View
+    lateinit var register_progressBar: ProgressBar
+    lateinit var forgot: TextView
+    lateinit var progressBar_cardView: RelativeLayout
 
     private lateinit var email: String
 
@@ -50,20 +49,25 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
     fun init() {
         fp_et_email = findViewById(R.id.fp_et_email)
-        forgot = findViewById(R.id.forgot)
-        forgot_progressBar = findViewById(R.id.forgot_progressBar)
-        forgot_progressBar?.visibility=View.GONE
 
+        view = findViewById(R.id.btn_progressBar)
+        register_progressBar = view.findViewById(R.id.register_progressBar)
+
+        progressBar_cardView = view.findViewById(R.id.progressBar_cardView)
+        register_progressBar.visibility = View.GONE
+        forgot = view.findViewById(R.id.resent)
+        forgot.text = getString(R.string.forgot)
+        progressBar_cardView.setOnClickListener(this)
 
         fp_et_email!!.visibility = View.VISIBLE
 
-        forgot?.setOnClickListener(this)
+        progressBar_cardView?.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
         val id = p0!!.id
         when (id) {
-            R.id.forgot -> {
+            R.id.progressBar_cardView -> {
                 email = fp_et_email?.text.toString()
                 if (validation() == true) {
                     forgotPassword()
@@ -90,7 +94,7 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
     fun forgotPassword() {
 
-        forgot_progressBar?.visibility=View.VISIBLE
+        progressBar_cardView?.visibility=View.VISIBLE
         val response = ServiceBuilder.buildServiceTwo(RestApi::class.java)
 
         val payload = ForgotPayload(email)
@@ -111,7 +115,7 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
                         Log.d("test", response.body().toString())
 
                         if (response.body()?.code == "200") {
-                            forgot_progressBar?.visibility=View.GONE
+                            progressBar_cardView?.visibility=View.GONE
                             Toast.makeText(
                                 this@ForgotPasswordActivity,
                                 response.body()?.message,
@@ -123,7 +127,7 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
                             finish()
                         } else {
 
-                            forgot_progressBar?.visibility=View.GONE
+                            progressBar_cardView?.visibility=View.GONE
                             Toast.makeText(
                                 this@ForgotPasswordActivity,
                                 "Forgot Password not completed!",
@@ -136,7 +140,7 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
                     override fun onFailure(call: Call<ForgotResponse>, t: Throwable) {
                         Log.d("test", t.toString())
 
-                        forgot_progressBar?.visibility=View.GONE
+                        progressBar_cardView?.visibility=View.GONE
                         Toast.makeText(this@ForgotPasswordActivity, t.toString(), Toast.LENGTH_LONG)
                             .show()
                     }

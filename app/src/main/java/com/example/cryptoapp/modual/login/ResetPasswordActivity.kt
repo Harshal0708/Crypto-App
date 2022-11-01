@@ -8,11 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.ForgotResponse
 import com.example.cryptoapp.Response.ResetResponse
@@ -29,8 +25,11 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
     var rp_et_email: EditText? = null
     var rp_et_password: EditText? = null
     var rp_et_rePassword: EditText? = null
-    var resent: TextView? = null
-    var register_progressBar: ProgressBar? = null
+
+    lateinit var view: View
+    lateinit var register_progressBar: ProgressBar
+    lateinit var resent: TextView
+    lateinit var progressBar_cardView: RelativeLayout
 
     private lateinit var email: String
     private lateinit var passowrd: String
@@ -64,10 +63,15 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
         rp_et_email = findViewById(R.id.rp_et_email)
         rp_et_password = findViewById(R.id.rp_et_password)
         rp_et_rePassword = findViewById(R.id.rp_et_rePassword)
-        resent = findViewById(R.id.resent)
-        register_progressBar = findViewById(R.id.register_progressBar)
-        register_progressBar?.visibility=View.GONE
-        resent?.setOnClickListener(this)
+
+        view = findViewById(R.id.btn_progressBar)
+        register_progressBar = view.findViewById(R.id.register_progressBar)
+
+        progressBar_cardView = view.findViewById(R.id.progressBar_cardView)
+        register_progressBar.visibility = View.GONE
+        resent = view.findViewById(R.id.resent)
+        resent.text = getString(R.string.resend)
+        progressBar_cardView.setOnClickListener(this)
 
 
         rp_et_password?.addTextChangedListener(object : TextWatcher {
@@ -82,8 +86,12 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     rp_et_password?.setError(getString(R.string.valid_password))
-                }else{
-                    Toast.makeText(this@ResetPasswordActivity,"Password Verify Done!",Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(
+                        this@ResetPasswordActivity,
+                        "Password Verify Done!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -104,8 +112,12 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     rp_et_rePassword?.setError(getString(R.string.valid_password))
-                }else{
-                    Toast.makeText(this@ResetPasswordActivity,"Password Verify Done!",Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(
+                        this@ResetPasswordActivity,
+                        "Password Verify Done!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -120,7 +132,8 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(p0: View?) {
         val id = p0!!.id
         when (id) {
-            R.id.resent -> {
+            R.id.progressBar_cardView -> {
+
                 email = rp_et_email?.text.toString()
                 passowrd = rp_et_password?.text.toString()
                 rePassowrd = rp_et_rePassword?.text.toString()
@@ -134,10 +147,10 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
     fun resentPassword() {
 
-        register_progressBar?.visibility=View.VISIBLE
+        register_progressBar?.visibility = View.VISIBLE
         val response = ServiceBuilder.buildService(RestApi::class.java)
 
-        val payload = ResetPayload(email,rePassowrd)
+        val payload = ResetPayload(email, rePassowrd)
         val gson = Gson()
         val json = gson.toJson(payload)
 
@@ -155,7 +168,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
                         Log.d("test", response.body().toString())
 
                         if (response.body()?.code == "200") {
-                            register_progressBar?.visibility=View.GONE
+                            register_progressBar?.visibility = View.GONE
                             Toast.makeText(
                                 this@ResetPasswordActivity,
                                 response.body()?.message,
@@ -167,7 +180,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
                             finish()
                         } else {
 
-                            register_progressBar?.visibility=View.GONE
+                            register_progressBar?.visibility = View.GONE
                             Toast.makeText(
                                 this@ResetPasswordActivity,
                                 "Forgot Password not completed!",
@@ -178,7 +191,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
                     }
 
                     override fun onFailure(call: Call<ResetResponse>, t: Throwable) {
-                        register_progressBar?.visibility=View.GONE
+                        register_progressBar?.visibility = View.GONE
                         Log.d("test", t.toString())
                         Toast.makeText(this@ResetPasswordActivity, t.toString(), Toast.LENGTH_LONG)
                             .show()
@@ -220,7 +233,6 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
         return true
     }
-
 
 
 }

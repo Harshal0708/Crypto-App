@@ -27,9 +27,11 @@
     <string name="otp_verify_done">OTP verify done</string>
     <string name="pan_number">PAN number</string>
     <string name="create_a_crypto_account">Create a crypto account</string>
+    <string name="forgot">Forgot</string>
     <string name="forgot_password">Forgot password ?</string>
     <string name="reset_your_password">Reset Your Password</string>
     <string name="resend_code">Resend Code</string>
+    <string name="resend">Resend</string>
     <string name="phone_number">Phone Number</string>
     <string name="phone">Phone</string>
     <string name="create_personal_account">Create Personal \nAccount</string>

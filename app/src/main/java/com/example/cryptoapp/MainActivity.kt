@@ -73,7 +73,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_profile -> {
                     val intent = Intent(this, ProfileActivity::class.java)
                     startActivity(intent)
-                    Toast.makeText(this, "My profile", Toast.LENGTH_SHORT).show()
                     true
                 }
                 R.id.nav_reset_password -> {
