@@ -15,4 +15,6 @@
     <color name="light_grey">#80E9EBED</color>
     <color name="red">#E40C37</color>
 
+    <color name="lighgrey">#989797</color>
+    <color name="underline">#D8D6D6</color>
 </resources>

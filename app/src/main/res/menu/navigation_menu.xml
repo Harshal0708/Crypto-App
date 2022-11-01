@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/nav_dashboard"
+        android:icon="@drawable/ic_home_dark"
+        android:title="Dashboard" />
+
+    <item android:title="Profile">
+        <menu>
+            <item
+                android:id="@+id/nav_profile"
+                android:icon="@drawable/ic_user"
+                android:title="My Profile" />
+
+            <item
+                android:id="@+id/nav_subscription"
+                android:icon="@drawable/ic_phone"
+                android:title="Subscription" />
+            <item
+                android:id="@+id/nav_reset_password"
+                android:icon="@drawable/ic_lock"
+                android:title="Reset Password" />
+
+        </menu>
+    </item>
+
+    <item
+        android:title="Logout">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_lock"
+                android:title="Logout" />
+        </menu>
+    </item>
+</menu>

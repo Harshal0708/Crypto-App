@@ -17,7 +17,14 @@
         android:theme="@style/Theme.CryptoApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".modual.login.ProfileActivity"
+            android:exported="false"
+            android:theme="@style/no_tool_bar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".modual.login.LoginOtpActivity"
             android:exported="false"
@@ -28,7 +35,8 @@
         </activity>
         <activity
             android:name=".modual.login.ResetPasswordActivity"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/no_tool_bar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -93,13 +101,11 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".MainActivity"
@@ -141,7 +147,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
         <activity
             android:name=".chart.PieActivity"
             android:exported="false">
