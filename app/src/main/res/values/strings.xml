@@ -31,6 +31,7 @@
     <string name="reset_your_password">Reset Your Password</string>
     <string name="resend_code">Resend Code</string>
     <string name="phone_number">Phone Number</string>
+    <string name="phone">Phone</string>
     <string name="create_personal_account">Create Personal \nAccount</string>
     <string name="create_account">Create Personal Account</string>
     <string name="first_name">First Name</string>
@@ -44,4 +45,7 @@
     <string name="password_not_error">Password and Reenter Password field Not Match!</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- to toggle the open close button of the navigation drawer -->
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
 </resources>

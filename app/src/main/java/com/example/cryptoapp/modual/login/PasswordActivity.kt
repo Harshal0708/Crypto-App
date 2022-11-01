@@ -192,6 +192,7 @@ class PasswordActivity : AppCompatActivity(), OnClickListener {
                     override fun onFailure(call: retrofit2.Call<LoginResponse>, t: Throwable) {
                         Toast.makeText(this@PasswordActivity, t.toString(), Toast.LENGTH_LONG)
                             .show()
+                        Log.d("test",t.toString())
                     }
 
                 }

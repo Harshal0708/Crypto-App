@@ -47,3 +47,9 @@ val topic = gson.fromJson(json, Topic::class.java)
 
 11) Pie Chart
 - https://medium.com/@clyeung0714/using-mpandroidchart-for-android-application-piechart-123d62d4ddc0
+
+12) Navigation Drawer
+- https://github.com/foxandroid/Navigation_Drawer
+
+13) Verification
+https://www.frslabs.com/
