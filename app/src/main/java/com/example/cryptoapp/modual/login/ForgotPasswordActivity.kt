@@ -91,7 +91,7 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
     fun forgotPassword() {
 
         forgot_progressBar?.visibility=View.VISIBLE
-        val response = ServiceBuilder.buildService(RestApi::class.java)
+        val response = ServiceBuilder.buildServiceTwo(RestApi::class.java)
 
         val payload = ForgotPayload(email)
         val gson = Gson()
