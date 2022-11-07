@@ -9,6 +9,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RestApi {
@@ -41,8 +42,14 @@ interface RestApi {
         @Query("mobile") mobile: String,
     ): Call<OtpResendResponse>
 
+    @GET(Constants.strategy)
+    suspend fun getStrategy(): Response<StrategyRes>
+
+    @GET("${Constants.strategy}/{id}")
+    suspend fun getStrategyById(@Path("id") id: Int): Response<StrategyDetailRes>
 
     @GET(Constants.cryptocurrencylist)
-   suspend fun getMarketDate(): Response<CryptoRespo>
-   // fun getMarketDate(): Call<CryptoRespo>
+    suspend fun getMarketDate(): Response<CryptoRespo>
+
+
 }

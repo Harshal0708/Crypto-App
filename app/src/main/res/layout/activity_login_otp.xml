@@ -8,7 +8,7 @@
     tools:context=".modual.login.LoginOtpActivity">
 
     <ImageView
-        android:id="@+id/fp_img"
+        android:id="@+id/login_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
