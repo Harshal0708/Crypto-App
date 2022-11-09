@@ -34,6 +34,7 @@ class NetworkConnection(private val context: Context) : LiveData<Boolean>() {
                 context.registerReceiver(networkReceiver,IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
             }
         }
+
     }
 
     override fun onInactive() {
@@ -90,4 +91,6 @@ class NetworkConnection(private val context: Context) : LiveData<Boolean>() {
         val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
         postValue(activeNetwork?.isConnected == true)
     }
+
+
 }

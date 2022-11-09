@@ -54,4 +54,12 @@
     <!-- to toggle the open close button of the navigation drawer -->
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
+    <string name="monthly">Monthly</string>
+    <string name="quarterly">Quarterly</string>
+    <string name="yearly">Yearly</string>
+    <string name="more_detail">More Detail</string>
+    <string name="features_plans">Features / Plans</string>
+    <string name="price">Price</string>
+    <string name="no_of_private_str">No. of private Strategies you can create</string>
+    <string name="no_of_public_str">No. of public Strategies you can create</string>
 </resources>

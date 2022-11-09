@@ -21,7 +21,7 @@ import java.util.regex.Pattern
 
 class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
-    var fp_et_email: EditText? = null
+    lateinit var fp_et_email: EditText
 
     lateinit var view: View
     lateinit var register_progressBar: ProgressBar
@@ -59,7 +59,7 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
         forgot.text = getString(R.string.forgot)
         progressBar_cardView.setOnClickListener(this)
 
-        fp_et_email!!.visibility = View.VISIBLE
+        fp_et_email.visibility = View.VISIBLE
 
         progressBar_cardView?.setOnClickListener(this)
     }
@@ -68,7 +68,7 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
         val id = p0!!.id
         when (id) {
             R.id.progressBar_cardView -> {
-                email = fp_et_email?.text.toString()
+                email = fp_et_email.text.toString()
                 if (validation() == true) {
                     forgotPassword()
                 }
@@ -77,14 +77,14 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun validation(): Any {
-        if (fp_et_email?.length() == 0) {
-            fp_et_email?.setError(getString(R.string.valid_error));
+        if (fp_et_email.length() == 0) {
+            fp_et_email.setError(getString(R.string.valid_error));
             return false;
         }
 
-        email = fp_et_email?.text.toString().trim()
+        email = fp_et_email.text.toString().trim()
         if (!(EMAIL_ADDRESS_PATTERN.toRegex().matches(email))) {
-            fp_et_email?.setError(getString(R.string.email_error));
+            fp_et_email.setError(getString(R.string.email_error));
             return false;
         }
 

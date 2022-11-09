@@ -14,14 +14,13 @@
         <ImageView
             android:id="@+id/imageView4"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="200dp"
             android:layout_marginEnd="16dp"
             android:background="@color/primary_color"
             app:layout_constraintBottom_toTopOf="@id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
@@ -34,13 +33,13 @@
             android:id="@+id/imageView_upper"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/ic_user"
+            android:src="@drawable/star"
             app:civ_border_color="@color/white"
-            app:civ_border_width="1dp"
-            app:layout_constraintBottom_toBottomOf="@id/guideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/guideline" />
+            app:civ_border_width="2dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+            app:layout_constraintEnd_toEndOf="@+id/imageView4"
+            app:layout_constraintStart_toStartOf="@+id/imageView4"
+            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
 
         <androidx.constraintlayout.widget.Guideline
@@ -52,23 +51,23 @@
 
         <TextView
             android:id="@+id/txt_firstname"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/first_name"
             android:textAlignment="viewStart"
-            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline39"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/imageView_upper" />
 
         <EditText
             android:id="@+id/edFirstname"
             android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
+            android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:hint="@string/first_name"
-            android:minHeight="48dp"
             android:textAlignment="viewEnd"
             android:textColor="@color/black"
             android:textSize="14sp"
@@ -80,11 +79,13 @@
 
         <TextView
             android:id="@+id/txt_email"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/email"
-            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline39"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/txt_lastname" />
 
@@ -92,10 +93,9 @@
             android:id="@+id/edEmail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:background="@android:color/transparent"
             android:hint="@string/email"
-            android:minHeight="48dp"
             android:textAlignment="viewEnd"
             android:textColor="@color/black"
             android:textSize="14sp"
@@ -108,11 +108,13 @@
 
         <TextView
             android:id="@+id/txt_phone"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/phone"
-            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline39"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/txt_email" />
 
@@ -120,11 +122,10 @@
             android:id="@+id/edPhone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:background="@android:color/transparent"
             android:hint="@string/phone"
             android:inputType="number"
-            android:minHeight="48dp"
             android:textAlignment="viewEnd"
             android:textColor="@color/black"
             android:textSize="14sp"
@@ -136,11 +137,13 @@
 
         <TextView
             android:id="@+id/txt_lastname"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/last_name"
-            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline39"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/txt_firstname" />
 
@@ -148,10 +151,9 @@
             android:id="@+id/edLastname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:background="@android:color/transparent"
             android:hint="@string/last_name"
-            android:minHeight="48dp"
             android:textAlignment="viewEnd"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/txt_lastname"
@@ -184,6 +186,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_end="20dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline39"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="205dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

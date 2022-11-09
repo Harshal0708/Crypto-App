@@ -16,5 +16,6 @@
     <color name="red">#E40C37</color>
 
     <color name="lighgrey">#989797</color>
+    <color name="lighgreytab">#F2F0F2</color>
     <color name="underline">#D8D6D6</color>
 </resources>

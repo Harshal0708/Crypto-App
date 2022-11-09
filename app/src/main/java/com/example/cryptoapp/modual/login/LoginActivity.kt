@@ -63,8 +63,6 @@ class LoginActivity : AppCompatActivity(), OnClickListener {
         resent = view.findViewById(R.id.resent)
         resent.text = getString(R.string.next)
         progressBar_cardView.setOnClickListener(this)
-
-
     }
 
 

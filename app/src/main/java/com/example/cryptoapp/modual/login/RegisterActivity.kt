@@ -9,11 +9,7 @@ import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.OnClickListener
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.RegisterResponse
 import com.example.cryptoapp.model.RegisterPayload
@@ -25,14 +21,19 @@ import java.util.regex.Pattern
 class RegisterActivity : AppCompatActivity(), OnClickListener {
 
 
-    var create_account: TextView? = null
-    var sp_et_email: EditText? = null
-    var mn_et_phone: EditText? = null
-    var sp_et_firstName: EditText? = null
-    var sp_et_lastName: EditText? = null
-    var sp_et_password: EditText? = null
-    var sp_et_rePassword: EditText? = null
-    var register_progressBar: ProgressBar? = null
+    lateinit var sp_et_email: EditText
+    lateinit var mn_et_phone: EditText
+    lateinit var sp_et_firstName: EditText
+    lateinit var sp_et_lastName: EditText
+    lateinit var sp_et_password: EditText
+    lateinit var sp_et_rePassword: EditText
+
+
+    lateinit var view: View
+    lateinit var register_progressBar: ProgressBar
+    lateinit var resent: TextView
+    lateinit var progressBar_cardView: RelativeLayout
+
 
     private lateinit var email: String
     private lateinit var phone: String
@@ -69,7 +70,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
 
     fun init() {
 
-        create_account = findViewById(R.id.create_account)
         sp_et_firstName = findViewById(R.id.sp_et_firstName)
         sp_et_lastName = findViewById(R.id.sp_et_lastName)
         sp_et_password = findViewById(R.id.sp_et_password)
@@ -78,23 +78,27 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         sp_et_email = findViewById(R.id.sp_et_email)
         mn_et_phone = findViewById(R.id.mn_et_phone)
 
-        register_progressBar = findViewById(R.id.register_progressBar)
-        register_progressBar?.visibility = GONE
+        view = findViewById(R.id.btn_progressBar)
+        register_progressBar = view.findViewById(R.id.register_progressBar)
 
-        create_account!!.setOnClickListener(this)
+        progressBar_cardView = view.findViewById(R.id.progressBar_cardView)
+        register_progressBar.visibility = View.GONE
+        resent = view.findViewById(R.id.resent)
+        resent.text = getString(R.string.create_account)
+        progressBar_cardView.setOnClickListener(this)
 
 
-        sp_et_password?.addTextChangedListener(object : TextWatcher {
+        sp_et_password.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-                var pwd = sp_et_password?.text.toString().trim()
+                var pwd = sp_et_password.text.toString().trim()
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
-                    sp_et_password?.setError(getString(R.string.valid_password))
+                    sp_et_password.setError(getString(R.string.valid_password))
                 }else{
                     Toast.makeText(this@RegisterActivity,"Password Verify Done!",Toast.LENGTH_SHORT).show()
                 }
@@ -107,18 +111,18 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         })
 
 
-        sp_et_rePassword?.addTextChangedListener(object : TextWatcher {
+        sp_et_rePassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-                var pwd = sp_et_rePassword?.text.toString().trim()
+                var pwd = sp_et_rePassword.text.toString().trim()
 
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
-                    sp_et_rePassword?.setError(getString(R.string.valid_password))
+                    sp_et_rePassword.setError(getString(R.string.valid_password))
                 }else{
                     Toast.makeText(this@RegisterActivity,"Repassword Verify Done!",Toast.LENGTH_SHORT).show()
                 }
@@ -134,17 +138,18 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     override fun onClick(p0: View?) {
         val id = p0!!.id
         when (id) {
-            R.id.create_account -> {
+            R.id.progressBar_cardView -> {
 
-                email = sp_et_email?.text.toString()
-                phone = mn_et_phone?.text.toString()
-                firsName = sp_et_firstName?.text.toString()
-                lastName = sp_et_lastName?.text.toString()
-                password = sp_et_password?.text.toString()
-                rePassword = sp_et_rePassword?.text.toString()
+                email = sp_et_email.text.toString()
+                phone = mn_et_phone.text.toString()
+                firsName = sp_et_firstName.text.toString()
+                lastName = sp_et_lastName.text.toString()
+                password = sp_et_password.text.toString()
+                rePassword = sp_et_rePassword.text.toString()
 
                 if (validation() == true) {
-                    addCreateAccount()
+                   // Toast.makeText(this@RegisterActivity,"Register",Toast.LENGTH_SHORT).show()
+                addCreateAccount()
                 }
             }
         }
@@ -231,51 +236,51 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
 
     fun validation(): Boolean {
 
-        if (sp_et_firstName?.length() == 0) {
-            sp_et_firstName?.setError(getString(R.string.valid_error));
+        if (sp_et_firstName.length() == 0) {
+            sp_et_firstName.setError(getString(R.string.valid_error));
             return false;
         }
 
-        if (sp_et_lastName?.length() == 0) {
-            sp_et_lastName?.setError(getString(R.string.valid_error));
+        if (sp_et_lastName.length() == 0) {
+            sp_et_lastName.setError(getString(R.string.valid_error));
             return false;
         }
 
-        if (sp_et_email?.length() == 0) {
-            sp_et_email?.setError(getString(R.string.valid_error));
+        if (sp_et_email.length() == 0) {
+            sp_et_email.setError(getString(R.string.valid_error));
             return false;
         }
 
-        email = sp_et_email?.text.toString().trim()
+        email = sp_et_email.text.toString().trim()
         if (!(EMAIL_ADDRESS_PATTERN.toRegex().matches(email))) {
-            sp_et_email?.setError(getString(R.string.email_error));
+            sp_et_email.setError(getString(R.string.email_error));
             return false;
         }
 
-        if (mn_et_phone?.length() == 0) {
-            mn_et_phone?.setError(getString(R.string.valid_error));
+        if (mn_et_phone.length() == 0) {
+            mn_et_phone.setError(getString(R.string.valid_error));
             return false;
         }
 
-        phone = mn_et_phone?.text.toString().trim()
+        phone = mn_et_phone.text.toString().trim()
         if (!(PHONE_NUMBER_PATTERN.toRegex().matches(phone))) {
-            mn_et_phone?.setError(getString(R.string.phone_error));
+            mn_et_phone.setError(getString(R.string.phone_error));
             return false;
         }
 
 
-        if (sp_et_password?.length() == 0) {
-            sp_et_password?.setError(getString(R.string.password_error));
+        if (sp_et_password.length() == 0) {
+            sp_et_password.setError(getString(R.string.password_error));
             return false;
         }
 
-        if (sp_et_rePassword?.length() == 0) {
-            sp_et_rePassword?.setError(getString(R.string.repassword_error));
+        if (sp_et_rePassword.length() == 0) {
+            sp_et_rePassword.setError(getString(R.string.repassword_error));
             return false;
         }
 
-        if (!sp_et_password?.text.toString().equals(sp_et_rePassword?.text.toString())) {
-            sp_et_rePassword?.setError(getString(R.string.password_not_error));
+        if (!sp_et_password.text.toString().equals(sp_et_rePassword.text.toString())) {
+            sp_et_rePassword.setError(getString(R.string.password_not_error));
             return false;
         }
 

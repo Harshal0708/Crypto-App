@@ -1,89 +1,135 @@
 package com.example.cryptoapp.modual.login.fragment
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
+import com.example.cryptoapp.modual.subscription.SubscriptionModel
+import com.example.cryptoapp.modual.subscription.adapter.SubscriptionAdapter
 
 
 class ScriptFragment : Fragment(), View.OnClickListener {
 
-    var card_1: LinearLayout? = null
-    var card_2: LinearLayout? = null
-    var card_3: LinearLayout? = null
-    var item_selected1: ImageView? = null
-    var item_selected2: ImageView? = null
-    var item_selected3: ImageView? = null
+    lateinit var txt_sub_monthly: TextView
+    lateinit var txt_sub_quartly: TextView
+    lateinit var txt_sub_yearly: TextView
+    lateinit var rv_subsribtion: RecyclerView
+
+    var subscriptionModelList: ArrayList<SubscriptionModel> = ArrayList()
+    lateinit var subscriptionAdapter : SubscriptionAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_script, container, false)
 
         init(view)
         return view
     }
 
-    private fun init(view: View?) {
-        card_1 = view?.findViewById(R.id.card_1)
-        card_2 = view?.findViewById(R.id.card_2)
-        card_3 = view?.findViewById(R.id.card_3)
-        item_selected1 = view?.findViewById(R.id.item_selected1)
-        item_selected2 = view?.findViewById(R.id.item_selected2)
-        item_selected3 = view?.findViewById(R.id.item_selected3)
+    private fun init(view: View) {
+        txt_sub_monthly = view.findViewById(R.id.txt_sub_monthly)
+        txt_sub_quartly = view.findViewById(R.id.txt_sub_quartly)
+        txt_sub_yearly = view.findViewById(R.id.txt_sub_yearly)
+        rv_subsribtion = view.findViewById(R.id.rv_subsribtion)
 
-        card_1?.setOnClickListener(this)
-        card_2?.setOnClickListener(this)
-        card_3?.setOnClickListener(this)
+        txt_sub_monthly.setOnClickListener(this)
+        txt_sub_quartly.setOnClickListener(this)
+        txt_sub_yearly.setOnClickListener(this)
+
+        subscriptionModelList.add(SubscriptionModel("Free",0))
+        subscriptionModelList.add(SubscriptionModel("Starter",300))
+        subscriptionModelList.add(SubscriptionModel("Retail",1200))
+        subscriptionModelList.add(SubscriptionModel("Retail +",2500))
+        subscriptionModelList.add(SubscriptionModel("Creator",5000))
+        subscriptionModelList.add(SubscriptionModel("Creator +",15000))
+
+        ScriptAdapter(subscriptionModelList)
+
     }
 
     override fun onClick(p0: View?) {
-        val id = p0!!.id
-        when (id) {
-            R.id.card_1 -> {
-                cardView1()
+        when (p0?.id) {
+            R.id.txt_sub_monthly->{
+
+                txt_sub_monthly.setBackgroundResource(R.drawable.background_tab_primary_color)
+                txt_sub_quartly.setBackgroundResource(0)
+                txt_sub_yearly.setBackgroundResource(0)
+
+                txt_sub_monthly.setTextColor(resources.getColor(R.color.white))
+                txt_sub_quartly.setTextColor(resources.getColor(R.color.primary_color))
+                txt_sub_yearly.setTextColor(resources.getColor(R.color.primary_color))
+
+
+                subscriptionModelList.clear()
+                subscriptionModelList.add(SubscriptionModel("Free",0))
+                subscriptionModelList.add(SubscriptionModel("Starter",300))
+                subscriptionModelList.add(SubscriptionModel("Retail",1200))
+                subscriptionModelList.add(SubscriptionModel("Retail +",2500))
+                subscriptionModelList.add(SubscriptionModel("Creator",5000))
+                subscriptionModelList.add(SubscriptionModel("Creator +",15000))
+
+                ScriptAdapter(subscriptionModelList)
             }
-            R.id.card_2 -> {
-                cardView2()
+            R.id.txt_sub_quartly->{
+
+                txt_sub_monthly.setBackgroundResource(0)
+                txt_sub_quartly.setBackgroundResource(R.drawable.background_tab_primary_color)
+                txt_sub_yearly.setBackgroundResource(0)
+
+
+                txt_sub_monthly.setTextColor(resources.getColor(R.color.primary_color))
+                txt_sub_quartly.setTextColor(resources.getColor(R.color.white))
+                txt_sub_yearly.setTextColor(resources.getColor(R.color.primary_color))
+
+                subscriptionModelList.clear()
+                subscriptionModelList.add(SubscriptionModel("Free",0))
+                subscriptionModelList.add(SubscriptionModel("Starter",850))
+                subscriptionModelList.add(SubscriptionModel("Retail",3400))
+                subscriptionModelList.add(SubscriptionModel("Retail +",7000))
+                subscriptionModelList.add(SubscriptionModel("Creator",14000))
+                subscriptionModelList.add(SubscriptionModel("Creator +",42000))
+
+                ScriptAdapter(subscriptionModelList)
+
             }
-            R.id.card_3 -> {
-                cardView3()
+            R.id.txt_sub_yearly->{
+
+                txt_sub_monthly.setBackgroundResource(0)
+                txt_sub_quartly.setBackgroundResource(0)
+                txt_sub_yearly.setBackgroundResource(R.drawable.background_tab_primary_color)
+
+                txt_sub_monthly.setTextColor(resources.getColor(R.color.primary_color))
+                txt_sub_quartly.setTextColor(resources.getColor(R.color.primary_color))
+                txt_sub_yearly.setTextColor(resources.getColor(R.color.white))
+
+                subscriptionModelList.clear()
+                subscriptionModelList.add(SubscriptionModel("Free",0))
+                subscriptionModelList.add(SubscriptionModel("Starter",3000))
+                subscriptionModelList.add(SubscriptionModel("Retail",12000))
+                subscriptionModelList.add(SubscriptionModel("Retail +",25000))
+                subscriptionModelList.add(SubscriptionModel("Creator",50000))
+                subscriptionModelList.add(SubscriptionModel("Creator +",150000))
+
+                ScriptAdapter(subscriptionModelList)
+
             }
 
         }
+
     }
 
-    fun cardView1() {
-        card_1?.setBackgroundColor(R.drawable.background_sub_card)
-        card_2?.setBackgroundColor(0)
-        card_3?.setBackgroundColor(0)
-        item_selected1?.visibility = View.VISIBLE
-        item_selected2?.visibility = View.GONE
-        item_selected3?.visibility = View.GONE
+    private fun ScriptAdapter(subscriptionModelList: ArrayList<SubscriptionModel>) {
+        rv_subsribtion.layoutManager= LinearLayoutManager(requireContext())
+        subscriptionAdapter = SubscriptionAdapter(requireContext(),subscriptionModelList)
+        rv_subsribtion.adapter=subscriptionAdapter
+
     }
-
-    fun cardView2() {
-        card_1?.setBackgroundColor(0)
-        card_2?.setBackgroundColor(R.drawable.background_sub_card)
-        card_3?.setBackgroundColor(0)
-        item_selected1?.visibility = View.GONE
-        item_selected2?.visibility = View.VISIBLE
-        item_selected3?.visibility = View.GONE
-    }
-
-    fun cardView3() {
-        card_1?.setBackgroundColor(0)
-        card_2?.setBackgroundColor(0)
-        card_3?.setBackgroundColor(R.drawable.background_sub_card)
-        item_selected1?.visibility = View.GONE
-        item_selected2?.visibility = View.GONE
-        item_selected3?.visibility = View.VISIBLE
-    }
-
-
 }
