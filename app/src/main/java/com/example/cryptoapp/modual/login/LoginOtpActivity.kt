@@ -9,10 +9,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Receiver.SmsBroadcastReceiver
 import com.example.cryptoapp.Response.OtpResendResponse
@@ -27,19 +24,22 @@ import java.util.regex.Pattern
 
 class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
 
-    var otp: TextView? = null
-    var register_progressBar: ProgressBar? = null
-    var otp_phone_verification: TextView? = null
-    var otp_email_verification: TextView? = null
-    var et_phone_otp: EditText? = null
+    lateinit var view: View
+    lateinit var register_progressBar: ProgressBar
+    lateinit var resent: TextView
+    lateinit var progressBar_cardView: RelativeLayout
+
+    lateinit var otp_phone_verification: TextView
+    lateinit var otp_email_verification: TextView
+    lateinit var et_phone_otp: EditText
     val REQ_USER_CONSENT = 200
-    var smsBroadcastReceiver: SmsBroadcastReceiver? = null
+    lateinit var smsBroadcastReceiver: SmsBroadcastReceiver
 
     var phone_otp: String = ""
     var phone: String = ""
     var email: String = ""
-    var str_phone_otp: String? = null
-    var timer: CountDownTimer? = null
+    lateinit var str_phone_otp: String
+    lateinit var timer: CountDownTimer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,30 +50,37 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
 
     fun init() {
 
-        otp = findViewById(R.id.otp)
         et_phone_otp = findViewById(R.id.et_phone_otp)
         otp_phone_verification = findViewById(R.id.otp_phone_verification)
         otp_email_verification = findViewById(R.id.otp_email_verification)
-        register_progressBar = findViewById(R.id.register_progressBar)
-        register_progressBar?.visibility = View.GONE
+
+        view = findViewById(R.id.btn_progressBar)
+        register_progressBar = view.findViewById(R.id.register_progressBar)
+
+        progressBar_cardView = view.findViewById(R.id.progressBar_cardView)
+        register_progressBar.visibility = View.GONE
+        resent = view.findViewById(R.id.resent)
+        resent.text = getString(R.string.submit)
+
         phone = intent.getStringExtra("phone").toString()
         email = intent.getStringExtra("email").toString()
-        otp_phone_verification?.setText(phone)
-        otp_email_verification?.setText(email)
+        otp_phone_verification.setText(phone)
+        otp_email_verification.setText(email)
         phone_otp = intent.getStringExtra("mobileOtp").toString()
-        otp?.setOnClickListener(this)
 
-        et_phone_otp?.addTextChangedListener(object : TextWatcher {
+        progressBar_cardView.setOnClickListener(this)
+
+        et_phone_otp.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-                var otp = et_phone_otp?.text.toString().trim()
+                var otp = et_phone_otp.text.toString().trim()
 
                 if (otp != phone_otp) {
-                    et_phone_otp?.setError(getString(R.string.valid_otp));
+                    et_phone_otp.setError(getString(R.string.valid_otp));
                 } else {
                     str_phone_otp = otp
                     Toast.makeText(
@@ -103,7 +110,7 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun registerBroadcastReceiver() {
         smsBroadcastReceiver = SmsBroadcastReceiver()
-        smsBroadcastReceiver!!.smsBroadcastReceiverListener =
+        smsBroadcastReceiver.smsBroadcastReceiverListener =
             object : SmsBroadcastReceiver.SmsBroadcastReceiverListener {
                 override fun onSuccess(intent: Intent) {
                     startActivityForResult(intent, REQ_USER_CONSENT)
@@ -134,7 +141,7 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
         val otpPatter = Pattern.compile("(|^)\\d{6}")
         val matcher = otpPatter.matcher(message)
         if (matcher.find()) {
-            et_phone_otp!!.setText(matcher.group(0))
+            et_phone_otp.setText(matcher.group(0))
         }
     }
 
@@ -151,7 +158,7 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(p0: View?) {
         val id = p0!!.id
         when (id) {
-            R.id.otp -> {
+            R.id.progressBar_cardView -> {
 
                 if (validation() == true) {
                     //  addOtp()
@@ -296,9 +303,9 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
 
     fun validation(): Boolean {
 
-        if (et_phone_otp?.length() == 0) {
-            et_phone_otp?.setError(getString(R.string.valid_error));
-            return false;
+        if (et_phone_otp.length() == 0) {
+            et_phone_otp.setError(getString(R.string.valid_error));
+            return false
         }
 
         return true

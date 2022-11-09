@@ -14,6 +14,7 @@ import com.example.cryptoapp.modual.dashbord.ProfileFragment
 import com.example.cryptoapp.modual.login.LoginActivity
 import com.example.cryptoapp.modual.login.ProfileActivity
 import com.example.cryptoapp.modual.login.ResetPasswordActivity
+import com.example.cryptoapp.modual.subscription.SubscriptionActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
@@ -73,11 +74,15 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_profile -> {
                     val intent = Intent(this, ProfileActivity::class.java)
                     startActivity(intent)
-                    Toast.makeText(this, "My profile", Toast.LENGTH_SHORT).show()
                     true
                 }
                 R.id.nav_reset_password -> {
                     val intent = Intent(this, ResetPasswordActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_subscription -> {
+                    val intent = Intent(this, SubscriptionActivity::class.java)
                     startActivity(intent)
                     true
                 }

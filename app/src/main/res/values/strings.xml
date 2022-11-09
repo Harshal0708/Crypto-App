@@ -11,6 +11,10 @@
     <string name="new_password">New Password</string>
     <string name="reenter_password">Reenter Password</string>
     <string name="welcome_to_crypto">Welcome to crypto</string>
+    <string name="connected">Connected !!!</string>
+    <string name="disconnected">DisConnected !!!</string>
+    <string name="available_connection">Yes you are online internet connection is available now.</string>
+    <string name="not_available_connection">Wake up your internet connection to access this part of the application.</string>
     <string name="Skip">Skip</string>
     <string name="welcome_back">Welcome back!</string>
     <string name="phone_verification">Phone Verification</string>
@@ -27,9 +31,11 @@
     <string name="otp_verify_done">OTP verify done</string>
     <string name="pan_number">PAN number</string>
     <string name="create_a_crypto_account">Create a crypto account</string>
+    <string name="forgot">Forgot</string>
     <string name="forgot_password">Forgot password ?</string>
     <string name="reset_your_password">Reset Your Password</string>
     <string name="resend_code">Resend Code</string>
+    <string name="resend">Resend</string>
     <string name="phone_number">Phone Number</string>
     <string name="phone">Phone</string>
     <string name="create_personal_account">Create Personal \nAccount</string>
@@ -48,4 +54,12 @@
     <!-- to toggle the open close button of the navigation drawer -->
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
+    <string name="monthly">Monthly</string>
+    <string name="quarterly">Quarterly</string>
+    <string name="yearly">Yearly</string>
+    <string name="more_detail">More Detail</string>
+    <string name="features_plans">Features / Plans</string>
+    <string name="price">Price</string>
+    <string name="no_of_private_str">No. of private Strategies you can create</string>
+    <string name="no_of_public_str">No. of public Strategies you can create</string>
 </resources>
