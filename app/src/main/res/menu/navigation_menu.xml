@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <item
@@ -7,7 +8,14 @@
         android:icon="@drawable/ic_home_dark"
         android:title="Dashboard" />
 
-    <item android:title="Profile">
+    <item
+
+        android:id="@+id/nav_switch"
+        android:title="Dark Theme"
+        android:icon="@drawable/ic_user"
+        app:actionViewClass="android.widget.Switch"/>
+
+    <item android:title="Profile" >
         <menu>
             <item
                 android:id="@+id/nav_profile"

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/my_drawer_layout"
     android:orientation="vertical"
+    android:background="@color/background"
     tools:context=".MainActivity">
 
     <RelativeLayout
@@ -22,7 +23,7 @@
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@color/white"
+        android:background="@color/background"
         android:layout_alignParentBottom="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +38,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/background"
         app:headerLayout="@layout/nav_header"
-        app:itemIconTint="@color/primary_color"
+        app:itemIconTint="@color/icon_color"
+        app:itemTextColor="@color/txt_color"
+
         app:menu="@menu/navigation_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>

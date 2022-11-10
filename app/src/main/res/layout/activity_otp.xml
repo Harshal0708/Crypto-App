@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:background="@color/background"
     tools:context=".modual.login.OtpActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,7 +60,7 @@
             android:fontFamily="@font/nunito_bold"
             android:gravity="center"
             android:text="@string/phone_verification"
-            android:textColor="@color/black"
+            android:textColor="@color/txt_color"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
@@ -75,7 +76,7 @@
             android:gravity="start"
             android:text="@string/phone_verification"
             android:textAlignment="viewStart"
-            android:textColor="@color/black"
+            android:textColor="@color/txt_color"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
@@ -92,6 +93,7 @@
             android:hint="@string/code"
             android:padding="8dp"
             android:textSize="18dp"
+            android:inputType="number"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
             app:layout_constraintStart_toStartOf="@+id/guideline48"
             app:layout_constraintTop_toBottomOf="@+id/otp_phone_verification" />
@@ -104,7 +106,7 @@
             android:fontFamily="@font/nunito_bold"
             android:gravity="start"
             android:text="@string/phone_verification"
-            android:textColor="@color/black"
+            android:textColor="@color/txt_color"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
@@ -121,6 +123,7 @@
             android:hint="@string/code"
             android:padding="8dp"
             android:textSize="18dp"
+            android:inputType="number"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
             app:layout_constraintStart_toStartOf="@+id/guideline48"
             app:layout_constraintTop_toBottomOf="@+id/email_otp_verification" />
@@ -144,7 +147,7 @@
             android:gravity="center"
             android:text="00"
             android:textAlignment="center"
-            android:textColor="@color/black"
+            android:textColor="@color/txt_color"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
@@ -160,7 +163,7 @@
             android:gravity="center"
             android:text="@string/resend_code"
             android:textAlignment="center"
-            android:textColor="@color/black"
+            android:textColor="@color/txt_color"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"

@@ -58,7 +58,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
         register_progressBar = view.findViewById(R.id.register_progressBar)
 
         progressBar_cardView = view.findViewById(R.id.progressBar_cardView)
-        register_progressBar.visibility=View.VISIBLE
+        register_progressBar.visibility=View.GONE
         resent = view.findViewById(R.id.resent)
         resent.text = "Save"
         progressBar_cardView.setOnClickListener(this)

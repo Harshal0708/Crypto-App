@@ -28,12 +28,10 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     lateinit var sp_et_password: EditText
     lateinit var sp_et_rePassword: EditText
 
-
     lateinit var view: View
     lateinit var register_progressBar: ProgressBar
     lateinit var resent: TextView
     lateinit var progressBar_cardView: RelativeLayout
-
 
     private lateinit var email: String
     private lateinit var phone: String

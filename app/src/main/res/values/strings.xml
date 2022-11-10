@@ -16,7 +16,7 @@
     <string name="available_connection">Yes you are online internet connection is available now.</string>
     <string name="not_available_connection">Wake up your internet connection to access this part of the application.</string>
     <string name="Skip">Skip</string>
-    <string name="welcome_back">Welcome back!</string>
+    <string name="welcome_back">Welcome Back!</string>
     <string name="phone_verification">Phone Verification</string>
     <string name="kyc_verification">KYC Verification</string>
     <string name="document_verification">Document Verification</string>
@@ -36,6 +36,7 @@
     <string name="reset_your_password">Reset Your Password</string>
     <string name="resend_code">Resend Code</string>
     <string name="resend">Resend</string>
+    <string name="reset">Reset</string>
     <string name="phone_number">Phone Number</string>
     <string name="phone">Phone</string>
     <string name="create_personal_account">Create Personal \nAccount</string>

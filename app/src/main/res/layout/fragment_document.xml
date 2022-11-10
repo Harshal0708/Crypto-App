@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".modual.login.fragment.DocumentFragment">
 
@@ -15,7 +16,7 @@
         android:gravity="center"
         android:text="@string/kyc_verification"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/txt_color"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

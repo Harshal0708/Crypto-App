@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:background="@color/background"
     tools:context=".modual.login.LoginActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,7 +60,7 @@
             android:fontFamily="@font/nunito_bold"
             android:gravity="center"
             android:text="@string/welcome_to_crypto"
-            android:textColor="@color/black"
+            android:textColor="@color/txt_color"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline19"
@@ -99,7 +100,7 @@
             android:gravity="center"
             android:text="@string/create_a_crypto_account"
             android:textAlignment="center"
-            android:textColor="@color/black"
+            android:textColor="@color/txt_color"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline19"

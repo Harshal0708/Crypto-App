@@ -22,9 +22,9 @@ import java.util.regex.Pattern
 
 class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
-    var rp_et_email: EditText? = null
-    var rp_et_password: EditText? = null
-    var rp_et_rePassword: EditText? = null
+    lateinit var rp_et_email: EditText
+    lateinit var rp_et_password: EditText
+    lateinit var rp_et_rePassword: EditText
 
     lateinit var view: View
     lateinit var register_progressBar: ProgressBar
@@ -70,22 +70,22 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
         progressBar_cardView = view.findViewById(R.id.progressBar_cardView)
         register_progressBar.visibility = View.GONE
         resent = view.findViewById(R.id.resent)
-        resent.text = getString(R.string.resend)
+        resent.text = getString(R.string.reset)
         progressBar_cardView.setOnClickListener(this)
 
 
-        rp_et_password?.addTextChangedListener(object : TextWatcher {
+        rp_et_password.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-                var pwd = rp_et_password?.text.toString().trim()
+                var pwd = rp_et_password.text.toString().trim()
 
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
-                    rp_et_password?.setError(getString(R.string.valid_password))
+                    rp_et_password.setError(getString(R.string.valid_password))
                 } else {
                     Toast.makeText(
                         this@ResetPasswordActivity,
@@ -100,18 +100,18 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
             }
 
         })
-        rp_et_rePassword?.addTextChangedListener(object : TextWatcher {
+        rp_et_rePassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-                var pwd = rp_et_rePassword?.text.toString().trim()
+                var pwd = rp_et_rePassword.text.toString().trim()
 
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
-                    rp_et_rePassword?.setError(getString(R.string.valid_password))
+                    rp_et_rePassword.setError(getString(R.string.valid_password))
                 } else {
                     Toast.makeText(
                         this@ResetPasswordActivity,
@@ -134,9 +134,9 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
         when (id) {
             R.id.progressBar_cardView -> {
 
-                email = rp_et_email?.text.toString()
-                passowrd = rp_et_password?.text.toString()
-                rePassowrd = rp_et_rePassword?.text.toString()
+                email = rp_et_email.text.toString()
+                passowrd = rp_et_password.text.toString()
+                rePassowrd = rp_et_rePassword.text.toString()
 
                 if (validation() == true) {
                     resentPassword()
@@ -205,29 +205,29 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
 
     private fun validation(): Any {
-        if (rp_et_email?.length() == 0) {
-            rp_et_email?.setError(getString(R.string.valid_error));
+        if (rp_et_email.length() == 0) {
+            rp_et_email.setError(getString(R.string.valid_error));
             return false;
         }
 
-        email = rp_et_email?.text.toString().trim()
+        email = rp_et_email.text.toString().trim()
         if (!(EMAIL_ADDRESS_PATTERN.toRegex().matches(email))) {
-            rp_et_email?.setError(getString(R.string.email_error));
+            rp_et_email.setError(getString(R.string.email_error));
             return false;
         }
 
-        if (rp_et_password?.length() == 0) {
-            rp_et_password?.setError(getString(R.string.password_error));
+        if (rp_et_password.length() == 0) {
+            rp_et_password.setError(getString(R.string.password_error));
             return false;
         }
 
-        if (rp_et_rePassword?.length() == 0) {
-            rp_et_rePassword?.setError(getString(R.string.repassword_error));
+        if (rp_et_rePassword.length() == 0) {
+            rp_et_rePassword.setError(getString(R.string.repassword_error));
             return false;
         }
 
-        if (!rp_et_password?.text.toString().equals(rp_et_rePassword?.text.toString())) {
-            rp_et_rePassword?.setError(getString(R.string.password_not_error));
+        if (!rp_et_password.text.toString().equals(rp_et_rePassword.text.toString())) {
+            rp_et_rePassword.setError(getString(R.string.password_not_error));
             return false;
         }
 
