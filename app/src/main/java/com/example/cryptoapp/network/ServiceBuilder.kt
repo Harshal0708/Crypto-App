@@ -15,18 +15,9 @@ object ServiceBuilder {
         .client(client)
         .build()
 
-    private val retrofit2 = Retrofit.Builder()
-        .baseUrl(Constants.BASE_URL2) // change this IP for testing by your actual machine IP
-        .addConverterFactory(GsonConverterFactory.create())
-
-        .client(client)
-        .build()
 
     fun<T> buildService(service: Class<T>): T{
         return retrofit.create(service)
-    }
-    fun<T> buildServiceTwo(service: Class<T>): T{
-        return retrofit2.create(service)
     }
 
 

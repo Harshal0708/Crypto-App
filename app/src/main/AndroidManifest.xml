@@ -7,6 +7,7 @@
 
     <application
         android:allowBackup="true"
+        android:configChanges="uiMode"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -15,10 +16,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:configChanges="uiMode"
         android:theme="@style/Theme.CryptoApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".modual.subscription.SubscriptionHistoryActivity"
+            android:exported="false"
+            android:theme="@style/no_tool_bar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".modual.subscription.SubscriptionDetailActivity"
             android:exported="false"
@@ -135,20 +143,21 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+<!--             <intent-filter>-->
+<!--             <action android:name="android.intent.action.MAIN" />-->
+
+
+<!--             <category android:name="android.intent.category.LAUNCHER" />-->
+<!--             </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".chart.BarChartActivity"

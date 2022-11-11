@@ -19,8 +19,14 @@ class SubscriptionActivity : AppCompatActivity() {
 
     fun onSubscription() {
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.fram_subscription, ScriptFragment())
+        fragmentTransaction.replace(R.id.fram_subscription, ScriptFragment())
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
+
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 }

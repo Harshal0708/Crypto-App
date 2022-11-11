@@ -9,6 +9,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.R
 import com.example.cryptoapp.modual.home.adapter.HomeAdapter
 import com.example.cryptoapp.network.RestApi
@@ -19,7 +21,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class HomeDetailActivity : AppCompatActivity() {
-    lateinit var progressBar: ProgressBar
+
     lateinit var txt_sd_strategyName: TextView
     lateinit var txt_sd_description: TextView
     lateinit var txt_sd_minCapital: TextView
@@ -27,6 +29,10 @@ class HomeDetailActivity : AppCompatActivity() {
     lateinit var txt_sd_createdDate: TextView
     lateinit var txt_sd_modifiedDate: TextView
     lateinit var txt_sd_status: TextView
+
+    lateinit var viewLoader: View
+    lateinit var animationView: LottieAnimationView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +42,6 @@ class HomeDetailActivity : AppCompatActivity() {
     }
 
     private fun InIt() {
-        progressBar = findViewById(R.id.progressBar)
         txt_sd_strategyName = findViewById(R.id.txt_sd_strategyName)
         txt_sd_description = findViewById(R.id.txt_sd_description)
         txt_sd_minCapital = findViewById(R.id.txt_sd_minCapital)
@@ -44,17 +49,29 @@ class HomeDetailActivity : AppCompatActivity() {
         txt_sd_createdDate = findViewById(R.id.txt_sd_createdDate)
         txt_sd_modifiedDate = findViewById(R.id.txt_sd_modifiedDate)
         txt_sd_status = findViewById(R.id.txt_sd_status)
+
+        viewLoader = findViewById(R.id.loader_animation)
+        animationView = viewLoader.findViewById(R.id.lotti_img)
+        setupAnim()
         getStrategyId(intent.getIntExtra("strategyId", 0))
+
+
+
     }
 
+    private fun setupAnim() {
+        animationView.setAnimation(R.raw.currency)
+        animationView.repeatCount = LottieDrawable.INFINITE
+        animationView.playAnimation()
+    }
 
     private fun getStrategyId(id: Int) {
-        progressBar.visibility = View.VISIBLE
+        animationView.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
             var response = ServiceBuilder.buildService(RestApi::class.java).getStrategyById(id)
             withContext(Dispatchers.Main) {
                 Log.d("test", "getStrategyById : ${response.body()}")
-                progressBar.visibility = View.GONE
+                animationView.visibility = View.GONE
                 txt_sd_strategyName.text = "Strategy Name :- ${response.body()!!.strategyName}"
                 txt_sd_description.text = "Description :- ${response.body()!!.description}"
                 txt_sd_minCapital.text = "Min Capital :- ${response.body()!!.minCapital}"

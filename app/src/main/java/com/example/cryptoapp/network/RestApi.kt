@@ -2,7 +2,6 @@ package com.example.cryptoapp.network
 
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Response.*
-import com.example.cryptoapp.Response.crypto.CryptoRespo
 import com.example.cryptoapp.model.*
 import retrofit2.Call
 import retrofit2.Response
@@ -47,9 +46,6 @@ interface RestApi {
 
     @GET("${Constants.strategy}/{id}")
     suspend fun getStrategyById(@Path("id") id: Int): Response<StrategyDetailRes>
-
-    @GET(Constants.cryptocurrencylist)
-    suspend fun getMarketDate(): Response<CryptoRespo>
 
 
 }

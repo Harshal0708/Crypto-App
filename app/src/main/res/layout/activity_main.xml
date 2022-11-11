@@ -31,6 +31,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_menu"
         app:labelVisibilityMode="labeled"
+        app:itemTextAppearance="@color/txt_color"
         android:scrollIndicators="left"/>
     </RelativeLayout>
     <com.google.android.material.navigation.NavigationView
@@ -42,6 +43,6 @@
         app:headerLayout="@layout/nav_header"
         app:itemIconTint="@color/icon_color"
         app:itemTextColor="@color/txt_color"
-
+        android:theme="@style/NavigationView"
         app:menu="@menu/navigation_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>

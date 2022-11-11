@@ -132,4 +132,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
         rv_subsribtion.adapter=subscriptionAdapter
 
     }
+
+
+
 }

@@ -17,6 +17,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.R
 import com.example.cryptoapp.modual.home.HomeDetailActivity
 import com.example.cryptoapp.modual.home.adapter.HomeAdapter
@@ -32,7 +34,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     lateinit var strategies_rv: RecyclerView
     lateinit var homeAdapter: HomeAdapter
-    lateinit var progressBar: ProgressBar
+    lateinit var viewLoader: View
+    lateinit var animationView: LottieAnimationView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,18 +49,26 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     private fun init(view: View) {
         strategies_rv = view.findViewById(R.id.strategies_rv)
-        progressBar = view.findViewById(R.id.progressBar)
+        viewLoader = view.findViewById(R.id.loader_animation)
+        animationView = viewLoader.findViewById(R.id.lotti_img)
 
+        setupAnim()
         getStrategy()
+    }
+
+    private fun setupAnim() {
+        animationView.setAnimation(R.raw.currency)
+        animationView.repeatCount = LottieDrawable.INFINITE
+        animationView.playAnimation()
     }
 
     private fun getStrategy() {
 
-        progressBar.visibility = View.VISIBLE
+        viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
             var response = ServiceBuilder.buildService(RestApi::class.java).getStrategy()
             withContext(Dispatchers.Main) {
-                progressBar.visibility = View.GONE
+                viewLoader.visibility = View.GONE
                 strategies_rv.layoutManager = LinearLayoutManager(requireContext())
                 homeAdapter = HomeAdapter(requireContext(), response.body()!!)
                 strategies_rv.adapter = homeAdapter

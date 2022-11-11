@@ -22,4 +22,7 @@
         <item name="android:layout_height">1dp</item>
     </style>
 
+    <style name="NavigationView">
+        <item name="android:textColorSecondary">@color/txt_color</item>
+    </style>
 </resources>

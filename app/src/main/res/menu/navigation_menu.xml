@@ -8,6 +8,11 @@
         android:icon="@drawable/ic_home_dark"
         android:title="Dashboard" />
 
+  <item
+        android:id="@+id/nav_history"
+        android:icon="@drawable/ic_home_dark"
+        android:title="History" />
+
     <item
 
         android:id="@+id/nav_switch"

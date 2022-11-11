@@ -11,7 +11,8 @@ import com.example.cryptoapp.R
 import com.example.cryptoapp.modual.subscription.SubscriptionDetailActivity
 import com.example.cryptoapp.modual.subscription.SubscriptionModel
 
-class SubscriptionAdapter (val context: Context, var subscriptionModelList: ArrayList<SubscriptionModel>) : RecyclerView.Adapter<SubscriptionAdapter.ViewHolder>() {
+class SubscriptionAdapter (val context: Context, var subscriptionModelList: ArrayList<SubscriptionModel>) :
+    RecyclerView.Adapter<SubscriptionAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var txt_subscriptionName : TextView = itemView.findViewById(R.id.txt_subscriptionName)
