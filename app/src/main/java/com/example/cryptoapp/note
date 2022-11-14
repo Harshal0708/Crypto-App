@@ -55,3 +55,6 @@ val topic = gson.fromJson(json, Topic::class.java)
 
 14) Custom Drawer
 - https://www.youtube.com/watch?v=FxYBxVPaK1w
+
+15) Logging Interceptor
+- https://www.youtube.com/watch?v=_tTZLAenpm8&list=PLlxmoA0rQ-LzEmWs4T99j2w6VnaQVGEtR&index=15

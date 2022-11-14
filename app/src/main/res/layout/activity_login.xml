@@ -42,30 +42,21 @@
             app:layout_constraintGuide_end="20dp" />
 
 
-        <ImageView
-            android:id="@+id/login_img"
-            android:layout_width="0dp"
-            android:layout_height="250dp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline19"
-            app:layout_constraintStart_toStartOf="@+id/guideline17"
-            app:layout_constraintTop_toTopOf="@+id/guideline18"
-            app:srcCompat="@drawable/ic_splash" />
-
-
         <TextView
             android:id="@+id/textView4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/nunito_bold"
+            android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
-            android:text="@string/welcome_to_crypto"
+            android:text="@string/hello"
+            android:textAlignment="viewStart"
             android:textColor="@color/txt_color"
-            android:textSize="24sp"
+            android:textSize="34sp"
             android:textStyle="bold"
+            android:typeface="normal"
             app:layout_constraintEnd_toStartOf="@+id/guideline19"
             app:layout_constraintStart_toStartOf="@+id/guideline17"
-            app:layout_constraintTop_toBottomOf="@+id/login_img" />
+            app:layout_constraintTop_toTopOf="@+id/guideline18" />
 
         <EditText
             android:id="@+id/login_emailNumber"
@@ -73,10 +64,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:background="@drawable/background_edittext"
-            android:drawableEnd="@drawable/ic_email"
+            android:drawableStart="@drawable/ic_email"
             android:hint="@string/email_number"
+            android:drawablePadding="4dp"
             android:padding="8dp"
             android:textSize="18dp"
+            android:textColorHint="@color/edit_text_hint_color"
+            android:textColor="@color/edit_text_color"
             app:layout_constraintEnd_toStartOf="@+id/guideline19"
             app:layout_constraintStart_toStartOf="@+id/guideline17"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -86,7 +80,9 @@
             layout="@layout/progressbar_button"
             android:layout_width="0dp"
             android:layout_height="42dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline19"
             app:layout_constraintStart_toStartOf="@+id/guideline17"
             app:layout_constraintTop_toBottomOf="@+id/login_emailNumber" />

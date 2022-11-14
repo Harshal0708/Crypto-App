@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:layout_height="40dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="8dp"
     android:layout_margin="12dp"
-    app:cardBackgroundColor="@color/primary_color"
-    app:cardCornerRadius="18dp">
+
+    android:background="@drawable/ic_button_bg"
+   >
 
 
     <RelativeLayout
@@ -35,4 +36,4 @@
             android:layout_height="wrap_content"/>
 
     </RelativeLayout>
-</androidx.cardview.widget.CardView>
+</RelativeLayout>

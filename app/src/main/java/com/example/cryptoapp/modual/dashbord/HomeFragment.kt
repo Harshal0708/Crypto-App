@@ -13,7 +13,9 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,9 +24,8 @@ import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.R
 import com.example.cryptoapp.modual.home.HomeDetailActivity
 import com.example.cryptoapp.modual.home.adapter.HomeAdapter
-import com.example.cryptoapp.network.RestApi
-import com.example.cryptoapp.network.ServiceBuilder
-import com.example.cryptoapp.network.onItemClickListener
+import com.example.cryptoapp.modual.login.ResetPasswordActivity
+import com.example.cryptoapp.network.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -53,7 +54,19 @@ class HomeFragment : Fragment(), View.OnClickListener {
         animationView = viewLoader.findViewById(R.id.lotti_img)
 
         setupAnim()
-        getStrategy()
+//        getStrategy()
+//        val networkConnection = NetworkConnection(requireContext())
+//        networkConnection.observe(viewLifecycleOwner, Observer { isConnected ->
+//
+//            if(isConnected){
+//                getStrategy()
+//            }else{
+//                val intent = Intent(activity, InternetConnectionActivity::class.java)
+//                startActivity(intent)
+//            // Toast.makeText(activity,R.string.not_available_connection,Toast.LENGTH_SHORT).show()
+//            }
+//
+//        })
     }
 
     private fun setupAnim() {
