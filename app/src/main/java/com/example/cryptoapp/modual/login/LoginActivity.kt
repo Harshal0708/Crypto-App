@@ -91,21 +91,23 @@ class LoginActivity : AppCompatActivity(), OnClickListener {
         }
 
 
-        if (login_emailNumber.text.toString().contains("@")) {
-            val str_email = login_emailNumber.text.toString().trim()
+        val str_email = login_emailNumber.text.toString().trim()
+        if (str_email.contains("@")) {
             isMobile = false
             if (!(EMAIL_ADDRESS_PATTERN.toRegex().matches(str_email))) {
                 login_emailNumber.setError(getString(R.string.email_error));
                 return false
             }
         } else {
-            if (TextUtils.isDigitsOnly(login_emailNumber.text.toString())) {
-                val str_number = login_emailNumber.text.toString().trim()
+            if (TextUtils.isDigitsOnly(str_email)) {
                 isMobile = true
-                if (!(PHONE_NUMBER_PATTERN.toRegex().matches(str_number))) {
+                if (!(PHONE_NUMBER_PATTERN.toRegex().matches(str_email))) {
                     login_emailNumber.setError(getString(R.string.phone_error));
                     return false
                 }
+            }else  if (!(EMAIL_ADDRESS_PATTERN.toRegex().matches(str_email))) {
+                login_emailNumber.setError(getString(R.string.email_error));
+                return false
             }
         }
 
