@@ -58,3 +58,6 @@ val topic = gson.fromJson(json, Topic::class.java)
 
 15) Logging Interceptor
 - https://www.youtube.com/watch?v=_tTZLAenpm8&list=PLlxmoA0rQ-LzEmWs4T99j2w6VnaQVGEtR&index=15
+
+16) Otp Fetch
+- https://www.youtube.com/watch?v=ebZfTX_tQAU

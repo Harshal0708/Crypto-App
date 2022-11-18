@@ -2,24 +2,31 @@
     <string name="app_name">CryptoApp</string>
     <string name="hello">Hello</string>
     <string name="login">Login</string>
+    <string name="sign_in_with">- Or Sign in With -</string>
     <string name="next">Next</string>
+    <string name="sign_in">Sign in to your account</string>
     <string name="email">Email</string>
     <string name="email_number">Email/Number</string>
     <string name="code">Code</string>
     <string name="otp">Otp</string>
+    <string name="email_otp">Email OTP :</string>
+    <string name="phone_otp">Phone OTP :</string>
     <string name="submit">Submit</string>
+    <string name="verify_continue">Verify &amp; Continue</string>
     <string name="password">Password</string>
     <string name="new_password">New Password</string>
     <string name="reenter_password">Reenter Password</string>
     <string name="welcome_to_crypto">Welcome to crypto</string>
+    <string name="accept_condition">I accept all terms and condition</string>
     <string name="connected">Connected !!!</string>
     <string name="disconnected">DisConnected !!!</string>
     <string name="available_connection">Yes you are online internet connection is available now.</string>
     <string name="not_available_connection">Wake up your internet connection to access this part of the application.</string>
     <string name="Skip">Skip</string>
     <string name="welcome_back">Welcome Back!</string>
-    <string name="phone_verification">Phone Verification</string>
+    <string name="phone_verification">Verification Code</string>
     <string name="kyc_verification">KYC Verification</string>
+
     <string name="document_verification">Document Verification</string>
     <string name="api_key">Api Key</string>
     <string name="secret">Secret</string>
@@ -31,7 +38,11 @@
     <string name="resend_in">RESEND IN :- </string>
     <string name="otp_verify_done">OTP verify done</string>
     <string name="pan_number">PAN number</string>
-    <string name="create_a_crypto_account">Create a crypto account</string>
+    <string name="create_a_crypto_account">Don\'t have an account ?</string>
+    <string name="dont_receive">Don\'t receive OTP ?</string>
+    <string name="already_account">Already have an account ?</string>
+    <string name="create">Create</string>
+    <string name="sign_in_here">Sign in here</string>
     <string name="forgot">Forgot</string>
     <string name="forgot_password">Forgot password ?</string>
     <string name="reset_your_password">Reset Your Password</string>
@@ -40,8 +51,8 @@
     <string name="reset">Reset</string>
     <string name="phone_number">Phone Number</string>
     <string name="phone">Phone</string>
-    <string name="create_personal_account">Create Personal \nAccount</string>
-    <string name="create_account">Create Personal Account</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="create_account">Create your Account</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="valid_email">[a-zA-Z0-9._-]+@[a-z]+\.+[a-z]+</string>
@@ -64,4 +75,5 @@
     <string name="price">Price</string>
     <string name="no_of_private_str">No. of private Strategies you can create</string>
     <string name="no_of_public_str">No. of public Strategies you can create</string>
+    <string name="active">Active</string>
 </resources>

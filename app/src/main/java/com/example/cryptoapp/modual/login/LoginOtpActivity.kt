@@ -1,5 +1,6 @@
 package com.example.cryptoapp.modual.login
 
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
@@ -7,31 +8,25 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Receiver.SmsBroadcastReceiver
-import com.example.cryptoapp.Response.OtpResendResponse
-import com.example.cryptoapp.Response.OtpResponse
-import com.example.cryptoapp.model.OtpPayload
-import com.example.cryptoapp.network.RestApi
-import com.example.cryptoapp.network.ServiceBuilder
 import com.google.android.gms.auth.api.phone.SmsRetriever
-import com.google.gson.Gson
-import retrofit2.Call
 import java.util.regex.Pattern
 
 class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var view: View
+    lateinit var otp_layout: View
     lateinit var register_progressBar: ProgressBar
     lateinit var resent: TextView
     lateinit var progressBar_cardView: RelativeLayout
 
     lateinit var otp_phone_verification: TextView
-    lateinit var otp_email_verification: TextView
-    lateinit var et_phone_otp: EditText
     val REQ_USER_CONSENT = 200
     lateinit var smsBroadcastReceiver: SmsBroadcastReceiver
 
@@ -41,6 +36,17 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var str_phone_otp: String
     lateinit var timer: CountDownTimer
 
+    lateinit var animationView: LottieAnimationView
+    lateinit var otp_1: EditText
+    lateinit var otp_2: EditText
+    lateinit var otp_3: EditText
+    lateinit var otp_4: EditText
+    lateinit var otp_5: EditText
+    lateinit var otp_6: EditText
+
+    var selectedKeyPos: Int = 0
+
+    lateinit var generateOtp: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_otp)
@@ -50,10 +56,10 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
 
     fun init() {
 
-        et_phone_otp = findViewById(R.id.et_phone_otp)
         otp_phone_verification = findViewById(R.id.otp_phone_verification)
-        otp_email_verification = findViewById(R.id.otp_email_verification)
-
+        otp_layout = findViewById(R.id.otp_layout)
+        animationView = findViewById(R.id.login_img)
+        setupAnim()
         view = findViewById(R.id.btn_progressBar)
         register_progressBar = view.findViewById(R.id.register_progressBar)
 
@@ -61,45 +67,81 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
         register_progressBar.visibility = View.GONE
         resent = view.findViewById(R.id.resent)
         resent.text = getString(R.string.submit)
-
+        resent.text = getString(R.string.verify_continue)
         phone = intent.getStringExtra("phone").toString()
         email = intent.getStringExtra("email").toString()
-        otp_phone_verification.setText(phone)
-        otp_email_verification.setText(email)
+//        otp_phone_verification.setText(phone)
+//        otp_email_verification.setText(email)
+        otp_phone_verification.setText("Please, enter the verification code we sent to your  Mobile ${phone} and Gmail ${email}")
+
         phone_otp = intent.getStringExtra("mobileOtp").toString()
 
         progressBar_cardView.setOnClickListener(this)
+        otp_1 = otp_layout.findViewById(R.id.otp_1)
+        otp_2 = otp_layout.findViewById(R.id.otp_2)
+        otp_3 = otp_layout.findViewById(R.id.otp_3)
+        otp_4 = otp_layout.findViewById(R.id.otp_4)
+        otp_5 = otp_layout.findViewById(R.id.otp_5)
+        otp_6 = otp_layout.findViewById(R.id.otp_6)
+        //  startSmartUserConsent()
+        otp_1.addTextChangedListener(textWatcher)
+        otp_2.addTextChangedListener(textWatcher)
+        otp_3.addTextChangedListener(textWatcher)
+        otp_4.addTextChangedListener(textWatcher)
+        otp_5.addTextChangedListener(textWatcher)
+        otp_6.addTextChangedListener(textWatcher)
 
-        et_phone_otp.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        showkeybord(otp_1)
+    }
 
-            }
+    private fun showkeybord(otpOne: EditText?) {
+        otpOne?.requestFocus()
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        val imm: InputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(otpOne, InputMethodManager.SHOW_IMPLICIT)
+    }
 
-                var otp = et_phone_otp.text.toString().trim()
+    private val textWatcher = object : TextWatcher {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-                if (otp != phone_otp) {
-                    et_phone_otp.setError(getString(R.string.valid_otp));
-                } else {
-                    str_phone_otp = otp
-                    Toast.makeText(
-                        this@LoginOtpActivity,
-                        getString(R.string.otp_verify_done),
-                        Toast.LENGTH_SHORT
-                    ).show()
+        }
 
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+        }
+
+        override fun afterTextChanged(p0: Editable?) {
+            if (p0?.length!! > 0) {
+
+                if (selectedKeyPos == 0) {
+                    selectedKeyPos = 1
+                    showkeybord(otp_2)
+                } else if (selectedKeyPos == 1) {
+                    selectedKeyPos = 2
+                    showkeybord(otp_3)
+
+                } else if (selectedKeyPos == 2) {
+                    selectedKeyPos = 3
+                    showkeybord(otp_4)
+
+                } else if (selectedKeyPos == 3) {
+                    selectedKeyPos = 4
+                    showkeybord(otp_5)
+                } else if (selectedKeyPos == 4) {
+                    selectedKeyPos = 5
+                    showkeybord(otp_6)
                 }
 
             }
+        }
 
-            override fun afterTextChanged(p0: Editable?) {
+    }
 
-            }
-
-        })
-
-        //  startSmartUserConsent()
+    private fun setupAnim() {
+        animationView.setAnimation(R.raw.verified)
+        animationView.repeatCount = LottieDrawable.INFINITE
+        animationView.playAnimation()
     }
 
     private fun startSmartUserConsent() {
@@ -141,7 +183,7 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
         val otpPatter = Pattern.compile("(|^)\\d{6}")
         val matcher = otpPatter.matcher(message)
         if (matcher.find()) {
-            et_phone_otp.setText(matcher.group(0))
+            //   et_phone_otp.setText(matcher.group(0))
         }
     }
 
@@ -160,12 +202,34 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
         when (id) {
             R.id.progressBar_cardView -> {
 
-                if (validation() == true) {
-                    //  addOtp()
+                generateOtp = otp_1.text.toString() +
+                        otp_2.text.toString() +
+                        otp_3.text.toString() +
+                        otp_4.text.toString() +
+                        otp_5.text.toString() +
+                        otp_6.text.toString()
+
+                if (generateOtp == phone_otp) {
+
                     var intent = Intent(this@LoginOtpActivity, UserActivity::class.java)
                     startActivity(intent)
                     finish()
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Not Done",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    //Toast.makeText(this, "Email or Mobile Number not match!", Toast.LENGTH_SHORT).show()
                 }
+
+
+//                if (validation() == true) {
+//                    //  addOtp()
+//                    var intent = Intent(this@LoginOtpActivity, UserActivity::class.java)
+//                    startActivity(intent)
+//                    finish()
+//                }
 
             }
         }
@@ -303,10 +367,10 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
 
     fun validation(): Boolean {
 
-        if (et_phone_otp.length() == 0) {
-            et_phone_otp.setError(getString(R.string.valid_error));
-            return false
-        }
+//        if (et_phone_otp.length() == 0) {
+//            et_phone_otp.setError(getString(R.string.valid_error));
+//            return false
+//        }
 
         return true
     }

@@ -23,13 +23,13 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:layout_toLeftOf="@+id/resent"
-            android:indeterminateTint="@color/white"
+            android:indeterminateTint="@color/background"
             android:visibility="visible" />
 
         <TextView
             android:id="@+id/resent"
             android:layout_centerInParent="true"
-            android:textColor="@color/white"
+            android:textColor="@color/background"
             android:layout_marginLeft="4dp"
             android:text="@string/next"
             android:layout_width="wrap_content"

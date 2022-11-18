@@ -72,27 +72,30 @@
         </activity>
         <activity
             android:name=".modual.login.LoginOtpActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/no_tool_bar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+
         </activity>
         <activity
             android:name=".modual.login.ResetPasswordActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/no_tool_bar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+
         </activity>
         <activity
             android:name=".modual.login.OtpActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/no_tool_bar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+
         </activity>
 
         <receiver
@@ -147,21 +150,17 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
 
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
         </activity>
         <activity
             android:name=".chart.BarChartActivity"

@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
+import com.example.cryptoapp.Response.UserSubscriptionItem
+import com.example.cryptoapp.modual.login.fragment.ScriptFragment
 import com.example.cryptoapp.modual.subscription.SubscriptionDetailActivity
 import com.example.cryptoapp.modual.subscription.SubscriptionModel
 
-class SubscriptionAdapter (val context: Context, var subscriptionModelList: ArrayList<SubscriptionModel>) :
+class SubscriptionAdapter (val context: Context, var subscriptionModelList: ArrayList<UserSubscriptionItem>,var subscriptionName:String,var subscriptionPrice:String,var  noOfStrategies:String) :
     RecyclerView.Adapter<SubscriptionAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -29,6 +31,10 @@ class SubscriptionAdapter (val context: Context, var subscriptionModelList: Arra
         holder.txt_subscriptionPrice.text="$  ${subscriptionModelList.get(position).subscriptionPrice}"
         holder.txt_subscriptionMoreDetail.setOnClickListener {
             val intent  = Intent(context,SubscriptionDetailActivity::class.java)
+            intent.putExtra("subscriptionName", subscriptionName)
+            intent.putExtra("subscriptionPrice", subscriptionPrice)
+            intent.putExtra("noOfStrategies", noOfStrategies)
+//            intent.putExtra("isActive", ScriptFragment().isActive)
             context.startActivity(intent)
         }
     }
@@ -36,4 +42,5 @@ class SubscriptionAdapter (val context: Context, var subscriptionModelList: Arra
     override fun getItemCount(): Int {
        return subscriptionModelList.size
     }
+
 }

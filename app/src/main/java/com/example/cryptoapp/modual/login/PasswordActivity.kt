@@ -133,16 +133,12 @@ class PasswordActivity : AppCompatActivity(), OnClickListener {
 
         val payload =
             LoginPayload(
-                "",
-                "",
+
                 email,
                 password,
                 mobile,
-                "2022-10-18T07:55:16.737Z",
-                "",
-                "",
-                true,
-                ""
+                false
+
             )
 
         val gson = Gson()

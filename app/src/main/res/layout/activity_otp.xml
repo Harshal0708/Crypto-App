@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     android:background="@color/background"
+
     tools:context=".modual.login.OtpActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -18,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="20dp" />
+            app:layout_constraintGuide_begin="30dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline51"
@@ -32,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="20dp" />
+            app:layout_constraintGuide_end="30dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline56"
@@ -42,27 +43,31 @@
             app:layout_constraintGuide_end="20dp" />
 
 
-        <ImageView
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/login_img"
             android:layout_width="0dp"
-            android:layout_height="250dp"
-            android:layout_weight="1"
+            android:layout_height="200dp"
+            android:adjustViewBounds="true"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
             app:layout_constraintStart_toStartOf="@+id/guideline48"
             app:layout_constraintTop_toTopOf="@+id/guideline51"
-            app:srcCompat="@drawable/ic_splash" />
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/verified"
+            app:lottie_speed="1"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/textView14"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/nunito_bold"
-            android:gravity="center"
+            android:fontFamily="@font/montserrat_medium"
             android:text="@string/phone_verification"
-            android:textColor="@color/txt_color"
-            android:textSize="24sp"
+            android:textAlignment="center"
+            android:textColor="@color/hello"
+            android:textSize="18sp"
             android:textStyle="bold"
+            android:typeface="normal"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
             app:layout_constraintStart_toStartOf="@+id/guideline48"
             app:layout_constraintTop_toBottomOf="@+id/login_img" />
@@ -71,30 +76,28 @@
             android:id="@+id/otp_phone_verification"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/nunito_bold"
-            android:gravity="start"
-            android:text="@string/phone_verification"
-            android:textAlignment="viewStart"
-            android:textColor="@color/txt_color"
-            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/email_otp"
+            android:textAlignment="center"
+            android:textColor="@color/sky_light"
+            android:textSize="14sp"
             android:textStyle="bold"
+            android:typeface="normal"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/guideline48"
-            app:layout_constraintTop_toBottomOf="@+id/textView14" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_email_phone" />
 
-        <EditText
-            android:id="@+id/et_phone_otp"
+
+        <include
+            android:id="@+id/otp_layout"
+            layout="@layout/otp_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/background_edittext"
-            android:drawableEnd="@drawable/ic_lock"
-            android:hint="@string/code"
-            android:padding="8dp"
-            android:textSize="18dp"
-            android:inputType="number"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline48"
             app:layout_constraintTop_toBottomOf="@+id/otp_phone_verification" />
 
@@ -102,73 +105,111 @@
             android:id="@+id/email_otp_verification"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/nunito_bold"
-            android:gravity="start"
-            android:text="@string/phone_verification"
-            android:textColor="@color/txt_color"
-            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/phone_otp"
+            android:textAlignment="center"
+            android:textColor="@color/sky_light"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline48"
-            app:layout_constraintTop_toBottomOf="@+id/et_phone_otp" />
+            app:layout_constraintTop_toBottomOf="@+id/otp_layout" />
 
-        <EditText
-            android:id="@+id/et_email_otp"
+        <include
+            android:id="@+id/otp_layout_two"
+            layout="@layout/otp_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/background_edittext"
-            android:drawableEnd="@drawable/ic_lock"
-            android:hint="@string/code"
-            android:padding="8dp"
-            android:textSize="18dp"
-            android:inputType="number"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/guideline48"
             app:layout_constraintTop_toBottomOf="@+id/email_otp_verification" />
+
 
         <include
             android:id="@+id/btn_progressBar"
             layout="@layout/progressbar_button"
             android:layout_width="0dp"
             android:layout_height="42dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
             app:layout_constraintStart_toStartOf="@+id/guideline48"
-            app:layout_constraintTop_toBottomOf="@+id/et_email_otp" />
+            app:layout_constraintTop_toBottomOf="@+id/otp_layout_two" />
+
 
         <TextView
             android:id="@+id/resend_timer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/nunito_bold"
-            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat_medium"
             android:text="00"
             android:textAlignment="center"
             android:textColor="@color/txt_color"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
             app:layout_constraintStart_toStartOf="@+id/guideline48"
             app:layout_constraintTop_toBottomOf="@+id/btn_progressBar" />
 
         <TextView
-            android:id="@+id/resend_code"
+            android:id="@+id/txt_email_phone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/nunito_bold"
+            android:fontFamily="@font/roboto_light"
+            android:text="Please, enter the verification code we sent to your  Mobile **01 and Gmail **patel"
+            android:textAlignment="center"
+            android:textColor="@color/hello"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline55"
+            app:layout_constraintStart_toStartOf="@+id/guideline48"
+            app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+        <TextView
+            android:id="@+id/txt_sign_in_here"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/roboto_bold"
             android:gravity="center"
-            android:text="@string/resend_code"
+            android:text="@string/dont_receive"
             android:textAlignment="center"
             android:textColor="@color/txt_color"
             android:textSize="12sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/guideline55"
+            app:layout_constraintEnd_toStartOf="@+id/txt_otp_resend"
+            app:layout_constraintHorizontal_bias="0.48"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@+id/guideline48"
             app:layout_constraintTop_toBottomOf="@+id/resend_timer" />
+
+        <TextView
+            android:id="@+id/txt_otp_resend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="@string/resend"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/sky_light"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:typeface="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_sign_in_here"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline55"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/txt_sign_in_here"
+            app:layout_constraintTop_toTopOf="@+id/txt_sign_in_here" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

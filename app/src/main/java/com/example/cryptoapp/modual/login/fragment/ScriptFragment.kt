@@ -1,17 +1,38 @@
 package com.example.cryptoapp.modual.login.fragment
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
+import com.example.cryptoapp.Response.ResetResponse
+import com.example.cryptoapp.Response.UserSubscriptionDetail
+import com.example.cryptoapp.Response.UserSubscriptionItem
+import com.example.cryptoapp.Response.UserSubscriptionResponse
+import com.example.cryptoapp.model.ResetPayload
+import com.example.cryptoapp.model.UserSubscriptionModel
+import com.example.cryptoapp.modual.home.adapter.HomeAdapter
+import com.example.cryptoapp.modual.login.LoginActivity
 import com.example.cryptoapp.modual.subscription.SubscriptionModel
 import com.example.cryptoapp.modual.subscription.adapter.SubscriptionAdapter
+import com.example.cryptoapp.network.RestApi
+import com.example.cryptoapp.network.ServiceBuilder
+import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class ScriptFragment : Fragment(), View.OnClickListener {
@@ -21,8 +42,16 @@ class ScriptFragment : Fragment(), View.OnClickListener {
     lateinit var txt_sub_yearly: TextView
     lateinit var rv_subsribtion: RecyclerView
 
-    var subscriptionModelList: ArrayList<SubscriptionModel> = ArrayList()
-    lateinit var subscriptionAdapter : SubscriptionAdapter
+    var subscriptionModelList: ArrayList<UserSubscriptionItem> = ArrayList()
+    lateinit var subscriptionAdapter: SubscriptionAdapter
+    lateinit var one: String
+    lateinit var two: String
+    lateinit var three: String
+     var subscriptionName: String ? = null
+     var subscriptionPrice:String ? = null
+     var noOfStrategies:String ? = null
+    //  var isActive :Boolean = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,20 +73,118 @@ class ScriptFragment : Fragment(), View.OnClickListener {
         txt_sub_quartly.setOnClickListener(this)
         txt_sub_yearly.setOnClickListener(this)
 
-        subscriptionModelList.add(SubscriptionModel("Free",0))
-        subscriptionModelList.add(SubscriptionModel("Starter",300))
-        subscriptionModelList.add(SubscriptionModel("Retail",1200))
-        subscriptionModelList.add(SubscriptionModel("Retail +",2500))
-        subscriptionModelList.add(SubscriptionModel("Creator",5000))
-        subscriptionModelList.add(SubscriptionModel("Creator +",15000))
-
-        ScriptAdapter(subscriptionModelList)
+        getPlans()
+        //getUserSubscriptionDetail()
 
     }
 
+
+    private fun getPlans() {
+
+        // viewLoader.visibility = View.VISIBLE
+        lifecycleScope.launch(Dispatchers.IO) {
+            var response = ServiceBuilder.buildService(RestApi::class.java).getPlans()
+            withContext(Dispatchers.Main) {
+                //  viewLoader.visibility = View.GONE
+
+                Log.d("test", "getPlans : ${response.body()}")
+                txt_sub_monthly.text = response.body()?.get(0)?.planName
+                txt_sub_quartly.text = response.body()?.get(1)?.planName
+                txt_sub_yearly.text = response.body()?.get(2)?.planName
+                one = response.body()?.get(0)?.id.toString()
+                two = response.body()?.get(1)?.id.toString()
+                three = response.body()?.get(2)?.id.toString()
+                subscriptionModelList.clear()
+                getUserSubscription(one)
+            }
+        }
+    }
+
+    fun getUserSubscription(id: String?) {
+
+        //  register_progressBar?.visibility = View.VISIBLE
+        val response = ServiceBuilder.buildService(RestApi::class.java)
+        var payload = UserSubscriptionModel(
+            "47ae5465-6fa2-4f87-fe77-08dac88c21f7",
+            "5215e06d-adf9-43c9-ec26-08dac88c409c",
+            "b7cb0341-4f87-4ed9-8bb0-64a9cb2621f5"
+        )
+
+        response.addUserSubscription(payload)
+            .enqueue(
+                object : Callback<UserSubscriptionResponse> {
+                    override fun onResponse(
+                        call: Call<UserSubscriptionResponse>,
+                        response: Response<UserSubscriptionResponse>
+                    ) {
+
+
+                        subscriptionModelList = response.body()!!
+                        getUserSubscriptionDetail()
+
+
+                        //    register_progressBar?.visibility = View.GONE
+
+
+                    }
+
+                    override fun onFailure(call: Call<UserSubscriptionResponse>, t: Throwable) {
+                        // register_progressBar?.visibility = View.GONE
+
+                        Toast.makeText(activity, t.toString(), Toast.LENGTH_LONG)
+                            .show()
+                    }
+
+                }
+            )
+
+    }
+
+  fun getUserSubscriptionDetail() {
+
+        //  register_progressBar?.visibility = View.VISIBLE
+        val response = ServiceBuilder.buildService(RestApi::class.java)
+        var payload = UserSubscriptionModel(
+            "47ae5465-6fa2-4f87-fe77-08dac88c21f7",
+            "5215e06d-adf9-43c9-ec26-08dac88c409c",
+            "b7cb0341-4f87-4ed9-8bb0-64a9cb2621f5"
+        )
+
+        response.addSubscriptionDetails(payload)
+            .enqueue(
+                object : Callback<UserSubscriptionDetail> {
+                    override fun onResponse(
+                        call: Call<UserSubscriptionDetail>,
+                        response: Response<UserSubscriptionDetail>
+                    ) {
+
+                      subscriptionName = response.body()?.subscriptionName.toString()
+                        subscriptionPrice = response.body()?.subscriptionPrice.toString()
+                        noOfStrategies = response.body()?.noOfStrategies.toString()
+
+                        ScriptAdapter(subscriptionModelList, response.body()?.subscriptionName.toString()!!,response.body()?.subscriptionPrice.toString()!!,response.body()?.noOfStrategies.toString())
+////                        isActive = response.body()?.isActive!!
+                        //    register_progressBar?.visibility = View.GONE
+
+
+                    }
+
+                    override fun onFailure(call: Call<UserSubscriptionDetail>, t: Throwable) {
+                        // register_progressBar?.visibility = View.GONE
+
+                        Toast.makeText(activity, t.toString(), Toast.LENGTH_LONG)
+                            .show()
+                    }
+
+                }
+            )
+
+    }
+
+
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            R.id.txt_sub_monthly->{
+            R.id.txt_sub_monthly -> {
 
                 txt_sub_monthly.setBackgroundResource(R.drawable.background_tab_primary_color)
                 txt_sub_quartly.setBackgroundResource(0)
@@ -69,16 +196,10 @@ class ScriptFragment : Fragment(), View.OnClickListener {
 
 
                 subscriptionModelList.clear()
-                subscriptionModelList.add(SubscriptionModel("Free",0))
-                subscriptionModelList.add(SubscriptionModel("Starter",300))
-                subscriptionModelList.add(SubscriptionModel("Retail",1200))
-                subscriptionModelList.add(SubscriptionModel("Retail +",2500))
-                subscriptionModelList.add(SubscriptionModel("Creator",5000))
-                subscriptionModelList.add(SubscriptionModel("Creator +",15000))
+                getUserSubscription(one)
 
-                ScriptAdapter(subscriptionModelList)
             }
-            R.id.txt_sub_quartly->{
+            R.id.txt_sub_quartly -> {
 
                 txt_sub_monthly.setBackgroundResource(0)
                 txt_sub_quartly.setBackgroundResource(R.drawable.background_tab_primary_color)
@@ -90,17 +211,10 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                 txt_sub_yearly.setTextColor(resources.getColor(R.color.primary_color))
 
                 subscriptionModelList.clear()
-                subscriptionModelList.add(SubscriptionModel("Free",0))
-                subscriptionModelList.add(SubscriptionModel("Starter",850))
-                subscriptionModelList.add(SubscriptionModel("Retail",3400))
-                subscriptionModelList.add(SubscriptionModel("Retail +",7000))
-                subscriptionModelList.add(SubscriptionModel("Creator",14000))
-                subscriptionModelList.add(SubscriptionModel("Creator +",42000))
-
-                ScriptAdapter(subscriptionModelList)
+                getUserSubscription(two)
 
             }
-            R.id.txt_sub_yearly->{
+            R.id.txt_sub_yearly -> {
 
                 txt_sub_monthly.setBackgroundResource(0)
                 txt_sub_quartly.setBackgroundResource(0)
@@ -111,14 +225,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                 txt_sub_yearly.setTextColor(resources.getColor(R.color.white))
 
                 subscriptionModelList.clear()
-                subscriptionModelList.add(SubscriptionModel("Free",0))
-                subscriptionModelList.add(SubscriptionModel("Starter",3000))
-                subscriptionModelList.add(SubscriptionModel("Retail",12000))
-                subscriptionModelList.add(SubscriptionModel("Retail +",25000))
-                subscriptionModelList.add(SubscriptionModel("Creator",50000))
-                subscriptionModelList.add(SubscriptionModel("Creator +",150000))
-
-                ScriptAdapter(subscriptionModelList)
+                getUserSubscription(three)
 
             }
 
@@ -126,13 +233,12 @@ class ScriptFragment : Fragment(), View.OnClickListener {
 
     }
 
-    private fun ScriptAdapter(subscriptionModelList: ArrayList<SubscriptionModel>) {
-        rv_subsribtion.layoutManager= LinearLayoutManager(requireContext())
-        subscriptionAdapter = SubscriptionAdapter(requireContext(),subscriptionModelList)
-        rv_subsribtion.adapter=subscriptionAdapter
+    private fun ScriptAdapter(subscriptionModelList: ArrayList<UserSubscriptionItem>, subscriptionName:String,subscriptionPrice:String, noOfStrategies:String) {
+        rv_subsribtion.layoutManager = LinearLayoutManager(requireContext())
+        subscriptionAdapter = SubscriptionAdapter(requireContext(), subscriptionModelList,subscriptionName,subscriptionPrice,noOfStrategies)
+        rv_subsribtion.adapter = subscriptionAdapter
 
     }
-
 
 
 }

@@ -54,19 +54,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
         animationView = viewLoader.findViewById(R.id.lotti_img)
 
         setupAnim()
-//        getStrategy()
-//        val networkConnection = NetworkConnection(requireContext())
-//        networkConnection.observe(viewLifecycleOwner, Observer { isConnected ->
-//
-//            if(isConnected){
-//                getStrategy()
-//            }else{
-//                val intent = Intent(activity, InternetConnectionActivity::class.java)
-//                startActivity(intent)
-//            // Toast.makeText(activity,R.string.not_available_connection,Toast.LENGTH_SHORT).show()
-//            }
-//
-//        })
+        getStrategy()
+
     }
 
     private fun setupAnim() {
@@ -89,6 +78,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
             }
         }
     }
+
+
 
     override fun onClick(p0: View?) {
         when (p0!!.id) {

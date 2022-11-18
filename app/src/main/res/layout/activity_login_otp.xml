@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
+
     android:background="@color/background"
     tools:context=".modual.login.LoginOtpActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -17,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="20dp" />
+            app:layout_constraintGuide_begin="30dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline45"
@@ -31,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="20dp" />
+            app:layout_constraintGuide_end="30dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline47"
@@ -41,27 +42,32 @@
             app:layout_constraintGuide_end="20dp" />
 
 
-        <ImageView
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/login_img"
             android:layout_width="0dp"
-            android:layout_height="250dp"
+            android:layout_height="200dp"
+            android:adjustViewBounds="true"
             app:layout_constraintEnd_toStartOf="@+id/guideline46"
             app:layout_constraintStart_toStartOf="@+id/guideline44"
             app:layout_constraintTop_toTopOf="@+id/guideline45"
-            app:srcCompat="@drawable/ic_splash" />
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/verified"
+            app:lottie_speed="1"
+            tools:ignore="ContentDescription"
+            />
 
         <TextView
             android:id="@+id/txt_login_otp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/nunito_bold"
-            android:gravity="center"
+            android:fontFamily="@font/montserrat_medium"
             android:text="@string/phone_verification"
             android:textAlignment="center"
-            android:textColor="@color/txt_color"
-            android:textSize="24sp"
+            android:textColor="@color/hello"
+            android:textSize="18sp"
             android:textStyle="bold"
+            android:typeface="normal"
             app:layout_constraintEnd_toStartOf="@+id/guideline46"
             app:layout_constraintStart_toStartOf="@+id/guideline44"
             app:layout_constraintTop_toBottomOf="@+id/login_img" />
@@ -71,43 +77,27 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="TextView"
-            android:textAlignment="viewStart"
-            android:textColor="@color/txt_color"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/roboto_light"
+            android:text="Please, enter the verification code we sent to your  Mobile **01 and Gmail **patel"
+            android:textAlignment="center"
+            android:textColor="@color/hello"
+            android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/guideline46"
             app:layout_constraintStart_toStartOf="@+id/guideline44"
             app:layout_constraintTop_toBottomOf="@+id/txt_login_otp" />
 
-        <TextView
-            android:id="@+id/otp_email_verification"
+
+        <include
+            android:id="@+id/otp_layout"
+            layout="@layout/otp_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="TextView"
-            android:textAlignment="viewStart"
-            android:textColor="@color/txt_color"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.0"
+
             app:layout_constraintEnd_toStartOf="@+id/guideline46"
             app:layout_constraintStart_toStartOf="@+id/guideline44"
             app:layout_constraintTop_toBottomOf="@+id/otp_phone_verification" />
-
-        <EditText
-            android:id="@+id/et_phone_otp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:inputType="number"
-            android:background="@drawable/background_edittext"
-            android:drawableEnd="@drawable/ic_lock"
-            android:hint="@string/code"
-            android:padding="8dp"
-            android:textSize="18dp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline46"
-            app:layout_constraintStart_toStartOf="@+id/guideline44"
-            app:layout_constraintTop_toBottomOf="@+id/otp_email_verification" />
 
 
         <include
@@ -115,10 +105,12 @@
             layout="@layout/progressbar_button"
             android:layout_width="0dp"
             android:layout_height="42dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline46"
             app:layout_constraintStart_toStartOf="@+id/guideline44"
-            app:layout_constraintTop_toBottomOf="@+id/et_phone_otp" />
+            app:layout_constraintTop_toBottomOf="@+id/otp_layout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

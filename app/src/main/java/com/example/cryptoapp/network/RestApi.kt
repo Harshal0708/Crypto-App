@@ -47,5 +47,15 @@ interface RestApi {
     @GET("${Constants.strategy}/{id}")
     suspend fun getStrategyById(@Path("id") id: Int): Response<StrategyDetailRes>
 
+    @GET(Constants.getplans)
+    suspend fun getPlans(): Response<GetPlanResponse>
+
+    @POST(Constants.getusersubscription)
+    fun addUserSubscription(@Body userSubscriptionModel: UserSubscriptionModel): Call<UserSubscriptionResponse>
+
+    @POST(Constants.getSubscriptionDetails)
+    fun addSubscriptionDetails(@Body userSubscriptionModel: UserSubscriptionModel): Call<UserSubscriptionDetail>
+
+
 
 }
