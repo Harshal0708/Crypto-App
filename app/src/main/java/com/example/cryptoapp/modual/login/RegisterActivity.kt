@@ -27,13 +27,12 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     lateinit var sp_et_lastName: EditText
     lateinit var sp_et_password: EditText
     lateinit var sp_et_rePassword: EditText
-
+    lateinit var cb_term_accept: CheckBox
 
     lateinit var view: View
     lateinit var register_progressBar: ProgressBar
     lateinit var resent: TextView
     lateinit var progressBar_cardView: RelativeLayout
-
 
     private lateinit var email: String
     private lateinit var phone: String
@@ -41,6 +40,8 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     private lateinit var lastName: String
     private lateinit var password: String
     private lateinit var rePassword: String
+    private lateinit var txt_sign_in_here: TextView
+    private lateinit var txt_sign_here_two: TextView
 
     val EMAIL_ADDRESS_PATTERN = Pattern.compile(
         "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -74,9 +75,12 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         sp_et_lastName = findViewById(R.id.sp_et_lastName)
         sp_et_password = findViewById(R.id.sp_et_password)
         sp_et_rePassword = findViewById(R.id.sp_et_rePassword)
+        txt_sign_here_two = findViewById(R.id.txt_sign_here_two)
 
         sp_et_email = findViewById(R.id.sp_et_email)
         mn_et_phone = findViewById(R.id.mn_et_phone)
+        cb_term_accept = findViewById(R.id.cb_term_accept)
+        txt_sign_in_here = findViewById(R.id.txt_sign_in_here)
 
         view = findViewById(R.id.btn_progressBar)
         register_progressBar = view.findViewById(R.id.register_progressBar)
@@ -84,8 +88,11 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         progressBar_cardView = view.findViewById(R.id.progressBar_cardView)
         register_progressBar.visibility = View.GONE
         resent = view.findViewById(R.id.resent)
-        resent.text = getString(R.string.create_account)
+        resent.text = getString(R.string.sign_up)
         progressBar_cardView.setOnClickListener(this)
+        txt_sign_in_here.setOnClickListener(this)
+        txt_sign_here_two.setOnClickListener(this)
+        cb_term_accept.setOnClickListener(this)
 
 
         sp_et_password.addTextChangedListener(object : TextWatcher {
@@ -99,8 +106,12 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     sp_et_password.setError(getString(R.string.valid_password))
-                }else{
-                    Toast.makeText(this@RegisterActivity,"Password Verify Done!",Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(
+                        this@RegisterActivity,
+                        "Password Verify Done!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -123,8 +134,12 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     sp_et_rePassword.setError(getString(R.string.valid_password))
-                }else{
-                    Toast.makeText(this@RegisterActivity,"Repassword Verify Done!",Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(
+                        this@RegisterActivity,
+                        "Repassword Verify Done!",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -148,10 +163,25 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                 rePassword = sp_et_rePassword.text.toString()
 
                 if (validation() == true) {
-                   // Toast.makeText(this@RegisterActivity,"Register",Toast.LENGTH_SHORT).show()
-                addCreateAccount()
+                    // Toast.makeText(this@RegisterActivity,"Register",Toast.LENGTH_SHORT).show()
+                    addCreateAccount()
                 }
             }
+            R.id.txt_sign_in_here -> {
+                val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+
+                startActivity(intent)
+
+            }
+            R.id.txt_sign_here_two -> {
+                val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                startActivity(intent)
+
+            }
+            R.id.cb_term_accept -> {
+                //Toast.makeText(this,"cb_term_accept",Toast.LENGTH_SHORT).show()
+            }
+
         }
     }
 
@@ -199,17 +229,14 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                                 Toast.LENGTH_LONG
                             ).show()
 
-
                             val intent = Intent(this@RegisterActivity, OtpActivity::class.java)
-                            intent.putExtra("email",  response.body()?.data?.email)
+                            intent.putExtra("email", response.body()?.data?.email)
                             intent.putExtra("phone", response.body()?.data?.mobile_No)
                             intent.putExtra("emailOtp", response.body()?.data?.email_OTP)
                             intent.putExtra("mobileOtp", response.body()?.data?.mobile_OTP)
                             startActivity(intent)
 
-
                         } else {
-
                             register_progressBar?.visibility = GONE
                             Toast.makeText(
                                 this@RegisterActivity,
@@ -217,7 +244,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                                 Toast.LENGTH_LONG
                             ).show()
                         }
-
                     }
 
                     override fun onFailure(call: retrofit2.Call<RegisterResponse>, t: Throwable) {

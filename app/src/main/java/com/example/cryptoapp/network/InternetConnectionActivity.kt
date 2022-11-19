@@ -36,7 +36,7 @@ class InternetConnectionActivity : AppCompatActivity() {
                 txt_connected.text=getString(R.string.connected)
                 txt_connected.setTextColor(resources.getColor(R.color.light_green))
                 txt_connection.text=getString(R.string.available_connection)
-                onBackPressed()
+
             }else{
                 login_img.setImageResource(R.drawable.ic_no_connection)
                 txt_connected.text=getString(R.string.disconnected)

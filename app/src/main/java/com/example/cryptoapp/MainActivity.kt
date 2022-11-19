@@ -1,39 +1,62 @@
 package com.example.cryptoapp
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import com.example.cryptoapp.modual.dashbord.CryptoFragment
 import com.example.cryptoapp.modual.dashbord.HomeFragment
 import com.example.cryptoapp.modual.dashbord.ProfileFragment
+import com.example.cryptoapp.modual.dashbord.SettingFragment
 import com.example.cryptoapp.modual.login.LoginActivity
 import com.example.cryptoapp.modual.login.ProfileActivity
 import com.example.cryptoapp.modual.login.ResetPasswordActivity
 import com.example.cryptoapp.modual.subscription.SubscriptionActivity
+import com.example.cryptoapp.modual.subscription.SubscriptionHistoryActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var bottomNav : BottomNavigationView
+    lateinit var bottomNav: BottomNavigationView
     var drawerLayout: DrawerLayout? = null
     lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
     private lateinit var navView: NavigationView
+    lateinit var menuItem: MenuItem
+    lateinit var compoundButton: CompoundButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         drawerLayout = findViewById(R.id.my_drawer_layout);
         navView = findViewById(R.id.navView);
+        menuItem = navView.menu.findItem(R.id.nav_switch)
+        compoundButton = menuItem.actionView as CompoundButton
 
-        actionBarDrawerToggle = ActionBarDrawerToggle(this,drawerLayout,R.string.nav_open,R.string.nav_close)
+        if (isDarkModeOn() == true) {
+            compoundButton.isChecked = true
+        } else {
+            compoundButton.isChecked = false
+
+        }
+
+        compoundButton.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+
+        }
+        actionBarDrawerToggle =
+            ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close)
         drawerLayout?.addDrawerListener(actionBarDrawerToggle)
 
         // Display the hamburger icon to launch the drawer
@@ -45,23 +68,27 @@ class MainActivity : AppCompatActivity() {
 
         loadFragment(HomeFragment())
 
-        bottomNav.setOnNavigationItemReselectedListener {
+        bottomNav?.setOnItemSelectedListener {
+            // do stuff
+
             when (it.itemId) {
 
                 R.id.home -> {
                     loadFragment(HomeFragment())
-                    return@setOnNavigationItemReselectedListener
+                    return@setOnItemSelectedListener true
                 }
                 R.id.market -> {
-                    loadFragment(CryptoFragment())
-                    return@setOnNavigationItemReselectedListener
+                    loadFragment(ProfileFragment())
+                    return@setOnItemSelectedListener true
                 }
                 R.id.setting -> {
-                    loadFragment(ProfileFragment())
-                    return@setOnNavigationItemReselectedListener
+                    loadFragment(SettingFragment())
+                    return@setOnItemSelectedListener true
                 }
             }
+            return@setOnItemSelectedListener true
         }
+
 
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
@@ -69,6 +96,11 @@ class MainActivity : AppCompatActivity() {
                     var intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     finish()
+                    true
+                }
+                R.id.nav_history -> {
+                    var intent = Intent(this, SubscriptionHistoryActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 R.id.nav_profile -> {
@@ -102,9 +134,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun loadFragment(fragment: Fragment){
+    private fun isDarkModeOn(): Boolean {
+        val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return currentNightMode == Configuration.UI_MODE_NIGHT_YES
+    }
+
+    private fun loadFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container,fragment)
+        transaction.replace(R.id.container, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
     }

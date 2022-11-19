@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".modual.login.fragment.UserFragment">
 
@@ -15,7 +16,7 @@
         android:gravity="center"
         android:text="@string/document_verification"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/txt_color"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
