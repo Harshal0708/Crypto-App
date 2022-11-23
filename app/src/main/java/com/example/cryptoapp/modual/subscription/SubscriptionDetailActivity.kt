@@ -4,12 +4,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.cryptoapp.R
+import com.example.cryptoapp.Response.LoginUserDataResponse
 import com.example.cryptoapp.Response.UserSubscriptionDetail
 import com.example.cryptoapp.model.UserSubscriptionModel
 import com.example.cryptoapp.modual.login.fragment.ScriptFragment
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
+import com.example.cryptoapp.preferences.MyPreferences
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,6 +23,11 @@ class SubscriptionDetailActivity : AppCompatActivity() {
     lateinit var txt_sub_detail_price :TextView
     lateinit var txt_sub_detail_strategie :TextView
     lateinit var txt_sub_detail_is_active :TextView
+
+
+    lateinit var preferences: MyPreferences
+    lateinit var userDetail : LoginUserDataResponse
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_subscription_detail)
@@ -27,24 +36,16 @@ class SubscriptionDetailActivity : AppCompatActivity() {
     }
 
     private fun InIt() {
+
+        preferences = MyPreferences(this)
+        userDetail = Gson().fromJson(preferences.getLogin(), LoginUserDataResponse::class.java)
+
         txt_sub_detail_name = findViewById(R.id.txt_sub_detail_name)
         txt_sub_detail_price = findViewById(R.id.txt_sub_detail_price)
         txt_sub_detail_strategie = findViewById(R.id.txt_sub_detail_strategie)
         txt_sub_detail_is_active = findViewById(R.id.txt_sub_detail_is_active)
 
 
-//        txt_sub_detail_name.text=intent.getStringExtra("subscriptionName").toString()
-//        txt_sub_detail_price.text=intent.getStringExtra("subscriptionPrice").toString()
-//        txt_sub_detail_strategie.text=intent.getStringExtra("noOfStrategies").toString()
-//        if(intent.getBooleanExtra("isActive",false) == true){
-//
-//            txt_sub_detail_is_active.text="Active"
-//
-//        }else{
-//
-//            txt_sub_detail_is_active.text="Not Active"
-//
-//        }
         getUserSubscriptionDetail()
     }
 
@@ -53,7 +54,7 @@ class SubscriptionDetailActivity : AppCompatActivity() {
 
         //  register_progressBar?.visibility = View.VISIBLE
         val response = ServiceBuilder.buildService(RestApi::class.java)
-        var payload = UserSubscriptionModel("47ae5465-6fa2-4f87-fe77-08dac88c21f7","5215e06d-adf9-43c9-ec26-08dac88c409c","b7cb0341-4f87-4ed9-8bb0-64a9cb2621f5")
+        var payload = UserSubscriptionModel(intent.getStringExtra("planId").toString(),intent.getStringExtra("subscriptionId").toString(),userDetail.userId)
 
         response.addSubscriptionDetails(payload)
             .enqueue(

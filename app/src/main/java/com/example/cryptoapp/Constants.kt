@@ -14,11 +14,12 @@ class Constants {
         const val resetpassword = "Accounts/resetpassword"
         const val registrationconfirm = "Accounts/registrationconfirm"
         const val resendotp = "Accounts/resendotp"
+        const val userdetails = "Accounts/userdetails"
+
         const val strategy = "Strategy"
         const val getplans = "Plan/GetPlans"
         const val getusersubscription = "UserSubscription/GetSubscriptionList"
         const val getSubscriptionDetails = "UserSubscription/GetSubscriptionDetails"
-
 
         const val cryptocurrencylist = "data-api/v3/cryptocurrency/listing?start=1&limit=10"
 

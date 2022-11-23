@@ -72,12 +72,43 @@
             app:layout_constraintStart_toStartOf="@+id/guideline50"
             app:layout_constraintTop_toBottomOf="@+id/txt_create_youre_account" />
 
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/reg_profile_img"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/star"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="2dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline53"
+            app:layout_constraintStart_toStartOf="@+id/guideline50"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+        <TextView
+
+            android:id="@+id/txt_upload_profile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/upload_profile"
+            android:textAlignment="center"
+            android:textColor="@color/txt_color"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:typeface="normal"
+            app:layout_constraintEnd_toStartOf="@+id/guideline53"
+            app:layout_constraintStart_toStartOf="@+id/guideline50"
+            app:layout_constraintTop_toBottomOf="@+id/reg_profile_img" />
+
         <EditText
             android:id="@+id/sp_et_firstName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/background_edittext"
             android:drawableStart="@drawable/ic_firstname"
             android:drawablePadding="8dp"
@@ -91,7 +122,7 @@
             app:layout_constraintEnd_toStartOf="@+id/guideline53"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/guideline50"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_upload_profile" />
 
         <EditText
             android:id="@+id/sp_et_lastName"

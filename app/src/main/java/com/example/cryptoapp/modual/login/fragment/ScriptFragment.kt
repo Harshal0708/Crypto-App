@@ -14,10 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
-import com.example.cryptoapp.Response.ResetResponse
-import com.example.cryptoapp.Response.UserSubscriptionDetail
-import com.example.cryptoapp.Response.UserSubscriptionItem
-import com.example.cryptoapp.Response.UserSubscriptionResponse
+import com.example.cryptoapp.Response.*
 import com.example.cryptoapp.model.ResetPayload
 import com.example.cryptoapp.model.UserSubscriptionModel
 import com.example.cryptoapp.modual.home.adapter.HomeAdapter
@@ -26,6 +23,7 @@ import com.example.cryptoapp.modual.subscription.SubscriptionModel
 import com.example.cryptoapp.modual.subscription.adapter.SubscriptionAdapter
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
+import com.example.cryptoapp.preferences.MyPreferences
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,12 +45,9 @@ class ScriptFragment : Fragment(), View.OnClickListener {
     lateinit var one: String
     lateinit var two: String
     lateinit var three: String
-     var subscriptionName: String ? = null
-     var subscriptionPrice:String ? = null
-     var noOfStrategies:String ? = null
-    //  var isActive :Boolean = false
 
-
+    lateinit var preferences: MyPreferences
+    lateinit var userDetail : LoginUserDataResponse
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,6 +59,9 @@ class ScriptFragment : Fragment(), View.OnClickListener {
     }
 
     private fun init(view: View) {
+        preferences = MyPreferences(requireContext())
+        userDetail = Gson().fromJson(preferences.getLogin(), LoginUserDataResponse::class.java)
+
         txt_sub_monthly = view.findViewById(R.id.txt_sub_monthly)
         txt_sub_quartly = view.findViewById(R.id.txt_sub_quartly)
         txt_sub_yearly = view.findViewById(R.id.txt_sub_yearly)
@@ -105,10 +103,10 @@ class ScriptFragment : Fragment(), View.OnClickListener {
         //  register_progressBar?.visibility = View.VISIBLE
         val response = ServiceBuilder.buildService(RestApi::class.java)
         var payload = UserSubscriptionModel(
-            "47ae5465-6fa2-4f87-fe77-08dac88c21f7",
+            id.toString(),
             "5215e06d-adf9-43c9-ec26-08dac88c409c",
-            "b7cb0341-4f87-4ed9-8bb0-64a9cb2621f5"
-        )
+            userDetail.userId
+            )
 
         response.addUserSubscription(payload)
             .enqueue(
@@ -117,15 +115,8 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                         call: Call<UserSubscriptionResponse>,
                         response: Response<UserSubscriptionResponse>
                     ) {
-
-
                         subscriptionModelList = response.body()!!
-                        getUserSubscriptionDetail()
-
-
-                        //    register_progressBar?.visibility = View.GONE
-
-
+                        ScriptAdapter(subscriptionModelList, id.toString())
                     }
 
                     override fun onFailure(call: Call<UserSubscriptionResponse>, t: Throwable) {
@@ -139,48 +130,6 @@ class ScriptFragment : Fragment(), View.OnClickListener {
             )
 
     }
-
-  fun getUserSubscriptionDetail() {
-
-        //  register_progressBar?.visibility = View.VISIBLE
-        val response = ServiceBuilder.buildService(RestApi::class.java)
-        var payload = UserSubscriptionModel(
-            "47ae5465-6fa2-4f87-fe77-08dac88c21f7",
-            "5215e06d-adf9-43c9-ec26-08dac88c409c",
-            "b7cb0341-4f87-4ed9-8bb0-64a9cb2621f5"
-        )
-
-        response.addSubscriptionDetails(payload)
-            .enqueue(
-                object : Callback<UserSubscriptionDetail> {
-                    override fun onResponse(
-                        call: Call<UserSubscriptionDetail>,
-                        response: Response<UserSubscriptionDetail>
-                    ) {
-
-                      subscriptionName = response.body()?.subscriptionName.toString()
-                        subscriptionPrice = response.body()?.subscriptionPrice.toString()
-                        noOfStrategies = response.body()?.noOfStrategies.toString()
-
-                        ScriptAdapter(subscriptionModelList, response.body()?.subscriptionName.toString()!!,response.body()?.subscriptionPrice.toString()!!,response.body()?.noOfStrategies.toString())
-////                        isActive = response.body()?.isActive!!
-                        //    register_progressBar?.visibility = View.GONE
-
-
-                    }
-
-                    override fun onFailure(call: Call<UserSubscriptionDetail>, t: Throwable) {
-                        // register_progressBar?.visibility = View.GONE
-
-                        Toast.makeText(activity, t.toString(), Toast.LENGTH_LONG)
-                            .show()
-                    }
-
-                }
-            )
-
-    }
-
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
@@ -233,9 +182,16 @@ class ScriptFragment : Fragment(), View.OnClickListener {
 
     }
 
-    private fun ScriptAdapter(subscriptionModelList: ArrayList<UserSubscriptionItem>, subscriptionName:String,subscriptionPrice:String, noOfStrategies:String) {
+    private fun ScriptAdapter(
+        subscriptionModelList: ArrayList<UserSubscriptionItem>,
+        planId:String
+    ) {
         rv_subsribtion.layoutManager = LinearLayoutManager(requireContext())
-        subscriptionAdapter = SubscriptionAdapter(requireContext(), subscriptionModelList,subscriptionName,subscriptionPrice,noOfStrategies)
+        subscriptionAdapter = SubscriptionAdapter(
+            requireContext(),
+            subscriptionModelList,
+            planId
+        )
         rv_subsribtion.adapter = subscriptionAdapter
 
     }
