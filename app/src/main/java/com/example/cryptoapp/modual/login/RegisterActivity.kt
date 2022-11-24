@@ -1,8 +1,12 @@
 package com.example.cryptoapp.modual.login
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -10,12 +14,15 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.OnClickListener
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.RegisterResponse
 import com.example.cryptoapp.model.RegisterPayload
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
+import java.io.ByteArrayOutputStream
 import java.util.regex.Pattern
 
 class RegisterActivity : AppCompatActivity(), OnClickListener {
@@ -42,6 +49,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     private lateinit var rePassword: String
     private lateinit var txt_sign_in_here: TextView
     private lateinit var txt_sign_here_two: TextView
+    private lateinit var reg_profile_img: ImageView
 
     val EMAIL_ADDRESS_PATTERN = Pattern.compile(
         "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -61,6 +69,13 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
     )
 
+    private val pickImage = 100
+    private val pickCamera = 200
+    private var imageUri: Uri? = null
+
+    lateinit var bs_img_camera: ImageView
+    lateinit var bs_img_gallery: ImageView
+    lateinit var dialog: BottomSheetDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -76,6 +91,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         sp_et_password = findViewById(R.id.sp_et_password)
         sp_et_rePassword = findViewById(R.id.sp_et_rePassword)
         txt_sign_here_two = findViewById(R.id.txt_sign_here_two)
+        reg_profile_img = findViewById(R.id.reg_profile_img)
 
         sp_et_email = findViewById(R.id.sp_et_email)
         mn_et_phone = findViewById(R.id.mn_et_phone)
@@ -93,6 +109,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         txt_sign_in_here.setOnClickListener(this)
         txt_sign_here_two.setOnClickListener(this)
         cb_term_accept.setOnClickListener(this)
+        reg_profile_img.setOnClickListener(this)
 
 
         sp_et_password.addTextChangedListener(object : TextWatcher {
@@ -168,21 +185,84 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                 }
             }
             R.id.txt_sign_in_here -> {
-                val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
-
-                startActivity(intent)
+                signInHere()
 
             }
             R.id.txt_sign_here_two -> {
-                val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
-                startActivity(intent)
-
+                signInHere()
             }
             R.id.cb_term_accept -> {
                 //Toast.makeText(this,"cb_term_accept",Toast.LENGTH_SHORT).show()
             }
+            R.id.reg_profile_img -> {
+                openBottomSheet()
+            }
+            R.id.bs_img_camera -> {
+                openCamera()
+                dialog.dismiss()
+            }
+            R.id.bs_img_gallery -> {
+                openGallery()
+                dialog.dismiss()
+            }
 
         }
+    }
+
+    private fun signInHere() {
+        val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun openBottomSheet() {
+        dialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.profile_bottom_sheet, null)
+        dialog.setCancelable(true)
+        bs_img_camera = view.findViewById(R.id.bs_img_camera)
+        bs_img_gallery = view.findViewById(R.id.bs_img_gallery)
+
+        bs_img_camera.setOnClickListener(this)
+        bs_img_gallery.setOnClickListener(this)
+
+        dialog.setContentView(view)
+        dialog.show()
+    }
+
+    private fun openCamera() {
+        val gallery = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        // startActivityForResult(gallery, pickCamera)
+        if (gallery.resolveActivity(packageManager) != null) {
+            getAction.launch(gallery)
+        }
+
+
+    }
+
+    private fun openGallery() {
+        val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        if (gallery.resolveActivity(packageManager) != null) {
+            getGallery.launch(gallery)
+        }
+    }
+
+    val getAction = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        val photo: Bitmap = it?.data?.extras?.get("data") as Bitmap
+        //  imageUri = getImageUriFromBitmap(this@ProfileActivity, photo)
+        reg_profile_img.setImageBitmap(photo)
+    }
+    val getGallery = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        imageUri = it.data?.data
+        reg_profile_img.setImageURI(imageUri)
+    }
+
+
+    fun getImageUriFromBitmap(context: Context, bitmap: Bitmap): Uri {
+        val bytes = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path =
+            MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, "Title", null)
+        return Uri.parse(path.toString())
     }
 
     fun addCreateAccount() {
@@ -308,6 +388,11 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         if (!sp_et_password.text.toString().equals(sp_et_rePassword.text.toString())) {
             sp_et_rePassword.setError(getString(R.string.password_not_error));
             return false;
+        }
+
+        if (cb_term_accept.isChecked == false) {
+            Toast.makeText(this, "Please accept terms and condition", Toast.LENGTH_SHORT).show()
+            return false
         }
 
         return true

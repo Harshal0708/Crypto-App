@@ -1,24 +1,30 @@
 package com.example.cryptoapp.modual.login
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.View.OnTouchListener
 import android.widget.*
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.LoginResponse
 import com.example.cryptoapp.model.LoginPayload
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
+import com.example.cryptoapp.preferences.MyPreferences
 import com.google.gson.Gson
 import java.util.regex.Pattern
 
-class LoginActivity : AppCompatActivity(), OnClickListener {
+class LoginActivity : AppCompatActivity(), OnClickListener,OnTouchListener {
 
     lateinit var login_signUp: TextView
     lateinit var login_emailNumber: EditText
@@ -33,6 +39,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener {
 
     lateinit var forgot_password: TextView
     lateinit var login_create: TextView
+    lateinit var cb_remember_me: CheckBox
 
     val PASSWORD = Pattern.compile(
         "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
@@ -57,6 +64,8 @@ class LoginActivity : AppCompatActivity(), OnClickListener {
         "[0-9]{10}"
     )
 
+    lateinit var preferences: MyPreferences
+    var passwordVisiable = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -65,9 +74,11 @@ class LoginActivity : AppCompatActivity(), OnClickListener {
     }
 
     fun init() {
+        preferences = MyPreferences(this)
         login_signUp = findViewById(R.id.txt_sign_in_here)
         login_emailNumber = findViewById(R.id.login_emailNumber)
         pwd_password = findViewById(R.id.pwd_password)
+        cb_remember_me = findViewById(R.id.cb_remember_me)
         login_signUp.setOnClickListener(this)
 
         view = findViewById(R.id.btn_progressBar)
@@ -84,6 +95,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener {
 
         forgot_password.setOnClickListener(this)
         login_create.setOnClickListener(this)
+        pwd_password.setOnTouchListener(this)
 
         pwd_password.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -94,9 +106,13 @@ class LoginActivity : AppCompatActivity(), OnClickListener {
 
                 var pwd = pwd_password.text.toString().trim()
 
-
                 if (!(PASSWORD.toRegex().matches(pwd))) {
-                    pwd_password.setError(getString(R.string.valid_password))
+                  //  pwd_password.setError(getString(R.string.valid_password))
+                    Toast.makeText(
+                        this@LoginActivity,
+                        getString(R.string.valid_password),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
                     Toast.makeText(
                         this@LoginActivity,
@@ -122,10 +138,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener {
 
                 password = pwd_password.text.toString()
                 if (btLogin() == true) {
-//                    val intent = Intent(this, PasswordActivity::class.java)
-//                    intent.putExtra("emailOrPassword", login_emailNumber.text.toString())
-//                    intent.putExtra("isMobile", isMobile)
-//                    startActivity(intent)
+
                     addLogin(login_emailNumber.text.toString())
                 }
             }
@@ -165,9 +178,6 @@ class LoginActivity : AppCompatActivity(), OnClickListener {
                 false
             )
 
-        val gson = Gson()
-        val json = gson.toJson(payload)
-        Log.d("test", json)
         response.addLogin(payload)
             .enqueue(
                 object : retrofit2.Callback<LoginResponse> {
@@ -176,15 +186,20 @@ class LoginActivity : AppCompatActivity(), OnClickListener {
                         response: retrofit2.Response<LoginResponse>
                     ) {
 
-                        Log.d("test", response.toString())
-                        Log.d("test", response.body().toString())
-
                         if (response.body()?.code == "200") {
                             register_progressBar.visibility = View.GONE
+
+                            preferences.setLogin(response.body()?.data)
+
+                            if(cb_remember_me.isChecked == true){
+                                preferences.setRemember(true)
+                            }
+
                             var intent = Intent(this@LoginActivity, LoginOtpActivity::class.java)
                             intent.putExtra("phone", response.body()?.data?.mobile)
                             intent.putExtra("email", response.body()?.data?.email)
                             intent.putExtra("mobileOtp", response.body()?.data?.otp)
+                            intent.putExtra("userId", response.body()?.data?.userId)
                             startActivity(intent)
                             finish()
 
@@ -257,6 +272,30 @@ class LoginActivity : AppCompatActivity(), OnClickListener {
         val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
+        val Right = 2
+        if(p1?.action == MotionEvent.ACTION_UP){
+            if(p1.getRawX()>= pwd_password?.right!!.minus(pwd_password.compoundDrawables[Right].getBounds().width())){
+                var selecion = pwd_password.selectionEnd
+
+                if(passwordVisiable){
+                    pwd_password.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_lock,0,R.drawable.ic_eye,0)
+                    pwd_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance())
+                    passwordVisiable=false
+                }else{
+                    pwd_password.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_lock,0,R.drawable.ic_eye_off,0)
+                    pwd_password.setTransformationMethod(PasswordTransformationMethod.getInstance())
+                    passwordVisiable=true
+                }
+
+                pwd_password.setSelection(selecion)
+                return true
+            }
+        }
+
+        return false
     }
 
 

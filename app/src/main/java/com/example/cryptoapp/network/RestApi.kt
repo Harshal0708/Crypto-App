@@ -44,6 +44,9 @@ interface RestApi {
     @GET(Constants.strategy)
     suspend fun getStrategy(): Response<StrategyRes>
 
+    @GET(Constants.userdetails)
+    suspend fun getUserDetails(@Query("userId") userId: String): Response<UserDetailsResponse>
+
     @GET("${Constants.strategy}/{id}")
     suspend fun getStrategyById(@Path("id") id: Int): Response<StrategyDetailRes>
 

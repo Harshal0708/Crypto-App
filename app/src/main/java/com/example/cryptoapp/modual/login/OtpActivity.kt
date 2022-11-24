@@ -499,7 +499,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         val response = ServiceBuilder.buildService(RestApi::class.java)
 
         response.addResendOtp(email, phone)
-            //  response.addResendOtp("apurva.skyttus@gmail.com","9714675391")
+
             .enqueue(
                 object : retrofit2.Callback<OtpResendResponse> {
                     override fun onResponse(

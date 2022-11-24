@@ -96,6 +96,7 @@
             android:textColorHint="@color/edit_text_hint_color"
             android:textSize="18sp"
             android:typeface="normal"
+            android:inputType="textPassword"
             app:layout_constraintEnd_toStartOf="@+id/guideline19"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/guideline17"
@@ -176,6 +177,20 @@
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline19"
+            app:layout_constraintTop_toBottomOf="@+id/pwd_password" />
+
+        <CheckBox
+            android:id="@+id/cb_remember_me"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:buttonTint="@color/txt_color"
+            android:text="@string/remember_me"
+
+            android:textColor="@color/txt_color"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/guideline17"
             app:layout_constraintTop_toBottomOf="@+id/pwd_password" />
 
 

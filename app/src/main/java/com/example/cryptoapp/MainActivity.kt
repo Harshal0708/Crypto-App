@@ -19,6 +19,7 @@ import com.example.cryptoapp.modual.login.ProfileActivity
 import com.example.cryptoapp.modual.login.ResetPasswordActivity
 import com.example.cryptoapp.modual.subscription.SubscriptionActivity
 import com.example.cryptoapp.modual.subscription.SubscriptionHistoryActivity
+import com.example.cryptoapp.preferences.MyPreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 
@@ -31,10 +32,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navView: NavigationView
     lateinit var menuItem: MenuItem
     lateinit var compoundButton: CompoundButton
+    lateinit var preferences: MyPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        preferences =MyPreferences(this)
         drawerLayout = findViewById(R.id.my_drawer_layout);
         navView = findViewById(R.id.navView);
         menuItem = navView.menu.findItem(R.id.nav_switch)
@@ -120,9 +124,11 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_logout -> {
+                    preferences.setRemember(false)
                     var intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
                     finish()
+
                     Toast.makeText(this, "Logout Successfully", Toast.LENGTH_SHORT).show()
                     true
                 }

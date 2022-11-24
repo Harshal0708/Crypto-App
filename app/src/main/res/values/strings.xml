@@ -2,9 +2,11 @@
     <string name="app_name">CryptoApp</string>
     <string name="hello">Hello</string>
     <string name="login">Login</string>
+    <string name="save">Save</string>
     <string name="sign_in_with">- Or Sign in With -</string>
     <string name="next">Next</string>
     <string name="sign_in">Sign in to your account</string>
+    <string name="remember_me">Remember Me</string>
     <string name="email">Email</string>
     <string name="email_number">Email/Number</string>
     <string name="code">Code</string>
@@ -53,6 +55,7 @@
     <string name="phone">Phone</string>
     <string name="sign_up">Sign Up</string>
     <string name="create_account">Create your Account</string>
+    <string name="upload_profile">Upload Profile</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="valid_email">[a-zA-Z0-9._-]+@[a-z]+\.+[a-z]+</string>
