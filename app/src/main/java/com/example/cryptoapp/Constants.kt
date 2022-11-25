@@ -1,5 +1,7 @@
 package com.example.cryptoapp
 
+import android.util.Log
+
 class Constants {
 
     companion object {
@@ -10,6 +12,10 @@ class Constants {
         // api routers
         const val login = "Accounts/login"
         const val register = "Accounts/register"
+        const val sendRegistrationOtp = "Accounts/sendRegistrationOtp"
+        const val verifyRegistrationOtp = "Accounts/verifyRegistrationOtp"
+        const val sendLoginOtp = "Accounts/sendLoginOtp"
+
         const val forgotpassword = "Accounts/forgotpassword"
         const val resetpassword = "Accounts/resetpassword"
         const val registrationconfirm = "Accounts/registrationconfirm"
@@ -36,5 +42,8 @@ class Constants {
         const val BROADCAST_REFRESH = "refresh"
         const val DISMISS_TO_LOGIN = "dismissToLogin"
 
+        fun showLog(log:String){
+           Log.d("test",log)
+        }
     }
 }

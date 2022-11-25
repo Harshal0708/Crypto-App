@@ -4,12 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.cryptoapp.R
-import com.example.cryptoapp.Response.LoginUserDataResponse
+import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.Response.UserSubscriptionDetail
 import com.example.cryptoapp.model.UserSubscriptionModel
-import com.example.cryptoapp.modual.login.fragment.ScriptFragment
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.preferences.MyPreferences
@@ -26,7 +24,7 @@ class SubscriptionDetailActivity : AppCompatActivity() {
 
 
     lateinit var preferences: MyPreferences
-    lateinit var userDetail : LoginUserDataResponse
+    lateinit var userDetail : DataXX
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +36,7 @@ class SubscriptionDetailActivity : AppCompatActivity() {
     private fun InIt() {
 
         preferences = MyPreferences(this)
-        userDetail = Gson().fromJson(preferences.getLogin(), LoginUserDataResponse::class.java)
+        userDetail = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
         txt_sub_detail_name = findViewById(R.id.txt_sub_detail_name)
         txt_sub_detail_price = findViewById(R.id.txt_sub_detail_price)

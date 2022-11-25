@@ -9,7 +9,6 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -24,7 +23,7 @@ import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.R
-import com.example.cryptoapp.Response.LoginUserDataResponse
+import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.preferences.MyPreferences
@@ -65,7 +64,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
     )
 
     lateinit var preferences: MyPreferences
-    lateinit var userDetail: LoginUserDataResponse
+    lateinit var userDetail: DataXX
 
     lateinit var viewLoader: View
     lateinit var animationView: LottieAnimationView
@@ -92,7 +91,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun init() {
         preferences = MyPreferences(this)
-        userDetail = Gson().fromJson(preferences.getLogin(), LoginUserDataResponse::class.java)
+        userDetail = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
         edFirstname = findViewById(R.id.edFirstname)
         edLastname = findViewById(R.id.edLastname)

@@ -19,9 +19,14 @@ import com.example.cryptoapp.R
 import com.example.cryptoapp.Receiver.SmsBroadcastReceiver
 import com.example.cryptoapp.Response.OtpResendResponse
 import com.example.cryptoapp.Response.OtpResponse
+import com.example.cryptoapp.Response.RegisterResponse
+import com.example.cryptoapp.Response.SendRegistrationOtpResponce
+import com.example.cryptoapp.model.RegisterPayload
+import com.example.cryptoapp.model.VerifyRegistrationOtpPayload
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.google.android.gms.auth.api.phone.SmsRetriever
+import com.google.gson.Gson
 import retrofit2.Call
 import java.util.regex.Pattern
 
@@ -61,10 +66,12 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var smsBroadcastReceiver: SmsBroadcastReceiver
 
     lateinit var animationView: LottieAnimationView
-    var email_otp: String = ""
-    var phone_otp: String = ""
+
     var email: String = ""
     var phone: String = ""
+    var firsName: String = ""
+    var lastName: String = ""
+    var rePassword: String = ""
     var selectedKeyPos: Int = 0
     var selectedKeyPos1: Int = 0
     lateinit var generateOtp: String
@@ -86,8 +93,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         resend_timer = findViewById(R.id.resend_timer)
         animationView = findViewById(R.id.login_img)
         setupAnim()
-        otp_phone_verification = findViewById(R.id.otp_phone_verification)
-        email_otp_verification = findViewById(R.id.email_otp_verification)
+
         view = findViewById(R.id.btn_progressBar)
         otp_layout = findViewById(R.id.otp_layout)
         otp_layout_two = findViewById(R.id.otp_layout_two)
@@ -117,125 +123,388 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         progressBar_cardView.setOnClickListener(this)
         email = intent.getStringExtra("email").toString()
         phone = intent.getStringExtra("phone").toString()
-//        otp_phone_verification.setText(phone)
-//        email_otp_verification.setText(email)
+        firsName = intent.getStringExtra("firsName").toString()
+        lastName = intent.getStringExtra("lastName").toString()
+        rePassword = intent.getStringExtra("rePassword").toString()
+
         txt_email_phone.setText("Please, enter the verification code we sent to your  Mobile ${phone} and Gmail ${email}")
-        email_otp = intent.getStringExtra("emailOtp").toString()
-        phone_otp = intent.getStringExtra("mobileOtp").toString()
 
         Log.d("test", email)
         Log.d("test", phone)
-        Log.d("test", email_otp)
-        Log.d("test", phone_otp)
+        Log.d("test", firsName)
+        Log.d("test", lastName)
+        Log.d("test", rePassword)
+
         resend_code.isEnabled = false
         txt_otp_resend.isEnabled = false
         resend_code.setOnClickListener(this)
         txt_otp_resend.setOnClickListener(this)
         progressBar_cardView.setOnClickListener(this)
 
-
         countdownTimer()
-        otp_1.addTextChangedListener(textWatcher)
-        otp_2.addTextChangedListener(textWatcher)
-        otp_3.addTextChangedListener(textWatcher)
-        otp_4.addTextChangedListener(textWatcher)
-        otp_5.addTextChangedListener(textWatcher)
-        otp_6.addTextChangedListener(textWatcher)
+        otp_1.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-        otp_two_1.addTextChangedListener(textWatcher1)
-        otp_two_2.addTextChangedListener(textWatcher1)
-        otp_two_3.addTextChangedListener(textWatcher1)
-        otp_two_4.addTextChangedListener(textWatcher1)
-        otp_two_5.addTextChangedListener(textWatcher1)
-        otp_two_6.addTextChangedListener(textWatcher1)
+            }
 
-        showkeybord(otp_1)
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0?.length!! > 0) {
+                    showkeybord(otp_2, otp_1, false)
+
+                } else {
+                    Toast.makeText(this@OtpActivity, "Clear", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        })
+
+        otp_2.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0?.length!! > 0) {
+                    showkeybord(otp_3, otp_2, false)
+                } else {
+                    showkeybord(otp_1, otp_2, true)
+                }
+            }
+
+        })
+
+        otp_3.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length!! > 0) {
+                    showkeybord(otp_4, otp_3, false)
+                } else {
+                    showkeybord(otp_2, otp_3, true)
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        otp_4.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length!! > 0) {
+                    showkeybord(otp_5, otp_4, false)
+                } else {
+                    showkeybord(otp_3, otp_4, true)
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        otp_5.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length!! > 0) {
+                    showkeybord(otp_6, otp_5, false)
+                } else {
+                    showkeybord(otp_4, otp_5, true)
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        otp_6.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length!! > 0) {
+
+                    Toast.makeText(this@OtpActivity, "Done", Toast.LENGTH_SHORT).show()
+                } else {
+                    showkeybord(otp_5, otp_6, true)
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        otp_two_1.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0?.length!! > 0) {
+                    showkeybord(otp_two_2, otp_two_1, false)
+
+                } else {
+                    Toast.makeText(this@OtpActivity, "Clear", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        })
+
+        otp_two_2.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0?.length!! > 0) {
+                    showkeybord(otp_two_3, otp_two_2, false)
+                } else {
+                    showkeybord(otp_two_1, otp_two_2, true)
+                }
+            }
+
+        })
+
+        otp_two_3.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length!! > 0) {
+                    showkeybord(otp_two_4, otp_two_3, false)
+                } else {
+                    showkeybord(otp_two_2, otp_two_3, true)
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        otp_two_4.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length!! > 0) {
+                    showkeybord(otp_two_5, otp_two_4, false)
+                } else {
+                    showkeybord(otp_two_3, otp_two_4, true)
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        otp_two_5.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length!! > 0) {
+                    showkeybord(otp_two_6, otp_two_5, false)
+                } else {
+                    showkeybord(otp_two_4, otp_two_5, true)
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        otp_two_6.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length!! > 0) {
+
+                    Toast.makeText(this@OtpActivity, "Done", Toast.LENGTH_SHORT).show()
+                } else {
+                    showkeybord(otp_two_5, otp_two_6, true)
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
         //  startSmartUserConsent()
     }
 
-    private fun showkeybord(otpOne: EditText?) {
-        otpOne?.requestFocus()
+        fun verifyRegistrationOtp(str_email: String, str_phone: String) {
 
+            register_progressBar?.visibility = View.VISIBLE
+            val response = ServiceBuilder.buildService(RestApi::class.java)
+
+            //val payload = RegisterPayload(password,rePassword,email,firsName,lastName,"","","","","",phone,"Appu25")
+            val payload = VerifyRegistrationOtpPayload(
+                email,
+                str_email,
+                phone,
+                str_phone
+            )
+
+            response.addVerifyRegistrationOtpp(payload)
+                .enqueue(
+                    object : retrofit2.Callback<SendRegistrationOtpResponce> {
+                        override fun onResponse(
+                            call: Call<SendRegistrationOtpResponce>,
+                            response: retrofit2.Response<SendRegistrationOtpResponce>
+                        ) {
+
+
+                            if(response.body()?.isSuccess== true){
+                                register_progressBar?.visibility = View.GONE
+                                addCreateAccount()
+                                Toast.makeText(this@OtpActivity,response.body()?.message,Toast.LENGTH_SHORT).show()
+                            }else{
+                                register_progressBar?.visibility = View.GONE
+                                Toast.makeText(this@OtpActivity,response.body()?.message,Toast.LENGTH_SHORT).show()
+                            }
+
+                        }
+
+                        override fun onFailure(call: Call<SendRegistrationOtpResponce>, t: Throwable) {
+                            Log.d("test", t.toString())
+
+                            register_progressBar?.visibility = View.GONE
+                            Toast.makeText(this@OtpActivity, t.toString(), Toast.LENGTH_LONG)
+                                .show()
+                        }
+
+                    }
+                )
+
+
+        }
+
+    fun addCreateAccount() {
+
+        register_progressBar?.visibility = View.VISIBLE
+        val response = ServiceBuilder.buildService(RestApi::class.java)
+
+        //val payload = RegisterPayload(password,rePassword,email,firsName,lastName,"","","","","",phone,"Appu25")
+//        val payload = RegisterPayload(
+//            email,
+//            firsName,
+//            lastName,
+//            rePassword,
+//            email,
+//            "",
+//            "",
+//            "",
+//            "",
+//            "",
+//            phone,
+//            false,
+//            false,
+//            false
+//        )
+
+        response.addRegister(firsName,lastName,rePassword,email,"","","",phone,"","")
+            .enqueue(
+                object : retrofit2.Callback<RegisterResponse> {
+                    override fun onResponse(
+                        call: Call<RegisterResponse>,
+                        response: retrofit2.Response<RegisterResponse>
+                    ) {
+
+                        Log.d("test", response.toString())
+                        Log.d("test", response.body().toString())
+
+                        if (response.body()?.isSuccess == true) {
+                            register_progressBar?.visibility = View.GONE
+                            Toast.makeText(
+                                this@OtpActivity,
+                                response.body()?.message,
+                                Toast.LENGTH_LONG
+                            ).show()
+
+
+
+                        } else {
+                            register_progressBar?.visibility = View.GONE
+                            Toast.makeText(
+                                this@OtpActivity,
+                                response.body()?.message,
+                                Toast.LENGTH_LONG
+                            ).show()
+
+                        }
+                    }
+
+                    override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                        Log.d("test", t.toString())
+
+                        register_progressBar?.visibility = View.GONE
+                        Toast.makeText(this@OtpActivity, t.toString(), Toast.LENGTH_LONG)
+                            .show()
+                    }
+
+                }
+            )
+
+
+    }
+
+
+    private fun showkeybord(one: EditText?, two: EditText?, isBoolean: Boolean) {
+
+        one?.setFocusable(true);
+        one?.setFocusableInTouchMode(true);
+        one?.requestFocus();
+        two?.setFocusable(false);
+        two?.setFocusableInTouchMode(false);
         val imm: InputMethodManager =
             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(otpOne, InputMethodManager.SHOW_IMPLICIT)
-    }
-
-    private val textWatcher = object : TextWatcher {
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-        }
-
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-        }
-
-        override fun afterTextChanged(p0: Editable?) {
-            if (p0?.length!! > 0) {
-
-                if (selectedKeyPos == 0) {
-                    selectedKeyPos = 1
-                    showkeybord(otp_2)
-                } else if (selectedKeyPos == 1) {
-                    selectedKeyPos = 2
-                    showkeybord(otp_3)
-
-                } else if (selectedKeyPos == 2) {
-                    selectedKeyPos = 3
-                    showkeybord(otp_4)
-
-                } else if (selectedKeyPos == 3) {
-                    selectedKeyPos = 4
-                    showkeybord(otp_5)
-                } else if (selectedKeyPos == 4) {
-                    selectedKeyPos = 5
-                    showkeybord(otp_6)
-                } else if (selectedKeyPos == 5) {
-                    selectedKeyPos1 = 0
-                    showkeybord(otp_two_1)
-                }
-
-            }
-        }
+        imm.showSoftInput(one, InputMethodManager.SHOW_IMPLICIT)
 
     }
-    private val textWatcher1 = object : TextWatcher {
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-        }
-
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-        }
-
-        override fun afterTextChanged(p0: Editable?) {
-            if (p0?.length!! > 0) {
-
-                if (selectedKeyPos1 == 0) {
-                    selectedKeyPos1 = 1
-                    showkeybord(otp_two_2)
-                } else if (selectedKeyPos1 == 1) {
-                    selectedKeyPos1 = 2
-                    showkeybord(otp_two_3)
-
-                } else if (selectedKeyPos1 == 2) {
-                    selectedKeyPos1 = 3
-                    showkeybord(otp_two_4)
-
-                } else if (selectedKeyPos1 == 3) {
-                    selectedKeyPos1 = 4
-                    showkeybord(otp_two_5)
-                } else if (selectedKeyPos1 == 4) {
-                    selectedKeyPos1 = 5
-                    showkeybord(otp_two_6)
-                }
-
-
-            }
-        }
-
-    }
-
     private fun setupAnim() {
         animationView.setAnimation(R.raw.verified)
         animationView.repeatCount = LottieDrawable.INFINITE
@@ -295,58 +564,6 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         //unregisterReceiver(smsBroadcastReceiver)
     }
 
-    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
-        return super.onKeyUp(keyCode, event)
-
-        if (keyCode == KeyEvent.KEYCODE_DEL) {
-            if (selectedKeyPos == 6) {
-                selectedKeyPos = 5
-                showkeybord(otp_6)
-            } else if (selectedKeyPos == 5) {
-                selectedKeyPos = 4
-                showkeybord(otp_5)
-            } else if (selectedKeyPos == 4) {
-                selectedKeyPos = 3
-                showkeybord(otp_4)
-            } else if (selectedKeyPos == 3) {
-                selectedKeyPos = 2
-                showkeybord(otp_3)
-            } else if (selectedKeyPos == 2) {
-                selectedKeyPos = 1
-                showkeybord(otp_2)
-            } else if (selectedKeyPos == 1) {
-                selectedKeyPos = 0
-                showkeybord(otp_1)
-            }
-
-
-            if (selectedKeyPos1 == 6) {
-                selectedKeyPos1 = 5
-                showkeybord(otp_two_6)
-            } else if (selectedKeyPos1 == 5) {
-                selectedKeyPos1 = 4
-                showkeybord(otp_two_5)
-            } else if (selectedKeyPos1 == 4) {
-                selectedKeyPos1 = 3
-                showkeybord(otp_two_4)
-            } else if (selectedKeyPos1 == 3) {
-                selectedKeyPos1 = 2
-                showkeybord(otp_two_3)
-            } else if (selectedKeyPos1 == 2) {
-                selectedKeyPos1 = 1
-                showkeybord(otp_two_2)
-            } else if (selectedKeyPos1 == 1) {
-                selectedKeyPos1 = 0
-                showkeybord(otp_two_1)
-            }
-
-
-
-            return true
-        } else {
-            return super.onKeyUp(keyCode, event)
-        }
-    }
 
     override fun onClick(p0: View?) {
         val id = p0!!.id
@@ -367,17 +584,20 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                         otp_two_5.text.toString() +
                         otp_two_6.text.toString()
 
-                if (generateOtp == email_otp && generateOtp1 == phone_otp) {
-                    //Toast.makeText(this,generateOtp + "-:-" + generateOtp1 +"Done",Toast.LENGTH_SHORT).show()
-                    addOtp(email_otp, phone_otp)
-                } else {
-                    Toast.makeText(
-                        this,
-                        "Not Done",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    //Toast.makeText(this, "Email or Mobile Number not match!", Toast.LENGTH_SHORT).show()
-                }
+
+
+                verifyRegistrationOtp(generateOtp,generateOtp1)
+//                if (generateOtp == email_otp && generateOtp1 == phone_otp) {
+//                    //Toast.makeText(this,generateOtp + "-:-" + generateOtp1 +"Done",Toast.LENGTH_SHORT).show()
+//                    addOtp(email_otp, phone_otp)
+//                } else {
+//                    Toast.makeText(
+//                        this,
+//                        "Not Done",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                    //Toast.makeText(this, "Email or Mobile Number not match!", Toast.LENGTH_SHORT).show()
+//                }
 
 
             }
@@ -514,8 +734,8 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                             register_progressBar.visibility = View.GONE
 
 
-                            phone_otp = response.body()?.data?.mobile_OTP.toString()
-                            email_otp = response.body()?.data?.email_OTP.toString()
+//                            phone_otp = response.body()?.data?.mobile_OTP.toString()
+//                            email_otp = response.body()?.data?.email_OTP.toString()
 
                             Toast.makeText(
                                 this@OtpActivity,

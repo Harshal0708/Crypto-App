@@ -1,10 +1,8 @@
 package com.example.cryptoapp.preferences
 
 import android.content.Context
-import com.example.cryptoapp.Response.LoginUserDataResponse
+import com.example.cryptoapp.Response.DataXX
 import com.google.gson.Gson
-import org.json.JSONObject
-import java.util.Objects
 
 class MyPreferences(context: Context) {
     val PREFERENCES_NAME = "SharedPreferencesCrypto"
@@ -23,7 +21,7 @@ class MyPreferences(context: Context) {
         return remember
     }
 
-    fun setLogin(data: LoginUserDataResponse?) {
+    fun setLogin(data: DataXX?) {
         val editor = preferences.edit()
         editor.putString(LOGIN_USER_DETAIL, Gson().toJson(data))
         editor.apply()

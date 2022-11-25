@@ -15,14 +15,22 @@ import android.view.View.GONE
 import android.view.View.OnClickListener
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.lifecycleScope
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.RegisterResponse
+import com.example.cryptoapp.Response.SendRegistrationOtpResponce
 import com.example.cryptoapp.model.RegisterPayload
+import com.example.cryptoapp.model.SendRegistrationOtpPayload
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.util.regex.Pattern
 
 class RegisterActivity : AppCompatActivity(), OnClickListener {
@@ -181,7 +189,8 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
 
                 if (validation() == true) {
                     // Toast.makeText(this@RegisterActivity,"Register",Toast.LENGTH_SHORT).show()
-                    addCreateAccount()
+                    //addCreateAccount()
+                    sendRegistrationOtp()
                 }
             }
             R.id.txt_sign_in_here -> {
@@ -209,7 +218,57 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         }
     }
 
-    private fun signInHere() {
+        fun sendRegistrationOtp() {
+
+            register_progressBar?.visibility = View.VISIBLE
+            val response = ServiceBuilder.buildService(RestApi::class.java)
+
+            val payload = SendRegistrationOtpPayload(
+                email,
+                firsName,
+                phone,
+            )
+
+            response.addSendRegistrationOtp(payload)
+                .enqueue(
+                    object : retrofit2.Callback<SendRegistrationOtpResponce> {
+                        override fun onResponse(
+                            call: retrofit2.Call<SendRegistrationOtpResponce>,
+                            response: retrofit2.Response<SendRegistrationOtpResponce>
+                        ) {
+
+
+                            if(response.body()?.isSuccess== true){
+                                register_progressBar?.visibility = GONE
+                                val intent = Intent(this@RegisterActivity, OtpActivity::class.java)
+                                intent.putExtra("email", email)
+                                intent.putExtra("phone", phone)
+                                intent.putExtra("firsName", firsName)
+                                intent.putExtra("lastName", lastName)
+                                intent.putExtra("rePassword", rePassword)
+                                startActivity(intent)
+
+                                Toast.makeText(this@RegisterActivity,response.body()?.message,Toast.LENGTH_SHORT).show()
+                            }
+
+                        }
+
+                        override fun onFailure(call: retrofit2.Call<SendRegistrationOtpResponce>, t: Throwable) {
+                            Log.d("test", t.toString())
+
+                            register_progressBar?.visibility = GONE
+                            Toast.makeText(this@RegisterActivity, t.toString(), Toast.LENGTH_LONG)
+                                .show()
+                        }
+
+                    }
+                )
+
+
+        }
+
+
+        private fun signInHere() {
         val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
         startActivity(intent)
         finish()
@@ -241,6 +300,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
 
     private fun openGallery() {
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        gallery.type = "image/*"
         if (gallery.resolveActivity(packageManager) != null) {
             getGallery.launch(gallery)
         }
@@ -252,10 +312,35 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         reg_profile_img.setImageBitmap(photo)
     }
     val getGallery = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        imageUri = it.data?.data
-        reg_profile_img.setImageURI(imageUri)
-    }
+        //imageUri = it.data?.data
 
+
+
+        it.data?.data?.let { uri ->
+            contentResolver?.query(uri, null, null, null, null)?.use {
+                if (it.moveToFirst()) {
+                    val picturePath =
+                        it.getString(it.getColumnIndex(MediaStore.MediaColumns.DATA))
+
+                    reg_profile_img.setImageURI(imageUri)
+                    uploadFile(File(picturePath))
+                    Log.d("test",picturePath)
+                }
+            }
+        }
+    }
+    private fun uploadFile(file: File) {
+        lifecycleScope.launch { // Coroutine scope from androidx.lifecycle:lifecycle-runtime-ktx
+            val requestBody = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val filePart = MultipartBody.Part.createFormData(
+                "file",
+                "test.jpg",
+                requestBody
+            )
+            Log.d("test", filePart.toString())
+           // api.uploadFile(filePart)
+        }
+    }
 
     fun getImageUriFromBitmap(context: Context, bitmap: Bitmap): Uri {
         val bytes = ByteArrayOutputStream()
@@ -264,81 +349,81 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
             MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, "Title", null)
         return Uri.parse(path.toString())
     }
-
-    fun addCreateAccount() {
-
-        register_progressBar?.visibility = View.VISIBLE
-        val response = ServiceBuilder.buildService(RestApi::class.java)
-
-        //val payload = RegisterPayload(password,rePassword,email,firsName,lastName,"","","","","",phone,"Appu25")
-        val payload = RegisterPayload(
-            email,
-            firsName,
-            lastName,
-            rePassword,
-            email,
-            "",
-            "",
-            "",
-            "",
-            "",
-            phone,
-            false,
-            false,
-            false
-        )
-        val gson = Gson()
-        val json = gson.toJson(payload)
-        Log.d("test", json)
-        response.addRegister(payload)
-            .enqueue(
-                object : retrofit2.Callback<RegisterResponse> {
-                    override fun onResponse(
-                        call: retrofit2.Call<RegisterResponse>,
-                        response: retrofit2.Response<RegisterResponse>
-                    ) {
-
-                        Log.d("test", response.toString())
-                        Log.d("test", response.body().toString())
-
-                        if (response.body()?.code == "200") {
-                            register_progressBar?.visibility = GONE
-                            Toast.makeText(
-                                this@RegisterActivity,
-                                response.body()?.message,
-                                Toast.LENGTH_LONG
-                            ).show()
-
-                            val intent = Intent(this@RegisterActivity, OtpActivity::class.java)
-                            intent.putExtra("email", response.body()?.data?.email)
-                            intent.putExtra("phone", response.body()?.data?.mobile_No)
-                            intent.putExtra("emailOtp", response.body()?.data?.email_OTP)
-                            intent.putExtra("mobileOtp", response.body()?.data?.mobile_OTP)
-                            startActivity(intent)
-
-                        } else {
-                            register_progressBar?.visibility = GONE
-                            Toast.makeText(
-                                this@RegisterActivity,
-                                "User not created!",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                    }
-
-                    override fun onFailure(call: retrofit2.Call<RegisterResponse>, t: Throwable) {
-                        Log.d("test", t.toString())
-
-                        register_progressBar?.visibility = GONE
-                        Toast.makeText(this@RegisterActivity, t.toString(), Toast.LENGTH_LONG)
-                            .show()
-                    }
-
-                }
-            )
-
-
-    }
+//
+//    fun addCreateAccount() {
+//
+//        register_progressBar?.visibility = View.VISIBLE
+//        val response = ServiceBuilder.buildService(RestApi::class.java)
+//
+//        //val payload = RegisterPayload(password,rePassword,email,firsName,lastName,"","","","","",phone,"Appu25")
+//        val payload = RegisterPayload(
+//            email,
+//            firsName,
+//            lastName,
+//            rePassword,
+//            email,
+//            "",
+//            "",
+//            "",
+//            "",
+//            "",
+//            phone,
+//            false,
+//            false,
+//            false
+//        )
+//        val gson = Gson()
+//        val json = gson.toJson(payload)
+//        Log.d("test", json)
+//        response.addRegister(payload)
+//            .enqueue(
+//                object : retrofit2.Callback<RegisterResponse> {
+//                    override fun onResponse(
+//                        call: retrofit2.Call<RegisterResponse>,
+//                        response: retrofit2.Response<RegisterResponse>
+//                    ) {
+//
+//                        Log.d("test", response.toString())
+//                        Log.d("test", response.body().toString())
+//
+//                        if (response.body()?.code == "200") {
+//                            register_progressBar?.visibility = GONE
+//                            Toast.makeText(
+//                                this@RegisterActivity,
+//                                response.body()?.message,
+//                                Toast.LENGTH_LONG
+//                            ).show()
+//
+//                            val intent = Intent(this@RegisterActivity, OtpActivity::class.java)
+//                            intent.putExtra("email", response.body()?.data?.email)
+//                            intent.putExtra("phone", response.body()?.data?.mobile_No)
+//                            intent.putExtra("emailOtp", response.body()?.data?.email_OTP)
+//                            intent.putExtra("mobileOtp", response.body()?.data?.mobile_OTP)
+//                            startActivity(intent)
+//
+//                        } else {
+//                            register_progressBar?.visibility = GONE
+//                            Toast.makeText(
+//                                this@RegisterActivity,
+//                                "User not created!",
+//                                Toast.LENGTH_LONG
+//                            ).show()
+//                        }
+//                    }
+//
+//                    override fun onFailure(call: retrofit2.Call<RegisterResponse>, t: Throwable) {
+//                        Log.d("test", t.toString())
+//
+//                        register_progressBar?.visibility = GONE
+//                        Toast.makeText(this@RegisterActivity, t.toString(), Toast.LENGTH_LONG)
+//                            .show()
+//                    }
+//
+//                }
+//            )
+//
+//
+//    }
 
     fun validation(): Boolean {
 

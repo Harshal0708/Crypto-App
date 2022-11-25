@@ -1,8 +1,7 @@
 package com.example.cryptoapp.Response
 
-data class LoginResponse(
+data class SendRegistrationOtpResponce(
     val code: Int,
-    val `data`: DataXX,
     val isSuccess: Boolean,
     val message: String
 )

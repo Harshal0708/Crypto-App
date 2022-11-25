@@ -47,7 +47,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
     lateinit var three: String
 
     lateinit var preferences: MyPreferences
-    lateinit var userDetail : LoginUserDataResponse
+    lateinit var userDetail : DataXX
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,7 +60,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
 
     private fun init(view: View) {
         preferences = MyPreferences(requireContext())
-        userDetail = Gson().fromJson(preferences.getLogin(), LoginUserDataResponse::class.java)
+        userDetail = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
         txt_sub_monthly = view.findViewById(R.id.txt_sub_monthly)
         txt_sub_quartly = view.findViewById(R.id.txt_sub_quartly)

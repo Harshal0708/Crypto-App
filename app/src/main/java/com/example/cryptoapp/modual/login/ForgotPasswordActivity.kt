@@ -1,8 +1,6 @@
 package com.example.cryptoapp.modual.login
 
 import android.content.Intent
-import android.graphics.Color
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,9 +8,7 @@ import android.view.View
 import android.widget.*
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.ForgotResponse
-import com.example.cryptoapp.Response.RegisterResponse
 import com.example.cryptoapp.model.ForgotPayload
-import com.example.cryptoapp.model.RegisterPayload
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.google.gson.Gson

@@ -3,7 +3,6 @@ package com.example.cryptoapp.modual.login
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
@@ -11,12 +10,14 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Receiver.SmsBroadcastReceiver
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import java.util.regex.Pattern
+
 
 class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -83,58 +84,138 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
         otp_4 = otp_layout.findViewById(R.id.otp_4)
         otp_5 = otp_layout.findViewById(R.id.otp_5)
         otp_6 = otp_layout.findViewById(R.id.otp_6)
-        //  startSmartUserConsent()
-        otp_1.addTextChangedListener(textWatcher)
-        otp_2.addTextChangedListener(textWatcher)
-        otp_3.addTextChangedListener(textWatcher)
-        otp_4.addTextChangedListener(textWatcher)
-        otp_5.addTextChangedListener(textWatcher)
-        otp_6.addTextChangedListener(textWatcher)
 
-        showkeybord(otp_1)
-    }
 
-    private fun showkeybord(otpOne: EditText?) {
-        otpOne?.requestFocus()
-
-        val imm: InputMethodManager =
-            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(otpOne, InputMethodManager.SHOW_IMPLICIT)
-    }
-
-    private val textWatcher = object : TextWatcher {
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-        }
-
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-        }
-
-        override fun afterTextChanged(p0: Editable?) {
-            if (p0?.length!! > 0) {
-
-                if (selectedKeyPos == 0) {
-                    selectedKeyPos = 1
-                    showkeybord(otp_2)
-                } else if (selectedKeyPos == 1) {
-                    selectedKeyPos = 2
-                    showkeybord(otp_3)
-
-                } else if (selectedKeyPos == 2) {
-                    selectedKeyPos = 3
-                    showkeybord(otp_4)
-
-                } else if (selectedKeyPos == 3) {
-                    selectedKeyPos = 4
-                    showkeybord(otp_5)
-                } else if (selectedKeyPos == 4) {
-                    selectedKeyPos = 5
-                    showkeybord(otp_6)
-                }
+        otp_1.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
-        }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0?.length!! > 0) {
+                    showkeybord(otp_2, otp_1, false)
+
+                } else {
+                    Toast.makeText(this@LoginOtpActivity, "Clear", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        })
+
+        otp_2.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0?.length!! > 0) {
+                    showkeybord(otp_3, otp_2, false)
+                } else {
+                    showkeybord(otp_1, otp_2, true)
+                }
+            }
+
+        })
+
+        otp_3.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length!! > 0) {
+                    showkeybord(otp_4, otp_3, false)
+                } else {
+                    showkeybord(otp_2, otp_3, true)
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        otp_4.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length!! > 0) {
+                    showkeybord(otp_5, otp_4, false)
+                } else {
+                    showkeybord(otp_3, otp_4, true)
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        otp_5.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length!! > 0) {
+                    showkeybord(otp_6, otp_5, false)
+                } else {
+                    showkeybord(otp_4, otp_5, true)
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        otp_6.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length!! > 0) {
+
+                    Toast.makeText(this@LoginOtpActivity, "Done", Toast.LENGTH_SHORT).show()
+                } else {
+                    showkeybord(otp_5, otp_6, true)
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+
+    }
+
+    private fun showkeybord(one: EditText?, two: EditText?, isBoolean: Boolean) {
+
+
+            one?.setFocusable(true);
+            one?.setFocusableInTouchMode(true);
+            one?.requestFocus();
+            two?.setFocusable(false);
+            two?.setFocusableInTouchMode(false);
+            val imm: InputMethodManager =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(one, InputMethodManager.SHOW_IMPLICIT)
 
     }
 

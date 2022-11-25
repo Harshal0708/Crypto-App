@@ -130,14 +130,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity
-            android:name=".modual.login.PasswordActivity"
-            android:exported="false"
-            android:theme="@style/no_tool_bar">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
         <activity
             android:name=".modual.login.LoginActivity"
             android:exported="false"

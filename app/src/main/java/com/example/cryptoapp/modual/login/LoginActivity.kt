@@ -1,7 +1,6 @@
 package com.example.cryptoapp.modual.login
 
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -12,19 +11,19 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnClickListener
-import android.view.View.OnTouchListener
+import android.view.View.*
 import android.widget.*
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.LoginResponse
+import com.example.cryptoapp.Response.SendRegistrationOtpResponce
 import com.example.cryptoapp.model.LoginPayload
+import com.example.cryptoapp.model.SendLoginOtpPayload
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.preferences.MyPreferences
-import com.google.gson.Gson
 import java.util.regex.Pattern
 
-class LoginActivity : AppCompatActivity(), OnClickListener,OnTouchListener {
+class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
 
     lateinit var login_signUp: TextView
     lateinit var login_emailNumber: EditText
@@ -70,6 +69,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener,OnTouchListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+
         init()
     }
 
@@ -107,7 +107,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener,OnTouchListener {
                 var pwd = pwd_password.text.toString().trim()
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
-                  //  pwd_password.setError(getString(R.string.valid_password))
+                    //  pwd_password.setError(getString(R.string.valid_password))
                     Toast.makeText(
                         this@LoginActivity,
                         getString(R.string.valid_password),
@@ -138,7 +138,6 @@ class LoginActivity : AppCompatActivity(), OnClickListener,OnTouchListener {
 
                 password = pwd_password.text.toString()
                 if (btLogin() == true) {
-
                     addLogin(login_emailNumber.text.toString())
                 }
             }
@@ -186,22 +185,13 @@ class LoginActivity : AppCompatActivity(), OnClickListener,OnTouchListener {
                         response: retrofit2.Response<LoginResponse>
                     ) {
 
-                        if (response.body()?.code == "200") {
+                        if (response.body()?.isSuccess ==true) {
                             register_progressBar.visibility = View.GONE
 
                             preferences.setLogin(response.body()?.data)
 
-                            if(cb_remember_me.isChecked == true){
-                                preferences.setRemember(true)
-                            }
+                            sendLoginOtp(response.body()?.data?.mobile,response.body()?.data?.email,"123456",response.body()?.data?.userId)
 
-                            var intent = Intent(this@LoginActivity, LoginOtpActivity::class.java)
-                            intent.putExtra("phone", response.body()?.data?.mobile)
-                            intent.putExtra("email", response.body()?.data?.email)
-                            intent.putExtra("mobileOtp", response.body()?.data?.otp)
-                            intent.putExtra("userId", response.body()?.data?.userId)
-                            startActivity(intent)
-                            finish()
 
                             Toast.makeText(
                                 this@LoginActivity,
@@ -211,9 +201,10 @@ class LoginActivity : AppCompatActivity(), OnClickListener,OnTouchListener {
                         } else {
 
                             register_progressBar.visibility = View.GONE
+
                             Toast.makeText(
                                 this@LoginActivity,
-                                "Not Login!",
+                                response.body()?.message.toString(),
                                 Toast.LENGTH_LONG
                             ).show()
                         }
@@ -221,6 +212,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener,OnTouchListener {
                     }
 
                     override fun onFailure(call: retrofit2.Call<LoginResponse>, t: Throwable) {
+                        register_progressBar.visibility = View.GONE
                         Toast.makeText(this@LoginActivity, t.toString(), Toast.LENGTH_LONG)
                             .show()
                         Log.d("test", t.toString())
@@ -229,6 +221,59 @@ class LoginActivity : AppCompatActivity(), OnClickListener,OnTouchListener {
                 }
             )
     }
+
+    fun sendLoginOtp(mobile:String?,email :String?,otp:String?,userId:String?) {
+
+        register_progressBar?.visibility = View.VISIBLE
+        val response = ServiceBuilder.buildService(RestApi::class.java)
+
+        val payload = SendLoginOtpPayload(
+            email!!,
+            mobile!!
+        )
+
+        response.addSendLoginOtp(payload)
+            .enqueue(
+                object : retrofit2.Callback<SendRegistrationOtpResponce> {
+                    override fun onResponse(
+                        call: retrofit2.Call<SendRegistrationOtpResponce>,
+                        response: retrofit2.Response<SendRegistrationOtpResponce>
+                    ) {
+
+
+                        if(response.body()?.isSuccess== true){
+                            register_progressBar?.visibility = GONE
+
+                            if (cb_remember_me.isChecked == true) {
+                                preferences.setRemember(true)
+                            }
+
+                            var intent = Intent(this@LoginActivity, LoginOtpActivity::class.java)
+                            intent.putExtra("phone", mobile)
+                            intent.putExtra("email", email)
+                            intent.putExtra("mobileOtp",otp)
+                            intent.putExtra("userId", userId)
+                            startActivity(intent)
+                            finish()
+                            Toast.makeText(this@LoginActivity,response.body()?.message,Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+
+                    override fun onFailure(call: retrofit2.Call<SendRegistrationOtpResponce>, t: Throwable) {
+                        Log.d("test", t.toString())
+
+                        register_progressBar?.visibility = GONE
+                        Toast.makeText(this@LoginActivity, t.toString(), Toast.LENGTH_LONG)
+                            .show()
+                    }
+
+                }
+            )
+
+
+    }
+
 
     fun btLogin(): Boolean {
         // login_emailNumber.setText("9722183897")
@@ -276,18 +321,31 @@ class LoginActivity : AppCompatActivity(), OnClickListener,OnTouchListener {
 
     override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
         val Right = 2
-        if(p1?.action == MotionEvent.ACTION_UP){
-            if(p1.getRawX()>= pwd_password?.right!!.minus(pwd_password.compoundDrawables[Right].getBounds().width())){
+        if (p1?.action == MotionEvent.ACTION_UP) {
+            if (p1.getRawX() >= pwd_password?.right!!.minus(
+                    pwd_password.compoundDrawables[Right].getBounds().width()
+                )
+            ) {
                 var selecion = pwd_password.selectionEnd
 
-                if(passwordVisiable){
-                    pwd_password.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_lock,0,R.drawable.ic_eye,0)
+                if (passwordVisiable) {
+                    pwd_password.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        R.drawable.ic_lock,
+                        0,
+                        R.drawable.ic_eye,
+                        0
+                    )
                     pwd_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance())
-                    passwordVisiable=false
-                }else{
-                    pwd_password.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_lock,0,R.drawable.ic_eye_off,0)
+                    passwordVisiable = false
+                } else {
+                    pwd_password.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        R.drawable.ic_lock,
+                        0,
+                        R.drawable.ic_eye_off,
+                        0
+                    )
                     pwd_password.setTransformationMethod(PasswordTransformationMethod.getInstance())
-                    passwordVisiable=true
+                    passwordVisiable = true
                 }
 
                 pwd_password.setSelection(selecion)
