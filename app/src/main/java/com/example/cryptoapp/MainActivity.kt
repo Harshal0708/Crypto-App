@@ -2,15 +2,22 @@ package com.example.cryptoapp
 
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.view.MenuItem
+import android.view.View
 import android.widget.CompoundButton
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.modual.dashbord.HomeFragment
 import com.example.cryptoapp.modual.dashbord.ProfileFragment
 import com.example.cryptoapp.modual.dashbord.SettingFragment
@@ -22,6 +29,7 @@ import com.example.cryptoapp.modual.subscription.SubscriptionHistoryActivity
 import com.example.cryptoapp.preferences.MyPreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.google.gson.Gson
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,22 +41,33 @@ class MainActivity : AppCompatActivity() {
     lateinit var menuItem: MenuItem
     lateinit var compoundButton: CompoundButton
     lateinit var preferences: MyPreferences
+    lateinit var nav_img: ImageView
+    lateinit var nav_name: TextView
+
+    lateinit var data : DataXX
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         preferences =MyPreferences(this)
+
         drawerLayout = findViewById(R.id.my_drawer_layout);
-        navView = findViewById(R.id.navView);
+        navView = findViewById(R.id.navView)
+        val parentView: View = navView.getHeaderView(0)
+        nav_img = parentView.findViewById(R.id.nav_img)
+        nav_name = parentView.findViewById(R.id.nav_name)
         menuItem = navView.menu.findItem(R.id.nav_switch)
+
+        data= Gson().fromJson(preferences.getLogin(), DataXX::class.java)
+        nav_name.text= data.email
+        nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
         compoundButton = menuItem.actionView as CompoundButton
 
         if (isDarkModeOn() == true) {
             compoundButton.isChecked = true
         } else {
             compoundButton.isChecked = false
-
         }
 
         compoundButton.setOnCheckedChangeListener { _, isChecked ->
@@ -125,6 +144,8 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.nav_logout -> {
                     preferences.setRemember(false)
+                    preferences.setLogin(null)
+
                     var intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
                     finish()
@@ -138,6 +159,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+    fun byteArrayToBitmap(data: ByteArray): Bitmap {
+        val decodeResponse: ByteArray = Base64.decode(data, Base64.DEFAULT or Base64.NO_WRAP)
+        val bitmap = BitmapFactory.decodeByteArray(decodeResponse, 0, decodeResponse.size)
+        return bitmap
     }
 
     private fun isDarkModeOn(): Boolean {

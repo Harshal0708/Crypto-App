@@ -7,20 +7,20 @@ class Constants {
     companion object {
 
         const val BASE_URL = "http://103.14.99.61:8084/api/"
-        const val BASE_URL2 ="https://api.coinmarketcap.com/"
 
         // api routers
         const val login = "Accounts/login"
         const val register = "Accounts/register"
         const val sendRegistrationOtp = "Accounts/sendRegistrationOtp"
         const val verifyRegistrationOtp = "Accounts/verifyRegistrationOtp"
+        const val verifyLoginOtp = "Accounts/verifyLoginOtp"
         const val sendLoginOtp = "Accounts/sendLoginOtp"
 
         const val forgotpassword = "Accounts/forgotpassword"
         const val resetpassword = "Accounts/resetpassword"
         const val registrationconfirm = "Accounts/registrationconfirm"
-        const val resendotp = "Accounts/resendotp"
-        const val userdetails = "Accounts/userdetails"
+
+        const val getProfileDetail = "Accounts/getProfileDetail"
 
         const val strategy = "Strategy"
         const val getplans = "Plan/GetPlans"

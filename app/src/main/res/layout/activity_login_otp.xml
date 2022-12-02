@@ -112,6 +112,62 @@
             app:layout_constraintStart_toStartOf="@+id/guideline44"
             app:layout_constraintTop_toBottomOf="@+id/otp_layout" />
 
+
+        <TextView
+            android:id="@+id/resend_timer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="00"
+            android:textAlignment="center"
+            android:textColor="@color/txt_color"
+            android:textSize="18sp"
+            android:textStyle="bold"
+
+            app:layout_constraintEnd_toEndOf="@+id/btn_progressBar"
+            app:layout_constraintStart_toStartOf="@+id/btn_progressBar"
+            app:layout_constraintTop_toBottomOf="@+id/btn_progressBar" />
+
+        <TextView
+            android:id="@+id/txt_sign_in_here"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="@string/dont_receive"
+            android:textAlignment="center"
+            android:textColor="@color/txt_color"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/guideline46"
+            app:layout_constraintHorizontal_bias="0.39"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/guideline44"
+            app:layout_constraintTop_toBottomOf="@+id/resend_timer" />
+
+        <TextView
+            android:id="@+id/txt_otp_resend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:text="@string/resend"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/sky_light"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:typeface="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_sign_in_here"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/txt_sign_in_here"
+            app:layout_constraintTop_toTopOf="@+id/txt_sign_in_here"
+            app:layout_constraintVertical_bias="0.98" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

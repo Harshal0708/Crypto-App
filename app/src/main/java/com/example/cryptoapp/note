@@ -61,3 +61,22 @@ val topic = gson.fromJson(json, Topic::class.java)
 
 16) Otp Fetch
 - https://www.youtube.com/watch?v=ebZfTX_tQAU
+
+---error---
+1) HTTP FAILED: java.net.SocketTimeoutException: timeout
+2) java.net.ConnectException: Failed to connect to /103.14.99.61:8084
+-https://stackoverflow.com/questions/15608499/getting-java-net-sockettimeoutexception-connection-timed-out-in-android
+
+-https://www.youtube.com/watch?v=rXY_v3Y3t0Y
+
+---------------------
+FirstName:Apurva
+LastName:patel
+Password:Test@123
+Email:apurva.skyttus@gmail.com
+ApiKey:
+SecreteKey:
+AdharCardNumber:
+PanCardNumber:
+PhoneNumber:9714675391
+ProfilePicture:

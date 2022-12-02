@@ -6,6 +6,8 @@ import com.example.cryptoapp.model.*
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -15,30 +17,35 @@ interface RestApi {
     @POST(Constants.login)
     fun addLogin(@Body loginPayload: LoginPayload): Call<LoginResponse>
 
-//    @POST(Constants.register)
-//    fun addRegister(@Body registerPayload: RegisterPayload): Call<RegisterResponse>
-
-    @POST(Constants.register)
-    fun addRegister(
-        @Query("FirstName") FirstName: String,
-        @Query("LastName") LastName: String,
-        @Query("Password") Password: String,
-        @Query("Email") Email: String,
-        @Query("ApiKey") ApiKey: String,
-        @Query("SecreteKey") SecreteKey: String,
-        @Query("PanCardNumber") PanCardNumber: String,
-        @Query("PhoneNumber") PhoneNumber: String,
-        @Query("ProfileImage") ProfileImage: String,
-        @Query("ProfilePicture") ProfilePicture: String,
-    ): Call<RegisterResponse>
-
-
-    @POST(Constants.sendRegistrationOtp)
-    fun addSendRegistrationOtp(@Body sendRegistrationOtpPayload: SendRegistrationOtpPayload): Call<SendRegistrationOtpResponce>
+    @POST(Constants.verifyLoginOtp)
+    fun addVerifyLoginOtp(@Body verifyLoginOtpPayload: VerifyLoginOtpPayload): Call<SendRegistrationOtpResponce>
 
     @POST(Constants.sendLoginOtp)
     fun addSendLoginOtp(@Body sendLoginOtpPayload: SendLoginOtpPayload): Call<SendRegistrationOtpResponce>
 
+
+    @FormUrlEncoded
+    @POST(Constants.register)
+    fun addRegister(
+        @Field("FirstName") FirstName: String,
+        @Field("LastName") LastName: String,
+        @Field("Password") Password: String,
+        @Field("Email") Email: String,
+        @Field("ApiKey") ApiKey: String,
+        @Field("SecreteKey") SecreteKey: String,
+        @Field("AdharCardNumber") AdharCardNumber: String,
+        @Field("PanCardNumber") PanCardNumber: String,
+        @Field("PhoneNumber") PhoneNumber: String,
+        @Field("ProfileImage") ProfileImage: String,
+        @Field("ProfilePicture") ProfilePicture: String,
+    ): Call<RegisterResponse>
+
+//
+//    @POST(Constants.register)
+//    fun addRegister(@Body registerPayload: RegisterPayload): Call<RegisterResponse>
+
+    @POST(Constants.sendRegistrationOtp)
+    fun addSendRegistrationOtp(@Body sendRegistrationOtpPayload: SendRegistrationOtpPayload): Call<SendRegistrationOtpResponce>
 
 
     @POST(Constants.verifyRegistrationOtp)
@@ -61,18 +68,11 @@ interface RestApi {
         @Query("mobile") mobile: String,
     ): Call<OtpResponse>
 
-
-    @POST(Constants.resendotp)
-    fun addResendOtp(
-        @Query("email") email: String,
-        @Query("mobile") mobile: String,
-    ): Call<OtpResendResponse>
-
     @GET(Constants.strategy)
     suspend fun getStrategy(): Response<StrategyRes>
 
-    @GET(Constants.userdetails)
-    suspend fun getUserDetails(@Query("userId") userId: String): Response<UserDetailsResponse>
+    @GET(Constants.getProfileDetail)
+    suspend fun getUserDetails(@Query("email") email: String): Response<UserDetailsResponse>
 
     @GET("${Constants.strategy}/{id}")
     suspend fun getStrategyById(@Path("id") id: Int): Response<StrategyDetailRes>

@@ -1,6 +1,6 @@
 package com.example.cryptoapp.Response
 
-data class DataXX(
+data class DataXX (
     val accessToken: String,
     val email: String,
     val isKycVerify: Boolean,
@@ -8,5 +8,7 @@ data class DataXX(
     val name: Any,
     val refreshToken: Any,
     val refreshTokenExpiryTime: String,
-    val userId: String
+    val userId: String,
+    val profilePicture: String,
+
 )

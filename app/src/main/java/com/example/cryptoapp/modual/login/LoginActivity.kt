@@ -13,6 +13,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.*
 import android.widget.*
+import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.LoginResponse
 import com.example.cryptoapp.Response.SendRegistrationOtpResponce
@@ -21,6 +22,7 @@ import com.example.cryptoapp.model.SendLoginOtpPayload
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.preferences.MyPreferences
+import com.google.gson.Gson
 import java.util.regex.Pattern
 
 class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
@@ -75,6 +77,10 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
 
     fun init() {
         preferences = MyPreferences(this)
+        showLog(preferences.getLogin())
+        showLog(preferences.getRemember().toString())
+        showLog(preferences.getLogin())
+
         login_signUp = findViewById(R.id.txt_sign_in_here)
         login_emailNumber = findViewById(R.id.login_emailNumber)
         pwd_password = findViewById(R.id.pwd_password)
@@ -108,11 +114,13 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     //  pwd_password.setError(getString(R.string.valid_password))
-                    Toast.makeText(
-                        this@LoginActivity,
-                        getString(R.string.valid_password),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    if(pwd.length > 5){
+                        Toast.makeText(
+                            this@LoginActivity,
+                            getString(R.string.valid_password),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 } else {
                     Toast.makeText(
                         this@LoginActivity,
@@ -186,12 +194,15 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
                     ) {
 
                         if (response.body()?.isSuccess ==true) {
-                            register_progressBar.visibility = View.GONE
+                            register_progressBar.visibility = GONE
 
-                            preferences.setLogin(response.body()?.data)
+                            var intent = Intent(this@LoginActivity, LoginOtpActivity::class.java)
+                            intent.putExtra("data",Gson().toJson(response.body()?.data))
+                            intent.putExtra("isChecked",cb_remember_me.isChecked)
 
-                            sendLoginOtp(response.body()?.data?.mobile,response.body()?.data?.email,"123456",response.body()?.data?.userId)
-
+                            startActivity(intent)
+                            finish()
+                            Toast.makeText(this@LoginActivity,response.body()?.message,Toast.LENGTH_SHORT).show()
 
                             Toast.makeText(
                                 this@LoginActivity,
@@ -200,7 +211,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
                             ).show()
                         } else {
 
-                            register_progressBar.visibility = View.GONE
+                            register_progressBar.visibility = GONE
 
                             Toast.makeText(
                                 this@LoginActivity,
@@ -216,67 +227,17 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
                         Toast.makeText(this@LoginActivity, t.toString(), Toast.LENGTH_LONG)
                             .show()
                         Log.d("test", t.toString())
+
+                        
                     }
 
                 }
             )
-    }
-
-    fun sendLoginOtp(mobile:String?,email :String?,otp:String?,userId:String?) {
-
-        register_progressBar?.visibility = View.VISIBLE
-        val response = ServiceBuilder.buildService(RestApi::class.java)
-
-        val payload = SendLoginOtpPayload(
-            email!!,
-            mobile!!
-        )
-
-        response.addSendLoginOtp(payload)
-            .enqueue(
-                object : retrofit2.Callback<SendRegistrationOtpResponce> {
-                    override fun onResponse(
-                        call: retrofit2.Call<SendRegistrationOtpResponce>,
-                        response: retrofit2.Response<SendRegistrationOtpResponce>
-                    ) {
-
-
-                        if(response.body()?.isSuccess== true){
-                            register_progressBar?.visibility = GONE
-
-                            if (cb_remember_me.isChecked == true) {
-                                preferences.setRemember(true)
-                            }
-
-                            var intent = Intent(this@LoginActivity, LoginOtpActivity::class.java)
-                            intent.putExtra("phone", mobile)
-                            intent.putExtra("email", email)
-                            intent.putExtra("mobileOtp",otp)
-                            intent.putExtra("userId", userId)
-                            startActivity(intent)
-                            finish()
-                            Toast.makeText(this@LoginActivity,response.body()?.message,Toast.LENGTH_SHORT).show()
-                        }
-
-                    }
-
-                    override fun onFailure(call: retrofit2.Call<SendRegistrationOtpResponce>, t: Throwable) {
-                        Log.d("test", t.toString())
-
-                        register_progressBar?.visibility = GONE
-                        Toast.makeText(this@LoginActivity, t.toString(), Toast.LENGTH_LONG)
-                            .show()
-                    }
-
-                }
-            )
-
-
     }
 
 
     fun btLogin(): Boolean {
-        // login_emailNumber.setText("9722183897")
+
         if (login_emailNumber.length() == 0) {
             login_emailNumber.setError(getString(R.string.valid_error));
             return false

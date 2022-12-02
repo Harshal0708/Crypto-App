@@ -1,7 +1,13 @@
 package com.example.cryptoapp.Response
 
 data class UserDetailsResponse(
-    val code: Int,
-    val `data`: Data,
-    val message: String
+    val apiKey: Any,
+    val email: String,
+    val firstName: String,
+    val id: String,
+    val lastName: String,
+    val phoneNumber: String,
+    val profileImage: String,
+    val profilePicture: String,
+    val secretKey: Any
 )

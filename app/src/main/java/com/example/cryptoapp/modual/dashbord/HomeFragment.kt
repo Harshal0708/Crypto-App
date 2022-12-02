@@ -54,7 +54,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         animationView = viewLoader.findViewById(R.id.lotti_img)
 
         setupAnim()
-        getStrategy()
+        //getStrategy()
 
     }
 
@@ -74,7 +74,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 strategies_rv.layoutManager = LinearLayoutManager(requireContext())
                 homeAdapter = HomeAdapter(requireContext(), response.body()!!)
                 strategies_rv.adapter = homeAdapter
-                Log.d("test", "getStrategy : ${response.body()}")
+
             }
         }
     }
