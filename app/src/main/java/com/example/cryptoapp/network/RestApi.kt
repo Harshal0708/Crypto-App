@@ -12,6 +12,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.util.Objects
 
 interface RestApi {
     @POST(Constants.login)
@@ -40,9 +41,18 @@ interface RestApi {
         @Field("ProfilePicture") ProfilePicture: String,
     ): Call<RegisterResponse>
 
-//
-//    @POST(Constants.register)
-//    fun addRegister(@Body registerPayload: RegisterPayload): Call<RegisterResponse>
+    @FormUrlEncoded
+    @POST(Constants.updateProfileDetail)
+    fun updateProfileDetail(
+        @Field("id") id: String,
+        @Field("email") email: String,
+        @Field("firstName") firstName: String,
+        @Field("lastName") lastName: String,
+        @Field("profileImage") profileImage: String,
+        @Field("phoneNumber") phoneNumber: String,
+        @Field("apiKey") apiKey: String,
+        @Field("secretKey") secretKey: String,
+    ): Call<Userupdatedsuccessfully>
 
     @POST(Constants.sendRegistrationOtp)
     fun addSendRegistrationOtp(@Body sendRegistrationOtpPayload: SendRegistrationOtpPayload): Call<SendRegistrationOtpResponce>

@@ -95,7 +95,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     lateinit var dialog: BottomSheetDialog
     lateinit var bytesofimage: ByteArray
     lateinit var photo: Bitmap
-    var encodeImageString: String? = null
+    var encodeImageString: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)

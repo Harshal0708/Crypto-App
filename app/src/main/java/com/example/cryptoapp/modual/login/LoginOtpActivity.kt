@@ -21,7 +21,6 @@ import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.Response.SendRegistrationOtpResponce
 import com.example.cryptoapp.model.SendLoginOtpPayload
 import com.example.cryptoapp.model.VerifyLoginOtpPayload
-import com.example.cryptoapp.model.VerifyRegistrationOtpPayload
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.preferences.MyPreferences

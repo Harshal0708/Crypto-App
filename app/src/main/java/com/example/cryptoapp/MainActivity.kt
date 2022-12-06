@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.modual.dashbord.HomeFragment
 import com.example.cryptoapp.modual.dashbord.ProfileFragment
@@ -60,8 +61,12 @@ class MainActivity : AppCompatActivity() {
         menuItem = navView.menu.findItem(R.id.nav_switch)
 
         data= Gson().fromJson(preferences.getLogin(), DataXX::class.java)
-        nav_name.text= data.email
-        nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
+        nav_name.text= data.name.toString()
+        //showLog(data.profilePicture)
+        if(data.profilePicture != null){
+            nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
+        }
+
         compoundButton = menuItem.actionView as CompoundButton
 
         if (isDarkModeOn() == true) {

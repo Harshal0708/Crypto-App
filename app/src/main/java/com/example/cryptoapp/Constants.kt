@@ -21,6 +21,7 @@ class Constants {
         const val registrationconfirm = "Accounts/registrationconfirm"
 
         const val getProfileDetail = "Accounts/getProfileDetail"
+        const val updateProfileDetail = "Accounts/updateProfileDetail"
 
         const val strategy = "Strategy"
         const val getplans = "Plan/GetPlans"

@@ -19,8 +19,10 @@ import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants
+import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.DataXX
+import com.example.cryptoapp.Response.Userupdatedsuccessfully
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.preferences.MyPreferences
@@ -29,8 +31,8 @@ import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.Call
 import java.io.ByteArrayOutputStream
-import java.util.*
 import java.util.regex.Pattern
 
 class ProfileActivity : AppCompatActivity(), View.OnClickListener {
@@ -70,13 +72,14 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
     private val pickImage = 100
     private val pickCamera = 200
     private var imageUri: Uri? = null
-    var encodeImageString: String? = null
+    var encodeImageString: String = ""
 
     lateinit var profile_img: ImageView
     lateinit var bs_img_camera: ImageView
     lateinit var bs_img_gallery: ImageView
     lateinit var dialog: BottomSheetDialog
     lateinit var str_array: ByteArray
+    lateinit var data: DataXX
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -159,7 +162,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
         val bytesofimage = byteArrayOutputStream.toByteArray()
         encodeImageString = Base64.encodeToString(bytesofimage, Base64.DEFAULT)
-        Constants.showLog(encodeImageString.toString())
+        //Constants.showLog(encodeImageString.toString())
 
     }
 
@@ -175,10 +178,65 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
                 edLastname.setText(response.body()!!.lastName)
                 edEmail.setText(response.body()!!.email)
                 edPhone.setText(response.body()!!.phoneNumber)
-                profile_img.setImageBitmap(byteArrayToBitmap(response.body()!!.profileImage.toByteArray()))
 
+                if(response.body()!!.profileImage != null){
+                    profile_img.setImageBitmap(byteArrayToBitmap(response.body()!!.profileImage.toByteArray()))
+                }
             }
         }
+    }
+
+    fun getUpdateProfileDetail() {
+
+        register_progressBar.visibility = View.VISIBLE
+        val response = ServiceBuilder.buildService(RestApi::class.java)
+
+
+        response.updateProfileDetail(
+            userDetail.userId,
+            edEmail.text.toString(),
+            edFirstname.text.toString(),
+            edLastname.text.toString(),
+            encodeImageString,
+            edPhone.text.toString(),
+            "",
+            ""
+        ).enqueue(
+            object : retrofit2.Callback<Userupdatedsuccessfully> {
+                override fun onResponse(
+                    call: Call<Userupdatedsuccessfully>,
+                    response: retrofit2.Response<Userupdatedsuccessfully>
+                ) {
+
+                    register_progressBar.visibility = View.GONE
+
+                    if(response.body()?.isSuccess == true){
+                        data =response.body()?.data!!
+                        preferences.setLogin(data)
+                        Toast.makeText(
+                            this@ProfileActivity,
+                            response.body()?.message,
+                            Toast.LENGTH_LONG
+                        ).show()
+                        var intent = Intent(this@ProfileActivity, MainActivity::class.java)
+                        startActivity(intent)
+                    }else{
+                        Toast.makeText(
+                            this@ProfileActivity,
+                            response.body()?.message,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
+                }
+
+                override fun onFailure(call: Call<Userupdatedsuccessfully>, t: Throwable) {
+                    register_progressBar.visibility = View.GONE
+//                    Toast.makeText(this@ProfileActivity, t.toString(), Toast.LENGTH_LONG)
+//                        .show()
+                }
+            }
+        )
     }
 
     fun byteArrayToBitmap(data: ByteArray): Bitmap {
@@ -191,7 +249,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
         when (p0?.id) {
             R.id.progressBar_cardView -> {
                 if (validation() == true) {
-                    save()
+                    getUpdateProfileDetail()
                 }
             }
             R.id.reg_profile_img -> {
@@ -205,7 +263,6 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
                 openGallery()
                 dialog.dismiss()
             }
-
         }
     }
 
@@ -222,13 +279,6 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
         dialog.setContentView(view)
         dialog.show()
     }
-
-    private fun save() {
-        register_progressBar.visibility = View.GONE
-        Toast.makeText(this@ProfileActivity, "Save", Toast.LENGTH_LONG)
-            .show()
-    }
-
 
     fun validation(): Boolean {
 
