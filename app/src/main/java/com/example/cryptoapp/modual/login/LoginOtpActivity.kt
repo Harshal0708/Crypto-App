@@ -14,7 +14,9 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
+import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Constants.Companion.showLog
+import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Receiver.SmsBroadcastReceiver
 import com.example.cryptoapp.Response.DataXX
@@ -126,11 +128,8 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
             override fun afterTextChanged(p0: Editable?) {
                 if (p0?.length!! > 0) {
                     showkeybord(otp_2, otp_1, false)
-                } else {
-                    Toast.makeText(this@LoginOtpActivity, "Clear", Toast.LENGTH_SHORT).show()
                 }
             }
-
         })
 
         otp_2.addTextChangedListener(object : TextWatcher {
@@ -216,7 +215,6 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (p0?.length!! > 0) {
-                    Toast.makeText(this@LoginOtpActivity, "Done", Toast.LENGTH_SHORT).show()
                 } else {
                     showkeybord(otp_5, otp_6, true)
                 }
@@ -251,24 +249,21 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
             .enqueue(
                 object : retrofit2.Callback<SendRegistrationOtpResponce> {
                     override fun onResponse(
-                        call: retrofit2.Call<SendRegistrationOtpResponce>,
+                        call: Call<SendRegistrationOtpResponce>,
                         response: retrofit2.Response<SendRegistrationOtpResponce>
                     ) {
 
 
                         if(response.body()?.isSuccess== true){
                             register_progressBar?.visibility = View.GONE
-                            Toast.makeText(this@LoginOtpActivity,response.body()?.message,Toast.LENGTH_SHORT).show()
+                            response.body()?.message?.let { showToast(this@LoginOtpActivity, it) }
                         }
 
                     }
 
                     override fun onFailure(call: retrofit2.Call<SendRegistrationOtpResponce>, t: Throwable) {
-                        Log.d("test", t.toString())
-
                         register_progressBar?.visibility = View.GONE
-                        Toast.makeText(this@LoginOtpActivity, t.toString(), Toast.LENGTH_LONG)
-                            .show()
+                        showToast(this@LoginOtpActivity,getString(R.string.otp_failed))
                     }
 
                 }
@@ -385,20 +380,6 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
                         otp_6.text.toString()
 
                 verifyRegistrationOtp(generateOtp)
-
-//                if (generateOtp == phone_otp) {
-//
-//                    var intent = Intent(this@LoginOtpActivity, UserActivity::class.java)
-//                    startActivity(intent)
-//                    finish()
-//                } else {
-//                    Toast.makeText(
-//                        this,
-//                        "Not Done",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                     }
-
             }
             R.id.txt_sign_in_here -> {
                 resend()
@@ -438,19 +419,16 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
                             var intent = Intent(this@LoginOtpActivity, UserActivity::class.java)
                             startActivity(intent)
                             finish()
-                            Toast.makeText(this@LoginOtpActivity,response.body()?.message,Toast.LENGTH_SHORT).show()
+                            response.body()?.message?.let { showToast(this@LoginOtpActivity, it) }
                         }else{
                             register_progressBar.visibility = View.GONE
-                            Toast.makeText(this@LoginOtpActivity,response.body()?.message,Toast.LENGTH_SHORT).show()
+                            response.body()?.message?.let { showToast(this@LoginOtpActivity, it) }
                         }
                     }
 
                     override fun onFailure(call: Call<SendRegistrationOtpResponce>, t: Throwable) {
-                        Log.d("test", t.toString())
-
                         register_progressBar.visibility = View.GONE
-                        Toast.makeText(this@LoginOtpActivity, t.toString(), Toast.LENGTH_LONG)
-                            .show()
+                        showToast(this@LoginOtpActivity, getString(R.string.otp_failed))
                     }
 
                 }
@@ -458,136 +436,6 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
 
 
     }
-
-//
-//    fun addOtp() {
-//        Log.d("test", str_phone_otp + "")
-//        Log.d("test", str_email_otp + "")
-//        var intent = Intent(this@OtpActivity, LoginActivity::class.java)
-//        startActivity(intent)
-//    }
-
-
-//    fun addOtp() {
-//
-//        register_progressBar?.visibility = View.VISIBLE
-//        val response = ServiceBuilder.buildService(RestApi::class.java)
-//
-//        //val payload = RegisterPayload(password,rePassword,email,firsName,lastName,"","","","","",phone,"Appu25")
-//        val payload = OtpPayload(
-//            str_phone_otp.toString(),
-//            str_email_otp.toString(),
-//            email,
-//            phone
-//        )
-//        val gson = Gson()
-//        val json = gson.toJson(payload)
-//        Log.d("test", json)
-//        response.addOtp( str_phone_otp.toString(), str_email_otp.toString(),email,phone)
-//            .enqueue(
-//                object : retrofit2.Callback<OtpResponse> {
-//                    override fun onResponse(
-//                        call: Call<OtpResponse>,
-//                        response: retrofit2.Response<OtpResponse>
-//                    ) {
-//
-//                        Log.d("test", response.toString())
-//                        Log.d("test", response.body().toString())
-//
-//                        if (response.body()?.code == "200") {
-//                            register_progressBar?.visibility = View.GONE
-//                            Toast.makeText(
-//                                this@LoginOtpActivity,
-//                                response.body()?.message,
-//                                Toast.LENGTH_LONG
-//                            ).show()
-//
-////                            Log.d("test", str_phone_otp + "")
-////                            Log.d("test", str_email_otp + "")
-//                            var intent = Intent(this@LoginOtpActivity, LoginActivity::class.java)
-//                            startActivity(intent)
-//
-//                        } else {
-//
-//                            register_progressBar?.visibility = View.GONE
-//                            Toast.makeText(
-//                                this@LoginOtpActivity,
-//                                "User not created!",
-//                                Toast.LENGTH_LONG
-//                            ).show()
-//                        }
-//
-//                    }
-//
-//
-//                    override fun onFailure(call: Call<OtpResponse>, t: Throwable) {
-//                        Log.d("test", t.toString())
-//
-//                        register_progressBar?.visibility = View.GONE
-//                        Toast.makeText(this@LoginOtpActivity, t.toString(), Toast.LENGTH_LONG)
-//                            .show()
-//                    }
-//
-//                }
-//            )
-//
-//
-//    }
-//    fun addResendOtp() {
-//
-//        register_progressBar?.visibility = View.VISIBLE
-//        val response = ServiceBuilder.buildService(RestApi::class.java)
-//
-//        response.addResendOtp(email,phone)
-//            .enqueue(
-//                object : retrofit2.Callback<OtpResendResponse> {
-//                    override fun onResponse(
-//                        call: Call<OtpResendResponse>,
-//                        response: retrofit2.Response<OtpResendResponse>
-//                    ) {
-//
-//                        Log.d("test", response.toString())
-//                        Log.d("test", response.body().toString())
-//
-//                        if (response.body()?.code == "200") {
-//                            register_progressBar?.visibility = View.GONE
-//
-//
-////                phone_otp = "123123"
-////                email_otp = "123123"
-//
-//                            Toast.makeText(
-//                                this@LoginOtpActivity,
-//                                response.body()?.message,
-//                                Toast.LENGTH_LONG
-//                            ).show()
-//
-//                        } else {
-//
-//                            register_progressBar?.visibility = View.GONE
-//                            Toast.makeText(
-//                                this@LoginOtpActivity,
-//                                "User not created!",
-//                                Toast.LENGTH_LONG
-//                            ).show()
-//                        }
-//
-//                    }
-//
-//
-//                    override fun onFailure(call: Call<OtpResendResponse>, t: Throwable) {
-//                        Log.d("test", t.toString())
-//
-//                        register_progressBar?.visibility = View.GONE
-//                        Toast.makeText(this@LoginOtpActivity, t.toString(), Toast.LENGTH_LONG)
-//                            .show()
-//                    }
-//
-//                }
-//            )
-//
-//
-//    }
 
     fun validation(): Boolean {
 

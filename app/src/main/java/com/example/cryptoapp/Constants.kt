@@ -1,12 +1,15 @@
 package com.example.cryptoapp
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 
 class Constants {
 
     companion object {
 
         const val BASE_URL = "http://103.14.99.61:8084/api/"
+        var TOKEN: String = "No Token"
 
         // api routers
         const val login = "Accounts/login"
@@ -30,9 +33,9 @@ class Constants {
 
         const val cryptocurrencylist = "data-api/v3/cryptocurrency/listing?start=1&limit=10"
 
-        const val CONNECT_TIMEOUT : Long = 60 * 1000 // 1 minutes
-        const val READ_TIMEOUT : Long = 120 * 1000 // 2 minutes
-        const val WRITE_TIMEOUT : Long = 120 * 1000 // 2 minutes
+        const val CONNECT_TIMEOUT: Long = 60 * 1000 // 1 minutes
+        const val READ_TIMEOUT: Long = 120 * 1000 // 2 minutes
+        const val WRITE_TIMEOUT: Long = 120 * 1000 // 2 minutes
 
         const val ENGLISH_CODE = "en"
         const val ARABIC_CODE = "ar"
@@ -43,8 +46,12 @@ class Constants {
         const val BROADCAST_REFRESH = "refresh"
         const val DISMISS_TO_LOGIN = "dismissToLogin"
 
-        fun showLog(log:String){
-           Log.d("test",log)
+        fun showLog(log: String) {
+            Log.d("test", log)
+        }
+
+        fun showToast(context: Context, msg: String) {
+            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
         }
     }
 }

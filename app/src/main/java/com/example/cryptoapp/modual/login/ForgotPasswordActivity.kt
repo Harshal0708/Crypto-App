@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.ForgotResponse
 import com.example.cryptoapp.model.ForgotPayload
@@ -27,13 +28,7 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var email: String
 
     val EMAIL_ADDRESS_PATTERN = Pattern.compile(
-        "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
-                "\\@" +
-                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
-                "(" +
-                "\\." +
-                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
-                ")+"
+        "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,59 +85,39 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
     fun forgotPassword() {
 
-        progressBar_cardView?.visibility=View.VISIBLE
+        progressBar_cardView?.visibility = View.VISIBLE
         val response = ServiceBuilder.buildService(RestApi::class.java)
 
         val payload = ForgotPayload(email)
-        val gson = Gson()
-        val json = gson.toJson(payload)
+        response.addForgotPassword(payload).enqueue(object : retrofit2.Callback<ForgotResponse> {
+                override fun onResponse(
+                    call: Call<ForgotResponse>, response: retrofit2.Response<ForgotResponse>
+                ) {
+                    if (response.body()?.code == "200") {
+                        progressBar_cardView?.visibility = View.GONE
 
-        Log.d("test", json)
-//        response.addRegister(registerPayload = RegisterPayload(password,rePassword,email,firsName,lastName,"","","","","",phone,"Appu1111"))
-        response.addForgotPassword(payload)
-            .enqueue(
-                object : retrofit2.Callback<ForgotResponse> {
-                    override fun onResponse(
-                        call: Call<ForgotResponse>,
-                        response: retrofit2.Response<ForgotResponse>
-                    ) {
-
-                        Log.d("test", response.toString())
-                        Log.d("test", response.body().toString())
-
-                        if (response.body()?.code == "200") {
-                            progressBar_cardView?.visibility=View.GONE
-                            Toast.makeText(
-                                this@ForgotPasswordActivity,
-                                response.body()?.message,
-                                Toast.LENGTH_LONG
-                            ).show()
-                            val intent =
-                                Intent(this@ForgotPasswordActivity, LoginActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        } else {
-
-                            progressBar_cardView?.visibility=View.GONE
-                            Toast.makeText(
-                                this@ForgotPasswordActivity,
-                                "Forgot Password not completed!",
-                                Toast.LENGTH_LONG
-                            ).show()
+                        response.body()?.message?.let {
+                            showToast(
+                                this@ForgotPasswordActivity, it
+                            )
                         }
+                        val intent = Intent(this@ForgotPasswordActivity, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
 
-                    }
-
-                    override fun onFailure(call: Call<ForgotResponse>, t: Throwable) {
-                        Log.d("test", t.toString())
-
-                        progressBar_cardView?.visibility=View.GONE
-                        Toast.makeText(this@ForgotPasswordActivity, t.toString(), Toast.LENGTH_LONG)
-                            .show()
+                        progressBar_cardView?.visibility = View.GONE
+                        showToast(this@ForgotPasswordActivity, getString(R.string.forgot_password_not_completed))
                     }
 
                 }
-            )
+
+                override fun onFailure(call: Call<ForgotResponse>, t: Throwable) {
+                    progressBar_cardView?.visibility = View.GONE
+                    showToast(this@ForgotPasswordActivity, getString(R.string.forgot_password_not_completed))
+                }
+
+            })
 
 
     }

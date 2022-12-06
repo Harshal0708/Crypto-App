@@ -16,6 +16,8 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
+import com.example.cryptoapp.Constants
+import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Receiver.SmsBroadcastReceiver
 import com.example.cryptoapp.Response.OtpResponse
@@ -131,7 +133,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         //imageUri = byte
 
         //val byteArray = intent.getByteArrayExtra("imageUri")
-       // val bmp = BitmapFactory.decodeByteArray(imageUri, 0, imageUri!!.size)
+        // val bmp = BitmapFactory.decodeByteArray(imageUri, 0, imageUri!!.size)
 
         txt_email_phone.setText("Please, enter the verification code we sent to your  Mobile ${phone} and Gmail ${email}")
 
@@ -161,8 +163,6 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
             override fun afterTextChanged(p0: Editable?) {
                 if (p0?.length!! > 0) {
                     showkeybord(otp_2, otp_1, false)
-                } else {
-                    Toast.makeText(this@OtpActivity, "Clear", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -251,8 +251,6 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (p0?.length!! > 0) {
-
-                    Toast.makeText(this@OtpActivity, "Done", Toast.LENGTH_SHORT).show()
                 } else {
                     showkeybord(otp_5, otp_6, true)
                 }
@@ -276,9 +274,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
             override fun afterTextChanged(p0: Editable?) {
                 if (p0?.length!! > 0) {
                     showkeybord(otp_two_2, otp_two_1, false)
-
                 } else {
-                    Toast.makeText(this@OtpActivity, "Clear", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -367,8 +363,6 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (p0?.length!! > 0) {
-
-                    Toast.makeText(this@OtpActivity, "Done", Toast.LENGTH_SHORT).show()
                 } else {
                     showkeybord(otp_two_5, otp_two_6, true)
                 }
@@ -407,28 +401,16 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                         if (response.body()?.isSuccess == true) {
                             register_progressBar?.visibility = View.GONE
                             addCreateAccount()
-                            Toast.makeText(
-                                this@OtpActivity,
-                                response.body()?.message,
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            response.body()?.message?.let { showToast(this@OtpActivity, it) }
                         } else {
                             register_progressBar?.visibility = View.GONE
-                            Toast.makeText(
-                                this@OtpActivity,
-                                response.body()?.message,
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            response.body()?.message?.let { showToast(this@OtpActivity, it) }
                         }
-
                     }
 
                     override fun onFailure(call: Call<SendRegistrationOtpResponce>, t: Throwable) {
-                        Log.d("test", t.toString())
-
                         register_progressBar?.visibility = View.GONE
-                        Toast.makeText(this@OtpActivity, t.toString(), Toast.LENGTH_LONG)
-                            .show()
+                        showToast(this@OtpActivity, getString(R.string.otp_failed))
                     }
 
                 }
@@ -441,26 +423,6 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
         register_progressBar?.visibility = View.VISIBLE
         val response = ServiceBuilder.buildService(RestApi::class.java)
-
-//        var payload= RegisterPayload(
-//            firsName,
-//            lastName,
-//            rePassword,
-//            email,
-//            "",
-//            "",
-//            "",
-//            "",
-//            phone,
-//            imageUri,
-//            ""
-//        )
-
-//        var file = File(imageUri)
-//        var requestBody = RequestBody.create("image/jpeg".toMediaTypeOrNull(), file)
-//        var filePart = MultipartBody.Part.createFormData("upload_file", file.name, requestBody)
-//        showLog(filePart.toString())
-
         response.addRegister(
             firsName,
             lastName,
@@ -481,28 +443,18 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                 ) {
                     if (response.body()?.isSuccess == true) {
                         register_progressBar.visibility = View.GONE
-                        Toast.makeText(
-                            this@OtpActivity,
-                            response.body()?.message,
-                            Toast.LENGTH_LONG
-                        ).show()
+                        response.body()?.message?.let { showToast(this@OtpActivity, it) }
                         var intent = Intent(this@OtpActivity, LoginActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {
                         register_progressBar.visibility = View.GONE
-//                            Toast.makeText(
-//                                this@OtpActivity,
-//                                response.body()?.message,
-//                                Toast.LENGTH_LONG
-//                            ).show()
                     }
                 }
 
                 override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
                     register_progressBar.visibility = View.GONE
-                    Toast.makeText(this@OtpActivity, t.toString(), Toast.LENGTH_LONG)
-                        .show()
+                    showToast(this@OtpActivity, getString(R.string.register_failed))
                 }
             }
         )
@@ -602,7 +554,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                         otp_two_6.text.toString()
 
 
-                verifyRegistrationOtp(generateOtp,generateOtp1)
+                verifyRegistrationOtp(generateOtp, generateOtp1)
 
                 //addCreateAccount()
             }
@@ -660,18 +612,9 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                         call: Call<OtpResponse>,
                         response: retrofit2.Response<OtpResponse>
                     ) {
-
-                        Log.d("test", response.toString())
-                        Log.d("test", response.body().toString())
-
                         if (response.body()?.code == "200") {
                             register_progressBar.visibility = View.GONE
-                            Toast.makeText(
-                                this@OtpActivity,
-                                response.body()?.message,
-                                Toast.LENGTH_LONG
-                            ).show()
-
+                            response.body()?.message?.let { showToast(this@OtpActivity, it) }
 //                            Log.d("test", str_phone_otp + "")
 //                            Log.d("test", str_email_otp + "")
                             var intent = Intent(this@OtpActivity, LoginActivity::class.java)
@@ -680,28 +623,16 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                         } else {
 
                             register_progressBar.visibility = View.GONE
-                            Toast.makeText(
-                                this@OtpActivity,
-                                "User not created!",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            showToast(this@OtpActivity, getString(R.string.user_not_created))
                         }
 
                     }
-
-
                     override fun onFailure(call: Call<OtpResponse>, t: Throwable) {
-                        Log.d("test", t.toString())
-
                         register_progressBar.visibility = View.GONE
-                        Toast.makeText(this@OtpActivity, t.toString(), Toast.LENGTH_LONG)
-                            .show()
+                        showToast(this@OtpActivity, getString(R.string.user_not_created))
                     }
-
                 }
             )
-
-
     }
 
     fun addResendOtp() {
@@ -742,32 +673,20 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
                         if (response.body()?.isSuccess == true) {
                             register_progressBar.visibility = View.GONE
-
-                            Toast.makeText(
-                                this@OtpActivity,
-                                response.body()?.message,
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            response.body()?.message?.let { showToast(this@OtpActivity, it) }
 
                         } else {
                             register_progressBar.visibility = View.GONE
-
-
-                            // Toast.makeText(this@RegisterActivity,response.body()?.message,Toast.LENGTH_SHORT).show()
-
                         }
 
                     }
 
                     override fun onFailure(
-                        call: retrofit2.Call<SendRegistrationOtpResponce>,
+                        call: Call<SendRegistrationOtpResponce>,
                         t: Throwable
                     ) {
-
-
                         register_progressBar.visibility = View.GONE
-                        Toast.makeText(this@OtpActivity, t.toString(), Toast.LENGTH_LONG)
-                            .show()
+                        showToast(this@OtpActivity, getString(R.string.user_not_created))
                     }
 
                 }

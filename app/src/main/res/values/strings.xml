@@ -2,6 +2,12 @@
     <string name="app_name">CryptoApp</string>
     <string name="hello">Hello</string>
     <string name="login">Login</string>
+    <string name="logout_successfully">Logout Successfully</string>
+    <string name="user_not_created">User not created!</string>
+    <string name="register_failed">Register Failed</string>
+    <string name="otp_failed">OTP Verify Failed</string>
+    <string name="please_accept_condition">Please accept terms and condition</string>
+    <string name="login_failed">Login Failed</string>
     <string name="save">Save</string>
     <string name="sign_in_with">- Or Sign in With -</string>
     <string name="next">Next</string>
@@ -16,6 +22,11 @@
     <string name="submit">Submit</string>
     <string name="verify_continue">Verify &amp; Continue</string>
     <string name="password">Password</string>
+    <string name="password_verify_done">Password Verify Done!</string>
+    <string name="re_password_verify_done">Re Password Verify Done!</string>
+    <string name="reset_password_not_completed">Reset Password not completed!</string>
+    <string name="forgot_password_not_completed">Forgot Password not completed!</string>
+    <string name="data_not_found">Data Not Found!</string>
     <string name="new_password">New Password</string>
     <string name="reenter_password">Reenter Password</string>
     <string name="welcome_to_crypto">Welcome to crypto</string>

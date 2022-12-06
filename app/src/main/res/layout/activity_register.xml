@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="@color/background"
+    android:layout_gravity="center"
     tools:context=".modual.login.RegisterActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
+
         >
 
         <androidx.constraintlayout.widget.Guideline
@@ -46,8 +46,8 @@
             android:id="@+id/txt_create_youre_account"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_medium"
 
+            android:fontFamily="@font/montserrat_medium"
             android:text="@string/sign_up"
             android:textAlignment="viewStart"
             android:textColor="@color/hello"

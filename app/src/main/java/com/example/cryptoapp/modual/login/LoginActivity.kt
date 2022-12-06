@@ -14,6 +14,7 @@ import android.view.View
 import android.view.View.*
 import android.widget.*
 import com.example.cryptoapp.Constants.Companion.showLog
+import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.LoginResponse
 import com.example.cryptoapp.Response.SendRegistrationOtpResponce
@@ -66,11 +67,10 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
     )
 
     lateinit var preferences: MyPreferences
-    var passwordVisiable = false
+    var passwordVisiable = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
 
         init()
     }
@@ -114,19 +114,11 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     //  pwd_password.setError(getString(R.string.valid_password))
-                    if(pwd.length > 5){
-                        Toast.makeText(
-                            this@LoginActivity,
-                            getString(R.string.valid_password),
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    if (pwd.length > 5) {
+                        showToast(this@LoginActivity, getString(R.string.valid_password))
                     }
                 } else {
-                    Toast.makeText(
-                        this@LoginActivity,
-                        "Password Verify Done!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showToast(this@LoginActivity, getString(R.string.password_verify_done))
                 }
             }
 
@@ -177,62 +169,40 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
             str_mobile = email
         }
 
-        val payload =
-            LoginPayload(
-                str_email,
-                password,
-                str_mobile,
-                false
-            )
+        val payload = LoginPayload(
+            str_email, password, str_mobile, false
+        )
 
-        response.addLogin(payload)
-            .enqueue(
-                object : retrofit2.Callback<LoginResponse> {
-                    override fun onResponse(
-                        call: retrofit2.Call<LoginResponse>,
-                        response: retrofit2.Response<LoginResponse>
-                    ) {
+        response.addLogin(payload).enqueue(object : retrofit2.Callback<LoginResponse> {
+            override fun onResponse(
+                call: retrofit2.Call<LoginResponse>, response: retrofit2.Response<LoginResponse>
+            ) {
 
-                        if (response.body()?.isSuccess ==true) {
-                            register_progressBar.visibility = GONE
+                if (response.body()?.isSuccess == true) {
+                    register_progressBar.visibility = GONE
 
-                            var intent = Intent(this@LoginActivity, LoginOtpActivity::class.java)
-                            intent.putExtra("data",Gson().toJson(response.body()?.data))
-                            intent.putExtra("isChecked",cb_remember_me.isChecked)
+                    var intent = Intent(this@LoginActivity, LoginOtpActivity::class.java)
+                    intent.putExtra("data", Gson().toJson(response.body()?.data))
+                    intent.putExtra("isChecked", cb_remember_me.isChecked)
 
-                            startActivity(intent)
-                            finish()
-                            Toast.makeText(this@LoginActivity,response.body()?.message,Toast.LENGTH_SHORT).show()
-
-                            Toast.makeText(
-                                this@LoginActivity,
-                                response.body()?.message,
-                                Toast.LENGTH_LONG
-                            ).show()
-                        } else {
-
-                            register_progressBar.visibility = GONE
-
-                            Toast.makeText(
-                                this@LoginActivity,
-                                response.body()?.message.toString(),
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-
+                    startActivity(intent)
+                    response.body()?.message?.let { showToast(this@LoginActivity, it) }
+                } else {
+                    register_progressBar.visibility = GONE
+                    if (response.body()?.message.toString().equals(null)) {
+                        showToast(this@LoginActivity, getString(R.string.login_failed))
+                    } else {
+                        response.body()?.message?.let { showToast(this@LoginActivity, it) }
                     }
-
-                    override fun onFailure(call: retrofit2.Call<LoginResponse>, t: Throwable) {
-                        register_progressBar.visibility = View.GONE
-                        Toast.makeText(this@LoginActivity, t.toString(), Toast.LENGTH_LONG)
-                            .show()
-                        Log.d("test", t.toString())
-
-                        
-                    }
-
                 }
-            )
+            }
+
+            override fun onFailure(call: retrofit2.Call<LoginResponse>, t: Throwable) {
+                register_progressBar.visibility = GONE
+                showToast(this@LoginActivity, getString(R.string.login_failed))
+            }
+
+        })
     }
 
 
@@ -277,7 +247,6 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
     fun btSignup() {
         val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)
-        finish()
     }
 
     override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
@@ -291,19 +260,13 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
 
                 if (passwordVisiable) {
                     pwd_password.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        R.drawable.ic_lock,
-                        0,
-                        R.drawable.ic_eye,
-                        0
+                        R.drawable.ic_lock, 0, R.drawable.ic_eye, 0
                     )
                     pwd_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance())
                     passwordVisiable = false
                 } else {
                     pwd_password.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        R.drawable.ic_lock,
-                        0,
-                        R.drawable.ic_eye_off,
-                        0
+                        R.drawable.ic_lock, 0, R.drawable.ic_eye_off, 0
                     )
                     pwd_password.setTransformationMethod(PasswordTransformationMethod.getInstance())
                     passwordVisiable = true

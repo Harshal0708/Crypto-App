@@ -22,7 +22,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Constants.Companion.showLog
+import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.SendRegistrationOtpResponce
 import com.example.cryptoapp.model.SendRegistrationOtpPayload
@@ -148,11 +150,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     sp_et_password.setError(getString(R.string.valid_password))
                 } else {
-                    Toast.makeText(
-                        this@RegisterActivity,
-                        "Password Verify Done!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showToast(this@RegisterActivity, getString(R.string.password_verify_done))
                 }
             }
 
@@ -176,11 +174,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     sp_et_rePassword.setError(getString(R.string.valid_password))
                 } else {
-                    Toast.makeText(
-                        this@RegisterActivity,
-                        "Re password Verify Done!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showToast(this@RegisterActivity, getString(R.string.re_password_verify_done))
                 }
             }
 
@@ -260,12 +254,8 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                             intent.putExtra("rePassword", rePassword)
                             intent.putExtra("imageUri", encodeImageString.toString())
                             startActivity(intent)
-                            Toast.makeText(
-                                this@RegisterActivity,
-                                response.body()?.message,
-                                Toast.LENGTH_SHORT
-                            ).show()
 
+                            response.body()?.message?.let { showToast(this@RegisterActivity, it) }
                         } else {
                             register_progressBar.visibility = GONE
                             // Toast.makeText(this@RegisterActivity,response.body()?.message,Toast.LENGTH_SHORT).show()
@@ -277,10 +267,8 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                         t: Throwable
                     ) {
                         register_progressBar.visibility = GONE
-                        Toast.makeText(this@RegisterActivity, t.toString(), Toast.LENGTH_LONG)
-                            .show()
+                        showToast(this@RegisterActivity, getString(R.string.register_failed))
                     }
-
                 }
             )
 
@@ -338,7 +326,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
             reg_profile_img.setImageBitmap(photo)
         }
     }
-
 
 
     private fun encodeBitmapImage(bitmap: Bitmap) {
@@ -401,7 +388,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         }
 
         if (cb_term_accept.isChecked == false) {
-            Toast.makeText(this, "Please accept terms and condition", Toast.LENGTH_SHORT).show()
+            showToast(this@RegisterActivity, getString(R.string.please_accept_condition))
             return false
         }
 

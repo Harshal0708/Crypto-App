@@ -70,7 +70,6 @@ class HomeDetailActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             var response = ServiceBuilder.buildService(RestApi::class.java).getStrategyById(id)
             withContext(Dispatchers.Main) {
-                Log.d("test", "getStrategyById : ${response.body()}")
                 animationView.visibility = View.GONE
                 txt_sd_strategyName.text = "Strategy Name :- ${response.body()!!.strategyName}"
                 txt_sd_description.text = "Description :- ${response.body()!!.description}"
@@ -85,7 +84,6 @@ class HomeDetailActivity : AppCompatActivity() {
                     txt_sd_status.text = "Status :- Active"
                     txt_sd_status.setTextColor(resources.getColor(R.color.light_green))
                 }
-
             }
         }
     }

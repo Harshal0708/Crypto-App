@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cryptoapp.Constants
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.*
 import com.example.cryptoapp.model.ResetPayload
@@ -47,7 +48,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
     lateinit var three: String
 
     lateinit var preferences: MyPreferences
-    lateinit var userDetail : DataXX
+    lateinit var userDetail: DataXX
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -84,8 +85,6 @@ class ScriptFragment : Fragment(), View.OnClickListener {
             var response = ServiceBuilder.buildService(RestApi::class.java).getPlans()
             withContext(Dispatchers.Main) {
                 //  viewLoader.visibility = View.GONE
-
-                Log.d("test", "getPlans : ${response.body()}")
                 txt_sub_monthly.text = response.body()?.get(0)?.planName
                 txt_sub_quartly.text = response.body()?.get(1)?.planName
                 txt_sub_yearly.text = response.body()?.get(2)?.planName
@@ -106,7 +105,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
             id.toString(),
             "5215e06d-adf9-43c9-ec26-08dac88c409c",
             userDetail.userId
-            )
+        )
 
         response.addUserSubscription(payload)
             .enqueue(
@@ -121,9 +120,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
 
                     override fun onFailure(call: Call<UserSubscriptionResponse>, t: Throwable) {
                         // register_progressBar?.visibility = View.GONE
-
-                        Toast.makeText(activity, t.toString(), Toast.LENGTH_LONG)
-                            .show()
+                        Constants.showToast(requireContext(), getString(R.string.data_not_found))
                     }
 
                 }
@@ -175,7 +172,6 @@ class ScriptFragment : Fragment(), View.OnClickListener {
 
                 subscriptionModelList.clear()
                 getUserSubscription(three)
-
             }
 
         }
@@ -184,7 +180,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
 
     private fun ScriptAdapter(
         subscriptionModelList: ArrayList<UserSubscriptionItem>,
-        planId:String
+        planId: String
     ) {
         rv_subsribtion.layoutManager = LinearLayoutManager(requireContext())
         subscriptionAdapter = SubscriptionAdapter(

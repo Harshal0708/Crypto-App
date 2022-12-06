@@ -93,6 +93,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun init() {
+
         preferences = MyPreferences(this)
         userDetail = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
@@ -174,6 +175,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
             var response = ServiceBuilder.buildService(RestApi::class.java).getUserDetails(id)
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE
+
                 edFirstname.setText(response.body()!!.firstName)
                 edLastname.setText(response.body()!!.lastName)
                 edEmail.setText(response.body()!!.email)

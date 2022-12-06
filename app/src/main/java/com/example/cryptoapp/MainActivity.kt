@@ -61,8 +61,10 @@ class MainActivity : AppCompatActivity() {
         menuItem = navView.menu.findItem(R.id.nav_switch)
 
         data= Gson().fromJson(preferences.getLogin(), DataXX::class.java)
+
+        Constants.TOKEN= data.accessToken
         nav_name.text= data.name.toString()
-        //showLog(data.profilePicture)
+        showLog(Constants.TOKEN)
         if(data.profilePicture != null){
             nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
         }
@@ -154,8 +156,7 @@ class MainActivity : AppCompatActivity() {
                     var intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
                     finish()
-
-                    Toast.makeText(this, "Logout Successfully", Toast.LENGTH_SHORT).show()
+                    Constants.showToast(this@MainActivity, getString(R.string.logout_successfully))
                     true
                 }
                 else -> {
