@@ -1,23 +1,18 @@
 package com.example.cryptoapp.modual.login
 
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.*
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
-import com.example.cryptoapp.Response.ForgotResponse
 import com.example.cryptoapp.Response.ResetResponse
-import com.example.cryptoapp.model.ForgotPayload
 import com.example.cryptoapp.model.ResetPayload
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
-import com.google.gson.Gson
 import retrofit2.Call
 import java.util.regex.Pattern
 
@@ -141,7 +136,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
     fun resentPassword() {
 
         register_progressBar?.visibility = View.VISIBLE
-        val response = ServiceBuilder.buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@ResetPasswordActivity).buildService(RestApi::class.java)
 
         val payload = ResetPayload(email, rePassowrd)
 
@@ -152,7 +147,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
                         call: Call<ResetResponse>,
                         response: retrofit2.Response<ResetResponse>
                     ) {
-                        if (response.body()?.code == "200") {
+                        if (response.body()?.isSuccess == true) {
                             register_progressBar?.visibility = View.GONE
 
                             response.body()?.message?.let {
@@ -167,7 +162,11 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
                         } else {
 
                             register_progressBar?.visibility = View.GONE
-                            showToast(this@ResetPasswordActivity, getString(R.string.reset_password_not_completed))
+                            response.body()?.message?.let {
+                                showToast(this@ResetPasswordActivity,
+                                    it
+                                )
+                            }
                         }
                     }
 

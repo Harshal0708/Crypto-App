@@ -1,7 +1,14 @@
 <resources>
     <string name="app_name">CryptoApp</string>
     <string name="hello">Hello</string>
+    <string name="home">Home</string>
+    <string name="history">History</string>
+    <string name="setting">Setting</string>
+    <string name="profile">Profile</string>
+    <string name="my_profile">My Profile</string>
+    <string name="dark_theme">Dark Theme</string>
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
     <string name="logout_successfully">Logout Successfully</string>
     <string name="user_not_created">User not created!</string>
     <string name="register_failed">Register Failed</string>
@@ -22,6 +29,10 @@
     <string name="submit">Submit</string>
     <string name="verify_continue">Verify &amp; Continue</string>
     <string name="password">Password</string>
+    <string name="subscription">Subscription</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="share_this_app">Share This App</string>
     <string name="password_verify_done">Password Verify Done!</string>
     <string name="re_password_verify_done">Re Password Verify Done!</string>
     <string name="reset_password_not_completed">Reset Password not completed!</string>
@@ -47,7 +58,7 @@
     <string name="valid_aadhar_number">Please enter valid 12 Digit Aadhar card number</string>
     <string name="valid_pan_number">Please enter valid 10 Digit Pan card number</string>
     <string name="valid_otp">Please enter valid OTP</string>
-    <string name="valid_password">Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:</string>
+    <string name="valid_password">Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.</string>
     <string name="resend_in">RESEND IN :- </string>
     <string name="otp_verify_done">OTP verify done</string>
     <string name="pan_number">PAN number</string>

@@ -22,10 +22,13 @@
     <color name="primary_color">#4F73FB</color>
     <color name="secondary_color">#8cbbf2</color>
     <color name="light_green">#3ee4a3</color>
-    <color name="light_grey">#80E9EBED</color>
+    <color name="light_grey">#DA888F97</color>
     <color name="red">#E40C37</color>
-
+    <color name="bottom_icon_color">@color/red</color>
+    <color name="bottom_icon_color_1">@color/primary_color</color>
     <color name="lighgrey">#989797</color>
     <color name="lighgreytab">#F2F0F2</color>
     <color name="underline">#D8D6D6</color>
+    <color name="divider">#D28A8282</color>
+
 </resources>

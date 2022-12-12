@@ -29,9 +29,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
+        app:itemIconTint="@drawable/bottom_navigation_selector"
+        app:itemTextColor="@drawable/bottom_navigation_selector"
         app:menu="@menu/bottom_menu"
         app:labelVisibilityMode="labeled"
-        app:itemTextAppearance="@color/txt_color"
         android:scrollIndicators="left"/>
     </RelativeLayout>
     <com.google.android.material.navigation.NavigationView

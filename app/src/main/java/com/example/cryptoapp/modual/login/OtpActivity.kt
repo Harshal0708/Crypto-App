@@ -157,13 +157,13 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
                 if (p0?.length!! > 0) {
                     showkeybord(otp_2, otp_1, false)
                 }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
             }
 
         })
@@ -174,15 +174,15 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
                 if (p0?.length!! > 0) {
                     showkeybord(otp_3, otp_2, false)
                 } else {
                     showkeybord(otp_1, otp_2, true)
                 }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
             }
 
         })
@@ -268,14 +268,14 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
                 if (p0?.length!! > 0) {
                     showkeybord(otp_two_2, otp_two_1, false)
                 } else {
                 }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
             }
 
         })
@@ -286,15 +286,15 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
                 if (p0?.length!! > 0) {
                     showkeybord(otp_two_3, otp_two_2, false)
                 } else {
                     showkeybord(otp_two_1, otp_two_2, true)
                 }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
             }
 
         })
@@ -379,7 +379,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     fun verifyRegistrationOtp(str_email: String, str_phone: String) {
 
         register_progressBar?.visibility = View.VISIBLE
-        val response = ServiceBuilder.buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@OtpActivity).buildService(RestApi::class.java)
 
         //val payload = RegisterPayload(password,rePassword,email,firsName,lastName,"","","","","",phone,"Appu25")
         val payload = VerifyRegistrationOtpPayload(
@@ -422,7 +422,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     fun addCreateAccount() {
 
         register_progressBar?.visibility = View.VISIBLE
-        val response = ServiceBuilder.buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@OtpActivity).buildService(RestApi::class.java)
         response.addRegister(
             firsName,
             lastName,
@@ -602,7 +602,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     fun addOtp(str_email: String, str_phone: String) {
 
         register_progressBar.visibility = View.VISIBLE
-        val response = ServiceBuilder.buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@OtpActivity).buildService(RestApi::class.java)
 
 
         response.addOtp(str_phone, str_email, email, phone)
@@ -654,7 +654,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         selectedKeyPos = 0
         selectedKeyPos1 = 0
         register_progressBar.visibility = View.VISIBLE
-        val response = ServiceBuilder.buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@OtpActivity).buildService(RestApi::class.java)
 
         val payload = SendRegistrationOtpPayload(
             email,

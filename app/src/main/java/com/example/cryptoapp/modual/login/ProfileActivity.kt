@@ -172,7 +172,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
 
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder.buildService(RestApi::class.java).getUserDetails(id)
+            var response = ServiceBuilder(this@ProfileActivity).buildService(RestApi::class.java).getUserDetails(id)
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE
 
@@ -191,7 +191,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
     fun getUpdateProfileDetail() {
 
         register_progressBar.visibility = View.VISIBLE
-        val response = ServiceBuilder.buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@ProfileActivity).buildService(RestApi::class.java)
 
 
         response.updateProfileDetail(

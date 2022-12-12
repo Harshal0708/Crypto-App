@@ -53,10 +53,7 @@ class HomeDetailActivity : AppCompatActivity() {
         viewLoader = findViewById(R.id.loader_animation)
         animationView = viewLoader.findViewById(R.id.lotti_img)
         setupAnim()
-        getStrategyId(intent.getIntExtra("strategyId", 0))
-
-
-
+        getStrategyId(intent.getStringExtra("strategyId").toString())
     }
 
     private fun setupAnim() {
@@ -65,10 +62,10 @@ class HomeDetailActivity : AppCompatActivity() {
         animationView.playAnimation()
     }
 
-    private fun getStrategyId(id: Int) {
+    private fun getStrategyId(id: String) {
         animationView.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder.buildService(RestApi::class.java).getStrategyById(id)
+            var response = ServiceBuilder(this@HomeDetailActivity).buildService(RestApi::class.java).getStrategyById(id)
             withContext(Dispatchers.Main) {
                 animationView.visibility = View.GONE
                 txt_sd_strategyName.text = "Strategy Name :- ${response.body()!!.strategyName}"
@@ -87,6 +84,4 @@ class HomeDetailActivity : AppCompatActivity() {
             }
         }
     }
-
-
 }

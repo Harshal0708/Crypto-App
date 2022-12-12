@@ -21,11 +21,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
+import com.example.cryptoapp.Constants
 import com.example.cryptoapp.R
 import com.example.cryptoapp.modual.home.HomeDetailActivity
 import com.example.cryptoapp.modual.home.adapter.HomeAdapter
 import com.example.cryptoapp.modual.login.ResetPasswordActivity
 import com.example.cryptoapp.network.*
+import com.example.cryptoapp.preferences.MyPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -37,6 +39,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     lateinit var homeAdapter: HomeAdapter
     lateinit var viewLoader: View
     lateinit var animationView: LottieAnimationView
+  //  lateinit var preferences: MyPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,12 +52,14 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     private fun init(view: View) {
+   //     preferences =MyPreferences(requireContext())
+
         strategies_rv = view.findViewById(R.id.strategies_rv)
         viewLoader = view.findViewById(R.id.loader_animation)
         animationView = viewLoader.findViewById(R.id.lotti_img)
-
+     //   Toast.makeText(activity,preferences.getLogin(),Toast.LENGTH_SHORT).show()
         setupAnim()
-        //getStrategy()
+        getStrategy()
 
     }
 
@@ -68,24 +73,20 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder.buildService(RestApi::class.java).getStrategy()
+            var response = ServiceBuilder(requireContext()).buildService(RestApi::class.java).getStrategy()
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE
                 strategies_rv.layoutManager = LinearLayoutManager(requireContext())
                 homeAdapter = HomeAdapter(requireContext(), response.body()!!)
                 strategies_rv.adapter = homeAdapter
-
             }
         }
     }
-
-
 
     override fun onClick(p0: View?) {
         when (p0!!.id) {
 
         }
     }
-
 }
 

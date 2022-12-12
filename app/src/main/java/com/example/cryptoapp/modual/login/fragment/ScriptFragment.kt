@@ -82,7 +82,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
 
         // viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder.buildService(RestApi::class.java).getPlans()
+            var response = ServiceBuilder(requireContext()).buildService(RestApi::class.java).getPlans()
             withContext(Dispatchers.Main) {
                 //  viewLoader.visibility = View.GONE
                 txt_sub_monthly.text = response.body()?.get(0)?.planName
@@ -100,7 +100,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
     fun getUserSubscription(id: String?) {
 
         //  register_progressBar?.visibility = View.VISIBLE
-        val response = ServiceBuilder.buildService(RestApi::class.java)
+        val response = ServiceBuilder(requireContext()).buildService(RestApi::class.java)
         var payload = UserSubscriptionModel(
             id.toString(),
             "5215e06d-adf9-43c9-ec26-08dac88c409c",

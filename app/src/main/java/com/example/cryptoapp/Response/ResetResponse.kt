@@ -1,8 +1,8 @@
 package com.example.cryptoapp.Response
 
 data class ResetResponse(
-    val code : String,
-    val message : String,
-    val data : ResetUserDataResponse,
+    val code: Int,
+    val resetDataResponse: ResetDataResponse,
+    val isSuccess: Boolean,
+    val message: String
 )
-

@@ -10,5 +10,7 @@ data class DataXX (
     val refreshTokenExpiryTime: String,
     val userId: String,
     val profilePicture: String,
+    val firstName: String,
+    val lastName: String,
 
 )

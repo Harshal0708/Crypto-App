@@ -9,7 +9,6 @@ class Constants {
     companion object {
 
         const val BASE_URL = "http://103.14.99.61:8084/api/"
-        var TOKEN: String = "No Token"
 
         // api routers
         const val login = "Accounts/login"
@@ -46,8 +45,8 @@ class Constants {
         const val BROADCAST_REFRESH = "refresh"
         const val DISMISS_TO_LOGIN = "dismissToLogin"
 
-        fun showLog(log: String) {
-            Log.d("test", log)
+        fun showLog(context: Context,log: String) {
+            Log.d("test:${context}", log)
         }
 
         fun showToast(context: Context, msg: String) {

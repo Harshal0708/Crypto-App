@@ -2,8 +2,8 @@ package com.example.cryptoapp
 
 import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Base64
 import android.view.MenuItem
@@ -11,7 +11,6 @@ import android.view.View
 import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -19,14 +18,12 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.Response.DataXX
+import com.example.cryptoapp.modual.dashbord.HistoryFragment
 import com.example.cryptoapp.modual.dashbord.HomeFragment
-import com.example.cryptoapp.modual.dashbord.ProfileFragment
 import com.example.cryptoapp.modual.dashbord.SettingFragment
 import com.example.cryptoapp.modual.login.LoginActivity
-import com.example.cryptoapp.modual.login.ProfileActivity
 import com.example.cryptoapp.modual.login.ResetPasswordActivity
 import com.example.cryptoapp.modual.subscription.SubscriptionActivity
-import com.example.cryptoapp.modual.subscription.SubscriptionHistoryActivity
 import com.example.cryptoapp.preferences.MyPreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -41,33 +38,42 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navView: NavigationView
     lateinit var menuItem: MenuItem
     lateinit var compoundButton: CompoundButton
-    lateinit var preferences: MyPreferences
+
     lateinit var nav_img: ImageView
     lateinit var nav_name: TextView
 
-    lateinit var data : DataXX
+    lateinit var data: DataXX
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        preferences =MyPreferences(this)
+        var preferences: MyPreferences
+        preferences = MyPreferences(this)
 
-        drawerLayout = findViewById(R.id.my_drawer_layout);
+        drawerLayout = findViewById(R.id.my_drawer_layout)
         navView = findViewById(R.id.navView)
         val parentView: View = navView.getHeaderView(0)
         nav_img = parentView.findViewById(R.id.nav_img)
         nav_name = parentView.findViewById(R.id.nav_name)
         menuItem = navView.menu.findItem(R.id.nav_switch)
 
-        data= Gson().fromJson(preferences.getLogin(), DataXX::class.java)
+        data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
+        nav_name.text = data.name.toString()
 
-        Constants.TOKEN= data.accessToken
-        nav_name.text= data.name.toString()
-        showLog(Constants.TOKEN)
-        if(data.profilePicture != null){
+        if (data.profilePicture != null) {
             nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
         }
+
+        // nav_img.setImageBitmap(writeOnDrawable(R.drawable.background_edittext, "Apurva")?.bitmap)
+//        val b = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888)
+//        val c = Canvas(b)
+//        val paint = Paint()
+//        paint.setStyle(Paint.Style.FILL)
+//        paint.setColor(Color.RED)
+//        paint.setTextSize(20F)
+//        c.drawText("Apurva", x.toFloat(), y.toFloat(), paint)
+//        nav_img.setImageBitmap(b)
 
         compoundButton = menuItem.actionView as CompoundButton
 
@@ -83,8 +89,8 @@ class MainActivity : AppCompatActivity() {
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
-
         }
+
         actionBarDrawerToggle =
             ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close)
         drawerLayout?.addDrawerListener(actionBarDrawerToggle)
@@ -107,8 +113,8 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(HomeFragment())
                     return@setOnItemSelectedListener true
                 }
-                R.id.market -> {
-                    loadFragment(ProfileFragment())
+                R.id.history -> {
+                    loadFragment(HistoryFragment())
                     return@setOnItemSelectedListener true
                 }
                 R.id.setting -> {
@@ -129,13 +135,15 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_history -> {
-                    var intent = Intent(this, SubscriptionHistoryActivity::class.java)
-                    startActivity(intent)
+                    loadFragment(HistoryFragment())
+                    bottomNav.setSelectedItemId(R.id.history)
+                    drawerLayout?.close()
                     true
                 }
                 R.id.nav_profile -> {
-                    val intent = Intent(this, ProfileActivity::class.java)
-                    startActivity(intent)
+                    loadFragment(SettingFragment())
+                    bottomNav.setSelectedItemId(R.id.setting)
+                    drawerLayout?.close()
                     true
                 }
                 R.id.nav_reset_password -> {
@@ -151,8 +159,8 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.nav_logout -> {
                     preferences.setRemember(false)
+                    preferences.setToken("")
                     preferences.setLogin(null)
-
                     var intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
                     finish()
@@ -166,6 +174,19 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    fun writeOnDrawable(drawableId: Int, text: String?): BitmapDrawable? {
+        val bm =
+            BitmapFactory.decodeResource(resources, drawableId).copy(Bitmap.Config.ARGB_8888, true)
+        val paint = Paint()
+        paint.setStyle(Paint.Style.FILL)
+        paint.setColor(Color.BLACK)
+        paint.setTextSize(20F)
+        val canvas = Canvas(bm)
+        canvas.drawText(text!!, 0F, bm.height / 2F, paint)
+        return BitmapDrawable(bm)
+    }
+
     fun byteArrayToBitmap(data: ByteArray): Bitmap {
         val decodeResponse: ByteArray = Base64.decode(data, Base64.DEFAULT or Base64.NO_WRAP)
         val bitmap = BitmapFactory.decodeByteArray(decodeResponse, 0, decodeResponse.size)
@@ -180,7 +201,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.container, fragment)
-        transaction.addToBackStack(null)
+        // transaction.addToBackStack(null)
         transaction.commit()
     }
 
@@ -190,4 +211,5 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
 }

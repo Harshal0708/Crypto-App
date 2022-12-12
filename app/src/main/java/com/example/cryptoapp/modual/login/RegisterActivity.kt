@@ -229,7 +229,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     fun sendRegistrationOtp() {
 
         register_progressBar?.visibility = View.VISIBLE
-        val response = ServiceBuilder.buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@RegisterActivity).buildService(RestApi::class.java)
 
         val payload = SendRegistrationOtpPayload(
             email,
@@ -321,7 +321,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
             }
         } else if (resultCode == RESULT_OK && requestCode == pickCamera) {
             photo = data?.extras?.get("data") as Bitmap
-            showLog(photo.toString())
+            showLog(this@RegisterActivity,photo.toString())
             encodeBitmapImage(photo)
             reg_profile_img.setImageBitmap(photo)
         }

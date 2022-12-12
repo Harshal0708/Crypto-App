@@ -25,7 +25,6 @@ interface RestApi {
     @POST(Constants.sendLoginOtp)
     fun addSendLoginOtp(@Body sendLoginOtpPayload: SendLoginOtpPayload): Call<SendRegistrationOtpResponce>
 
-
     @FormUrlEncoded
     @POST(Constants.register)
     fun addRegister(
@@ -87,7 +86,7 @@ interface RestApi {
     suspend fun getUserDetails(@Query("email") email: String): Response<UserDetailsResponse>
 
     @GET("${Constants.strategy}/{id}")
-    suspend fun getStrategyById(@Path("id") id: Int): Response<StrategyDetailRes>
+    suspend fun getStrategyById(@Path("id") id: String): Response<StrategyDetailRes>
 
     @GET(Constants.getplans)
     suspend fun getPlans(): Response<GetPlanResponse>
@@ -97,6 +96,5 @@ interface RestApi {
 
     @POST(Constants.getSubscriptionDetails)
     fun addSubscriptionDetails(@Body userSubscriptionModel: UserSubscriptionModel): Call<UserSubscriptionDetail>
-
 
 }

@@ -49,7 +49,7 @@ class SubscriptionDetailActivity : AppCompatActivity() {
 
     fun getUserSubscriptionDetail() {
 
-        val response = ServiceBuilder.buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@SubscriptionDetailActivity).buildService(RestApi::class.java)
         var payload = UserSubscriptionModel(
             intent.getStringExtra("planId").toString(),
             intent.getStringExtra("subscriptionId").toString(),

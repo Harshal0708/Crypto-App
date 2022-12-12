@@ -1,6 +1,10 @@
 package com.example.cryptoapp.network
 
+import android.content.Context
 import com.example.cryptoapp.Constants
+import com.example.cryptoapp.MainActivity
+import com.example.cryptoapp.modual.login.LoginActivity
+import com.example.cryptoapp.preferences.MyPreferences
 import okhttp3.Authenticator
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -9,18 +13,17 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-object ServiceBuilder {
-
+class ServiceBuilder(context5: Context) {
 
     //Create Logger
 
     private val logger = HttpLoggingInterceptor()
         .setLevel(HttpLoggingInterceptor.Level.BODY)
 
-
     private val client = OkHttpClient.Builder()
         .addInterceptor(logger)
-        .addInterceptor(OAuthInterceptor("Bearer", Constants.TOKEN))
+        .addInterceptor(OAuthInterceptor("Bearer",context5))
+        // .addInterceptor(OAuthInterceptor("Bearer",MainActivity().accessToken))
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(30, TimeUnit.SECONDS)
@@ -32,24 +35,24 @@ object ServiceBuilder {
         .client(client)
         .build()
 
-
     fun <T> buildService(service: Class<T>): T {
+
         return retrofit.create(service)
     }
 }
 
 class OAuthInterceptor(
     private val tokenType: String,
-    private val accessToken: String
+    private val context: Context
 ) :
-
     Interceptor {
-
     override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
         var request = chain.request()
-        request = request.newBuilder().header("Authorization", "$tokenType $accessToken").build()
-        //  request = request.newBuilder().addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhcHVydmEuc2t5dHR1c0BnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJDdXN0b21lciIsImp0aSI6ImY3NWEwNDNjLTQ1ODYtNDU3OS04NzIxLTE3MDYwYTY5ZmYzYyIsImV4cCI6MTY3MDQ5NzkxNSwiaXNzIjoiaHR0cDovLzEwMy4xNC45OS42MS8iLCJhdWQiOiJVc2VyIn0.--y_1Urvg5cOL5w7C9gpaEUlO9DtVWPme5K3VSLJnJw").build()
-
+        var tok=""
+        if(tok != null){
+            tok =MyPreferences(context).getToken()
+        }
+        request = request.newBuilder().header("Authorization", "$tokenType $tok").build()
         return chain.proceed(request)
     }
 }

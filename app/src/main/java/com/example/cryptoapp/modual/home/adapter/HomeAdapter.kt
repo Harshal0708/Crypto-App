@@ -11,13 +11,10 @@ import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.StrategyRes
-import com.example.cryptoapp.modual.dashbord.HomeFragment
 import com.example.cryptoapp.modual.home.HomeDetailActivity
-import com.example.cryptoapp.network.onItemClickListener
 
 class HomeAdapter(var context: Context, var strategyResList: StrategyRes) :
     RecyclerView.Adapter<HomeAdapter.ViewHolder>() {

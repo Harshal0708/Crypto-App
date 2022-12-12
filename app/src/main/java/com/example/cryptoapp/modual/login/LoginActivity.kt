@@ -77,9 +77,6 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
 
     fun init() {
         preferences = MyPreferences(this)
-        showLog(preferences.getLogin())
-        showLog(preferences.getRemember().toString())
-        showLog(preferences.getLogin())
 
         login_signUp = findViewById(R.id.txt_sign_in_here)
         login_emailNumber = findViewById(R.id.login_emailNumber)
@@ -113,7 +110,6 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
                 var pwd = pwd_password.text.toString().trim()
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
-                    //  pwd_password.setError(getString(R.string.valid_password))
                     if (pwd.length > 5) {
                         showToast(this@LoginActivity, getString(R.string.valid_password))
                     }
@@ -159,7 +155,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
     private fun addLogin(email: String) {
         register_progressBar.visibility = View.VISIBLE
 
-        val response = ServiceBuilder.buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@LoginActivity).buildService(RestApi::class.java)
 
         var str_email = ""
         var str_mobile = ""
@@ -177,23 +173,13 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
             override fun onResponse(
                 call: retrofit2.Call<LoginResponse>, response: retrofit2.Response<LoginResponse>
             ) {
-
+                showToast(this@LoginActivity, response.body()?.message.toString())
+                register_progressBar.visibility = GONE
                 if (response.body()?.isSuccess == true) {
-                    register_progressBar.visibility = GONE
-
                     var intent = Intent(this@LoginActivity, LoginOtpActivity::class.java)
                     intent.putExtra("data", Gson().toJson(response.body()?.data))
                     intent.putExtra("isChecked", cb_remember_me.isChecked)
-
                     startActivity(intent)
-                    response.body()?.message?.let { showToast(this@LoginActivity, it) }
-                } else {
-                    register_progressBar.visibility = GONE
-                    if (response.body()?.message.toString().equals(null)) {
-                        showToast(this@LoginActivity, getString(R.string.login_failed))
-                    } else {
-                        response.body()?.message?.let { showToast(this@LoginActivity, it) }
-                    }
                 }
             }
 
