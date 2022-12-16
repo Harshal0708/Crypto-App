@@ -13,11 +13,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.cryptoapp.Constants
+import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.modual.login.LoginActivity
 import com.example.cryptoapp.modual.login.ProfileActivity
 import com.example.cryptoapp.modual.login.ResetPasswordActivity
+import com.example.cryptoapp.modual.payment.PaymentActivity
 import com.example.cryptoapp.modual.subscription.SubscriptionActivity
 import com.example.cryptoapp.preferences.MyPreferences
 import com.google.gson.Gson
@@ -91,10 +93,11 @@ class SettingFragment : Fragment(), View.OnClickListener {
                 startActivity(intent)
             }
             R.id.txt_setting_share_app -> {
-                Toast.makeText(activity, "Share The App", Toast.LENGTH_SHORT).show()
+                val intent = Intent(activity, PaymentActivity::class.java)
+                startActivity(intent)
             }
             R.id.txt_setting_privacy_policy -> {
-                Toast.makeText(activity, "Privacy Policy", Toast.LENGTH_SHORT).show()
+                showToast(requireContext(),"Privacy Policy")
             }
             R.id.txt_setting_logout -> {
                 preferences.setRemember(false)

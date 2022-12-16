@@ -1,26 +1,20 @@
 package com.example.cryptoapp.modual.login.fragment
 
-import android.content.Intent
-import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.*
-import com.example.cryptoapp.model.ResetPayload
 import com.example.cryptoapp.model.UserSubscriptionModel
-import com.example.cryptoapp.modual.home.adapter.HomeAdapter
-import com.example.cryptoapp.modual.login.LoginActivity
-import com.example.cryptoapp.modual.subscription.SubscriptionModel
 import com.example.cryptoapp.modual.subscription.adapter.SubscriptionAdapter
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
@@ -49,6 +43,10 @@ class ScriptFragment : Fragment(), View.OnClickListener {
 
     lateinit var preferences: MyPreferences
     lateinit var userDetail: DataXX
+
+    lateinit var viewLoader: View
+    lateinit var animationView: LottieAnimationView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,9 +58,11 @@ class ScriptFragment : Fragment(), View.OnClickListener {
     }
 
     private fun init(view: View) {
+
         preferences = MyPreferences(requireContext())
         userDetail = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
-
+        viewLoader = view.findViewById(R.id.loader_animation)
+        animationView = viewLoader.findViewById(R.id.lotti_img)
         txt_sub_monthly = view.findViewById(R.id.txt_sub_monthly)
         txt_sub_quartly = view.findViewById(R.id.txt_sub_quartly)
         txt_sub_yearly = view.findViewById(R.id.txt_sub_yearly)
@@ -71,20 +71,25 @@ class ScriptFragment : Fragment(), View.OnClickListener {
         txt_sub_monthly.setOnClickListener(this)
         txt_sub_quartly.setOnClickListener(this)
         txt_sub_yearly.setOnClickListener(this)
-
+        setupAnim()
         getPlans()
         //getUserSubscriptionDetail()
 
+    }
+    private fun setupAnim() {
+        animationView.setAnimation(R.raw.currency)
+        animationView.repeatCount = LottieDrawable.INFINITE
+        animationView.playAnimation()
     }
 
 
     private fun getPlans() {
 
-        // viewLoader.visibility = View.VISIBLE
+        viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
             var response = ServiceBuilder(requireContext()).buildService(RestApi::class.java).getPlans()
             withContext(Dispatchers.Main) {
-                //  viewLoader.visibility = View.GONE
+                viewLoader.visibility = View.GONE
                 txt_sub_monthly.text = response.body()?.get(0)?.planName
                 txt_sub_quartly.text = response.body()?.get(1)?.planName
                 txt_sub_yearly.text = response.body()?.get(2)?.planName
@@ -99,11 +104,11 @@ class ScriptFragment : Fragment(), View.OnClickListener {
 
     fun getUserSubscription(id: String?) {
 
-        //  register_progressBar?.visibility = View.VISIBLE
+        viewLoader.visibility = View.VISIBLE
         val response = ServiceBuilder(requireContext()).buildService(RestApi::class.java)
         var payload = UserSubscriptionModel(
             id.toString(),
-            "5215e06d-adf9-43c9-ec26-08dac88c409c",
+            "",
             userDetail.userId
         )
 
@@ -114,6 +119,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                         call: Call<UserSubscriptionResponse>,
                         response: Response<UserSubscriptionResponse>
                     ) {
+                        viewLoader.visibility = View.GONE
                         subscriptionModelList = response.body()!!
                         ScriptAdapter(subscriptionModelList, id.toString())
                     }
@@ -140,7 +146,6 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                 txt_sub_quartly.setTextColor(resources.getColor(R.color.primary_color))
                 txt_sub_yearly.setTextColor(resources.getColor(R.color.primary_color))
 
-
                 subscriptionModelList.clear()
                 getUserSubscription(one)
 
@@ -150,7 +155,6 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                 txt_sub_monthly.setBackgroundResource(0)
                 txt_sub_quartly.setBackgroundResource(R.drawable.background_tab_primary_color)
                 txt_sub_yearly.setBackgroundResource(0)
-
 
                 txt_sub_monthly.setTextColor(resources.getColor(R.color.primary_color))
                 txt_sub_quartly.setTextColor(resources.getColor(R.color.white))
@@ -173,9 +177,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                 subscriptionModelList.clear()
                 getUserSubscription(three)
             }
-
         }
-
     }
 
     private fun ScriptAdapter(
@@ -191,6 +193,4 @@ class ScriptFragment : Fragment(), View.OnClickListener {
         rv_subsribtion.adapter = subscriptionAdapter
 
     }
-
-
 }

@@ -321,7 +321,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
             }
         } else if (resultCode == RESULT_OK && requestCode == pickCamera) {
             photo = data?.extras?.get("data") as Bitmap
-            showLog(this@RegisterActivity,photo.toString())
+            showLog("photo",photo.toString())
             encodeBitmapImage(photo)
             reg_profile_img.setImageBitmap(photo)
         }

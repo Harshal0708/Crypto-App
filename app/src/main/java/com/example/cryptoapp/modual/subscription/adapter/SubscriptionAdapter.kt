@@ -9,9 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.UserSubscriptionItem
-import com.example.cryptoapp.modual.login.fragment.ScriptFragment
 import com.example.cryptoapp.modual.subscription.SubscriptionDetailActivity
-import com.example.cryptoapp.modual.subscription.SubscriptionModel
 
 class SubscriptionAdapter (val context: Context, var subscriptionModelList: ArrayList<UserSubscriptionItem>,var planId:String) :
     RecyclerView.Adapter<SubscriptionAdapter.ViewHolder>() {

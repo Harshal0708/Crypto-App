@@ -23,14 +23,13 @@ class ServiceBuilder(context5: Context) {
     private val client = OkHttpClient.Builder()
         .addInterceptor(logger)
         .addInterceptor(OAuthInterceptor("Bearer",context5))
-        // .addInterceptor(OAuthInterceptor("Bearer",MainActivity().accessToken))
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(30, TimeUnit.SECONDS)
         .build()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl(Constants.BASE_URL) // change this IP for testing by your actual machine IP
+        .baseUrl(Constants.STRIPE_PAYMENT_URL) // change this IP for testing by your actual machine IP
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)
         .build()
@@ -52,7 +51,8 @@ class OAuthInterceptor(
         if(tok != null){
             tok =MyPreferences(context).getToken()
         }
-        request = request.newBuilder().header("Authorization", "$tokenType $tok").build()
+        //request = request.newBuilder().header("Authorization", "$tokenType $tok").build()
+        request = request.newBuilder().header("Authorization", "$tokenType sk_test_51MFAOfSHmxsQH4CHc0B63ccrQu8tu1m9ynAXYaEydRrSQwp4nhBqKtJFaEYZn9aTYhsdw1Ti8VHA9Cw4ZRcZR8Lg00qUCjkGZk").build()
         return chain.proceed(request)
     }
 }

@@ -3,17 +3,14 @@ package com.example.cryptoapp.network
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Response.*
 import com.example.cryptoapp.model.*
+import com.example.cryptoapp.modual.card.CardPaymentIntentResponse
+import com.example.cryptoapp.modual.payment.CreateCustomerIdResponse
+import com.example.cryptoapp.modual.payment.EphemeralKeyResponse
+import com.example.cryptoapp.modual.payment.PaymentIntentRespomse
+import com.example.cryptoapp.modual.payment.StripeConfirmationResponse
 import retrofit2.Call
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
-import java.util.Objects
+import retrofit2.http.*
 
 interface RestApi {
     @POST(Constants.login)
@@ -96,5 +93,36 @@ interface RestApi {
 
     @POST(Constants.getSubscriptionDetails)
     fun addSubscriptionDetails(@Body userSubscriptionModel: UserSubscriptionModel): Call<UserSubscriptionDetail>
+
+    @POST(Constants.getOrderHistoryList)
+    fun addOrderHistoryList(@Body getOrderHistoryListPayload: GetOrderHistoryListPayload): Call<OrderHistoriesResponse>
+
+    @POST(Constants.getSubscriptionHistoryList)
+    fun addSubscriptionHistoryList(@Body getOrderHistoryListPayload: GetOrderHistoryListPayload): Call<UserSubscriptionsResponse>
+
+    @POST(Constants.stripe_payment_customers_id)
+    fun addCustomerIdCreate(): Call<CreateCustomerIdResponse>
+
+    @Headers("Stripe-Version: 2022-11-15")
+    @POST(Constants.stripe_payment_ephemeral_keys)
+    fun addEhemeralkeys(@Query("customer") customer: String): Call<EphemeralKeyResponse>
+
+    @POST(Constants.stripe_payment_intents)
+    fun addStripePaymentIntents(
+        @Query("customer") customer: String,
+        @Query("amount") amount: String,
+        @Query("currency") currency: String,
+        @Query("automatic_payment_methods[enabled]") automatic_payment_methods: String
+
+    ): Call<PaymentIntentRespomse>
+
+    @GET("${Constants.stripe_payment_intents}/{id}")
+    suspend fun getStripePaymentId(@Path("id") id: String): Response<StripeConfirmationResponse>
+
+    @POST(Constants.stripe_payment_intents)
+    fun addCardPaymentIntents(
+        @Query("amount") amount: String,
+        @Query("currency") currency: String
+    ): Call<CardPaymentIntentResponse>
 
 }

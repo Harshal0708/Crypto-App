@@ -61,6 +61,18 @@ tejas.patel083@gmail.com
 16) Refresh Token
 https://www.simplifiedcoding.net/retrofit-authenticator-refresh-token/
 
+17) Pagination
+https://www.geeksforgeeks.org/how-to-implement-pagination-in-android-recyclerview-using-volley/
+
+18) Stripe
+https://stripe.com/docs/payments/accept-a-payment?platform=android
+https://dashboard.stripe.com/login
+
+- Create Stripe Payment Gateway India Account 2022 [ Step-by-step ] | #stripe
+  https://www.youtube.com/watch?v=h12wNuOher4&t=714s
+
+  https://www.youtube.com/watch?v=l-qNbtma2cI
+
 ---error---
 1) HTTP FAILED: java.net.SocketTimeoutException: timeout
 2) java.net.ConnectException: Failed to connect to /103.14.99.61:8084
@@ -69,3 +81,7 @@ https://www.simplifiedcoding.net/retrofit-authenticator-refresh-token/
 -https://www.youtube.com/watch?v=rXY_v3Y3t0Y
 
 ---------------------
+
+- api/Strategy -Response Change
+- api/Strategy/id -Response Change
+-

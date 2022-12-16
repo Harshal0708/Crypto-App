@@ -7,7 +7,6 @@ import android.os.Handler
 import android.view.WindowManager
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
-import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.DataXX

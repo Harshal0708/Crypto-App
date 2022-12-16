@@ -2,8 +2,11 @@ package com.example.cryptoapp.modual.subscription
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.DataXX
@@ -26,6 +29,10 @@ class SubscriptionDetailActivity : AppCompatActivity() {
     lateinit var preferences: MyPreferences
     lateinit var userDetail: DataXX
 
+
+    lateinit var viewLoader: View
+    lateinit var animationView: LottieAnimationView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_subscription_detail)
@@ -37,18 +44,23 @@ class SubscriptionDetailActivity : AppCompatActivity() {
 
         preferences = MyPreferences(this)
         userDetail = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
-
+        viewLoader = findViewById(R.id.loader_animation)
+        animationView = viewLoader.findViewById(R.id.lotti_img)
         txt_sub_detail_name = findViewById(R.id.txt_sub_detail_name)
         txt_sub_detail_price = findViewById(R.id.txt_sub_detail_price)
         txt_sub_detail_strategie = findViewById(R.id.txt_sub_detail_strategie)
         txt_sub_detail_is_active = findViewById(R.id.txt_sub_detail_is_active)
-
+        setupAnim()
         getUserSubscriptionDetail()
     }
 
-
+    private fun setupAnim() {
+        animationView.setAnimation(R.raw.currency)
+        animationView.repeatCount = LottieDrawable.INFINITE
+        animationView.playAnimation()
+    }
     fun getUserSubscriptionDetail() {
-
+        viewLoader.visibility = View.VISIBLE
         val response = ServiceBuilder(this@SubscriptionDetailActivity).buildService(RestApi::class.java)
         var payload = UserSubscriptionModel(
             intent.getStringExtra("planId").toString(),
@@ -63,6 +75,7 @@ class SubscriptionDetailActivity : AppCompatActivity() {
                         call: Call<UserSubscriptionDetail>,
                         response: Response<UserSubscriptionDetail>
                     ) {
+                        viewLoader.visibility = View.GONE
                         txt_sub_detail_name.text = response.body()?.subscriptionName
                         txt_sub_detail_price.text = response.body()?.subscriptionPrice.toString()
                         txt_sub_detail_strategie.text = response.body()?.noOfStrategies.toString()
@@ -75,6 +88,7 @@ class SubscriptionDetailActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<UserSubscriptionDetail>, t: Throwable) {
+                        viewLoader.visibility = View.GONE
                         showToast(
                             this@SubscriptionDetailActivity,
                             getString(R.string.data_not_found)

@@ -23,9 +23,35 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CryptoApp"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31">
+        tools:targetApi="31"
+
+        >
+
+        <activity
+            android:name=".modual.gpay.GpayActivity"
+            android:exported="true">
+
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".modual.card.CardActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
 
 
+        </activity>
+        <activity
+            android:name=".modual.payment.PaymentActivity"
+            android:exported="true"
+            android:theme="@style/no_tool_bar">
+
+        </activity>
         <activity
             android:name=".modual.subscription.SubscriptionDetailActivity"
             android:exported="false"
@@ -137,12 +163,13 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".chart.BarChartActivity"
             android:exported="true">
@@ -185,6 +212,9 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
     </application>
 
 </manifest>

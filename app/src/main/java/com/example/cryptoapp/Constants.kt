@@ -9,6 +9,7 @@ class Constants {
     companion object {
 
         const val BASE_URL = "http://103.14.99.61:8084/api/"
+        const val STRIPE_PAYMENT_URL = "https://api.stripe.com/v1/"
 
         // api routers
         const val login = "Accounts/login"
@@ -30,6 +31,13 @@ class Constants {
         const val getusersubscription = "UserSubscription/GetSubscriptionList"
         const val getSubscriptionDetails = "UserSubscription/GetSubscriptionDetails"
 
+        const val getOrderHistoryList = "History/GetOrderHistoryList"
+        const val getSubscriptionHistoryList = "History/GetSubscriptionHistoryList"
+
+        const val stripe_payment_customers_id= "customers"
+        const val stripe_payment_ephemeral_keys = "ephemeral_keys"
+        const val stripe_payment_intents = "payment_intents"
+
         const val cryptocurrencylist = "data-api/v3/cryptocurrency/listing?start=1&limit=10"
 
         const val CONNECT_TIMEOUT: Long = 60 * 1000 // 1 minutes
@@ -45,8 +53,8 @@ class Constants {
         const val BROADCAST_REFRESH = "refresh"
         const val DISMISS_TO_LOGIN = "dismissToLogin"
 
-        fun showLog(context: Context,log: String) {
-            Log.d("test:${context}", log)
+        fun showLog(hint:String,log: String) {
+            Log.d("test:-${hint}", log)
         }
 
         fun showToast(context: Context, msg: String) {
