@@ -1,6 +1,6 @@
 package com.example.cryptoapp.Response
 
-data class StrategyResItemX(
+data class DataXXXXX(
     val createdDate: String,
     val description: String,
     val id: String,

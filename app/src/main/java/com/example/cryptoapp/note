@@ -71,12 +71,22 @@ https://dashboard.stripe.com/login
 - Create Stripe Payment Gateway India Account 2022 [ Step-by-step ] | #stripe
   https://www.youtube.com/watch?v=h12wNuOher4&t=714s
 
+- Add customer on stripe in android | stripe tutorial part-1
+https://www.youtube.com/watch?v=R3-Zv0MWxPE&list=PLP3n9fVnZyNBRzqD7EvfrgtlrvGESjEsn&index=2
+
   https://www.youtube.com/watch?v=l-qNbtma2cI
+
+19) Socket Programming
+- https://www.tutorialspoint.com/sending-and-receiving-data-with-sockets-in-android
 
 ---error---
 1) HTTP FAILED: java.net.SocketTimeoutException: timeout
 2) java.net.ConnectException: Failed to connect to /103.14.99.61:8084
 -https://stackoverflow.com/questions/15608499/getting-java-net-sockettimeoutexception-connection-timed-out-in-android
+3) presentForPaymentIntent() may only be called when Google Pay is available on this device.
+
+- Why does the Stripe Google Pay Button not render for me on the UI despite not having any errors or exceptions?
+- Google Pay - Stripe Getting error Google Pay failed with error: 412:
 
 -https://www.youtube.com/watch?v=rXY_v3Y3t0Y
 
@@ -84,4 +94,4 @@ https://dashboard.stripe.com/login
 
 - api/Strategy -Response Change
 - api/Strategy/id -Response Change
--
+

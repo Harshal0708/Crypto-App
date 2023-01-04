@@ -98,6 +98,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     lateinit var bytesofimage: ByteArray
     lateinit var photo: Bitmap
     var encodeImageString: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -170,7 +171,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
 
                 var pwd = sp_et_rePassword.text.toString().trim()
 
-
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     sp_et_rePassword.setError(getString(R.string.valid_password))
                 } else {
@@ -228,7 +228,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
 
     fun sendRegistrationOtp() {
 
-        register_progressBar?.visibility = View.VISIBLE
+        register_progressBar.visibility = View.VISIBLE
         val response = ServiceBuilder(this@RegisterActivity).buildService(RestApi::class.java)
 
         val payload = SendRegistrationOtpPayload(
@@ -252,13 +252,13 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                             intent.putExtra("firsName", firsName)
                             intent.putExtra("lastName", lastName)
                             intent.putExtra("rePassword", rePassword)
-                            intent.putExtra("imageUri", encodeImageString.toString())
+                            intent.putExtra("imageUri", encodeImageString)
                             startActivity(intent)
 
                             response.body()?.message?.let { showToast(this@RegisterActivity, it) }
                         } else {
                             register_progressBar.visibility = GONE
-                            // Toast.makeText(this@RegisterActivity,response.body()?.message,Toast.LENGTH_SHORT).show()
+                             Toast.makeText(this@RegisterActivity,"Failed",Toast.LENGTH_SHORT).show()
                         }
                     }
 
@@ -271,8 +271,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                     }
                 }
             )
-
-
     }
 
 
@@ -317,6 +315,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                 var bitmap = BitmapFactory.decodeStream(inputStream)
                 reg_profile_img.setImageBitmap(bitmap)
                 encodeBitmapImage(bitmap)
+                showLog("photo",photo.toString())
             } catch (ex: Exception) {
             }
         } else if (resultCode == RESULT_OK && requestCode == pickCamera) {
@@ -333,8 +332,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
         bytesofimage = byteArrayOutputStream.toByteArray()
         encodeImageString = Base64.encodeToString(bytesofimage, Base64.DEFAULT)
-        //   showLog(encodeImageString.toString())
-
+        showLog("photo",encodeImageString.toString())
     }
 
     fun validation(): Boolean {
@@ -371,7 +369,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
             return false;
         }
 
-
         if (sp_et_password.length() == 0) {
             sp_et_password.setError(getString(R.string.password_error));
             return false;
@@ -379,12 +376,12 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
 
         if (sp_et_rePassword.length() == 0) {
             sp_et_rePassword.setError(getString(R.string.repassword_error));
-            return false;
+            return false
         }
 
         if (!sp_et_password.text.toString().equals(sp_et_rePassword.text.toString())) {
-            sp_et_rePassword.setError(getString(R.string.password_not_error));
-            return false;
+            sp_et_rePassword.setError(getString(R.string.password_not_error))
+            return false
         }
 
         if (cb_term_accept.isChecked == false) {
@@ -393,8 +390,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         }
 
         return true
+
     }
-
 }
-
-

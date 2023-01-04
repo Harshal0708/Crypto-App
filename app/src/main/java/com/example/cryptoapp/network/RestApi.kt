@@ -8,9 +8,12 @@ import com.example.cryptoapp.modual.payment.CreateCustomerIdResponse
 import com.example.cryptoapp.modual.payment.EphemeralKeyResponse
 import com.example.cryptoapp.modual.payment.PaymentIntentRespomse
 import com.example.cryptoapp.modual.payment.StripeConfirmationResponse
+import com.example.cryptoapp.modual.payment.createcustomer.CreateCustomer
+import com.example.cryptoapp.modual.payment.createcustomer.CreateCustomerResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
+import java.util.Objects
 
 interface RestApi {
     @POST(Constants.login)
@@ -22,21 +25,43 @@ interface RestApi {
     @POST(Constants.sendLoginOtp)
     fun addSendLoginOtp(@Body sendLoginOtpPayload: SendLoginOtpPayload): Call<SendRegistrationOtpResponce>
 
-    @FormUrlEncoded
+
     @POST(Constants.register)
-    fun addRegister(
-        @Field("FirstName") FirstName: String,
-        @Field("LastName") LastName: String,
-        @Field("Password") Password: String,
-        @Field("Email") Email: String,
-        @Field("ApiKey") ApiKey: String,
-        @Field("SecreteKey") SecreteKey: String,
-        @Field("AdharCardNumber") AdharCardNumber: String,
-        @Field("PanCardNumber") PanCardNumber: String,
-        @Field("PhoneNumber") PhoneNumber: String,
-        @Field("ProfileImage") ProfileImage: String,
-        @Field("ProfilePicture") ProfilePicture: String,
-    ): Call<RegisterResponse>
+    fun addRegister(@Body registerPayload: RegisterPayload): Call<RegisterResponse>
+
+//    @FormUrlEncoded
+//    @POST(Constants.register)
+//    fun addRegister(
+//        @Field("FirstName") FirstName: String,
+//        @Field("LastName") LastName: String,
+//        @Field("Password") Password: String,
+//        @Field("Email") Email: String,
+//        @Field("ApiKey") ApiKey: String,
+//        @Field("SecreteKey") SecreteKey: String,
+//        @Field("AdharCardNumber") AdharCardNumber: String,
+//        @Field("PanCardNumber") PanCardNumber: String,
+//        @Field("PhoneNumber") PhoneNumber: String,
+//        @Field("ProfileImage") ProfileImage: String,
+//
+//    ): Call<RegisterResponse>
+
+//
+//    @FormUrlEncoded
+//    @POST(Constants.register)
+//    fun addRegister(
+//        @Field("firstName") firstName: String,
+//        @Field("lastName") lastName: String,
+//        @Field("password") password: String,
+//        @Field("email") email: String,
+//        @Field("apiKey") apiKey: String,
+//        @Field("secreteKey") secreteKey: String,
+//        @Field("adharCardNumber") adharCardNumber: String,
+//        @Field("panCardNumber") panCardNumber: String,
+//        @Field("phoneNumber") phoneNumber: String,
+//        @Field("profileImage") profileImage: String,
+//
+//        ): Call<RegisterResponse>
+
 
     @FormUrlEncoded
     @POST(Constants.updateProfileDetail)
@@ -78,7 +103,6 @@ interface RestApi {
     @GET(Constants.strategy)
     suspend fun getStrategy(): Response<StrategyRes>
 
-
     @GET(Constants.getProfileDetail)
     suspend fun getUserDetails(@Query("email") email: String): Response<UserDetailsResponse>
 
@@ -112,7 +136,8 @@ interface RestApi {
         @Query("customer") customer: String,
         @Query("amount") amount: String,
         @Query("currency") currency: String,
-        @Query("automatic_payment_methods[enabled]") automatic_payment_methods: String
+        @Query("setup_future_usage") setup_future_usage: String,
+        @Query("automatic_payment_methods[enabled]") automatic_payment_methods: Boolean
 
     ): Call<PaymentIntentRespomse>
 
@@ -125,4 +150,17 @@ interface RestApi {
         @Query("currency") currency: String
     ): Call<CardPaymentIntentResponse>
 
+    //CreateCustomer
+
+//    @Headers({
+//        "Content-Type:application/x-www-form-urlencode"
+//        "Authorization:Bearer sk_test_51MFAOfSHmxsQH4CHc0B63ccrQu8tu1m9ynAXYaEydRrSQwp4nhBqKtJFaEYZn9aTYhsdw1Ti8VHA9Cw4ZRcZR8Lg00qUCjkGZk"
+//    })
+@Headers("Content-Type:application/x-www-form-urlencode","Authorization: Bearer sk_test_51MFAOfSHmxsQH4CHc0B63ccrQu8tu1m9ynAXYaEydRrSQwp4nhBqKtJFaEYZn9aTYhsdw1Ti8VHA9Cw4ZRcZR8Lg00qUCjkGZk")
+@POST(Constants.stripe_payment_customers_id)
+fun addCreateCustomer(
+    @Query("email") email: String,
+    @Query("name") name: String
+
+):Call<CreateCustomerResponse>
 }

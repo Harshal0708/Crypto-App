@@ -68,13 +68,13 @@ class HomeDetailActivity : AppCompatActivity() {
             var response = ServiceBuilder(this@HomeDetailActivity).buildService(RestApi::class.java).getStrategyById(id)
             withContext(Dispatchers.Main) {
                 animationView.visibility = View.GONE
-                txt_sd_strategyName.text = "Strategy Name :- ${response.body()!!.strategyName}"
-                txt_sd_description.text = "Description :- ${response.body()!!.description}"
-                txt_sd_minCapital.text = "Min Capital :- ${response.body()!!.minCapital}"
-                txt_sd_monthlyFee.text = "Monthly Fee :- ${response.body()!!.monthlyFee}"
-                txt_sd_createdDate.text = "Create Date :- ${response.body()!!.createdDate}"
-                txt_sd_modifiedDate.text = "Modify Date :- ${response.body()!!.modifiedDate}"
-                if(response.body()!!.isActive != true){
+                txt_sd_strategyName.text = "Strategy Name :- ${response.body()!!.data.strategyName}"
+                txt_sd_description.text = "Description :- ${response.body()!!.data.description}"
+                txt_sd_minCapital.text = "Min Capital :- ${response.body()!!.data.minCapital}"
+                txt_sd_monthlyFee.text = "Monthly Fee :- ${response.body()!!.data.monthlyFee}"
+                txt_sd_createdDate.text = "Create Date :- ${response.body()!!.data.createdDate}"
+                txt_sd_modifiedDate.text = "Modify Date :- ${response.body()!!.data.modifiedDate}"
+                if(response.body()!!.data.isActive != true){
                     txt_sd_status.text = "Status :-Not Active"
                     txt_sd_status.setTextColor(resources.getColor(R.color.red))
                 }else{

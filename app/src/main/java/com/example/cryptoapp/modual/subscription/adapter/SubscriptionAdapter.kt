@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
-import com.example.cryptoapp.Response.UserSubscriptionItem
+import com.example.cryptoapp.Response.DataXXXXXXX
 import com.example.cryptoapp.modual.subscription.SubscriptionDetailActivity
 
-class SubscriptionAdapter (val context: Context, var subscriptionModelList: ArrayList<UserSubscriptionItem>,var planId:String) :
+class SubscriptionAdapter (val context: Context, var subscriptionModelList: List<DataXXXXXXX>,var planId:String) :
     RecyclerView.Adapter<SubscriptionAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

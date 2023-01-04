@@ -35,7 +35,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
     lateinit var txt_sub_yearly: TextView
     lateinit var rv_subsribtion: RecyclerView
 
-    var subscriptionModelList: ArrayList<UserSubscriptionItem> = ArrayList()
+    var subscriptionModelList: List<DataXXXXXXX> = ArrayList()
     lateinit var subscriptionAdapter: SubscriptionAdapter
     lateinit var one: String
     lateinit var two: String
@@ -90,13 +90,13 @@ class ScriptFragment : Fragment(), View.OnClickListener {
             var response = ServiceBuilder(requireContext()).buildService(RestApi::class.java).getPlans()
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE
-                txt_sub_monthly.text = response.body()?.get(0)?.planName
-                txt_sub_quartly.text = response.body()?.get(1)?.planName
-                txt_sub_yearly.text = response.body()?.get(2)?.planName
-                one = response.body()?.get(0)?.id.toString()
-                two = response.body()?.get(1)?.id.toString()
-                three = response.body()?.get(2)?.id.toString()
-                subscriptionModelList.clear()
+                txt_sub_monthly.text = response.body()?.data?.get(0)?.planName
+                txt_sub_quartly.text = response.body()?.data?.get(1)?.planName
+                txt_sub_yearly.text = response.body()?.data?.get(2)?.planName
+                one = response.body()?.data?.get(0)?.id.toString()
+                two = response.body()?.data?.get(1)?.id.toString()
+                three = response.body()?.data?.get(2)?.id.toString()
+                subscriptionModelList.isNullOrEmpty()
                 getUserSubscription(one)
             }
         }
@@ -120,7 +120,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                         response: Response<UserSubscriptionResponse>
                     ) {
                         viewLoader.visibility = View.GONE
-                        subscriptionModelList = response.body()!!
+                        subscriptionModelList = response.body()!!.data
                         ScriptAdapter(subscriptionModelList, id.toString())
                     }
 
@@ -146,7 +146,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                 txt_sub_quartly.setTextColor(resources.getColor(R.color.primary_color))
                 txt_sub_yearly.setTextColor(resources.getColor(R.color.primary_color))
 
-                subscriptionModelList.clear()
+                subscriptionModelList.isNullOrEmpty()
                 getUserSubscription(one)
 
             }
@@ -160,7 +160,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                 txt_sub_quartly.setTextColor(resources.getColor(R.color.white))
                 txt_sub_yearly.setTextColor(resources.getColor(R.color.primary_color))
 
-                subscriptionModelList.clear()
+                subscriptionModelList.isNullOrEmpty()
                 getUserSubscription(two)
 
             }
@@ -174,14 +174,14 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                 txt_sub_quartly.setTextColor(resources.getColor(R.color.primary_color))
                 txt_sub_yearly.setTextColor(resources.getColor(R.color.white))
 
-                subscriptionModelList.clear()
+                subscriptionModelList.isNullOrEmpty()
                 getUserSubscription(three)
             }
         }
     }
 
     private fun ScriptAdapter(
-        subscriptionModelList: ArrayList<UserSubscriptionItem>,
+        subscriptionModelList: List<DataXXXXXXX>,
         planId: String
     ) {
         rv_subsribtion.layoutManager = LinearLayoutManager(requireContext())

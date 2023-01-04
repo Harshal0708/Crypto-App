@@ -8,18 +8,14 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.*
 import android.widget.*
-import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.LoginResponse
-import com.example.cryptoapp.Response.SendRegistrationOtpResponce
 import com.example.cryptoapp.model.LoginPayload
-import com.example.cryptoapp.model.SendLoginOtpPayload
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.preferences.MyPreferences
@@ -159,6 +155,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
 
         var str_email = ""
         var str_mobile = ""
+
         if (isMobile == false) {
             str_email = email
         } else {
@@ -168,6 +165,10 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
         val payload = LoginPayload(
             str_email, password, str_mobile, false
         )
+
+//        val payload = LoginPayload(
+//            "apurva.skyttus@gmail.com", "Test@123", "9714675391", false
+//        )
 
         response.addLogin(payload).enqueue(object : retrofit2.Callback<LoginResponse> {
             override fun onResponse(
@@ -199,7 +200,6 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
             return false
         }
 
-
         val str_email = login_emailNumber.text.toString().trim()
         if (str_email.contains("@")) {
             isMobile = false
@@ -225,10 +225,8 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
             return false;
         }
 
-
         return true
     }
-
 
     fun btSignup() {
         val intent = Intent(this, RegisterActivity::class.java)
@@ -265,6 +263,4 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
 
         return false
     }
-
-
 }

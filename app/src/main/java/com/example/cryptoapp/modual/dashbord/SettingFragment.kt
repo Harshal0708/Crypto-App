@@ -11,15 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.modual.login.LoginActivity
 import com.example.cryptoapp.modual.login.ProfileActivity
 import com.example.cryptoapp.modual.login.ResetPasswordActivity
-import com.example.cryptoapp.modual.payment.PaymentActivity
 import com.example.cryptoapp.modual.subscription.SubscriptionActivity
 import com.example.cryptoapp.preferences.MyPreferences
 import com.google.gson.Gson
@@ -62,7 +59,7 @@ class SettingFragment : Fragment(), View.OnClickListener {
         data= Gson().fromJson(preferences.getLogin(), DataXX::class.java)
         txt_setting_username.text= data.name.toString()
 
-        if (data.profilePicture != null) {
+        if (data.profilePicture != null && data.profilePicture != "") {
             img_setting_profile.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
         }
 
@@ -91,10 +88,13 @@ class SettingFragment : Fragment(), View.OnClickListener {
             R.id.txt_setting_password -> {
                 val intent = Intent(activity, ResetPasswordActivity::class.java)
                 startActivity(intent)
+                activity?.finish()
+
             }
             R.id.txt_setting_share_app -> {
-                val intent = Intent(activity, PaymentActivity::class.java)
-                startActivity(intent)
+                showToast(requireContext(),"Share App")
+//                val intent = Intent(activity, PaymentActivity::class.java)
+//                startActivity(intent)
             }
             R.id.txt_setting_privacy_policy -> {
                 showToast(requireContext(),"Privacy Policy")
@@ -106,11 +106,8 @@ class SettingFragment : Fragment(), View.OnClickListener {
                 var intent = Intent(activity, LoginActivity::class.java)
                 startActivity(intent)
                 activity?.finish()
-                Constants.showToast(requireContext(), getString(R.string.logout_successfully))
-
+                showToast(requireContext(), getString(R.string.logout_successfully))
             }
-
-
         }
     }
 

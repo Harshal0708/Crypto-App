@@ -31,7 +31,6 @@ class CardActivity : AppCompatActivity() {
 
     var amount = 1099
 
-
     private lateinit var clientSecretId: String
     private lateinit var paymentIntentClientSecret: String
     private lateinit var stripe: Stripe

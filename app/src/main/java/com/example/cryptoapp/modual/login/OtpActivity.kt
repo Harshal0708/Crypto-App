@@ -23,6 +23,7 @@ import com.example.cryptoapp.Receiver.SmsBroadcastReceiver
 import com.example.cryptoapp.Response.OtpResponse
 import com.example.cryptoapp.Response.RegisterResponse
 import com.example.cryptoapp.Response.SendRegistrationOtpResponce
+import com.example.cryptoapp.model.RegisterPayload
 import com.example.cryptoapp.model.SendRegistrationOtpPayload
 import com.example.cryptoapp.model.VerifyRegistrationOtpPayload
 import com.example.cryptoapp.network.RestApi
@@ -74,7 +75,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     var firsName: String = ""
     var lastName: String = ""
     var rePassword: String = ""
-    lateinit var imageUri: String
+    var imageUri: String =""
     var selectedKeyPos: Int = 0
     var selectedKeyPos1: Int = 0
     lateinit var generateOtp: String
@@ -363,6 +364,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (p0?.length!! > 0) {
+
                 } else {
                     showkeybord(otp_two_5, otp_two_6, true)
                 }
@@ -396,46 +398,48 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                         call: Call<SendRegistrationOtpResponce>,
                         response: retrofit2.Response<SendRegistrationOtpResponce>
                     ) {
-
-
                         if (response.body()?.isSuccess == true) {
-                            register_progressBar?.visibility = View.GONE
+                            register_progressBar.visibility = View.GONE
                             addCreateAccount()
                             response.body()?.message?.let { showToast(this@OtpActivity, it) }
                         } else {
-                            register_progressBar?.visibility = View.GONE
+                            register_progressBar.visibility = View.GONE
                             response.body()?.message?.let { showToast(this@OtpActivity, it) }
                         }
                     }
 
                     override fun onFailure(call: Call<SendRegistrationOtpResponce>, t: Throwable) {
-                        register_progressBar?.visibility = View.GONE
+                        register_progressBar.visibility = View.GONE
                         showToast(this@OtpActivity, getString(R.string.otp_failed))
                     }
 
                 }
             )
-
-
     }
 
     fun addCreateAccount() {
 
         register_progressBar?.visibility = View.VISIBLE
         val response = ServiceBuilder(this@OtpActivity).buildService(RestApi::class.java)
-        response.addRegister(
-            firsName,
-            lastName,
-            rePassword,
-            email,
-            "",
-            "",
-            "",
-            "",
-            phone,
-            imageUri,
-            ""
-        ).enqueue(
+
+//        response.addRegister(
+//            firsName,
+//            lastName,
+//            rePassword,
+//            email,
+//            "",
+//            "",
+//            "",
+//            "",
+//            phone,
+//            imageUri
+//        ).enqueue(
+//
+
+        var registerPayload = RegisterPayload("aafafasf","asfafasf",email,firsName,lastName,"asfafafa",rePassword,phone,imageUri,"afsasfaf")
+
+            response.addRegister(registerPayload)
+                .enqueue(
             object : retrofit2.Callback<RegisterResponse> {
                 override fun onResponse(
                     call: Call<RegisterResponse>,
@@ -448,6 +452,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                         startActivity(intent)
                         finish()
                     } else {
+                        response.body()?.message?.let { showToast(this@OtpActivity, it) }
                         register_progressBar.visibility = View.GONE
                     }
                 }

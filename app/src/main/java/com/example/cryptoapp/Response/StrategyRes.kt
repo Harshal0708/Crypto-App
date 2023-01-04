@@ -1,3 +1,8 @@
 package com.example.cryptoapp.Response
 
-class StrategyRes : ArrayList<StrategyResItemX>()
+data class StrategyRes(
+    val code: Int,
+    val `data`: List<DataXXXX>,
+    val isSuccess: Boolean,
+    val message: Any
+)

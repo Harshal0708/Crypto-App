@@ -13,6 +13,7 @@ import com.example.cryptoapp.Response.ResetResponse
 import com.example.cryptoapp.model.ResetPayload
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
+import com.example.cryptoapp.preferences.MyPreferences
 import retrofit2.Call
 import java.util.regex.Pattern
 
@@ -30,7 +31,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var email: String
     private lateinit var passowrd: String
     private lateinit var rePassowrd: String
-
+    lateinit var preferences: MyPreferences
 
     val EMAIL_ADDRESS_PATTERN = Pattern.compile(
         "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -56,6 +57,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
 
     fun init() {
+        preferences = MyPreferences(this)
         rp_et_email = findViewById(R.id.rp_et_email)
         rp_et_password = findViewById(R.id.rp_et_password)
         rp_et_rePassword = findViewById(R.id.rp_et_rePassword)
@@ -92,6 +94,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
             }
 
         })
+
         rp_et_rePassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -100,7 +103,6 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
                 var pwd = rp_et_rePassword.text.toString().trim()
-
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     rp_et_rePassword.setError(getString(R.string.valid_password))
@@ -155,6 +157,9 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
                                     it
                                 )
                             }
+                            preferences.setRemember(false)
+                            preferences.setToken("")
+                            preferences.setLogin(null)
                             val intent =
                                 Intent(this@ResetPasswordActivity, LoginActivity::class.java)
                             startActivity(intent)
@@ -162,11 +167,13 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
                         } else {
 
                             register_progressBar?.visibility = View.GONE
+
                             response.body()?.message?.let {
                                 showToast(this@ResetPasswordActivity,
                                     it
                                 )
                             }
+
                         }
                     }
 

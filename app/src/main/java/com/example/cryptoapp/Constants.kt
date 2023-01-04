@@ -12,27 +12,27 @@ class Constants {
         const val STRIPE_PAYMENT_URL = "https://api.stripe.com/v1/"
 
         // api routers
-        const val login = "Accounts/login"
-        const val register = "Accounts/register"
-        const val sendRegistrationOtp = "Accounts/sendRegistrationOtp"
-        const val verifyRegistrationOtp = "Accounts/verifyRegistrationOtp"
-        const val verifyLoginOtp = "Accounts/verifyLoginOtp"
-        const val sendLoginOtp = "Accounts/sendLoginOtp"
+        const val login = "AccountsApi/login"
+        const val register = "AccountsApi/register"
+        const val sendRegistrationOtp = "AccountsApi/sendRegistrationOtp"
+        const val verifyRegistrationOtp = "AccountsApi/verifyRegistrationOtp"
+        const val verifyLoginOtp = "AccountsApi/verifyLoginOtp"
+        const val sendLoginOtp = "AccountsApi/sendLoginOtp"
 
-        const val forgotpassword = "Accounts/forgotpassword"
-        const val resetpassword = "Accounts/resetpassword"
-        const val registrationconfirm = "Accounts/registrationconfirm"
+        const val forgotpassword = "AccountsApi/forgotpassword"
+        const val resetpassword = "AccountsApi/resetpassword"
+        const val registrationconfirm = "AccountsApi/registrationconfirm"
 
-        const val getProfileDetail = "Accounts/getProfileDetail"
-        const val updateProfileDetail = "Accounts/updateProfileDetail"
+        const val getProfileDetail = "AccountsApi/getProfileDetail"
+        const val updateProfileDetail = "AccountsApi/updateProfileDetail"
 
-        const val strategy = "Strategy"
-        const val getplans = "Plan/GetPlans"
-        const val getusersubscription = "UserSubscription/GetSubscriptionList"
-        const val getSubscriptionDetails = "UserSubscription/GetSubscriptionDetails"
+        const val strategy = "StrategyApi"
+        const val getplans = "PlanApi/GetPlans"
+        const val getusersubscription = "UserSubscriptionApi/GetSubscriptionList"
+        const val getSubscriptionDetails = "UserSubscriptionApi/GetSubscriptionDetails"
 
-        const val getOrderHistoryList = "History/GetOrderHistoryList"
-        const val getSubscriptionHistoryList = "History/GetSubscriptionHistoryList"
+        const val getOrderHistoryList = "HistoryApi/GetOrderHistoryList"
+        const val getSubscriptionHistoryList = "HistoryApi/GetSubscriptionHistoryList"
 
         const val stripe_payment_customers_id= "customers"
         const val stripe_payment_ephemeral_keys = "ephemeral_keys"
@@ -60,5 +60,6 @@ class Constants {
         fun showToast(context: Context, msg: String) {
             Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
         }
+
     }
 }

@@ -1,3 +1,8 @@
 package com.example.cryptoapp.Response
 
-class GetPlanResponse : ArrayList<GetPlanResponseItem>()
+data class GetPlanResponse(
+    val code: Int,
+    val `data`: List<DataXXXXXX>,
+    val isSuccess: Boolean,
+    val message: Any
+)

@@ -41,16 +41,16 @@ class HomeAdapter(var context: Context, var strategyResList: StrategyRes) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.txt_strategies_name.text = strategyResList.get(position).strategyName
+        holder.txt_strategies_name.text = strategyResList.data.get(position).strategyName
         holder.txt_strategies_min_capital.text =
-            strategyResList.get(position).minCapital.toString()
+            strategyResList.data.get(position).minCapital.toString()
         holder.txt_strategies_monthlyFees.text =
-            strategyResList.get(position).monthlyFee.toString()
-        holder.txt_strategies_by.text = strategyResList.get(position).description
+            strategyResList.data.get(position).monthlyFee.toString()
+        holder.txt_strategies_by.text = strategyResList.data.get(position).description
         holder.txt_strategies_time.text =
-            "Created By : ${strategyResList.get(position).createdDate}"
+            "Created By : ${strategyResList.data.get(position).createdDate}"
 
-        if (strategyResList.get(position).isActive != true) {
+        if (strategyResList.data.get(position).isActive != true) {
 
             holder.txt_strategies_status.text = "Status :-Not Active"
             holder.txt_strategies_status.setTextColor(context.resources.getColor(R.color.red))
@@ -65,13 +65,13 @@ class HomeAdapter(var context: Context, var strategyResList: StrategyRes) :
         }
         holder.txt_strategies_name.setOnClickListener {
             val intent = Intent(context, HomeDetailActivity::class.java)
-            intent.putExtra("strategyId", strategyResList.get(position).id)
+            intent.putExtra("strategyId", strategyResList.data.get(position).id)
             context.startActivity(intent)
         }
     }
 
     override fun getItemCount(): Int {
-        return strategyResList.size
+        return strategyResList.data.size
     }
 
     fun showDialog() {

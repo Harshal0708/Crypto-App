@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
-import com.example.cryptoapp.Response.OrderHistory
 import com.example.cryptoapp.Response.UserSubscription
 
 class SubscriptionHistoryAdapter(var context: Context,val userSubscriptions: List<UserSubscription>) : RecyclerView.Adapter<SubscriptionHistoryAdapter.ViewHolder>() {

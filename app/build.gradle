@@ -82,9 +82,9 @@ dependencies {
     implementation 'androidx.datastore:datastore-preferences-core:1.0.0-rc01'
 
     //Stripe Payment
-    implementation 'com.stripe:stripe-android:20.16.1'
+    implementation 'com.stripe:stripe-android:20.17.0'
 
     implementation 'com.google.android.gms:play-services-wallet:19.1.0'
-
+    implementation 'com.google.android.libraries.places:places:2.6.0'
 
 }

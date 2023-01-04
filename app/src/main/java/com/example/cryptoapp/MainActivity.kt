@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
         nav_name.text = data.name.toString()
 
-        if (data.profilePicture != null) {
+        if (data.profilePicture != null && data.profilePicture != "") {
             nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
         }
 
@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 
         loadFragment(HomeFragment())
 
-        bottomNav?.setOnItemSelectedListener {
+        bottomNav.setOnItemSelectedListener {
             // do stuff
 
             when (it.itemId) {
@@ -120,6 +120,7 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(SettingFragment())
                     return@setOnItemSelectedListener true
                 }
+
             }
             return@setOnItemSelectedListener true
         }
@@ -148,6 +149,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_reset_password -> {
                     val intent = Intent(this, ResetPasswordActivity::class.java)
                     startActivity(intent)
+
                     true
                 }
                 R.id.nav_subscription -> {

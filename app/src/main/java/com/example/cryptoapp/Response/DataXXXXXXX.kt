@@ -1,6 +1,6 @@
 package com.example.cryptoapp.Response
 
-data class UserSubscriptionItem(
+data class DataXXXXXXX(
     val isActive: Boolean,
     val subscriptionId: String,
     val subscriptionName: String,

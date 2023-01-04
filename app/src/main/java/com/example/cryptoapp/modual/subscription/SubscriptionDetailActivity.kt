@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants.Companion.showToast
@@ -76,10 +75,10 @@ class SubscriptionDetailActivity : AppCompatActivity() {
                         response: Response<UserSubscriptionDetail>
                     ) {
                         viewLoader.visibility = View.GONE
-                        txt_sub_detail_name.text = response.body()?.subscriptionName
-                        txt_sub_detail_price.text = response.body()?.subscriptionPrice.toString()
-                        txt_sub_detail_strategie.text = response.body()?.noOfStrategies.toString()
-                        if (response.body()?.isActive == true) {
+                        txt_sub_detail_name.text = response.body()?.data?.subscriptionName
+                        txt_sub_detail_price.text = response.body()?.data?.subscriptionPrice.toString()
+                        txt_sub_detail_strategie.text = response.body()?.data?.noOfStrategies.toString()
+                        if (response.body()?.data?.isActive == true) {
                             txt_sub_detail_is_active.text = "Active"
                         } else {
                             txt_sub_detail_is_active.text = "Not Active"

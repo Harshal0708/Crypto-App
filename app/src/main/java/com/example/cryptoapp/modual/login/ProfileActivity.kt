@@ -18,7 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
-import com.example.cryptoapp.Constants
+import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.DataXX
@@ -172,7 +172,8 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
 
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder(this@ProfileActivity).buildService(RestApi::class.java).getUserDetails(id)
+            var response = ServiceBuilder(this@ProfileActivity).buildService(RestApi::class.java)
+                .getUserDetails(id)
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE
 
@@ -181,7 +182,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
                 edEmail.setText(response.body()!!.email)
                 edPhone.setText(response.body()!!.phoneNumber)
 
-                if(response.body()!!.profileImage != null){
+                if (response.body()!!.profileImage != null && response.body()!!.profileImage != "") {
                     profile_img.setImageBitmap(byteArrayToBitmap(response.body()!!.profileImage.toByteArray()))
                 }
             }
@@ -193,7 +194,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
         register_progressBar.visibility = View.VISIBLE
         val response = ServiceBuilder(this@ProfileActivity).buildService(RestApi::class.java)
 
-
+//encodeImageString
         response.updateProfileDetail(
             userDetail.userId,
             edEmail.text.toString(),
@@ -212,22 +213,25 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
 
                     register_progressBar.visibility = View.GONE
 
-                    if(response.body()?.isSuccess == true){
-                        data =response.body()?.data!!
+                    if (response.body()?.isSuccess == true) {
+                        data = response.body()?.data!!
                         preferences.setLogin(data)
-                        Toast.makeText(
-                            this@ProfileActivity,
-                            response.body()?.message,
-                            Toast.LENGTH_LONG
-                        ).show()
+//                        Toast.makeText(
+//                            this@ProfileActivity,
+//                            response.body()?.message,
+//                            Toast.LENGTH_LONG
+//                        ).show()
+                        response.body()?.message?.let { showToast(this@ProfileActivity, it) }
+
                         var intent = Intent(this@ProfileActivity, MainActivity::class.java)
                         startActivity(intent)
-                    }else{
-                        Toast.makeText(
-                            this@ProfileActivity,
-                            response.body()?.message,
-                            Toast.LENGTH_LONG
-                        ).show()
+                    } else {
+//                        Toast.makeText(
+//                            this@ProfileActivity,
+//                            response.body()?.message,
+//                            Toast.LENGTH_LONG
+//                        ).show()
+                        response.body()?.message?.let { showToast(this@ProfileActivity, it) }
                     }
 
                 }

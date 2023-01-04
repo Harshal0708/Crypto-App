@@ -7,13 +7,10 @@ import android.os.Handler
 import android.view.WindowManager
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
-import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
-import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.modual.login.LoginActivity
 import com.example.cryptoapp.modual.login.UserActivity
 import com.example.cryptoapp.preferences.MyPreferences
-import com.google.gson.Gson
 
 class SplashActivity : AppCompatActivity() {
 
