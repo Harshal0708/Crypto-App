@@ -26,6 +26,9 @@ class Constants {
         const val getProfileDetail = "AccountsApi/getProfileDetail"
         const val updateProfileDetail = "AccountsApi/updateProfileDetail"
 
+        const val cmsAdsList = "CMSAdsApi/CMSAdsList"
+        const val cmsAdsAdd = "CMSAdsApi/UserCMSAdsAdd"
+
         const val strategy = "StrategyApi"
         const val getplans = "PlanApi/GetPlans"
         const val getusersubscription = "UserSubscriptionApi/GetSubscriptionList"

@@ -35,7 +35,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
     lateinit var txt_sub_yearly: TextView
     lateinit var rv_subsribtion: RecyclerView
 
-    var subscriptionModelList: List<DataXXXXXXX> = ArrayList()
+    var subscriptionModelList: List<UserSubscriptionDataResponse> = ArrayList()
     lateinit var subscriptionAdapter: SubscriptionAdapter
     lateinit var one: String
     lateinit var two: String
@@ -181,7 +181,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
     }
 
     private fun ScriptAdapter(
-        subscriptionModelList: List<DataXXXXXXX>,
+        subscriptionModelList: List<UserSubscriptionDataResponse>,
         planId: String
     ) {
         rv_subsribtion.layoutManager = LinearLayoutManager(requireContext())

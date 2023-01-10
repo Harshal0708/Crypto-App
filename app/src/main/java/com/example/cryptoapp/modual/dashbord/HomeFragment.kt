@@ -19,18 +19,29 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.R
+import com.example.cryptoapp.Response.DataXX
+import com.example.cryptoapp.Response.UserSubscriptionsResponse
+import com.example.cryptoapp.model.GetOrderHistoryListPayload
+import com.example.cryptoapp.modual.history.adapter.SubscriptionHistoryAdapter
 import com.example.cryptoapp.modual.home.HomeDetailActivity
 import com.example.cryptoapp.modual.home.adapter.HomeAdapter
+import com.example.cryptoapp.modual.home.adapter.SliderViewPagerAdapter
 import com.example.cryptoapp.modual.login.ResetPasswordActivity
+import com.example.cryptoapp.modual.login.adapter.ViewPagerAdapter
 import com.example.cryptoapp.network.*
 import com.example.cryptoapp.preferences.MyPreferences
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class HomeFragment : Fragment(), View.OnClickListener {
@@ -39,7 +50,12 @@ class HomeFragment : Fragment(), View.OnClickListener {
     lateinit var homeAdapter: HomeAdapter
     lateinit var viewLoader: View
     lateinit var animationView: LottieAnimationView
-  //  lateinit var preferences: MyPreferences
+    lateinit var preferences: MyPreferences
+
+    lateinit var login_ViewPager: ViewPager
+    lateinit var viewPagerAdapter: SliderViewPagerAdapter
+
+    lateinit var data: DataXX
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,16 +68,37 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     private fun init(view: View) {
-   //     preferences =MyPreferences(requireContext())
+       preferences =MyPreferences(requireContext())
+        data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
         strategies_rv = view.findViewById(R.id.strategies_rv)
         viewLoader = view.findViewById(R.id.loader_animation)
         animationView = viewLoader.findViewById(R.id.lotti_img)
      //   Toast.makeText(activity,preferences.getLogin(),Toast.LENGTH_SHORT).show()
+
+        login_ViewPager = view.findViewById(R.id.login_ViewPager)
+
         setupAnim()
         getStrategy()
+        getCMSList()
 
     }
+
+    private fun getCMSList() {
+        viewLoader.visibility = View.VISIBLE
+        lifecycleScope.launch(Dispatchers.IO) {
+            var response = ServiceBuilder(requireContext()).buildService(RestApi::class.java).getCmsAdsList(data.userId)
+            withContext(Dispatchers.Main) {
+
+                viewLoader.visibility = View.GONE
+
+                viewPagerAdapter = SliderViewPagerAdapter(requireContext(), response.body()!!.data)
+                login_ViewPager.adapter = viewPagerAdapter
+
+            }
+        }
+    }
+
 
     private fun setupAnim() {
         animationView.setAnimation(R.raw.currency)

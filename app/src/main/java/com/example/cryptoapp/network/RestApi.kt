@@ -8,12 +8,10 @@ import com.example.cryptoapp.modual.payment.CreateCustomerIdResponse
 import com.example.cryptoapp.modual.payment.EphemeralKeyResponse
 import com.example.cryptoapp.modual.payment.PaymentIntentRespomse
 import com.example.cryptoapp.modual.payment.StripeConfirmationResponse
-import com.example.cryptoapp.modual.payment.createcustomer.CreateCustomer
 import com.example.cryptoapp.modual.payment.createcustomer.CreateCustomerResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
-import java.util.Objects
 
 interface RestApi {
     @POST(Constants.login)
@@ -26,42 +24,20 @@ interface RestApi {
     fun addSendLoginOtp(@Body sendLoginOtpPayload: SendLoginOtpPayload): Call<SendRegistrationOtpResponce>
 
 
+//    @POST(Constants.register)
+//    fun addRegister(@Body registerPayload: RegisterPayload): Call<RegisterResponse>
+
+    @FormUrlEncoded
     @POST(Constants.register)
-    fun addRegister(@Body registerPayload: RegisterPayload): Call<RegisterResponse>
+    fun addRegister(
+        @Field("FirstName") FirstName: String,
+        @Field("LastName") LastName: String,
+        @Field("Password") Password: String,
+        @Field("Email") Email: String,
+        @Field("PhoneNumber") PhoneNumber: String,
+        @Field("ProfileImage") ProfileImage: String,
 
-//    @FormUrlEncoded
-//    @POST(Constants.register)
-//    fun addRegister(
-//        @Field("FirstName") FirstName: String,
-//        @Field("LastName") LastName: String,
-//        @Field("Password") Password: String,
-//        @Field("Email") Email: String,
-//        @Field("ApiKey") ApiKey: String,
-//        @Field("SecreteKey") SecreteKey: String,
-//        @Field("AdharCardNumber") AdharCardNumber: String,
-//        @Field("PanCardNumber") PanCardNumber: String,
-//        @Field("PhoneNumber") PhoneNumber: String,
-//        @Field("ProfileImage") ProfileImage: String,
-//
-//    ): Call<RegisterResponse>
-
-//
-//    @FormUrlEncoded
-//    @POST(Constants.register)
-//    fun addRegister(
-//        @Field("firstName") firstName: String,
-//        @Field("lastName") lastName: String,
-//        @Field("password") password: String,
-//        @Field("email") email: String,
-//        @Field("apiKey") apiKey: String,
-//        @Field("secreteKey") secreteKey: String,
-//        @Field("adharCardNumber") adharCardNumber: String,
-//        @Field("panCardNumber") panCardNumber: String,
-//        @Field("phoneNumber") phoneNumber: String,
-//        @Field("profileImage") profileImage: String,
-//
-//        ): Call<RegisterResponse>
-
+    ): Call<RegisterResponse>
 
     @FormUrlEncoded
     @POST(Constants.updateProfileDetail)
@@ -123,6 +99,12 @@ interface RestApi {
 
     @POST(Constants.getSubscriptionHistoryList)
     fun addSubscriptionHistoryList(@Body getOrderHistoryListPayload: GetOrderHistoryListPayload): Call<UserSubscriptionsResponse>
+
+    @GET(Constants.cmsAdsList)
+    suspend fun getCmsAdsList(@Query("userId") userId: String): Response<CmsAdsListResponse>
+
+    @POST(Constants.cmsAdsAdd)
+    fun addCmsAdsAdd(@Body cmsAdsAddPayload: CmsAdsAddPayload): Call<CmsAdsAddResponse>
 
     @POST(Constants.stripe_payment_customers_id)
     fun addCustomerIdCreate(): Call<CreateCustomerIdResponse>

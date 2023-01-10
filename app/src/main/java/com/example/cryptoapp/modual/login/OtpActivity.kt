@@ -422,24 +422,20 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         register_progressBar?.visibility = View.VISIBLE
         val response = ServiceBuilder(this@OtpActivity).buildService(RestApi::class.java)
 
-//        response.addRegister(
-//            firsName,
-//            lastName,
-//            rePassword,
-//            email,
-//            "",
-//            "",
-//            "",
-//            "",
-//            phone,
-//            imageUri
-//        ).enqueue(
+        response.addRegister(
+            firsName,
+            lastName,
+            rePassword,
+            email,
+            phone,
+            imageUri
+        ).enqueue(
+
+
+//        var registerPayload = RegisterPayload("aafafasf","asfafasf",email,firsName,lastName,"asfafafa",rePassword,phone,imageUri,"afsasfaf")
 //
-
-        var registerPayload = RegisterPayload("aafafasf","asfafasf",email,firsName,lastName,"asfafafa",rePassword,phone,imageUri,"afsasfaf")
-
-            response.addRegister(registerPayload)
-                .enqueue(
+//            response.addRegister(registerPayload)
+//                .enqueue(
             object : retrofit2.Callback<RegisterResponse> {
                 override fun onResponse(
                     call: Call<RegisterResponse>,

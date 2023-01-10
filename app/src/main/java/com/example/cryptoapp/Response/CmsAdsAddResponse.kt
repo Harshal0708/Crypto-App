@@ -1,8 +1,8 @@
 package com.example.cryptoapp.Response
 
-data class GetPlanResponse(
+data class CmsAdsAddResponse(
     val code: Int,
-    val `data`: List<GetPlanDataResponse>,
+    val `data`: Any,
     val isSuccess: Boolean,
     val message: Any
 )

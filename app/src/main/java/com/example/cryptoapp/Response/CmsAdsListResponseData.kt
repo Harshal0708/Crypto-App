@@ -1,12 +1,10 @@
 package com.example.cryptoapp.Response
 
-data class DataXXXXX(
+data class CmsAdsListResponseData(
     val createdDate: String,
     val description: String,
     val id: String,
+    val image: String,
     val isActive: Boolean,
-    val minCapital: Int,
-    val modifiedDate: String,
-    val monthlyFee: Int,
-    val strategyName: String
+    val title: String
 )

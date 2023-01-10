@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         menuItem = navView.menu.findItem(R.id.nav_switch)
 
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
-        nav_name.text = data.name.toString()
+        nav_name.text = data.name
 
         if (data.profilePicture != null && data.profilePicture != "") {
             nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
@@ -146,12 +146,14 @@ class MainActivity : AppCompatActivity() {
                     drawerLayout?.close()
                     true
                 }
+
                 R.id.nav_reset_password -> {
                     val intent = Intent(this, ResetPasswordActivity::class.java)
                     startActivity(intent)
 
                     true
                 }
+
                 R.id.nav_subscription -> {
                     val intent = Intent(this, SubscriptionActivity::class.java)
                     startActivity(intent)

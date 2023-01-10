@@ -1,6 +1,6 @@
 package com.example.cryptoapp.Response
 
-data class DataXXX(
+data class UserSubscriptionsDataResponse(
     val pagingParameterResponseModel: PagingParameterResponseModelX,
     val userSubscriptions: List<UserSubscription>
 )
