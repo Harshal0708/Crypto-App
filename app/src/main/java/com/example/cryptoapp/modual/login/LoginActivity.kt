@@ -16,6 +16,7 @@ import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.LoginResponse
 import com.example.cryptoapp.model.LoginPayload
+import com.example.cryptoapp.modual.authenticator.GoogleAuthenticatorActivity
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.preferences.MyPreferences
@@ -122,12 +123,10 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
 
     }
 
-
     override fun onClick(p0: View?) {
         val id = p0!!.id
         when (id) {
             R.id.progressBar_cardView -> {
-
                 password = pwd_password.text.toString()
                 if (btLogin() == true) {
                     addLogin(login_emailNumber.text.toString())
@@ -177,7 +176,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
                 showToast(this@LoginActivity, response.body()?.message.toString())
                 register_progressBar.visibility = GONE
                 if (response.body()?.isSuccess == true) {
-                    var intent = Intent(this@LoginActivity, LoginOtpActivity::class.java)
+                    var intent = Intent(this@LoginActivity, GoogleAuthenticatorActivity::class.java)
                     intent.putExtra("data", Gson().toJson(response.body()?.data))
                     intent.putExtra("isChecked", cb_remember_me.isChecked)
                     startActivity(intent)

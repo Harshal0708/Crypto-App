@@ -41,6 +41,15 @@ class Constants {
         const val stripe_payment_ephemeral_keys = "ephemeral_keys"
         const val stripe_payment_intents = "payment_intents"
 
+        const val generateQrCode = "GoogleAuthenticatorApi/generateQrCode"
+        const val createUserGAKey = "GoogleAuthenticatorApi/createUserGAKey"
+        const val verify2FA = "GoogleAuthenticatorApi/verify2FA"
+        const val checkUserGAKey = "GoogleAuthenticatorApi/checkUserGAKey"
+        const val getGAKeyByUserId = "GoogleAuthenticatorApi/getGAKeyByUserId"
+
+
+        const val getCountries = "CountryApi/getCountries"
+
         const val cryptocurrencylist = "data-api/v3/cryptocurrency/listing?start=1&limit=10"
 
         const val CONNECT_TIMEOUT: Long = 60 * 1000 // 1 minutes

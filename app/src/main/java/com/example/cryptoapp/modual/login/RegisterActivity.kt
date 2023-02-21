@@ -1,7 +1,7 @@
 package com.example.cryptoapp.modual.login
 
 import android.Manifest
-import android.content.Context
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -12,33 +12,33 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Base64
-import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.OnClickListener
+import android.view.Window
+import android.view.WindowManager
 import android.widget.*
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import com.example.cryptoapp.Constants
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.SendRegistrationOtpResponce
 import com.example.cryptoapp.model.SendRegistrationOtpPayload
+import com.example.cryptoapp.modual.countries.CountriesAdapter
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
 import java.util.regex.Pattern
 
 
@@ -51,6 +51,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     lateinit var sp_et_lastName: EditText
     lateinit var sp_et_password: EditText
     lateinit var sp_et_rePassword: EditText
+    lateinit var mn_et_country_code: TextView
     lateinit var cb_term_accept: CheckBox
 
     lateinit var view: View
@@ -98,7 +99,13 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     lateinit var bytesofimage: ByteArray
     lateinit var photo: Bitmap
     var encodeImageString: String = ""
+    var countryId: String = ""
 
+
+    lateinit var countriesAdapter: CountriesAdapter
+    lateinit var rv_countryName: RecyclerView
+    lateinit var viewLoader: View
+    lateinit var animationView: LottieAnimationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -119,6 +126,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         sp_et_rePassword = findViewById(R.id.sp_et_rePassword)
         txt_sign_here_two = findViewById(R.id.txt_sign_here_two)
         reg_profile_img = findViewById(R.id.reg_profile_img)
+        mn_et_country_code = findViewById(R.id.mn_et_country_code)
 
         sp_et_email = findViewById(R.id.sp_et_email)
         mn_et_phone = findViewById(R.id.mn_et_phone)
@@ -131,13 +139,20 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         progressBar_cardView = view.findViewById(R.id.progressBar_cardView)
         register_progressBar.visibility = View.GONE
         resent = view.findViewById(R.id.resent)
+
+
         resent.text = getString(R.string.sign_up)
         progressBar_cardView.setOnClickListener(this)
         txt_sign_in_here.setOnClickListener(this)
         txt_sign_here_two.setOnClickListener(this)
         cb_term_accept.setOnClickListener(this)
         reg_profile_img.setOnClickListener(this)
+        mn_et_country_code.setOnClickListener(this)
 
+        if (intent.getStringExtra("countryCode") != null) {
+            mn_et_country_code.text = "+ ${intent.getStringExtra("countryCode")}"
+            countryId = intent.getStringExtra("countryId").toString()
+        }
 
         sp_et_password.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -185,6 +200,30 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         })
     }
 
+    private fun setupAnim() {
+        animationView.setAnimation(R.raw.currency)
+        animationView.repeatCount = LottieDrawable.INFINITE
+        animationView.playAnimation()
+    }
+
+    private fun getCountries() {
+
+        viewLoader.visibility = View.VISIBLE
+        lifecycleScope.launch(Dispatchers.IO) {
+            var response = ServiceBuilder(this@RegisterActivity).buildService(RestApi::class.java)
+                .getCountries()
+            withContext(Dispatchers.Main) {
+                viewLoader.visibility = GONE
+                rv_countryName.layoutManager = LinearLayoutManager(this@RegisterActivity)
+                countriesAdapter = CountriesAdapter(
+                    this@RegisterActivity,
+                    response.body()!!
+                )
+                rv_countryName.adapter = countriesAdapter
+            }
+        }
+    }
+
     override fun onClick(p0: View?) {
         val id = p0!!.id
         when (id) {
@@ -223,7 +262,28 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                 dialog.dismiss()
             }
 
+            R.id.mn_et_country_code -> {
+                exit()
+            }
+
         }
+    }
+
+    fun exit() {
+        val dialog = Dialog(this, android.R.style.ThemeOverlay)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.getWindow()?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        );
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.custom_countries)
+        viewLoader = dialog.findViewById(R.id.loader_animation)
+        animationView = viewLoader.findViewById(R.id.lotti_img)
+        rv_countryName = dialog.findViewById(R.id.rv_countryName)
+        setupAnim()
+        getCountries()
+        dialog.show()
     }
 
     fun sendRegistrationOtp() {
@@ -253,12 +313,14 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                             intent.putExtra("lastName", lastName)
                             intent.putExtra("rePassword", rePassword)
                             intent.putExtra("imageUri", encodeImageString)
+                            intent.putExtra("countryId", countryId)
                             startActivity(intent)
 
                             response.body()?.message?.let { showToast(this@RegisterActivity, it) }
                         } else {
                             register_progressBar.visibility = GONE
-                             Toast.makeText(this@RegisterActivity,"Failed",Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@RegisterActivity, "Failed", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
 
@@ -315,12 +377,12 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                 var bitmap = BitmapFactory.decodeStream(inputStream)
                 reg_profile_img.setImageBitmap(bitmap)
                 encodeBitmapImage(bitmap)
-                showLog("photo",photo.toString())
+                showLog("photo", photo.toString())
             } catch (ex: Exception) {
             }
         } else if (resultCode == RESULT_OK && requestCode == pickCamera) {
             photo = data?.extras?.get("data") as Bitmap
-            showLog("photo",photo.toString())
+            showLog("photo", photo.toString())
             encodeBitmapImage(photo)
             reg_profile_img.setImageBitmap(photo)
         }
@@ -332,7 +394,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
         bytesofimage = byteArrayOutputStream.toByteArray()
         encodeImageString = Base64.encodeToString(bytesofimage, Base64.DEFAULT)
-        showLog("photo",encodeImageString.toString())
+        showLog("photo", encodeImageString.toString())
     }
 
     fun validation(): Boolean {

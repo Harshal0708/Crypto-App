@@ -76,6 +76,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     var lastName: String = ""
     var rePassword: String = ""
     var imageUri: String =""
+    var countryId: String =""
     var selectedKeyPos: Int = 0
     var selectedKeyPos1: Int = 0
     lateinit var generateOtp: String
@@ -130,6 +131,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         firsName = intent.getStringExtra("firsName").toString()
         lastName = intent.getStringExtra("lastName").toString()
         rePassword = intent.getStringExtra("rePassword").toString()
+        countryId = intent.getStringExtra("countryId").toString()
         imageUri = intent.getStringExtra("imageUri")!!
         //imageUri = byte
 
@@ -427,10 +429,10 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
             lastName,
             rePassword,
             email,
+            countryId,
             phone,
             imageUri
         ).enqueue(
-
 
 //        var registerPayload = RegisterPayload("aafafasf","asfafasf",email,firsName,lastName,"asfafafa",rePassword,phone,imageUri,"afsasfaf")
 //

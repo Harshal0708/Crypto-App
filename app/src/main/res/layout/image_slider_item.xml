@@ -23,6 +23,7 @@
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:textColor="@color/txt_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/idIVImage" />

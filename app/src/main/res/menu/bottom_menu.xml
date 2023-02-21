@@ -9,12 +9,21 @@
         app:showAsAction="always"
         />
     <item
+        android:id="@+id/watchlist"
+        android:enabled="true"
+        android:icon="@drawable/ic_chart"
+        android:title="@string/watchlist"
+        app:showAsAction="always"
+        />
+
+   <item
         android:id="@+id/history"
         android:enabled="true"
         android:icon="@drawable/ic_chart"
         android:title="@string/history"
         app:showAsAction="always"
         />
+
     <item
         android:id="@+id/setting"
         android:enabled="true"

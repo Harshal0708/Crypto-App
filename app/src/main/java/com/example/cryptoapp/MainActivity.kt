@@ -6,6 +6,7 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.CompoundButton
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.modual.dashbord.HistoryFragment
 import com.example.cryptoapp.modual.dashbord.HomeFragment
@@ -23,6 +25,7 @@ import com.example.cryptoapp.modual.dashbord.SettingFragment
 import com.example.cryptoapp.modual.login.LoginActivity
 import com.example.cryptoapp.modual.login.ResetPasswordActivity
 import com.example.cryptoapp.modual.subscription.SubscriptionActivity
+import com.example.cryptoapp.modual.watchlist.WatchlistFragment
 import com.example.cryptoapp.preferences.MyPreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
@@ -30,6 +33,7 @@ import com.google.gson.Gson
 
 
 class MainActivity : AppCompatActivity() {
+
 
     lateinit var bottomNav: BottomNavigationView
     var drawerLayout: DrawerLayout? = null
@@ -47,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         var preferences: MyPreferences
         preferences = MyPreferences(this)
 
@@ -60,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
         nav_name.text = data.name
 
+        Log.d("test",data.profilePicture)
         if (data.profilePicture != null && data.profilePicture != "") {
             nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
         }
@@ -104,12 +110,15 @@ class MainActivity : AppCompatActivity() {
         loadFragment(HomeFragment())
 
         bottomNav.setOnItemSelectedListener {
-            // do stuff
 
             when (it.itemId) {
 
                 R.id.home -> {
                     loadFragment(HomeFragment())
+                    return@setOnItemSelectedListener true
+                }
+                R.id.watchlist -> {
+                    loadFragment(WatchlistFragment())
                     return@setOnItemSelectedListener true
                 }
                 R.id.history -> {
@@ -150,7 +159,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_reset_password -> {
                     val intent = Intent(this, ResetPasswordActivity::class.java)
                     startActivity(intent)
-
                     true
                 }
 
@@ -167,7 +175,7 @@ class MainActivity : AppCompatActivity() {
                     var intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
                     finish()
-                    Constants.showToast(this@MainActivity, getString(R.string.logout_successfully))
+                    showToast(this@MainActivity, getString(R.string.logout_successfully))
                     true
                 }
                 else -> {
@@ -214,5 +222,4 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
 }

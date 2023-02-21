@@ -23,7 +23,7 @@ import retrofit2.Response
 
 class ImageSliderDetailActivity : AppCompatActivity() {
 
-    lateinit var imageListId :String
+    lateinit var imageListId: String
     lateinit var preferences: MyPreferences
 
     lateinit var data: DataXX
@@ -43,11 +43,13 @@ class ImageSliderDetailActivity : AppCompatActivity() {
 
         getSubscriptionHistoryList(imageListId)
     }
-    fun getSubscriptionHistoryList(userId: String) {
-       // viewLoader.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@ImageSliderDetailActivity).buildService(RestApi::class.java)
 
-        val payload = CmsAdsAddPayload(userId,false,data.userId)
+    fun getSubscriptionHistoryList(userId: String) {
+        // viewLoader.visibility = View.VISIBLE
+        val response =
+            ServiceBuilder(this@ImageSliderDetailActivity).buildService(RestApi::class.java)
+
+        val payload = CmsAdsAddPayload(userId, false, data.userId)
 
         response.addCmsAdsAdd(payload)
             .enqueue(
@@ -56,10 +58,12 @@ class ImageSliderDetailActivity : AppCompatActivity() {
                         call: Call<CmsAdsAddResponse>,
                         response: Response<CmsAdsAddResponse>
                     ) {
-
                         if (response.body()?.isSuccess == true) {
-                           //viewLoader.visibility = View.GONE
-                            showToast(this@ImageSliderDetailActivity,response.body()?.code.toString())
+                            //viewLoader.visibility = View.GONE
+                            showToast(
+                                this@ImageSliderDetailActivity,
+                                response.body()?.code.toString()
+                            )
                         } else {
                             //viewLoader.visibility = View.GONE
                             showToast(
@@ -67,7 +71,6 @@ class ImageSliderDetailActivity : AppCompatActivity() {
                                 getString(R.string.data_not_found)
                             )
                         }
-
                     }
 
                     override fun onFailure(call: Call<CmsAdsAddResponse>, t: Throwable) {

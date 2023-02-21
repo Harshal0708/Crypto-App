@@ -19,7 +19,6 @@ class SliderViewPagerAdapter (val context: Context, val imageList: List<CmsAdsLi
 
     override fun getCount(): Int {
         return imageList.size
-        showLog("SliderViewPagerAdapter",imageList.size.toString())
     }
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
@@ -41,11 +40,12 @@ class SliderViewPagerAdapter (val context: Context, val imageList: List<CmsAdsLi
 
         itemView.setOnClickListener(object :View.OnClickListener{
             override fun onClick(p0: View?) {
-                val intent = Intent(context, ImageSliderDetailActivity::class.java)
-                intent.putExtra("imageListId",imageList.get(position).id)
-                context.startActivity(intent)
-            }
 
+//                val intent = Intent(context, ImageSliderDetailActivity::class.java)
+//                intent.putExtra("imageListId",imageList.get(position).id)
+//                context.startActivity(intent)
+
+            }
         })
 
         Objects.requireNonNull(container).addView(itemView)

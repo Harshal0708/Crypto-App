@@ -9,6 +9,11 @@ import com.example.cryptoapp.modual.payment.EphemeralKeyResponse
 import com.example.cryptoapp.modual.payment.PaymentIntentRespomse
 import com.example.cryptoapp.modual.payment.StripeConfirmationResponse
 import com.example.cryptoapp.modual.payment.createcustomer.CreateCustomerResponse
+import com.strings.cryptoapp.Response.BarcodeImageResponse
+import com.strings.cryptoapp.Response.GenerateQrCodeResponnse
+import com.strings.cryptoapp.Response.GetGAKeyByUserIResponse
+import com.strings.cryptoapp.model.CreateUserGAKeyPayload
+import com.strings.cryptoapp.model.Verify2FAPayload
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -23,6 +28,8 @@ interface RestApi {
     @POST(Constants.sendLoginOtp)
     fun addSendLoginOtp(@Body sendLoginOtpPayload: SendLoginOtpPayload): Call<SendRegistrationOtpResponce>
 
+    @POST(Constants.generateQrCode)
+    fun addGenerateQrCode(@Body generateQrCodePayload: GenerateQrCodePayload): Call<BarcodeImageResponse>
 
 //    @POST(Constants.register)
 //    fun addRegister(@Body registerPayload: RegisterPayload): Call<RegisterResponse>
@@ -34,10 +41,11 @@ interface RestApi {
         @Field("LastName") LastName: String,
         @Field("Password") Password: String,
         @Field("Email") Email: String,
+        @Field("CountryId") CountryId: String,
         @Field("PhoneNumber") PhoneNumber: String,
         @Field("ProfileImage") ProfileImage: String,
 
-    ): Call<RegisterResponse>
+        ): Call<RegisterResponse>
 
     @FormUrlEncoded
     @POST(Constants.updateProfileDetail)
@@ -138,11 +146,30 @@ interface RestApi {
 //        "Content-Type:application/x-www-form-urlencode"
 //        "Authorization:Bearer sk_test_51MFAOfSHmxsQH4CHc0B63ccrQu8tu1m9ynAXYaEydRrSQwp4nhBqKtJFaEYZn9aTYhsdw1Ti8VHA9Cw4ZRcZR8Lg00qUCjkGZk"
 //    })
-@Headers("Content-Type:application/x-www-form-urlencode","Authorization: Bearer sk_test_51MFAOfSHmxsQH4CHc0B63ccrQu8tu1m9ynAXYaEydRrSQwp4nhBqKtJFaEYZn9aTYhsdw1Ti8VHA9Cw4ZRcZR8Lg00qUCjkGZk")
-@POST(Constants.stripe_payment_customers_id)
-fun addCreateCustomer(
-    @Query("email") email: String,
-    @Query("name") name: String
 
-):Call<CreateCustomerResponse>
+    @Headers(
+        "Content-Type:application/x-www-form-urlencode",
+        "Authorization: Bearer sk_test_51MFAOfSHmxsQH4CHc0B63ccrQu8tu1m9ynAXYaEydRrSQwp4nhBqKtJFaEYZn9aTYhsdw1Ti8VHA9Cw4ZRcZR8Lg00qUCjkGZk"
+    )
+    @POST(Constants.stripe_payment_customers_id)
+    fun addCreateCustomer(
+        @Query("email") email: String,
+        @Query("name") name: String
+
+    ): Call<CreateCustomerResponse>
+
+    @POST(Constants.createUserGAKey)
+    fun addCreateUserGAKey(@Body createUserGAKeyPayload: CreateUserGAKeyPayload): Call<GenerateQrCodeResponnse>
+
+    @POST(Constants.verify2FA)
+    fun addVerify2FA(@Body verify2FAPayload: Verify2FAPayload): Call<GenerateQrCodeResponnse>
+
+    @GET(Constants.checkUserGAKey)
+    suspend fun getCheckUserGAKey(@Query("userId") userId: String): Response<GenerateQrCodeResponnse>
+
+    @GET(Constants.getGAKeyByUserId)
+    suspend fun getGAKeyByUserId(@Query("userId") userId: String): Response<GetGAKeyByUserIResponse>
+
+    @GET(Constants.getCountries)
+    suspend fun getCountries(): Response<GetCountriesResponse>
 }
