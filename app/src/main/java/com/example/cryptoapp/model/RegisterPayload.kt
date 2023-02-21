@@ -1,19 +1,14 @@
 package com.example.cryptoapp.model
 
-class RegisterPayload(
-
-    var usertName: String,
-    var firstName: String,
-    var lastName: String,
-    var password: String,
-    var email: String,
-    var userId: String,
-    var apiKey: String,
-    var secreteKey: String,
-    var adharCardNumber: String,
-    var panCardNumber: String,
-    var phoneNumber: String,
-    var isEmail: Boolean,
-    var isMobile: Boolean,
-    var isKycCompleted: Boolean,
+data class RegisterPayload(
+    val adharCardNumber: String,
+    val apiKey: String,
+    val email: String,
+    val firstName: String,
+    val lastName: String,
+    val panCardNumber: String,
+    val password: String,
+    val phoneNumber: String,
+    val profileImage: String,
+    val secreteKey: String
 )

@@ -1,29 +1,46 @@
 package com.example.cryptoapp.modual.login
 
-import android.content.Context
+import android.Manifest
+import android.app.Dialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
+import android.util.Base64
 import android.view.View
 import android.view.View.GONE
 import android.view.View.OnClickListener
+import android.view.Window
+import android.view.WindowManager
 import android.widget.*
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
+import com.example.cryptoapp.Constants.Companion.showLog
+import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
-import com.example.cryptoapp.Response.RegisterResponse
-import com.example.cryptoapp.model.RegisterPayload
+import com.example.cryptoapp.Response.SendRegistrationOtpResponce
+import com.example.cryptoapp.model.SendRegistrationOtpPayload
+import com.example.cryptoapp.modual.countries.CountriesAdapter
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.util.regex.Pattern
+
 
 class RegisterActivity : AppCompatActivity(), OnClickListener {
 
@@ -34,6 +51,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     lateinit var sp_et_lastName: EditText
     lateinit var sp_et_password: EditText
     lateinit var sp_et_rePassword: EditText
+    lateinit var mn_et_country_code: TextView
     lateinit var cb_term_accept: CheckBox
 
     lateinit var view: View
@@ -73,12 +91,28 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     private val pickCamera = 200
     private var imageUri: Uri? = null
 
+    lateinit var imagePath: String
+
     lateinit var bs_img_camera: ImageView
     lateinit var bs_img_gallery: ImageView
     lateinit var dialog: BottomSheetDialog
+    lateinit var bytesofimage: ByteArray
+    lateinit var photo: Bitmap
+    var encodeImageString: String = ""
+    var countryId: String = ""
+
+
+    lateinit var countriesAdapter: CountriesAdapter
+    lateinit var rv_countryName: RecyclerView
+    lateinit var viewLoader: View
+    lateinit var animationView: LottieAnimationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+        if (ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA)
+            == PackageManager.PERMISSION_DENIED
+        )
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), pickCamera)
 
         init()
 
@@ -92,6 +126,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         sp_et_rePassword = findViewById(R.id.sp_et_rePassword)
         txt_sign_here_two = findViewById(R.id.txt_sign_here_two)
         reg_profile_img = findViewById(R.id.reg_profile_img)
+        mn_et_country_code = findViewById(R.id.mn_et_country_code)
 
         sp_et_email = findViewById(R.id.sp_et_email)
         mn_et_phone = findViewById(R.id.mn_et_phone)
@@ -104,13 +139,20 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         progressBar_cardView = view.findViewById(R.id.progressBar_cardView)
         register_progressBar.visibility = View.GONE
         resent = view.findViewById(R.id.resent)
+
+
         resent.text = getString(R.string.sign_up)
         progressBar_cardView.setOnClickListener(this)
         txt_sign_in_here.setOnClickListener(this)
         txt_sign_here_two.setOnClickListener(this)
         cb_term_accept.setOnClickListener(this)
         reg_profile_img.setOnClickListener(this)
+        mn_et_country_code.setOnClickListener(this)
 
+        if (intent.getStringExtra("countryCode") != null) {
+            mn_et_country_code.text = "+ ${intent.getStringExtra("countryCode")}"
+            countryId = intent.getStringExtra("countryId").toString()
+        }
 
         sp_et_password.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -124,11 +166,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     sp_et_password.setError(getString(R.string.valid_password))
                 } else {
-                    Toast.makeText(
-                        this@RegisterActivity,
-                        "Password Verify Done!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showToast(this@RegisterActivity, getString(R.string.password_verify_done))
                 }
             }
 
@@ -148,15 +186,10 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
 
                 var pwd = sp_et_rePassword.text.toString().trim()
 
-
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     sp_et_rePassword.setError(getString(R.string.valid_password))
                 } else {
-                    Toast.makeText(
-                        this@RegisterActivity,
-                        "Repassword Verify Done!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showToast(this@RegisterActivity, getString(R.string.re_password_verify_done))
                 }
             }
 
@@ -165,6 +198,30 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
             }
 
         })
+    }
+
+    private fun setupAnim() {
+        animationView.setAnimation(R.raw.currency)
+        animationView.repeatCount = LottieDrawable.INFINITE
+        animationView.playAnimation()
+    }
+
+    private fun getCountries() {
+
+        viewLoader.visibility = View.VISIBLE
+        lifecycleScope.launch(Dispatchers.IO) {
+            var response = ServiceBuilder(this@RegisterActivity).buildService(RestApi::class.java)
+                .getCountries()
+            withContext(Dispatchers.Main) {
+                viewLoader.visibility = GONE
+                rv_countryName.layoutManager = LinearLayoutManager(this@RegisterActivity)
+                countriesAdapter = CountriesAdapter(
+                    this@RegisterActivity,
+                    response.body()!!
+                )
+                rv_countryName.adapter = countriesAdapter
+            }
+        }
     }
 
     override fun onClick(p0: View?) {
@@ -180,8 +237,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                 rePassword = sp_et_rePassword.text.toString()
 
                 if (validation() == true) {
-                    // Toast.makeText(this@RegisterActivity,"Register",Toast.LENGTH_SHORT).show()
-                    addCreateAccount()
+                    sendRegistrationOtp()
                 }
             }
             R.id.txt_sign_in_here -> {
@@ -206,8 +262,79 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                 dialog.dismiss()
             }
 
+            R.id.mn_et_country_code -> {
+                exit()
+            }
+
         }
     }
+
+    fun exit() {
+        val dialog = Dialog(this, android.R.style.ThemeOverlay)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.getWindow()?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        );
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.custom_countries)
+        viewLoader = dialog.findViewById(R.id.loader_animation)
+        animationView = viewLoader.findViewById(R.id.lotti_img)
+        rv_countryName = dialog.findViewById(R.id.rv_countryName)
+        setupAnim()
+        getCountries()
+        dialog.show()
+    }
+
+    fun sendRegistrationOtp() {
+
+        register_progressBar.visibility = View.VISIBLE
+        val response = ServiceBuilder(this@RegisterActivity).buildService(RestApi::class.java)
+
+        val payload = SendRegistrationOtpPayload(
+            email,
+            firsName,
+            phone,
+        )
+
+        response.addSendRegistrationOtp(payload)
+            .enqueue(
+                object : retrofit2.Callback<SendRegistrationOtpResponce> {
+                    override fun onResponse(
+                        call: retrofit2.Call<SendRegistrationOtpResponce>,
+                        response: retrofit2.Response<SendRegistrationOtpResponce>
+                    ) {
+                        if (response.body()?.isSuccess == true) {
+                            register_progressBar.visibility = GONE
+                            val intent = Intent(this@RegisterActivity, OtpActivity::class.java)
+                            intent.putExtra("email", email)
+                            intent.putExtra("phone", phone)
+                            intent.putExtra("firsName", firsName)
+                            intent.putExtra("lastName", lastName)
+                            intent.putExtra("rePassword", rePassword)
+                            intent.putExtra("imageUri", encodeImageString)
+                            intent.putExtra("countryId", countryId)
+                            startActivity(intent)
+
+                            response.body()?.message?.let { showToast(this@RegisterActivity, it) }
+                        } else {
+                            register_progressBar.visibility = GONE
+                            Toast.makeText(this@RegisterActivity, "Failed", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: retrofit2.Call<SendRegistrationOtpResponce>,
+                        t: Throwable
+                    ) {
+                        register_progressBar.visibility = GONE
+                        showToast(this@RegisterActivity, getString(R.string.register_failed))
+                    }
+                }
+            )
+    }
+
 
     private fun signInHere() {
         val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
@@ -231,113 +358,43 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
 
     private fun openCamera() {
         val gallery = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        // startActivityForResult(gallery, pickCamera)
-        if (gallery.resolveActivity(packageManager) != null) {
-            getAction.launch(gallery)
-        }
-
-
+        startActivityForResult(gallery, pickCamera)
     }
 
     private fun openGallery() {
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-        if (gallery.resolveActivity(packageManager) != null) {
-            getGallery.launch(gallery)
+        startActivityForResult(gallery, pickImage)
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == RESULT_OK && requestCode == pickImage) {
+            try {
+                imageUri = data?.data
+                val inputStream = contentResolver.openInputStream(imageUri!!)
+                var bitmap = BitmapFactory.decodeStream(inputStream)
+                reg_profile_img.setImageBitmap(bitmap)
+                encodeBitmapImage(bitmap)
+                showLog("photo", photo.toString())
+            } catch (ex: Exception) {
+            }
+        } else if (resultCode == RESULT_OK && requestCode == pickCamera) {
+            photo = data?.extras?.get("data") as Bitmap
+            showLog("photo", photo.toString())
+            encodeBitmapImage(photo)
+            reg_profile_img.setImageBitmap(photo)
         }
     }
 
-    val getAction = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        val photo: Bitmap = it?.data?.extras?.get("data") as Bitmap
-        //  imageUri = getImageUriFromBitmap(this@ProfileActivity, photo)
-        reg_profile_img.setImageBitmap(photo)
-    }
-    val getGallery = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        imageUri = it.data?.data
-        reg_profile_img.setImageURI(imageUri)
-    }
 
-
-    fun getImageUriFromBitmap(context: Context, bitmap: Bitmap): Uri {
-        val bytes = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path =
-            MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, "Title", null)
-        return Uri.parse(path.toString())
-    }
-
-    fun addCreateAccount() {
-
-        register_progressBar?.visibility = View.VISIBLE
-        val response = ServiceBuilder.buildService(RestApi::class.java)
-
-        //val payload = RegisterPayload(password,rePassword,email,firsName,lastName,"","","","","",phone,"Appu25")
-        val payload = RegisterPayload(
-            email,
-            firsName,
-            lastName,
-            rePassword,
-            email,
-            "",
-            "",
-            "",
-            "",
-            "",
-            phone,
-            false,
-            false,
-            false
-        )
-        val gson = Gson()
-        val json = gson.toJson(payload)
-        Log.d("test", json)
-        response.addRegister(payload)
-            .enqueue(
-                object : retrofit2.Callback<RegisterResponse> {
-                    override fun onResponse(
-                        call: retrofit2.Call<RegisterResponse>,
-                        response: retrofit2.Response<RegisterResponse>
-                    ) {
-
-                        Log.d("test", response.toString())
-                        Log.d("test", response.body().toString())
-
-                        if (response.body()?.code == "200") {
-                            register_progressBar?.visibility = GONE
-                            Toast.makeText(
-                                this@RegisterActivity,
-                                response.body()?.message,
-                                Toast.LENGTH_LONG
-                            ).show()
-
-                            val intent = Intent(this@RegisterActivity, OtpActivity::class.java)
-                            intent.putExtra("email", response.body()?.data?.email)
-                            intent.putExtra("phone", response.body()?.data?.mobile_No)
-                            intent.putExtra("emailOtp", response.body()?.data?.email_OTP)
-                            intent.putExtra("mobileOtp", response.body()?.data?.mobile_OTP)
-                            startActivity(intent)
-
-                        } else {
-                            register_progressBar?.visibility = GONE
-                            Toast.makeText(
-                                this@RegisterActivity,
-                                "User not created!",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                    }
-
-                    override fun onFailure(call: retrofit2.Call<RegisterResponse>, t: Throwable) {
-                        Log.d("test", t.toString())
-
-                        register_progressBar?.visibility = GONE
-                        Toast.makeText(this@RegisterActivity, t.toString(), Toast.LENGTH_LONG)
-                            .show()
-                    }
-
-                }
-            )
-
-
+    private fun encodeBitmapImage(bitmap: Bitmap) {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        bytesofimage = byteArrayOutputStream.toByteArray()
+        encodeImageString = Base64.encodeToString(bytesofimage, Base64.DEFAULT)
+        showLog("photo", encodeImageString.toString())
     }
 
     fun validation(): Boolean {
@@ -374,7 +431,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
             return false;
         }
 
-
         if (sp_et_password.length() == 0) {
             sp_et_password.setError(getString(R.string.password_error));
             return false;
@@ -382,22 +438,20 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
 
         if (sp_et_rePassword.length() == 0) {
             sp_et_rePassword.setError(getString(R.string.repassword_error));
-            return false;
+            return false
         }
 
         if (!sp_et_password.text.toString().equals(sp_et_rePassword.text.toString())) {
-            sp_et_rePassword.setError(getString(R.string.password_not_error));
-            return false;
+            sp_et_rePassword.setError(getString(R.string.password_not_error))
+            return false
         }
 
         if (cb_term_accept.isChecked == false) {
-            Toast.makeText(this, "Please accept terms and condition", Toast.LENGTH_SHORT).show()
+            showToast(this@RegisterActivity, getString(R.string.please_accept_condition))
             return false
         }
 
         return true
+
     }
-
 }
-
-

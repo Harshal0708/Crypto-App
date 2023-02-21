@@ -12,21 +12,18 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-
-
     <include
+        android:id="@+id/loader_animation"
+        layout="@layout/loader_animation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/loader_animation"
         android:gravity="center"
-        layout="@layout/loader_animation"
-        android:visibility="gone"
         android:indeterminateTint="@color/primary_color"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline21"
@@ -56,22 +53,47 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_end="20dp" />
 
-    <ImageView
-        android:id="@+id/login_img"
+
+    <!--on below line we are adding view pager -->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/login_ViewPager"
         android:layout_width="0dp"
-        android:layout_height="150dp"
+        android:layout_height="250dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline23"
         app:layout_constraintStart_toStartOf="@+id/guideline21"
-        app:layout_constraintTop_toTopOf="@+id/guideline22"
-        app:srcCompat="@drawable/ic_splash" />
+        app:layout_constraintTop_toTopOf="@+id/guideline22" />
+
+
+    <FrameLayout
+        android:id="@+id/view_pager"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/guideline23"
+        app:layout_constraintStart_toStartOf="@+id/guideline21"
+        app:layout_constraintTop_toBottomOf="@+id/login_ViewPager" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/strategies_rv"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline24"
         app:layout_constraintEnd_toStartOf="@+id/guideline23"
         app:layout_constraintStart_toStartOf="@+id/guideline21"
-        app:layout_constraintTop_toBottomOf="@+id/login_img" />
+        app:layout_constraintTop_toBottomOf="@+id/view_pager" />
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/output"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="PL"-->
+    <!--        android:textColor="@color/txt_color"-->
+    <!--        android:textSize="22sp"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/guideline23"-->
+    <!--        app:layout_constraintStart_toStartOf="@+id/guideline21"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/login_ViewPager" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+

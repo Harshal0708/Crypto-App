@@ -1,7 +1,21 @@
 <resources>
     <string name="app_name">CryptoApp</string>
     <string name="hello">Hello</string>
+    <string name="home">Home</string>
+    <string name="history">History</string>
+    <string name="watchlist">Watchlist</string>
+    <string name="setting">Setting</string>
+    <string name="profile">Profile</string>
+    <string name="my_profile">My Profile</string>
+    <string name="dark_theme">Dark Theme</string>
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="logout_successfully">Logout Successfully</string>
+    <string name="user_not_created">User not created!</string>
+    <string name="register_failed">Register Failed</string>
+    <string name="otp_failed">OTP Verify Failed</string>
+    <string name="please_accept_condition">Please accept terms and condition</string>
+    <string name="login_failed">Login Failed</string>
     <string name="save">Save</string>
     <string name="sign_in_with">- Or Sign in With -</string>
     <string name="next">Next</string>
@@ -16,6 +30,15 @@
     <string name="submit">Submit</string>
     <string name="verify_continue">Verify &amp; Continue</string>
     <string name="password">Password</string>
+    <string name="subscription">Subscription</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="share_this_app">Share This App</string>
+    <string name="password_verify_done">Password Verify Done!</string>
+    <string name="re_password_verify_done">Re Password Verify Done!</string>
+    <string name="reset_password_not_completed">Reset Password not completed!</string>
+    <string name="forgot_password_not_completed">Forgot Password not completed!</string>
+    <string name="data_not_found">Data Not Found!</string>
     <string name="new_password">New Password</string>
     <string name="reenter_password">Reenter Password</string>
     <string name="welcome_to_crypto">Welcome to crypto</string>
@@ -36,11 +59,12 @@
     <string name="valid_aadhar_number">Please enter valid 12 Digit Aadhar card number</string>
     <string name="valid_pan_number">Please enter valid 10 Digit Pan card number</string>
     <string name="valid_otp">Please enter valid OTP</string>
-    <string name="valid_password">Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character:</string>
+    <string name="valid_password">Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.</string>
     <string name="resend_in">RESEND IN :- </string>
     <string name="otp_verify_done">OTP verify done</string>
     <string name="pan_number">PAN number</string>
     <string name="create_a_crypto_account">Don\'t have an account ?</string>
+    <string name="can_not_scan">Can\'t Scan?Copy the key.</string>
     <string name="dont_receive">Don\'t receive OTP ?</string>
     <string name="already_account">Already have an account ?</string>
     <string name="create">Create</string>
@@ -52,6 +76,7 @@
     <string name="resend">Resend</string>
     <string name="reset">Reset</string>
     <string name="phone_number">Phone Number</string>
+    <string name="country_code">- -</string>
     <string name="phone">Phone</string>
     <string name="sign_up">Sign Up</string>
     <string name="create_account">Create your Account</string>
@@ -65,6 +90,7 @@
     <string name="password_error">Password field is required!</string>
     <string name="repassword_error">Reenter Password field is required!</string>
     <string name="password_not_error">Password and Reenter Password field Not Match!</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- to toggle the open close button of the navigation drawer -->

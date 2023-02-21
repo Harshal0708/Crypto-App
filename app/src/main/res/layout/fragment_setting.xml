@@ -1,16 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reg_profile_img"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:gravity="center"
+    android:background="@color/background"
+    android:fillViewport="true"
+
     tools:context=".modual.dashbord.SettingFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Setting" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</LinearLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="20dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="20dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="20dp" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:background="@color/primary_color"
+            app:layout_constraintEnd_toStartOf="@+id/guideline15"
+            app:layout_constraintStart_toStartOf="@+id/guideline13"
+
+            app:layout_constraintTop_toTopOf="@+id/guideline14" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_setting_profile"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/star"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+            app:layout_constraintEnd_toStartOf="@+id/guideline15"
+            app:layout_constraintStart_toStartOf="@+id/guideline13"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            tools:src="@drawable/star" />
+
+        <TextView
+            android:id="@+id/txt_setting_username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Apurva patel"
+            android:textAlignment="center"
+            android:textColor="@color/txt_color"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline15"
+            app:layout_constraintStart_toStartOf="@+id/guideline13"
+            app:layout_constraintTop_toBottomOf="@+id/img_setting_profile"
+            tools:text="Apurva Patel" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="16dp"
+
+            app:cardCornerRadius="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline15"
+            app:layout_constraintStart_toStartOf="@+id/guideline13"
+            app:layout_constraintTop_toBottomOf="@+id/txt_setting_username">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="18dp">
+
+
+                <TextView
+                    android:id="@+id/txt_setting_subscription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_phone"
+                    android:drawableEnd="@drawable/ic__navigate"
+                    android:drawablePadding="8dp"
+                    android:text="@string/subscription"
+                    android:textColor="@color/edit_text_color"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/txt_setting_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="24dp"
+                    android:drawableStart="@drawable/ic_phone"
+                    android:drawableEnd="@drawable/ic__navigate"
+                    android:drawablePadding="8dp"
+
+                    android:text="@string/reset_password"
+                    android:textColor="@color/edit_text_color"
+                    android:textSize="20sp"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_setting_subscription"
+                    tools:layout_editor_absoluteX="18dp"
+                    tools:text="@string/reset_password" />
+
+                <TextView
+                    android:id="@+id/txt_setting_share_app"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="24dp"
+                    android:drawableStart="@drawable/ic_phone"
+                    android:drawableEnd="@drawable/ic__navigate"
+                    android:drawablePadding="8dp"
+                    android:text="@string/share_this_app"
+                    android:textColor="@color/edit_text_color"
+                    android:textSize="20sp"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_setting_password"
+                    tools:layout_editor_absoluteX="18dp" />
+
+                <TextView
+                    android:id="@+id/txt_setting_privacy_policy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:drawableStart="@drawable/ic_phone"
+                    android:drawableEnd="@drawable/ic__navigate"
+                    android:drawablePadding="8dp"
+                    android:text="@string/privacy_policy"
+                    android:textColor="@color/edit_text_color"
+                    android:textSize="20sp"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_setting_share_app"
+                    tools:layout_editor_absoluteX="18dp" />
+
+                  <TextView
+                    android:id="@+id/txt_setting_logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:drawableStart="@drawable/ic_phone"
+                    android:drawableEnd="@drawable/ic__navigate"
+                    android:drawablePadding="8dp"
+                    android:text="@string/logout"
+                    android:textColor="@color/edit_text_color"
+                    android:textSize="20sp"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_setting_privacy_policy"
+                    tools:layout_editor_absoluteX="18dp" />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

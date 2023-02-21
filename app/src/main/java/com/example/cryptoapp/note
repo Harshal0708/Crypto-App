@@ -1,10 +1,3 @@
-Login
-
-9722183897
-Admin@123
-
-tejas.patel083@gmail.com
-9913594062
 ------------------------------------------------------------------------------
 
 1) https://www.youtube.com/watch?v=TTw3mVuLUC4&list=PL6Rs84MkNq7kxiqWbFouRTv_j5rbr8goX&index=2
@@ -23,41 +16,79 @@ tejas.patel083@gmail.com
 - https://github.com/4mirfor3v3r/ButtonLoadingAnimation
 - https://www.youtube.com/watch?v=sHL8XbvxZdA
 
-6)
-val gson = Gson()
-val json = gson.toJson(topic)
-
-val json = getJson()
-val topic = gson.fromJson(json, Topic::class.java)
-
-7) Crypto UI
+6) Crypto UI
 -https://www.uplabs.com/posts/crypto-819acc15-fc11-405f-8b53-fb41ee69c8fc
 -https://www.uplabs.com/posts/cryptocurrency-app-e26c067b-6b39-43ad-a7fd-969ca09fba73
 -https://www.uplabs.com/posts/cryptocurrency-mobile-app-e3937f2c-fda4-4f98-8411-6b6e88246236
 
-8) MPAndroidChart
+7) MPAndroidChart
 - https://github.com/PhilJay/MPAndroidChart
 
-9) Bar chart
+8) Bar chart
 - https://www.geeksforgeeks.org/android-create-barchart-with-kotlin/
 
-10) Line Chart
+9) Line Chart
 - https://medium.com/cnk-tech/android-line-chart-621f56410883
 
-11) Pie Chart
+10) Pie Chart
 - https://medium.com/@clyeung0714/using-mpandroidchart-for-android-application-piechart-123d62d4ddc0
 
-12) Navigation Drawer
+11) Navigation Drawer
 - https://github.com/foxandroid/Navigation_Drawer
 
-13) Verification
+12) Verification
 - https://www.frslabs.com/
 
-14) Custom Drawer
+13) Custom Drawer
 - https://www.youtube.com/watch?v=FxYBxVPaK1w
 
-15) Logging Interceptor
+14) Logging Interceptor
 - https://www.youtube.com/watch?v=_tTZLAenpm8&list=PLlxmoA0rQ-LzEmWs4T99j2w6VnaQVGEtR&index=15
 
-16) Otp Fetch
+15) Otp Fetch
 - https://www.youtube.com/watch?v=ebZfTX_tQAU
+
+16) Refresh Token
+https://www.simplifiedcoding.net/retrofit-authenticator-refresh-token/
+
+17) Pagination
+https://www.geeksforgeeks.org/how-to-implement-pagination-in-android-recyclerview-using-volley/
+
+18) Stripe
+https://stripe.com/docs/payments/accept-a-payment?platform=android
+https://dashboard.stripe.com/login
+
+- Create Stripe Payment Gateway India Account 2022 [ Step-by-step ] | #stripe
+  https://www.youtube.com/watch?v=h12wNuOher4&t=714s
+
+- Add customer on stripe in android | stripe tutorial part-1
+https://www.youtube.com/watch?v=R3-Zv0MWxPE&list=PLP3n9fVnZyNBRzqD7EvfrgtlrvGESjEsn&index=2
+
+  https://www.youtube.com/watch?v=l-qNbtma2cI
+
+19) Socket Programming
+- https://www.tutorialspoint.com/sending-and-receiving-data-with-sockets-in-android
+
+---error---
+1) HTTP FAILED: java.net.SocketTimeoutException: timeout
+2) java.net.ConnectException: Failed to connect to /103.14.99.61:8084
+-https://stackoverflow.com/questions/15608499/getting-java-net-sockettimeoutexception-connection-timed-out-in-android
+3) presentForPaymentIntent() may only be called when Google Pay is available on this device.
+
+- Why does the Stripe Google Pay Button not render for me on the UI despite not having any errors or exceptions?
+- Google Pay - Stripe Getting error Google Pay failed with error: 412:
+
+-https://www.youtube.com/watch?v=rXY_v3Y3t0Y
+
+---------------------
+
+- api/Strategy -Response Change
+- api/Strategy/id -Response Change
+
+https://binance.github.io/binance-api-swagger/
+https://binance-docs.github.io/apidocs/websocket_api/en/#change-log
+
+20) Threading
+-https://proandroiddev.com/kotlin-coroutines-and-threading-fundamentals-9fd0130437ae
+
+UI Freezing while doing heavy processing in background Android

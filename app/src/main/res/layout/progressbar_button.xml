@@ -5,13 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="8dp"
     android:layout_margin="12dp"
-
-    android:background="@drawable/ic_button_bg"
-   >
-
+    android:background="@drawable/ic_button_bg">
 
     <RelativeLayout
-
         android:id="@+id/progressBar_cardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

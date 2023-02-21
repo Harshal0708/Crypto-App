@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="@color/background"
     tools:context=".modual.login.LoginActivity">
 
@@ -48,7 +47,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
-            android:fontFamily="@font/montserrat_medium"
+            android:fontFamily="@font/helvetica_bold"
 
             android:text="@string/hello"
             android:textAlignment="viewStart"
@@ -60,25 +59,38 @@
             app:layout_constraintStart_toStartOf="@+id/guideline17"
             app:layout_constraintTop_toTopOf="@+id/guideline18" />
 
-        <EditText
-            android:id="@+id/login_emailNumber"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/login_con"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:background="@drawable/background_edittext"
-            android:drawableStart="@drawable/ic_email"
-            android:drawablePadding="8dp"
-            android:fontFamily="@font/roboto_light"
-            android:hint="@string/email_number"
-            android:padding="8dp"
-            android:textColor="@color/edit_text_color"
-            android:textColorHint="@color/edit_text_hint_color"
-            android:textSize="18sp"
-            android:typeface="normal"
             app:layout_constraintEnd_toStartOf="@+id/guideline19"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline17"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/textView">
+
+            <EditText
+                android:id="@+id/login_emailNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:background="@drawable/background_edittext"
+                android:drawableStart="@drawable/ic_email"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/roboto_light"
+                android:hint="@string/email_number"
+                android:padding="8dp"
+                android:textColor="@color/edit_text_color"
+                android:textColorHint="@color/edit_text_hint_color"
+                android:textSize="18sp"
+                android:typeface="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <EditText
             android:id="@+id/pwd_password"
@@ -87,7 +99,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/background_edittext"
             android:drawableStart="@drawable/ic_lock"
-            android:drawableEnd="@drawable/ic_eye"
+            android:drawableEnd="@drawable/ic_eye_off"
             android:drawablePadding="8dp"
             android:fontFamily="@font/roboto_light"
             android:hint="@string/password"
@@ -100,7 +112,7 @@
             app:layout_constraintEnd_toStartOf="@+id/guideline19"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/guideline17"
-            app:layout_constraintTop_toBottomOf="@+id/login_emailNumber" />
+            app:layout_constraintTop_toBottomOf="@+id/login_con" />
 
         <include
             android:id="@+id/btn_progressBar"

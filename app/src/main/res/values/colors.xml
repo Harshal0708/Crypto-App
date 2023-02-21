@@ -12,20 +12,27 @@
     <color name="edit_text_hint_color">#C1C1C1</color>
 
     <color name="background">@color/white</color>
+    <color name="bottom_background">@color/sky_light</color>
     <color name="background_day">@color/dark</color>
     <color name="txt_color">@color/edit_text_color</color>
     <color name="icon_color">@color/primary_color</color>
     <color name="blue">#1200FF</color>
     <color name="hello">#272C37</color>
-    <color name="sky_light">#165DE8</color>
+    <color name="sky_light">#FFCC00</color>
 <!--    <color name="primary_color">#1f7fe8</color>-->
-    <color name="primary_color">#4F73FB</color>
+<!--    <color name="primary_color">#4F73FB</color>-->
+    <color name="primary_color">#FFCC00</color>
     <color name="secondary_color">#8cbbf2</color>
     <color name="light_green">#3ee4a3</color>
-    <color name="light_grey">#80E9EBED</color>
+    <color name="light_grey">#DA888F97</color>
     <color name="red">#E40C37</color>
-
+    <color name="bottom_icon_color">@color/black</color>
+    <color name="bottom_icon_color_1">@color/lighttab</color>
     <color name="lighgrey">#989797</color>
     <color name="lighgreytab">#F2F0F2</color>
+    <color name="lighttab">#5E000000</color>
+
     <color name="underline">#D8D6D6</color>
+    <color name="divider">#D28A8282</color>
+
 </resources>

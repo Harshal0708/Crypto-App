@@ -1,7 +1,6 @@
 package com.example.cryptoapp.modual.login
 
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -9,22 +8,22 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnClickListener
-import android.view.View.OnTouchListener
+import android.view.View.*
 import android.widget.*
+import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.LoginResponse
 import com.example.cryptoapp.model.LoginPayload
+import com.example.cryptoapp.modual.authenticator.GoogleAuthenticatorActivity
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.preferences.MyPreferences
 import com.google.gson.Gson
 import java.util.regex.Pattern
 
-class LoginActivity : AppCompatActivity(), OnClickListener,OnTouchListener {
+class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
 
     lateinit var login_signUp: TextView
     lateinit var login_emailNumber: EditText
@@ -65,7 +64,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener,OnTouchListener {
     )
 
     lateinit var preferences: MyPreferences
-    var passwordVisiable = false
+    var passwordVisiable = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -75,6 +74,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener,OnTouchListener {
 
     fun init() {
         preferences = MyPreferences(this)
+
         login_signUp = findViewById(R.id.txt_sign_in_here)
         login_emailNumber = findViewById(R.id.login_emailNumber)
         pwd_password = findViewById(R.id.pwd_password)
@@ -107,18 +107,11 @@ class LoginActivity : AppCompatActivity(), OnClickListener,OnTouchListener {
                 var pwd = pwd_password.text.toString().trim()
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
-                  //  pwd_password.setError(getString(R.string.valid_password))
-                    Toast.makeText(
-                        this@LoginActivity,
-                        getString(R.string.valid_password),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    if (pwd.length > 5) {
+                        showToast(this@LoginActivity, getString(R.string.valid_password))
+                    }
                 } else {
-                    Toast.makeText(
-                        this@LoginActivity,
-                        "Password Verify Done!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showToast(this@LoginActivity, getString(R.string.password_verify_done))
                 }
             }
 
@@ -130,15 +123,12 @@ class LoginActivity : AppCompatActivity(), OnClickListener,OnTouchListener {
 
     }
 
-
     override fun onClick(p0: View?) {
         val id = p0!!.id
         when (id) {
             R.id.progressBar_cardView -> {
-
                 password = pwd_password.text.toString()
                 if (btLogin() == true) {
-
                     addLogin(login_emailNumber.text.toString())
                 }
             }
@@ -160,83 +150,54 @@ class LoginActivity : AppCompatActivity(), OnClickListener,OnTouchListener {
     private fun addLogin(email: String) {
         register_progressBar.visibility = View.VISIBLE
 
-        val response = ServiceBuilder.buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@LoginActivity).buildService(RestApi::class.java)
 
         var str_email = ""
         var str_mobile = ""
+
         if (isMobile == false) {
             str_email = email
         } else {
             str_mobile = email
         }
 
-        val payload =
-            LoginPayload(
-                str_email,
-                password,
-                str_mobile,
-                false
-            )
+        val payload = LoginPayload(
+            str_email, password, str_mobile, false
+        )
 
-        response.addLogin(payload)
-            .enqueue(
-                object : retrofit2.Callback<LoginResponse> {
-                    override fun onResponse(
-                        call: retrofit2.Call<LoginResponse>,
-                        response: retrofit2.Response<LoginResponse>
-                    ) {
+//        val payload = LoginPayload(
+//            "apurva.skyttus@gmail.com", "Test@123", "9714675391", false
+//        )
 
-                        if (response.body()?.code == "200") {
-                            register_progressBar.visibility = View.GONE
-
-                            preferences.setLogin(response.body()?.data)
-
-                            if(cb_remember_me.isChecked == true){
-                                preferences.setRemember(true)
-                            }
-
-                            var intent = Intent(this@LoginActivity, LoginOtpActivity::class.java)
-                            intent.putExtra("phone", response.body()?.data?.mobile)
-                            intent.putExtra("email", response.body()?.data?.email)
-                            intent.putExtra("mobileOtp", response.body()?.data?.otp)
-                            intent.putExtra("userId", response.body()?.data?.userId)
-                            startActivity(intent)
-                            finish()
-
-                            Toast.makeText(
-                                this@LoginActivity,
-                                response.body()?.message,
-                                Toast.LENGTH_LONG
-                            ).show()
-                        } else {
-
-                            register_progressBar.visibility = View.GONE
-                            Toast.makeText(
-                                this@LoginActivity,
-                                "Not Login!",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-
-                    }
-
-                    override fun onFailure(call: retrofit2.Call<LoginResponse>, t: Throwable) {
-                        Toast.makeText(this@LoginActivity, t.toString(), Toast.LENGTH_LONG)
-                            .show()
-                        Log.d("test", t.toString())
-                    }
-
+        response.addLogin(payload).enqueue(object : retrofit2.Callback<LoginResponse> {
+            override fun onResponse(
+                call: retrofit2.Call<LoginResponse>, response: retrofit2.Response<LoginResponse>
+            ) {
+                showToast(this@LoginActivity, response.body()?.message.toString())
+                register_progressBar.visibility = GONE
+                if (response.body()?.isSuccess == true) {
+                    var intent = Intent(this@LoginActivity, GoogleAuthenticatorActivity::class.java)
+                    intent.putExtra("data", Gson().toJson(response.body()?.data))
+                    intent.putExtra("isChecked", cb_remember_me.isChecked)
+                    startActivity(intent)
                 }
-            )
+            }
+
+            override fun onFailure(call: retrofit2.Call<LoginResponse>, t: Throwable) {
+                register_progressBar.visibility = GONE
+                showToast(this@LoginActivity, getString(R.string.login_failed))
+            }
+
+        })
     }
 
+
     fun btLogin(): Boolean {
-        // login_emailNumber.setText("9722183897")
+
         if (login_emailNumber.length() == 0) {
             login_emailNumber.setError(getString(R.string.valid_error));
             return false
         }
-
 
         val str_email = login_emailNumber.text.toString().trim()
         if (str_email.contains("@")) {
@@ -263,31 +224,35 @@ class LoginActivity : AppCompatActivity(), OnClickListener,OnTouchListener {
             return false;
         }
 
-
         return true
     }
-
 
     fun btSignup() {
         val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)
-        finish()
     }
 
     override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
         val Right = 2
-        if(p1?.action == MotionEvent.ACTION_UP){
-            if(p1.getRawX()>= pwd_password?.right!!.minus(pwd_password.compoundDrawables[Right].getBounds().width())){
+        if (p1?.action == MotionEvent.ACTION_UP) {
+            if (p1.getRawX() >= pwd_password?.right!!.minus(
+                    pwd_password.compoundDrawables[Right].getBounds().width()
+                )
+            ) {
                 var selecion = pwd_password.selectionEnd
 
-                if(passwordVisiable){
-                    pwd_password.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_lock,0,R.drawable.ic_eye,0)
+                if (passwordVisiable) {
+                    pwd_password.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        R.drawable.ic_lock, 0, R.drawable.ic_eye, 0
+                    )
                     pwd_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance())
-                    passwordVisiable=false
-                }else{
-                    pwd_password.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_lock,0,R.drawable.ic_eye_off,0)
+                    passwordVisiable = false
+                } else {
+                    pwd_password.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        R.drawable.ic_lock, 0, R.drawable.ic_eye_off, 0
+                    )
                     pwd_password.setTransformationMethod(PasswordTransformationMethod.getInstance())
-                    passwordVisiable=true
+                    passwordVisiable = true
                 }
 
                 pwd_password.setSelection(selecion)
@@ -297,6 +262,4 @@ class LoginActivity : AppCompatActivity(), OnClickListener,OnTouchListener {
 
         return false
     }
-
-
 }

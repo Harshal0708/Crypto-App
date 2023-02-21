@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="@color/background"
+    android:layout_gravity="center"
     tools:context=".modual.login.RegisterActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
+
         >
 
         <androidx.constraintlayout.widget.Guideline
@@ -46,8 +46,8 @@
             android:id="@+id/txt_create_youre_account"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_medium"
 
+            android:fontFamily="@font/montserrat_medium"
             android:text="@string/sign_up"
             android:textAlignment="viewStart"
             android:textColor="@color/hello"
@@ -163,13 +163,33 @@
             app:layout_constraintStart_toStartOf="@+id/guideline50"
             app:layout_constraintTop_toBottomOf="@+id/sp_et_lastName" />
 
-        <EditText
-            android:id="@+id/mn_et_phone"
+        <TextView
+            android:id="@+id/mn_et_country_code"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/background_edittext"
             android:drawableStart="@drawable/ic_phone"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/roboto_light"
+            android:text="@string/country_code"
+            android:maxLength="10"
+            android:padding="8dp"
+            android:textColor="@color/edit_text_color"
+            android:textColorHint="@color/edit_text_hint_color"
+            android:textSize="18sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toStartOf="@+id/guideline50"
+            app:layout_constraintTop_toBottomOf="@+id/sp_et_email" />
+
+        <EditText
+            android:id="@+id/mn_et_phone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+
+            android:layout_marginTop="20dp"
+            android:background="@drawable/background_edittext"
             android:drawablePadding="8dp"
             android:fontFamily="@font/roboto_light"
             android:hint="@string/phone_number"
@@ -181,7 +201,7 @@
             android:textSize="18sp"
             android:typeface="normal"
             app:layout_constraintEnd_toStartOf="@+id/guideline53"
-            app:layout_constraintStart_toStartOf="@+id/guideline50"
+            app:layout_constraintStart_toEndOf="@+id/mn_et_country_code"
             app:layout_constraintTop_toBottomOf="@+id/sp_et_email" />
 
         <EditText
