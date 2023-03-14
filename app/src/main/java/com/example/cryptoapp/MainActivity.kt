@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
         nav_name.text = data.name
 
-        Log.d("test",data.profilePicture)
+        Log.d("test", data.profilePicture)
         if (data.profilePicture != null && data.profilePicture != "") {
             nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
         }

@@ -13,6 +13,8 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.R
@@ -44,13 +46,12 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
 
     lateinit var preferences: MyPreferences
     lateinit var data: DataXX
-
-
     lateinit var view: View
     lateinit var register_progressBar: ProgressBar
     lateinit var resent: TextView
     lateinit var progressBar_cardView: RelativeLayout
 
+    lateinit var animationView: LottieAnimationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +60,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
         qrIV = findViewById(R.id.idIVQrcode)
         idTVKey = findViewById(R.id.idTVKey)
         ed_totp = findViewById(R.id.ed_totp)
+        animationView = findViewById(R.id.auth_img)
 
         view = findViewById(R.id.btn_progressBar)
         register_progressBar = view.findViewById(R.id.register_progressBar)
@@ -71,6 +73,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
         data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
         preferences = MyPreferences(this)
 
+        setupAnim()
 
         progressBar_cardView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
@@ -80,19 +83,23 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                 } else {
                     addVerify2FA()
                 }
-
             }
-
         })
+
         idTVKey.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 copyTextToClipboard()
             }
-
         })
 
         getCheckUserGAKey(data.userId)
 
+    }
+
+    private fun setupAnim() {
+        animationView.setAnimation(R.raw.verified)
+        animationView.repeatCount = LottieDrawable.INFINITE
+        animationView.playAnimation()
     }
 
 
@@ -113,6 +120,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
         val payload = GenerateQrCodePayload(
             data.email
         )
+
         response.addGenerateQrCode(payload)
             .enqueue(object : retrofit2.Callback<BarcodeImageResponse> {
                 override fun onResponse(
@@ -127,7 +135,6 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                     qrIV.setImageBitmap(byteArrayToBitmap(response.body()?.data!!.barcodeImageUrl!!.toByteArray()))
 
                     Log.d("test", response.body()?.data!!.setupCode)
-
                 }
 
                 override fun onFailure(call: retrofit2.Call<BarcodeImageResponse>, t: Throwable) {
@@ -150,6 +157,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
             "3fa85f64-5717-4562-b3fc-2c963f66afa6",
             data.userId
         )
+
         response.addCreateUserGAKey(payload)
             .enqueue(object : retrofit2.Callback<GenerateQrCodeResponnse> {
                 override fun onResponse(
@@ -168,7 +176,6 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                     preferences.setToken(data.accessToken)
 
                     var intent = Intent(this@GoogleAuthenticatorActivity, UserActivity::class.java)
-
                     startActivity(intent)
                 }
 
@@ -183,7 +190,6 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                     )
                 }
             })
-
     }
 
     private fun addVerify2FA() {
@@ -203,9 +209,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                     call: retrofit2.Call<GenerateQrCodeResponnse>,
                     response: retrofit2.Response<GenerateQrCodeResponnse>
                 ) {
-
-
-                    if(response.body()?.data == true){
+                    if (response.body()?.data == true) {
                         if (isTrue == false) {
                             addCreateUserGAKey()
                         } else {
@@ -220,14 +224,15 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                             var intent =
                                 Intent(this@GoogleAuthenticatorActivity, UserActivity::class.java)
                             startActivity(intent)
-
                         }
-                    }else{
-                        Toast.makeText(this@GoogleAuthenticatorActivity,"Failed",Toast.LENGTH_LONG).show()
+
+                    } else {
+                        Toast.makeText(
+                            this@GoogleAuthenticatorActivity,
+                            "Failed",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
-
-
-
                 }
 
                 override fun onFailure(
@@ -265,7 +270,6 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                     addGenerateQrCode()
                     qrIV.visibility = View.VISIBLE
                 }
-
             }
         }
     }

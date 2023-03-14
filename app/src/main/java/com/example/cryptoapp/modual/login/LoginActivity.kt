@@ -1,5 +1,6 @@
 package com.example.cryptoapp.modual.login
 
+import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,19 +12,32 @@ import android.text.method.PasswordTransformationMethod
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.*
+import android.view.Window
+import android.view.WindowManager
 import android.widget.*
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
+import com.example.cryptoapp.Response.GetCountriesResponseItem
 import com.example.cryptoapp.Response.LoginResponse
 import com.example.cryptoapp.model.LoginPayload
 import com.example.cryptoapp.modual.authenticator.GoogleAuthenticatorActivity
+import com.example.cryptoapp.modual.countries.CountriesAdapter
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
+import com.example.cryptoapp.network.onItemClickListener
 import com.example.cryptoapp.preferences.MyPreferences
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.regex.Pattern
 
-class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
+class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onItemClickListener {
 
     lateinit var login_signUp: TextView
     lateinit var login_emailNumber: EditText
@@ -39,10 +53,12 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
     lateinit var forgot_password: TextView
     lateinit var login_create: TextView
     lateinit var cb_remember_me: CheckBox
+    lateinit var txt_login_country_code: TextView
 
     val PASSWORD = Pattern.compile(
         "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
     )
+
     lateinit var pwd_password: EditText
 //    val EMAIL_ADDRESS_PATTERN = Pattern.compile(
 //        "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -65,6 +81,15 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
 
     lateinit var preferences: MyPreferences
     var passwordVisiable = true
+
+    lateinit var countriesAdapter: CountriesAdapter
+    lateinit var rv_countryName: RecyclerView
+    lateinit var viewLoader: View
+    lateinit var animationView: LottieAnimationView
+    var countryId: String = ""
+    lateinit var getCountriesResponseItem: ArrayList<GetCountriesResponseItem>
+    lateinit var dialog : Dialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -87,17 +112,61 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
         progressBar_cardView = view.findViewById(R.id.progressBar_cardView)
         forgot_password = findViewById(R.id.forgot_password)
         login_create = findViewById(R.id.txt_otp_resend)
+        txt_login_country_code = findViewById(R.id.txt_login_country_code)
 
-        register_progressBar.visibility = View.GONE
+        register_progressBar.visibility = GONE
         resent = view.findViewById(R.id.resent)
         resent.text = getString(R.string.login)
         progressBar_cardView.setOnClickListener(this)
+        txt_login_country_code.setOnClickListener(this)
 
         forgot_password.setOnClickListener(this)
         login_create.setOnClickListener(this)
         pwd_password.setOnTouchListener(this)
 
-        pwd_password.addTextChangedListener(object : TextWatcher {
+        login_emailNumber.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                var pwd = login_emailNumber.text.toString().trim()
+
+                if (pwd.contains("@")) {
+                    if (!(EMAIL_ADDRESS_PATTERN.toRegex().matches(pwd))) {
+                        txt_login_country_code.visibility= GONE
+
+                        login_emailNumber.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                            R.drawable.ic_email, 0,0, 0
+                        )
+
+                    }
+                } else {
+
+                    if (TextUtils.isDigitsOnly(pwd)) {
+                        if (!(PHONE_NUMBER_PATTERN.toRegex().matches(pwd))) {
+                            txt_login_country_code.visibility= VISIBLE
+                            login_emailNumber.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                               0, 0,0, 0
+                            )
+                        }
+                    } else if (!(EMAIL_ADDRESS_PATTERN.toRegex().matches(pwd))) {
+                        txt_login_country_code.visibility= GONE
+                        login_emailNumber.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                            R.drawable.ic_email, 0,0, 0
+                        )
+                    }
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+            pwd_password.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
@@ -113,6 +182,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
                 } else {
                     showToast(this@LoginActivity, getString(R.string.password_verify_done))
                 }
+
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -122,16 +192,17 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
         })
 
     }
-
     override fun onClick(p0: View?) {
         val id = p0!!.id
         when (id) {
+
             R.id.progressBar_cardView -> {
                 password = pwd_password.text.toString()
                 if (btLogin() == true) {
                     addLogin(login_emailNumber.text.toString())
                 }
             }
+
             R.id.txt_sign_in_here -> {
                 btSignup()
             }
@@ -142,10 +213,54 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
             R.id.txt_otp_resend -> {
                 btSignup()
             }
-
+            R.id.txt_login_country_code -> {
+                exit()
+            }
         }
     }
 
+    fun exit() {
+        dialog = Dialog(this, android.R.style.ThemeOverlay)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.getWindow()?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        );
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.custom_countries)
+        viewLoader = dialog.findViewById(R.id.loader_animation)
+        animationView = viewLoader.findViewById(R.id.lotti_img)
+        rv_countryName = dialog.findViewById(R.id.rv_countryName)
+        setupAnim()
+        getCountries()
+        dialog.show()
+    }
+
+    private fun setupAnim() {
+        animationView.setAnimation(R.raw.currency)
+        animationView.repeatCount = LottieDrawable.INFINITE
+        animationView.playAnimation()
+    }
+
+    private fun getCountries() {
+        viewLoader.visibility = VISIBLE
+        lifecycleScope.launch(Dispatchers.IO) {
+            var response = ServiceBuilder(this@LoginActivity).buildService(RestApi::class.java)
+                .getCountries()
+            withContext(Dispatchers.Main) {
+                viewLoader.visibility = GONE
+                getCountriesResponseItem = response.body()!!
+                rv_countryName.layoutManager = LinearLayoutManager(this@LoginActivity)
+                countriesAdapter = CountriesAdapter(
+                    this@LoginActivity,
+                    getCountriesResponseItem,
+                    LoginActivity(),
+                    this@LoginActivity
+                )
+                rv_countryName.adapter = countriesAdapter
+            }
+        }
+    }
 
     private fun addLogin(email: String) {
         register_progressBar.visibility = View.VISIBLE
@@ -189,8 +304,8 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
             }
 
         })
-    }
 
+    }
 
     fun btLogin(): Boolean {
 
@@ -207,16 +322,19 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
                 return false
             }
         } else {
+
             if (TextUtils.isDigitsOnly(str_email)) {
                 isMobile = true
                 if (!(PHONE_NUMBER_PATTERN.toRegex().matches(str_email))) {
                     login_emailNumber.setError(getString(R.string.phone_error));
                     return false
                 }
+
             } else if (!(EMAIL_ADDRESS_PATTERN.toRegex().matches(str_email))) {
                 login_emailNumber.setError(getString(R.string.email_error));
                 return false
             }
+
         }
 
         if (pwd_password.length() == 0) {
@@ -256,10 +374,17 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener {
                 }
 
                 pwd_password.setSelection(selecion)
+
                 return true
             }
         }
 
         return false
+    }
+
+    override fun onItemClick(pos: Int) {
+        txt_login_country_code.text = "+ ${getCountriesResponseItem.get(pos).countryCode}"
+        countryId = getCountriesResponseItem.get(pos).id
+        dialog.dismiss()
     }
 }

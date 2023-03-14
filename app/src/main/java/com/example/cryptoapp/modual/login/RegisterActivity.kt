@@ -29,11 +29,13 @@ import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
+import com.example.cryptoapp.Response.GetCountriesResponseItem
 import com.example.cryptoapp.Response.SendRegistrationOtpResponce
 import com.example.cryptoapp.model.SendRegistrationOtpPayload
 import com.example.cryptoapp.modual.countries.CountriesAdapter
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
+import com.example.cryptoapp.network.onItemClickListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,7 +44,7 @@ import java.io.ByteArrayOutputStream
 import java.util.regex.Pattern
 
 
-class RegisterActivity : AppCompatActivity(), OnClickListener {
+class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListener {
 
 
     lateinit var sp_et_email: EditText
@@ -106,6 +108,9 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     lateinit var rv_countryName: RecyclerView
     lateinit var viewLoader: View
     lateinit var animationView: LottieAnimationView
+    lateinit var getCountriesResponseItem: ArrayList<GetCountriesResponseItem>
+    lateinit var dialog1 : Dialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -140,7 +145,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         register_progressBar.visibility = View.GONE
         resent = view.findViewById(R.id.resent)
 
-
         resent.text = getString(R.string.sign_up)
         progressBar_cardView.setOnClickListener(this)
         txt_sign_in_here.setOnClickListener(this)
@@ -148,11 +152,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         cb_term_accept.setOnClickListener(this)
         reg_profile_img.setOnClickListener(this)
         mn_et_country_code.setOnClickListener(this)
-
-        if (intent.getStringExtra("countryCode") != null) {
-            mn_et_country_code.text = "+ ${intent.getStringExtra("countryCode")}"
-            countryId = intent.getStringExtra("countryId").toString()
-        }
 
         sp_et_password.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -214,15 +213,19 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                 .getCountries()
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = GONE
+                getCountriesResponseItem = response.body()!!
                 rv_countryName.layoutManager = LinearLayoutManager(this@RegisterActivity)
                 countriesAdapter = CountriesAdapter(
                     this@RegisterActivity,
-                    response.body()!!
+                    getCountriesResponseItem,
+                    RegisterActivity(),
+                    this@RegisterActivity
                 )
                 rv_countryName.adapter = countriesAdapter
             }
         }
     }
+
 
     override fun onClick(p0: View?) {
         val id = p0!!.id
@@ -270,21 +273,22 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     }
 
     fun exit() {
-        val dialog = Dialog(this, android.R.style.ThemeOverlay)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.getWindow()?.setLayout(
+        dialog1 = Dialog(this, android.R.style.ThemeOverlay)
+        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog1.getWindow()?.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT
         );
-        dialog.setCancelable(true)
-        dialog.setContentView(R.layout.custom_countries)
-        viewLoader = dialog.findViewById(R.id.loader_animation)
+        dialog1.setCancelable(true)
+        dialog1.setContentView(R.layout.custom_countries)
+        viewLoader = dialog1.findViewById(R.id.loader_animation)
         animationView = viewLoader.findViewById(R.id.lotti_img)
-        rv_countryName = dialog.findViewById(R.id.rv_countryName)
+        rv_countryName = dialog1.findViewById(R.id.rv_countryName)
         setupAnim()
         getCountries()
-        dialog.show()
+        dialog1.show()
     }
+
 
     fun sendRegistrationOtp() {
 
@@ -453,5 +457,11 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
 
         return true
 
+    }
+
+    override fun onItemClick(pos: Int) {
+        mn_et_country_code.text = "+ ${getCountriesResponseItem.get(pos).countryCode}"
+        countryId = getCountriesResponseItem.get(pos).id
+        dialog1.dismiss()
     }
 }

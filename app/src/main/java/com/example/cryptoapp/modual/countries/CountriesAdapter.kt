@@ -12,12 +12,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.GetCountriesResponseItem
+import com.example.cryptoapp.modual.login.LoginActivity
 import com.example.cryptoapp.modual.login.RegisterActivity
+import com.example.cryptoapp.network.onItemClickListener
 
 
 class CountriesAdapter(
     val context: Context,
-    var getCountriesResponseItem: ArrayList<GetCountriesResponseItem>
+    var getCountriesResponseItem: ArrayList<GetCountriesResponseItem>,
+    var activity: Activity,
+    val onItemClickListener: onItemClickListener
 ) :
     RecyclerView.Adapter<CountriesAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -40,20 +44,21 @@ class CountriesAdapter(
         holder.txt_country_name.text = getCountriesResponseItem.get(position).countryName
         holder.txt_country_prefix.text = getCountriesResponseItem.get(position).countryPrefix
 
-        showLog("CountryName",getCountriesResponseItem.get(position).countryName)
+//        holder.con_country.setOnClickListener {
+//            val intent = Intent(context, activity::class.java)
+//            intent.putExtra(
+//                "countryCode",
+//                getCountriesResponseItem.get(position).countryCode.toString()
+//            )
+//            intent.putExtra("countryId", getCountriesResponseItem.get(position).id)
+//            context.startActivity(intent)
+//            (context as Activity).finish()
+//
+//        }
 
-        holder.con_country.setOnClickListener {
-            val intent = Intent(context, RegisterActivity::class.java)
-            intent.putExtra(
-                "countryCode",
-                getCountriesResponseItem.get(position).countryCode.toString()
-            )
-            intent.putExtra("countryId", getCountriesResponseItem.get(position).id)
-            context.startActivity(intent)
-            (context as Activity).finish()
-
+        holder.itemView.setOnClickListener {
+            onItemClickListener.onItemClick(position)
         }
-
     }
 
     override fun getItemCount(): Int {

@@ -240,11 +240,9 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                     showkeybord(otp_4, otp_5, true)
                 }
             }
-
             override fun afterTextChanged(p0: Editable?) {
 
             }
-
         })
 
         otp_6.addTextChangedListener(object : TextWatcher {

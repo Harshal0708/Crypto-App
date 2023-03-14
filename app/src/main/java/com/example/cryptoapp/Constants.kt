@@ -49,6 +49,9 @@ class Constants {
 
 
         const val getCountries = "CountryApi/getCountries"
+        const val getDocuments = "AccountsApi/getDocuments"
+        const val getDocumentsByCountry = "AccountsApi/getDocumentsByCountry"
+        const val createApiKeys = "AccountsApi/createApiKeys"
 
         const val cryptocurrencylist = "data-api/v3/cryptocurrency/listing?start=1&limit=10"
 

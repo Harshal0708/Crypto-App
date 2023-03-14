@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.ActivityUserBinding
@@ -29,7 +30,11 @@ class UserActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setupViewPager2() {
-        val colorList = arrayListOf(UserFragment(), DocumentFragment(), ScriptFragment())
+        val colorList = ArrayList<Fragment>()
+        colorList.add(UserFragment())
+        colorList.add(DocumentFragment())
+        colorList.add(ScriptFragment())
+
         binding.viewPager.adapter = ViewPagerAdapter(this, colorList)
 
         binding.viewPager.setPageTransformer(ZoomOutPageTransformer())
