@@ -47,7 +47,7 @@ class DocumentFragment : Fragment(), View.OnClickListener {
         doc_submit = view.findViewById(R.id.doc_submit)
         doc_submit?.setOnClickListener(this)
 
-        viewLoader = view.findViewById(R.id.loader_animation)
+        viewLoader = view.findViewById(R.id.viewLoader)
         animationView = viewLoader.findViewById(R.id.lotti_img)
         pan_number?.visibility=View.GONE
         aadhar_card_number?.visibility=View.GONE
@@ -126,8 +126,8 @@ class DocumentFragment : Fragment(), View.OnClickListener {
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
             var response = ServiceBuilder(requireContext()).buildService(RestApi::class.java)
-               // .getDocumentsByCountry("3319df1e-bdfd-4525-8baf-08db08fd45f0")
-                .getDocumentsByCountry("179fc3dc-42b6-4985-74bd-08db13d960a2")
+                .getDocumentsByCountry("3319df1e-bdfd-4525-8baf-08db08fd45f0")
+                //.getDocumentsByCountry("179fc3dc-42b6-4985-74bd-08db13d960a2")
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE
 

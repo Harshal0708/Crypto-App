@@ -228,7 +228,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
         );
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.custom_countries)
-        viewLoader = dialog.findViewById(R.id.loader_animation)
+        viewLoader = dialog.findViewById(R.id.viewLoader)
         animationView = viewLoader.findViewById(R.id.lotti_img)
         rv_countryName = dialog.findViewById(R.id.rv_countryName)
         setupAnim()

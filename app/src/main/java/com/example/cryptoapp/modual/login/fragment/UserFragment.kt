@@ -78,6 +78,10 @@ class UserFragment : Fragment(), View.OnClickListener {
                     response: retrofit2.Response<CmsAdsAddResponse>
                 ) {
 
+                    if (response.body()?.isSuccess == true) {
+                       Constants.showToast(context!!,"Document Verification Successfully.")
+                    }
+
                 }
                 override fun onFailure(
                     call: retrofit2.Call<CmsAdsAddResponse>,

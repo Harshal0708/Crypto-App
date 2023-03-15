@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +28,7 @@ import retrofit2.Response
 class OrderFragment : Fragment() {
 
     lateinit var rec_order_history: RecyclerView
+    lateinit var txt_order_data_not_found: TextView
     lateinit var orderHistoryAdapter: OrderHistoryAdapter
     lateinit var preferences: MyPreferences
     lateinit var data: DataXX
@@ -47,9 +49,10 @@ class OrderFragment : Fragment() {
         preferences = MyPreferences(requireContext())
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
-        viewLoader = view.findViewById(R.id.loader_animation)
+        viewLoader = view.findViewById(R.id.viewLoader)
         animationView = viewLoader.findViewById(R.id.lotti_img)
         rec_order_history = view.findViewById(R.id.rec_sub_history)
+        txt_order_data_not_found = view.findViewById(R.id.txt_order_data_not_found)
         getOrderHistoryList(pageNumber, pageSize)
         setupAnim()
 //        rec_order_history.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -89,13 +92,19 @@ class OrderFragment : Fragment() {
                     ) {
                         if (response.body()!!.isSuccess == true) {
                             viewLoader.visibility = View.GONE
-                            rec_order_history.layoutManager = LinearLayoutManager(activity)
-                            orderHistoryAdapter =
-                                OrderHistoryAdapter(
-                                    requireContext(),
-                                    response.body()!!.data.orderHistories
-                                )
-                            rec_order_history.adapter = orderHistoryAdapter
+
+                            if(response.body()!!.data.orderHistories.size != 0){
+                                rec_order_history.layoutManager = LinearLayoutManager(activity)
+                                orderHistoryAdapter =
+                                    OrderHistoryAdapter(
+                                        requireContext(),
+                                        response.body()!!.data.orderHistories
+                                    )
+                                rec_order_history.adapter = orderHistoryAdapter
+                            }else {
+                                txt_order_data_not_found.visibility=View.VISIBLE
+                            }
+
 
                         } else {
                             viewLoader.visibility = View.GONE

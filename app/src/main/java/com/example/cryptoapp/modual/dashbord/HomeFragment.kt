@@ -1,17 +1,10 @@
 package com.example.cryptoapp.modual.dashbord
 
-import android.content.ContentUris
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -65,7 +58,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
         strategies_rv = view.findViewById(R.id.strategies_rv)
-        viewLoader = view.findViewById(R.id.loader_animation)
+        viewLoader = view.findViewById(R.id.viewLoader)
         animationView = viewLoader.findViewById(R.id.lotti_img)
 
         login_ViewPager = view.findViewById(R.id.login_ViewPager)
@@ -168,7 +161,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 homeAdapter = HomeAdapter(requireContext(), objectList)
                 strategies_rv.adapter = homeAdapter
             }
-
           // }).start()
         }
     }

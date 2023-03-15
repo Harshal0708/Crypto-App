@@ -18,7 +18,7 @@
         <include
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/loader_animation"
+            android:id="@+id/viewLoader"
             android:gravity="center"
             layout="@layout/loader_animation"
             android:visibility="visible"

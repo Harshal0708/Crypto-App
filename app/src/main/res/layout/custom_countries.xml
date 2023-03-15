@@ -33,7 +33,7 @@
         app:layout_constraintGuide_end="20dp" />
 
     <include
-        android:id="@+id/loader_animation"
+        android:id="@+id/viewLoader"
         layout="@layout/loader_animation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

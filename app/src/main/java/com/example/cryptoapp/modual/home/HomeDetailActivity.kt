@@ -1,21 +1,15 @@
 package com.example.cryptoapp.modual.home
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.R
-import com.example.cryptoapp.modual.home.adapter.HomeAdapter
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
-import com.example.cryptoapp.network.onItemClickListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -50,7 +44,7 @@ class HomeDetailActivity : AppCompatActivity() {
         txt_sd_modifiedDate = findViewById(R.id.txt_sd_modifiedDate)
         txt_sd_status = findViewById(R.id.txt_sd_status)
 
-        viewLoader = findViewById(R.id.loader_animation)
+        viewLoader = findViewById(R.id.viewLoader)
         animationView = viewLoader.findViewById(R.id.lotti_img)
         setupAnim()
         getStrategyId(intent.getStringExtra("strategyId").toString())

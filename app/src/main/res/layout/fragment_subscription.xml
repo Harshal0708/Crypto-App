@@ -7,7 +7,7 @@
     tools:context=".modual.history.SubscriptionFragment">
 
     <include
-        android:id="@+id/loader_animation"
+        android:id="@+id/viewLoader"
         layout="@layout/loader_animation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,4 +28,20 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_subscription_data_not_found"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/data_not_found"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rec_sub_history" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

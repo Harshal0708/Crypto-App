@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants
+import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.*
 import com.example.cryptoapp.model.UserSubscriptionModel
@@ -33,9 +35,12 @@ class ScriptFragment : Fragment(), View.OnClickListener {
     lateinit var txt_sub_monthly: TextView
     lateinit var txt_sub_quartly: TextView
     lateinit var txt_sub_yearly: TextView
+    lateinit var txt_script_data_not_found: TextView
     lateinit var rv_subsribtion: RecyclerView
+    lateinit var constraintLayout: ConstraintLayout
 
     var subscriptionModelList: List<UserSubscriptionDataResponse> = ArrayList()
+
     lateinit var subscriptionAdapter: SubscriptionAdapter
     lateinit var one: String
     lateinit var two: String
@@ -61,13 +66,15 @@ class ScriptFragment : Fragment(), View.OnClickListener {
 
         preferences = MyPreferences(requireContext())
         userDetail = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
-        viewLoader = view.findViewById(R.id.loader_animation)
+        viewLoader = view.findViewById(R.id.viewLoader)
         animationView = viewLoader.findViewById(R.id.lotti_img)
+        txt_script_data_not_found = view.findViewById(R.id.txt_script_data_not_found)
         txt_sub_monthly = view.findViewById(R.id.txt_sub_monthly)
         txt_sub_quartly = view.findViewById(R.id.txt_sub_quartly)
         txt_sub_yearly = view.findViewById(R.id.txt_sub_yearly)
         rv_subsribtion = view.findViewById(R.id.rv_subsribtion)
-
+        constraintLayout = view.findViewById(R.id.constraintLayout)
+        constraintLayout.visibility=View.GONE
         txt_sub_monthly.setOnClickListener(this)
         txt_sub_quartly.setOnClickListener(this)
         txt_sub_yearly.setOnClickListener(this)
@@ -76,6 +83,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
         //getUserSubscriptionDetail()
 
     }
+
     private fun setupAnim() {
         animationView.setAnimation(R.raw.currency)
         animationView.repeatCount = LottieDrawable.INFINITE
@@ -87,24 +95,39 @@ class ScriptFragment : Fragment(), View.OnClickListener {
 
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder(requireContext()).buildService(RestApi::class.java).getPlans()
+            var response =
+                ServiceBuilder(requireContext()).buildService(RestApi::class.java).getPlans()
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE
-                txt_sub_monthly.text = response.body()?.data?.get(0)?.planName
-                txt_sub_quartly.text = response.body()?.data?.get(1)?.planName
-                txt_sub_yearly.text = response.body()?.data?.get(2)?.planName
-                one = response.body()?.data?.get(0)?.id.toString()
-                two = response.body()?.data?.get(1)?.id.toString()
-                three = response.body()?.data?.get(2)?.id.toString()
-                subscriptionModelList.isNullOrEmpty()
-                getUserSubscription(one)
+
+                if(response.body()?.data?.size != 0){
+                    if (response.body()?.data?.size == 3){
+                        constraintLayout.visibility=View.VISIBLE
+                        txt_sub_monthly.text = response.body()?.data?.get(0)?.planName
+                        txt_sub_quartly.text = response.body()?.data?.get(1)?.planName
+                        txt_sub_yearly.text = response.body()?.data?.get(2)?.planName
+
+                        one = response.body()?.data?.get(0)?.id.toString()
+                        two = response.body()?.data?.get(1)?.id.toString()
+                        three = response.body()?.data?.get(2)?.id.toString()
+                        subscriptionModelList.isNullOrEmpty()
+                        getUserSubscription(one)
+                    }else{
+                        txt_script_data_not_found.visibility=View.VISIBLE
+                    }
+                }else {
+                    txt_script_data_not_found.visibility=View.VISIBLE
+                }
+
             }
         }
     }
 
     fun getUserSubscription(id: String?) {
-
+        txt_script_data_not_found.visibility=View.GONE
         viewLoader.visibility = View.VISIBLE
+   // <--- Removes all elements
+
         val response = ServiceBuilder(requireContext()).buildService(RestApi::class.java)
         var payload = UserSubscriptionModel(
             id.toString(),
@@ -120,8 +143,15 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                         response: Response<UserSubscriptionResponse>
                     ) {
                         viewLoader.visibility = View.GONE
-                        subscriptionModelList = response.body()!!.data
-                        ScriptAdapter(subscriptionModelList, id.toString())
+
+                        if (response.body() != null) {
+                            subscriptionModelList = response.body()!!.data
+
+                            ScriptAdapter(subscriptionModelList, id.toString())
+                        } else {
+                            txt_script_data_not_found.visibility=View.VISIBLE
+                        }
+
                     }
 
                     override fun onFailure(call: Call<UserSubscriptionResponse>, t: Throwable) {
@@ -184,6 +214,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
         subscriptionModelList: List<UserSubscriptionDataResponse>,
         planId: String
     ) {
+
         rv_subsribtion.layoutManager = LinearLayoutManager(requireContext())
         subscriptionAdapter = SubscriptionAdapter(
             requireContext(),

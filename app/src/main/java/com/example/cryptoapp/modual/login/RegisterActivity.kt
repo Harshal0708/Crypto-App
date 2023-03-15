@@ -281,7 +281,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
         );
         dialog1.setCancelable(true)
         dialog1.setContentView(R.layout.custom_countries)
-        viewLoader = dialog1.findViewById(R.id.loader_animation)
+        viewLoader = dialog1.findViewById(R.id.viewLoader)
         animationView = viewLoader.findViewById(R.id.lotti_img)
         rv_countryName = dialog1.findViewById(R.id.rv_countryName)
         setupAnim()

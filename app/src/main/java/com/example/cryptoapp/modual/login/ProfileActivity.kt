@@ -110,7 +110,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
         resent = view.findViewById(R.id.resent)
         resent.text = getString(R.string.save)
 
-        viewLoader = findViewById(R.id.loader_animation)
+        viewLoader = findViewById(R.id.viewLoader)
         animationView = viewLoader.findViewById(R.id.lotti_img)
 
         progressBar_cardView.setOnClickListener(this)

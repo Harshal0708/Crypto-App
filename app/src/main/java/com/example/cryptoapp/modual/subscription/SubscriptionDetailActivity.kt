@@ -43,7 +43,7 @@ class SubscriptionDetailActivity : AppCompatActivity() {
 
         preferences = MyPreferences(this)
         userDetail = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
-        viewLoader = findViewById(R.id.loader_animation)
+        viewLoader = findViewById(R.id.viewLoader)
         animationView = viewLoader.findViewById(R.id.lotti_img)
         txt_sub_detail_name = findViewById(R.id.txt_sub_detail_name)
         txt_sub_detail_price = findViewById(R.id.txt_sub_detail_price)
