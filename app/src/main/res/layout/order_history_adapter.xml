@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="20dp"
+    android:layout_height="wrap_content"
+
     android:layout_marginTop="12dp"
     android:background="@color/background"
     android:padding="12dp">
@@ -13,52 +13,121 @@
         android:id="@+id/txt_order_history_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/nunito_bold"
-        android:text=""
+        android:gravity="center"
+        android:text="ok"
         android:textColor="@color/txt_color"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/txt_order_history_price"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_order_history_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_bold"
+        android:gravity="center"
+        android:text="two"
+        android:textColor="@color/txt_color"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/txt_order_history_quantity"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/txt_order_history_name"
+        app:layout_constraintTop_toTopOf="@+id/txt_order_history_name" />
 
     <TextView
         android:id="@+id/txt_order_history_quantity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:fontFamily="@font/nunito_bold"
-        android:text=""
+        android:gravity="center"
+        android:text="Three"
         android:textColor="@color/txt_color"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_order_history_name" />
+        app:layout_constraintBottom_toBottomOf="@+id/txt_order_history_price"
+        app:layout_constraintEnd_toStartOf="@+id/txt_order_history_status"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/txt_order_history_price"
+        app:layout_constraintTop_toTopOf="@+id/txt_order_history_price" />
 
- <TextView
-        android:id="@+id/txt_order_history_price"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/nunito_bold"
-        android:text=""
-        android:textColor="@color/txt_color"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_order_history_quantity" />
-
-<TextView
+    <TextView
         android:id="@+id/txt_order_history_status"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:fontFamily="@font/nunito_bold"
-        android:text=""
+        android:gravity="center"
+        android:text="Four"
         android:textColor="@color/txt_color"
         android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_order_history_quantity"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/txt_order_history_quantity"
+        app:layout_constraintTop_toTopOf="@+id/txt_order_history_quantity" />
+
+    <TextView
+        android:id="@+id/txt_order_history_trading_type"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/nunito_bold"
+        android:gravity="center"
+        android:text="Five"
+        android:textColor="@color/txt_color"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/txt_order_history_trading_date"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_order_history_price" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_order_history_name" />
 
-
+    <TextView
+        android:id="@+id/txt_order_history_trading_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_bold"
+        android:gravity="center"
+        android:text="Six"
+        android:textColor="@color/txt_color"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_order_history_trading_type"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/txt_order_history_trading_type"
+        app:layout_constraintTop_toTopOf="@+id/txt_order_history_trading_type" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+<!--app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/txt_order_history_quantity"-->
+<!--android:layout_width="0dp"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="16dp"-->
+<!--android:fontFamily="@font/nunito_bold"-->
+<!--android:text=""-->
+<!--android:textColor="@color/txt_color"-->
+<!--android:textSize="16sp"-->
+<!--app:layout_constraintEnd_toEndOf="parent"-->
+<!--app:layout_constraintStart_toStartOf="parent"-->
+<!--app:layout_constraintTop_toBottomOf="@+id/txt_order_history_name" />-->
+
+<!--<TextView-->
+<!--android:id="@+id/txt_order_history_price"-->
+<!--android:layout_width="0dp"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="16dp"-->
+<!--android:fontFamily="@font/nunito_bold"-->
+<!--android:text=""-->
+<!--android:textColor="@color/txt_color"-->
+<!--android:textSize="16sp"-->
+<!--app:layout_constraintEnd_toEndOf="parent"-->
+<!--app:layout_constraintStart_toStartOf="parent"-->
+<!--app:layout_constraintTop_toBottomOf="@+id/txt_order_history_quantity" />-->
+

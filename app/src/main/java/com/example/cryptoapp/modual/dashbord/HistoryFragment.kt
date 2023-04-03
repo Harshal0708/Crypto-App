@@ -10,6 +10,7 @@ import com.example.cryptoapp.R
 import com.example.cryptoapp.modual.history.HistoryViewPagerAdapter
 import com.example.cryptoapp.modual.history.OrderFragment
 import com.example.cryptoapp.modual.history.SubscriptionFragment
+import com.example.cryptoapp.modual.history.TradeFragment
 import com.google.android.material.tabs.TabLayout
 
 
@@ -26,11 +27,14 @@ class HistoryFragment : Fragment() {
         init(view)
         return view
     }
+
     private fun init(view: View){
+
         history_tab_layout = view.findViewById(R.id.history_tab_layout)
         history_view_pager = view.findViewById(R.id.history_view_pager)
         val adapter = HistoryViewPagerAdapter(requireActivity().supportFragmentManager)
 
+        //adapter.addFragment(TradeFragment(), "Trade")
         adapter.addFragment(OrderFragment(), "Order")
         adapter.addFragment(SubscriptionFragment(), "Subscription")
         history_view_pager.adapter = adapter

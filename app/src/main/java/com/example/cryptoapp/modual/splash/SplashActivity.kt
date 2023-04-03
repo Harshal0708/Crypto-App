@@ -7,6 +7,7 @@ import android.os.Handler
 import android.view.WindowManager
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
+import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
 import com.example.cryptoapp.modual.login.LoginActivity
 import com.example.cryptoapp.modual.login.UserActivity
@@ -40,6 +41,7 @@ class SplashActivity : AppCompatActivity() {
         Handler().postDelayed({
             if (preferences.getRemember() == true) {
                 val intent = Intent(this, UserActivity::class.java)
+                // val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             } else {
@@ -47,8 +49,9 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
+        }, 3000)
 
-        }, 3000) // 3000 is the delayed time in milliseconds.
+        // 3000 is the delayed time in milliseconds.
     }
 
     private fun setupAnim() {
@@ -56,4 +59,5 @@ class SplashActivity : AppCompatActivity() {
         animationView.repeatCount = LottieDrawable.INFINITE
         animationView.playAnimation()
     }
+
 }

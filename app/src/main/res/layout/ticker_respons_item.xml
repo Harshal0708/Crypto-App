@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textColor="@color/txt_color"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:gravity="start"
         app:layout_constraintEnd_toStartOf="@+id/output_price"
@@ -25,11 +25,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textColor="@color/txt_color"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:gravity="end"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/output_name"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
