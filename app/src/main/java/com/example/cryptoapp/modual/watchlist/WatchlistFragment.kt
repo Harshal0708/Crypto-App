@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,7 @@ import com.example.cryptoapp.Response.TickerResponse
 import com.example.cryptoapp.Response.TickerResponseItem
 import com.example.cryptoapp.modual.dashbord.PLFragment
 import com.example.cryptoapp.modual.home.adapter.AirQualityData
+import com.example.cryptoapp.modual.home.adapter.CryptoName
 import com.example.cryptoapp.modual.home.adapter.HomeAdapter
 import com.example.cryptoapp.modual.watchlist.adapter.WatchlistAdapter
 import com.google.gson.Gson
@@ -42,14 +44,17 @@ class WatchlistFragment : Fragment() {
     lateinit var webSocketListener: WebSocketListener
     lateinit var client: OkHttpClient
     lateinit var watchlistAdapter: WatchlistAdapter
-    lateinit var first: ArrayList<String>
+    lateinit var first: ArrayList<CryptoName>
     lateinit var tickerResponseItem: TickerResponseItem
     lateinit var airQualityData: AirQualityData
+    lateinit var airQualityData1: AirQualityData
 
     private val scope = CoroutineScope(Dispatchers.Main)
     lateinit var webSocket1: WebSocket
     lateinit var webSocket2: WebSocket
     lateinit var webSocket3: WebSocket
+    val airQualityDatalist = ArrayList<AirQualityData>()
+    var airQualityDatalist1 = ArrayList<AirQualityData>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -123,6 +128,7 @@ class WatchlistFragment : Fragment() {
     }
 
     private fun createWebSocket(url: String, value: Int): WebSocket {
+
         val request: Request = Request.Builder()
             //.url("wss://fstream.binance.com/ws/bnbusdt@aggTrade?ApiKey=ISXXV72Gjq4OUE3K6vssFe68R0daLiKWwAly5459nUw7PY0vuIG1sHgWRLGafuYM&ApiSecret=zQIlAYwQ2mwZKl5ERgCXLJ1aQ2fuFejlpDU73fKvoEzmGaj4RWE7gPAgDgwa1hzM")
             .url(url)
@@ -197,31 +203,100 @@ class WatchlistFragment : Fragment() {
     }
 
     fun setUpBtcPriceText(message: String?, value: Int) {
+        // showLog("objectList", message.toString())
         message?.let {
 
             if (value == 1) {
                 val gson = Gson()
-                first.add("ETHBTC")
-                first.add("MAGICBTC")
-                first.add("MCUSDT")
+                first.add(CryptoName("MAGICBTC"))
+                first.add(CryptoName("ETHBTC"))
+                first.add(CryptoName("MCUSDT"))
+                first.add(CryptoName("BNBBTC"))
+                first.add(CryptoName("NEOBTC"))
+                first.add(CryptoName("LTCBTC"))
+                first.add(CryptoName("EOSBTC"))
 
-                val objectList = gson.fromJson(message, TickerResponse::class.java)
-                val list = ArrayList<AirQualityData>()
 
-                objectList.map { dto ->
-                    for ((index, value) in first.withIndex()) {
-                        if (dto.s.equals(value)) {
-                            airQualityData = AirQualityData(dto.s, dto.p)
-                            list.add(airQualityData)
-                            showLog("objectList", "${index} :- ${value} = ${dto.s}")
-                        }
+                 val objectList = gson.fromJson(message, TickerResponse::class.java)
+
+//                val objectList = ArrayList<AirQualityData>()
+//                objectList.add(AirQualityData("ETHBTC", "1000"))
+//                objectList.add(AirQualityData("MAGICBTC", "2000"))
+//                objectList.add(AirQualityData("ETHBTC", "3000"))
+//                objectList.add(AirQualityData("MAGICBTC", "4000"))
+//                objectList.add(AirQualityData("MAGICBTC", "5000"))
+//                objectList.add(AirQualityData("MAGICBTC", "6000"))
+//                objectList.add(AirQualityData("ETHBTC", "7000"))
+//                objectList.add(AirQualityData("MAGICBTC", "8000"))
+//                objectList.add(AirQualityData("MAGICBTC", "9000"))
+//                objectList.add(AirQualityData("MCUSDT", "10000"))
+
+
+                var isAvailable = false
+                objectList.mapIndexed { index, dto ->
+                    for (person in first) {
+                        if (dto.s.equals(person.name))
+                            if (airQualityDatalist.size != 0) {
+                                for ((i, value) in airQualityDatalist.withIndex()) {
+                                    if(dto.s.equals(value.name)){
+                                        airQualityDatalist[i]=AirQualityData(dto.s,dto.p)
+                                        isAvailable = true
+                                        break
+                                        showLog("pos true",i.toString())
+                                    }else{
+                                        isAvailable = false
+                                    }
+                                }
+
+                                if(isAvailable == false){
+                                    airQualityDatalist.add(AirQualityData(dto.s, dto.p))
+                                }
+
+
+                            } else {
+                                airQualityDatalist.add(AirQualityData(dto.s, dto.p))
+                            }
                     }
                 }
 
+                isAvailable = false
+//                objectList.map { dto ->
+//                    for ((index, value) in first.withIndex()) {
+//                        if (dto.name.equals(value)) {
+//                            if(list.size != 0){
+//
+////
+////                                for ((index, value) in list.withIndex()) {
+////                                         showLog("old list", airQualityData.toString())
+////                                        if(value.name.equals(dto.name)){
+////                                            list[index]=AirQualityData(dto.name,dto.price)
+////                                        }
+////                                    showLog("new list", airQualityData.toString())
+////                                }
+//
+//                            }else{
+//                                airQualityData = AirQualityData(dto.name, dto.price)
+//                                list.add(airQualityData)
+//                              //  showLog("objectList", airQualityData.name)
+//                            }
+//
+//
+//                        }
+//                    }
+//                }
+
                 requireActivity().runOnUiThread {
                     rv_watchlist.layoutManager = LinearLayoutManager(activity)
-                    watchlistAdapter = context?.let { it1 -> WatchlistAdapter(it1, list) }!!
+                    watchlistAdapter =
+                        context?.let { it1 ->
+                            WatchlistAdapter(
+                                it1,
+                                airQualityDatalist
+                            )
+                        }!!
                     rv_watchlist.adapter = watchlistAdapter
+//                    airQualityDatalist.clear()
+//                    rv_watchlist.adapter!!.notifyDataSetChanged()
                 }
 
 //            } else if (value == 2) {

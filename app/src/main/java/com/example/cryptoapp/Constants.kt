@@ -33,6 +33,7 @@ class Constants {
         const val getplans = "PlanApi/GetPlans"
         const val getusersubscription = "UserSubscriptionApi/GetSubscriptionList"
         const val getSubscriptionDetails = "UserSubscriptionApi/GetSubscriptionDetails"
+        const val createUserSubscription = "UserSubscriptionApi/createUserSubscription"
 
         const val getOrderHistoryList = "HistoryApi/GetOrderHistoryList"
         const val getSubscriptionHistoryList = "HistoryApi/GetSubscriptionHistoryList"

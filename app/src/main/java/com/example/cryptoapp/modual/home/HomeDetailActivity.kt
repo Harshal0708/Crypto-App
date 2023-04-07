@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
+import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.R
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
@@ -62,19 +63,20 @@ class HomeDetailActivity : AppCompatActivity() {
             var response = ServiceBuilder(this@HomeDetailActivity).buildService(RestApi::class.java).getStrategyById(id)
             withContext(Dispatchers.Main) {
                 animationView.visibility = View.GONE
-                txt_sd_strategyName.text = "Strategy Name :- ${response.body()!!.data.strategyName}"
-                txt_sd_description.text = "Description :- ${response.body()!!.data.description}"
-                txt_sd_minCapital.text = "Min Capital :- ${response.body()!!.data.minCapital}"
-                txt_sd_monthlyFee.text = "Monthly Fee :- ${response.body()!!.data.monthlyFee}"
-                txt_sd_createdDate.text = "Create Date :- ${response.body()!!.data.createdDate}"
-                txt_sd_modifiedDate.text = "Modify Date :- ${response.body()!!.data.modifiedDate}"
-                if(response.body()!!.data.isActive != true){
-                    txt_sd_status.text = "Status :-Not Active"
-                    txt_sd_status.setTextColor(resources.getColor(R.color.red))
-                }else{
-                    txt_sd_status.text = "Status :- Active"
-                    txt_sd_status.setTextColor(resources.getColor(R.color.light_green))
-                }
+                showLog("test",response.toString())
+//                txt_sd_strategyName.text = "Strategy Name :- ${response.body()!!.data.strategyName}"
+//                txt_sd_description.text = "Description :- ${response.body()!!.data.description}"
+//                txt_sd_minCapital.text = "Min Capital :- ${response.body()!!.data.minCapital}"
+//                txt_sd_monthlyFee.text = "Monthly Fee :- ${response.body()!!.data.monthlyFee}"
+//                txt_sd_createdDate.text = "Create Date :- ${response.body()!!.data.createdDate}"
+//                txt_sd_modifiedDate.text = "Modify Date :- ${response.body()!!.data.modifiedDate}"
+//                if(response.body()!!.data.isActive != true){
+//                    txt_sd_status.text = "Status :-Not Active"
+//                    txt_sd_status.setTextColor(resources.getColor(R.color.red))
+//                }else{
+//                    txt_sd_status.text = "Status :- Active"
+//                    txt_sd_status.setTextColor(resources.getColor(R.color.light_green))
+//                }
             }
         }
     }

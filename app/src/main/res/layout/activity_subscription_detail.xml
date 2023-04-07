@@ -167,6 +167,15 @@
             app:layout_constraintHorizontal_bias="0.518"
             app:layout_constraintStart_toStartOf="@+id/guideline38"
             app:layout_constraintTop_toTopOf="@+id/textView12" />
+
+        <include
+            android:id="@+id/btn_progressBar"
+            layout="@layout/progressbar_button"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline43"
+            app:layout_constraintEnd_toStartOf="@+id/guideline42"
+            app:layout_constraintStart_toStartOf="@+id/guideline40" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

@@ -126,9 +126,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
         val request = Request.Builder().url(url).build()
         val listener = object : WebSocketListener() {
             override fun onOpen(webSocket: WebSocket, response: Response) {
-                if (value == 1) {
-                    webSocket.send(data.userId)
-                }
+//                if (value == 1) {
+//                    webSocket.send(data.userId)
+//                }
 
 //                else if (value == 2) {
 //                    webSocket.send(data.userId)
@@ -254,7 +254,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 showLog("message", message)
                 viewLoader.visibility = View.GONE
                 strategies_rv.layoutManager = LinearLayoutManager(activity)
-                homeAdapter = context?.let { it1 -> HomeAdapter(it1, objectList) }!!
+                homeAdapter = context?.let { it1 -> HomeAdapter(it1, objectList,data.haveAnySubscription) }!!
                 strategies_rv.adapter = homeAdapter
             }
             // }).start()

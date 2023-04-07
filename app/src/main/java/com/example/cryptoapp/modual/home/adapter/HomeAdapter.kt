@@ -16,8 +16,9 @@ import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.StrategyDataRes
 import com.example.cryptoapp.Response.StrategyWSResponseItem
 import com.example.cryptoapp.modual.home.HomeDetailActivity
+import com.example.cryptoapp.modual.subscription.SubscriptionActivity
 
-class HomeAdapter(var context: Context, var strategyResList: ArrayList<StrategyWSResponseItem>) :
+class HomeAdapter(var context: Context, var strategyResList: ArrayList<StrategyWSResponseItem>,var haveAnySubscription : Boolean) :
     RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
 
@@ -70,6 +71,14 @@ class HomeAdapter(var context: Context, var strategyResList: ArrayList<StrategyW
 //            intent.putExtra("strategyId", strategyResList.get(position).Strategy.Id)
 //            context.startActivity(intent)
         }
+
+        holder.itemView.setOnClickListener{
+            if(haveAnySubscription==true){
+
+            } else {
+                showSubscribeDialog()
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -111,6 +120,31 @@ class HomeAdapter(var context: Context, var strategyResList: ArrayList<StrategyW
             txt_exited.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_done_primary_color,0)
             txt_Paused.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,0,0)
         }
+        dialog.show()
+    }
+    fun showSubscribeDialog() {
+        var dialog = Dialog(context)
+        dialog.setContentView(R.layout.custom_subscribe_dialog)
+        //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog.setCancelable(true)
+        val txt_Paused = dialog.findViewById(R.id.txt_please_subscribe) as TextView
+
+        val viewDialog = dialog.findViewById(R.id.btn_progressBar_dialog) as View
+        val register_progressBar = viewDialog.findViewById(R.id.register_progressBar) as ProgressBar
+        val resent = viewDialog.findViewById(R.id.resent) as TextView
+        register_progressBar.visibility=View.GONE
+        resent.text = context.getString(R.string.subscription)
+
+        resent.setOnClickListener {
+            val intent = Intent(context, SubscriptionActivity::class.java)
+            context.startActivity(intent)
+            dialog.dismiss()
+       }
+
         dialog.show()
     }
 }

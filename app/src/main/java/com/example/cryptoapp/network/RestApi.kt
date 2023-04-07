@@ -102,6 +102,9 @@ interface RestApi {
     @POST(Constants.getSubscriptionDetails)
     fun addSubscriptionDetails(@Body userSubscriptionModel: UserSubscriptionModel): Call<UserSubscriptionDetail>
 
+    @POST(Constants.createUserSubscription)
+    fun addCreateUserSubscription(@Body createUserSubscriptionPayload: CreateUserSubscriptionPayload): Call<CmsAdsAddResponse>
+
     @POST(Constants.getOrderHistoryList)
     fun addOrderHistoryList(@Body getOrderHistoryListPayload: GetOrderHistoryListPayload): Call<OrderHistoriesResponse>
 

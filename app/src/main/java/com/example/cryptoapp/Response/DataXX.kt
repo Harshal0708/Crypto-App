@@ -11,5 +11,8 @@ data class DataXX(
     val profilePicture: String,
     val refreshToken: Any,
     val refreshTokenExpiryTime: String,
-    val userId: String
+    val userId: String,
+    val countryId: String,
+    val haveAnySubscription: Boolean,
+
 )

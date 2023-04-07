@@ -32,8 +32,11 @@ class WatchlistAdapter (var context: Context, var tickerResponseItem:  ArrayList
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.output_name.text = "${tickerResponseItem?.get(position)?.name}"
-        holder.output_price.text = "${tickerResponseItem?.get(position)?.price}"
+
+            holder.output_name.text = "${tickerResponseItem?.get(position)?.name}"
+            holder.output_price.text = "${tickerResponseItem?.get(position)?.price}"
+
+
     }
 
     override fun getItemCount(): Int {
