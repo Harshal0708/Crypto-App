@@ -24,6 +24,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         preferences = MyPreferences(this)
+
 //        data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 //        showLog(data.toString())
 //        showLog(data.userId)
@@ -59,5 +60,4 @@ class SplashActivity : AppCompatActivity() {
         animationView.repeatCount = LottieDrawable.INFINITE
         animationView.playAnimation()
     }
-
 }

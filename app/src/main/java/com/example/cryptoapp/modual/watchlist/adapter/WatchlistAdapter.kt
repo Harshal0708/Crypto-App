@@ -13,16 +13,12 @@ import com.example.cryptoapp.Response.StrategyRes
 import com.example.cryptoapp.Response.TickerResponseItem
 import com.example.cryptoapp.modual.home.adapter.AirQualityData
 
-class WatchlistAdapter (var context: Context, var tickerResponseItem:  ArrayList<AirQualityData>) :
+class WatchlistAdapter(var context: Context, var tickerResponseItem: ArrayList<AirQualityData>) :
     RecyclerView.Adapter<WatchlistAdapter.ViewHolder>() {
-
-
     class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-       var output_name: TextView = itemView.findViewById(R.id.output_name)
-       var output_price: TextView = itemView.findViewById(R.id.output_price)
-
-
+        var output_name: TextView = itemView.findViewById(R.id.output_name)
+        var output_price: TextView = itemView.findViewById(R.id.output_price)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,16 +28,12 @@ class WatchlistAdapter (var context: Context, var tickerResponseItem:  ArrayList
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-            holder.output_name.text = "${tickerResponseItem?.get(position)?.name}"
-            holder.output_price.text = "${tickerResponseItem?.get(position)?.price}"
-
-
+        holder.output_name.text = "${tickerResponseItem?.get(position)?.name}"
+        holder.output_price.text = "${tickerResponseItem?.get(position)?.price}"
     }
 
     override fun getItemCount(): Int {
         return tickerResponseItem.size
     }
-
 
 }

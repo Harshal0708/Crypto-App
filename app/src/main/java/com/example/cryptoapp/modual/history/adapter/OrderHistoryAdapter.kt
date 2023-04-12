@@ -2,6 +2,7 @@ package com.example.cryptoapp.modual.history.adapter
 
 import android.content.Context
 import android.os.Build
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,9 +21,7 @@ class OrderHistoryAdapter(var context: Context, val orderHistories: ArrayList<Or
     companion object {
         private const val TYPE_DATA = 0
         private const val TYPE_PROGRESS = 1
-
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -40,7 +39,21 @@ class OrderHistoryAdapter(var context: Context, val orderHistories: ArrayList<Or
 
         }
     }
-
+    fun addLoadingView() {
+        //add loading item
+        Handler().post {
+           // orderHistories.add(null)
+            orderHistories.clear()
+            notifyItemInserted(orderHistories.size - 1)
+        }
+    }
+    fun removeLoadingView() {
+        //Remove loading item
+        if (orderHistories.size != 0) {
+            orderHistories.removeAt(orderHistories.size - 1)
+            notifyItemRemoved(orderHistories.size)
+        }
+    }
 
     inner class ProgressbarViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview)
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -62,23 +75,22 @@ class OrderHistoryAdapter(var context: Context, val orderHistories: ArrayList<Or
 
         if (holder is ViewHolder) {
 
-            holder.txt_order_history_name.text = orderHistories.get(position).symbol
+            holder.txt_order_history_name.text = orderHistories.get(position)?.symbol
 //        holder.txt_order_history_quantity.text="Quantity :- ${orderHistories.get(position).quantity}"
 //        holder.txt_order_history_price.text="Price :- ${orderHistories.get(position).price}"
 //        holder.txt_order_history_status.text="Status :- ${orderHistories.get(position).status}"
 
-            holder.txt_order_history_quantity.text = "${orderHistories.get(position).quantity}"
-            holder.txt_order_history_price.text = "${orderHistories.get(position).price}"
+            holder.txt_order_history_quantity.text = "${orderHistories.get(position)?.quantity}"
+            holder.txt_order_history_price.text = "${orderHistories.get(position)?.price}"
 
-            val dateString = orderHistories.get(position).timestamp
+            val dateString = orderHistories.get(position)?.timestamp
             val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val date = format.parse(dateString)
             holder.txt_order_history_trading_date.text = "${date}"
 
-
-            if (orderHistories.get(position).side == 0) {
+            if (orderHistories.get(position)?.side == 0) {
                 holder.txt_order_history_status.text = "Buy"
-            } else if (orderHistories.get(position).side == 1) {
+            } else if (orderHistories.get(position)?.side == 1) {
                 holder.txt_order_history_status.text = "Sell"
             }
 
@@ -93,7 +105,6 @@ class OrderHistoryAdapter(var context: Context, val orderHistories: ArrayList<Or
 
     }
 
-
     //    override fun getItemViewType(position: Int): Int {
 //        var viewType =orderHistories.get(position).ca
 //
@@ -106,5 +117,4 @@ class OrderHistoryAdapter(var context: Context, val orderHistories: ArrayList<Or
     override fun getItemCount(): Int {
         return orderHistories.size
     }
-
 }

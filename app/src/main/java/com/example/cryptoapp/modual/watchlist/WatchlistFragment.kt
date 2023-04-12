@@ -208,6 +208,7 @@ class WatchlistFragment : Fragment() {
 
             if (value == 1) {
                 val gson = Gson()
+                first.add(CryptoName("BTCUSDT"))
                 first.add(CryptoName("MAGICBTC"))
                 first.add(CryptoName("ETHBTC"))
                 first.add(CryptoName("MCUSDT"))
@@ -215,7 +216,6 @@ class WatchlistFragment : Fragment() {
                 first.add(CryptoName("NEOBTC"))
                 first.add(CryptoName("LTCBTC"))
                 first.add(CryptoName("EOSBTC"))
-
 
                  val objectList = gson.fromJson(message, TickerResponse::class.java)
 
@@ -231,59 +231,33 @@ class WatchlistFragment : Fragment() {
 //                objectList.add(AirQualityData("MAGICBTC", "9000"))
 //                objectList.add(AirQualityData("MCUSDT", "10000"))
 
-
                 var isAvailable = false
                 objectList.mapIndexed { index, dto ->
                     for (person in first) {
                         if (dto.s.equals(person.name))
                             if (airQualityDatalist.size != 0) {
+
                                 for ((i, value) in airQualityDatalist.withIndex()) {
                                     if(dto.s.equals(value.name)){
-                                        airQualityDatalist[i]=AirQualityData(dto.s,dto.p)
+                                        airQualityDatalist[i]=AirQualityData(dto.s,dto.c)
                                         isAvailable = true
                                         break
-                                        showLog("pos true",i.toString())
                                     }else{
                                         isAvailable = false
                                     }
                                 }
 
                                 if(isAvailable == false){
-                                    airQualityDatalist.add(AirQualityData(dto.s, dto.p))
+                                    airQualityDatalist.add(AirQualityData(dto.s, dto.c))
                                 }
 
-
                             } else {
-                                airQualityDatalist.add(AirQualityData(dto.s, dto.p))
+                                airQualityDatalist.add(AirQualityData(dto.s, dto.c))
                             }
                     }
                 }
 
                 isAvailable = false
-//                objectList.map { dto ->
-//                    for ((index, value) in first.withIndex()) {
-//                        if (dto.name.equals(value)) {
-//                            if(list.size != 0){
-//
-////
-////                                for ((index, value) in list.withIndex()) {
-////                                         showLog("old list", airQualityData.toString())
-////                                        if(value.name.equals(dto.name)){
-////                                            list[index]=AirQualityData(dto.name,dto.price)
-////                                        }
-////                                    showLog("new list", airQualityData.toString())
-////                                }
-//
-//                            }else{
-//                                airQualityData = AirQualityData(dto.name, dto.price)
-//                                list.add(airQualityData)
-//                              //  showLog("objectList", airQualityData.name)
-//                            }
-//
-//
-//                        }
-//                    }
-//                }
 
                 requireActivity().runOnUiThread {
                     rv_watchlist.layoutManager = LinearLayoutManager(activity)
@@ -294,7 +268,9 @@ class WatchlistFragment : Fragment() {
                                 airQualityDatalist
                             )
                         }!!
+
                     rv_watchlist.adapter = watchlistAdapter
+
 //                    airQualityDatalist.clear()
 //                    rv_watchlist.adapter!!.notifyDataSetChanged()
                 }

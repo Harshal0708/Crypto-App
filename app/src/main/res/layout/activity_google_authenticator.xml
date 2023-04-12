@@ -102,7 +102,7 @@
         android:maxLength="6"
         android:drawableStart="@drawable/ic_email"
         android:drawablePadding="8dp"
-        android:fontFamily="@font/roboto_light"
+        android:fontFamily="@font/helvetica_bold"
         android:textColor="@color/edit_text_color"
         android:textColorHint="@color/edit_text_hint_color"
         android:textSize="18sp"

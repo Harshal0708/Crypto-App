@@ -21,9 +21,10 @@ import com.example.cryptoapp.model.GetOrderHistoryListPayload
 import com.example.cryptoapp.modual.history.adapter.OrderHistoryAdapter
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
+import com.example.cryptoapp.pagination.OnLoadMoreListener
+import com.example.cryptoapp.pagination.RecyclerViewLoadMoreScroll
 import com.example.cryptoapp.preferences.MyPreferences
 import com.google.gson.Gson
-import okhttp3.internal.notify
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,8 +39,8 @@ class OrderFragment : Fragment() {
     lateinit var data: DataXX
     lateinit var viewLoader: View
     lateinit var animationView: LottieAnimationView
-    var pageNumber = 0
-    var pageSize = 2000
+    var pageNumber = 1
+    var pageSize = 10
     private var isLoading = false
     private var isLastPage = false
     val numberList: MutableList<String> = ArrayList()
@@ -47,6 +48,7 @@ class OrderFragment : Fragment() {
 
     lateinit var orderHistories: ArrayList<OrderHistory>
     var noLoading = true
+    lateinit var scrollListener: RecyclerViewLoadMoreScroll
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,9 +76,11 @@ class OrderFragment : Fragment() {
         orderHistories = ArrayList()
         orderHistoryAdapter = context?.let { OrderHistoryAdapter(it, orderHistories) }!!
 
+
         rec_order_history.adapter = orderHistoryAdapter
-        getOrderHistoryList(0)
-        addScrollListener()
+        getOrderHistoryList(pageNumber,pageSize)
+        //addScrollListener()
+        setRVScrollListener()
     }
 
     private fun setupAnim() {
@@ -85,89 +89,116 @@ class OrderFragment : Fragment() {
         animationView.playAnimation()
     }
 
+    private  fun setRVScrollListener() {
 
-    private fun addScrollListener() {
-        rec_order_history.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
+        scrollListener = RecyclerViewLoadMoreScroll(layoutManager)
+        scrollListener.setOnLoadMoreListener(object :
+            OnLoadMoreListener {
+            override fun onLoadMore() {
+                addScrollListener(pageNumber,pageSize)
+            }
+        })
 
-                if (noLoading && layoutManager.findLastCompletelyVisibleItemPosition() == orderHistories.size - 1) {
-                    //orderHistories.add()
-                    rec_order_history.adapter!!.notifyItemInserted(orderHistories.size - 1)
-                    noLoading = false
+        rec_order_history.addOnScrollListener(scrollListener)
+    }
 
-                    showLog("orderHistories.size-1", (orderHistories.size - 1).toString())
-                    val response =
-                        ServiceBuilder(requireContext()).buildService(RestApi::class.java)
-                    var payload = GetOrderHistoryListPayload(
-                        orderHistories.size - 1,
-                        2000,
-                        data.userId
-                    )
+    private fun addScrollListener(number: Int,size:Int) {
 
-                    response.addOrderHistoryList(payload)
-                        .enqueue(
-                            object : Callback<OrderHistoriesResponse> {
-                                override fun onResponse(
-                                    call: Call<OrderHistoriesResponse>,
-                                    response: Response<OrderHistoriesResponse>
-                                ) {
-                                    if (response.body()!!.isSuccess == true) {
+//        showLog("test", pageNumber.toString())
+       // orderHistoryAdapter.addLoadingView()
+        pageNumber=number+1
+        pageSize=size+10
+        showLog("pageNumber", (pageNumber).toString())
+        showLog("pageSize", (pageSize).toString())
+        val response =
+            ServiceBuilder(requireContext()).buildService(RestApi::class.java)
+        var payload = GetOrderHistoryListPayload(
+            pageNumber,
+            pageSize,
+            data.userId
+        )
+
+        response.addOrderHistoryList(payload)
+            .enqueue(
+                object : Callback<OrderHistoriesResponse> {
+                    override fun onResponse(
+                        call: Call<OrderHistoriesResponse>,
+                        response: Response<OrderHistoriesResponse>
+                    ) {
+                        if (response.body()!!.isSuccess == true) {
 //                            viewLoader.visibility = View.GONE
 //                            isLoading == false
 
-                                        orderHistories.removeAt(orderHistories.size - 1)
-                                        orderHistoryAdapter.notifyItemRemoved(orderHistories.size)
-                                        if (response.body()!!.data.orderHistories.size != 0) {
-                                            orderHistories.addAll(response.body()!!.data.orderHistories)
-                                            orderHistoryAdapter.notifyDataSetChanged()
-                                            noLoading = true
-
-                                        } else {
-                                            txt_order_data_not_found.visibility = View.GONE
-                                        }
-
-                                    } else {
-                                        // viewLoader.visibility = View.GONE
-                                        Constants.showToast(
-                                            requireContext(),
-                                            "End of data reached.."
-                                        )
-
-                                    }
+                            orderHistoryAdapter.removeLoadingView()
+//                            orderHistories.removeAt(orderHistories.size - 1)
+//                            orderHistoryAdapter.notifyItemRemoved(orderHistories.size)
+                            if (response.body()!!.data.orderHistories.size != 0) {
+                                orderHistories.addAll(response.body()!!.data.orderHistories)
+                        //        orderHistoryAdapter.notifyDataSetChanged()
+                               // noLoading = true
+                                scrollListener.setLoaded()
+                                //Update the recyclerView in the main thread
+                                rec_order_history.post {
+                                    orderHistoryAdapter.notifyDataSetChanged()
                                 }
-
-                                override fun onFailure(
-                                    call: Call<OrderHistoriesResponse>,
-                                    t: Throwable
-                                ) {
-                                    // viewLoader.visibility = View.GONE
-
-                                    Constants.showToast(
-                                        requireContext(),
-                                        getString(R.string.data_not_found)
-                                    )
-
-                                }
+                            } else {
+                                txt_order_data_not_found.visibility = View.GONE
                             }
+
+
+                        } else {
+                            // viewLoader.visibility = View.GONE
+                            Constants.showToast(
+                                requireContext(),
+                                "End of data reached.."
+                            )
+
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: Call<OrderHistoriesResponse>,
+                        t: Throwable
+                    ) {
+                        // viewLoader.visibility = View.GONE
+
+                        Constants.showToast(
+                            requireContext(),
+                            getString(R.string.data_not_found)
                         )
+
+                    }
                 }
-
-            }
-
-        })
+            )
+//        rec_order_history.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy)
+//
+//                if (noLoading && layoutManager.findLastCompletelyVisibleItemPosition() == orderHistories.size - 1) {
+//                    //orderHistories.add()
+//                    rec_order_history.adapter!!.notifyItemInserted(orderHistories.size - 1)
+//                    noLoading = false
+//
+//                    showLog("orderHistories.size-1", (orderHistories.size - 1).toString())
+//
+//                }
+//
+//            }
+//
+//        })
     }
 
 
-    fun getOrderHistoryList(pageNumber: Int) {
+    fun getOrderHistoryList(pageNumber: Int,pageSize:Int) {
 
-        showLog("test", pageNumber.toString())
+        showLog("pageNumber", (pageNumber).toString())
+        showLog("pageSize", (pageSize).toString())
 //        viewLoader.visibility = View.VISIBLE
 //        isLoading == true
         val response = ServiceBuilder(requireContext()).buildService(RestApi::class.java)
         var payload = GetOrderHistoryListPayload(
             pageNumber,
-            2000,
+            pageSize,
             data.userId
         )
 

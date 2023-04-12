@@ -24,7 +24,7 @@
         android:id="@+id/textView16"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/nunito_bold"
+        android:fontFamily="@font/helvetica_bold"
         android:gravity="center"
         android:text="@string/kyc_verification"
         android:textAlignment="center"

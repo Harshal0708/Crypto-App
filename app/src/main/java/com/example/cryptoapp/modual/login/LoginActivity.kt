@@ -85,6 +85,8 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
     lateinit var countriesAdapter: CountriesAdapter
     lateinit var rv_countryName: RecyclerView
     lateinit var viewLoader: View
+    lateinit var toolbar: View
+    lateinit var toolbar_img_back: ImageView
     lateinit var animationView: LottieAnimationView
     var countryId: String = ""
     lateinit var getCountriesResponseItem: ArrayList<GetCountriesResponseItem>
@@ -216,6 +218,10 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
             R.id.txt_login_country_code -> {
                 exit()
             }
+            R.id.toolbar_img_back -> {
+                dialog.dismiss()
+            }
+
         }
     }
 
@@ -229,6 +235,9 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.custom_countries)
         viewLoader = dialog.findViewById(R.id.viewLoader)
+        toolbar = dialog.findViewById(R.id.toolbar)
+        toolbar_img_back = toolbar.findViewById(R.id.toolbar_img_back)
+        toolbar_img_back.setOnClickListener(this)
         animationView = viewLoader.findViewById(R.id.lotti_img)
         rv_countryName = dialog.findViewById(R.id.rv_countryName)
         setupAnim()

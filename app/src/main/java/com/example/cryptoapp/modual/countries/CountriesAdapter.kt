@@ -29,6 +29,15 @@ class CountriesAdapter(
         var txt_country_code: TextView = itemView.findViewById(R.id.txt_country_code)
         var txt_country_name: TextView = itemView.findViewById(R.id.txt_country_name)
         var txt_country_prefix: TextView = itemView.findViewById(R.id.txt_country_prefix)
+
+        var d_txt_country_code: TextView = itemView.findViewById(R.id.d_txt_country_code)
+        var d_txt_country_name: TextView = itemView.findViewById(R.id.d_txt_country_name)
+        var d_txt_code: TextView = itemView.findViewById(R.id.d_txt_code)
+
+        var horizontal_line_1: View = itemView.findViewById(R.id.horizontal_line_1)
+        var horizontal_line_2: View = itemView.findViewById(R.id.horizontal_line_2)
+        var horizontal_line_3: View = itemView.findViewById(R.id.horizontal_line_3)
+
         var con_country: ConstraintLayout = itemView.findViewById(R.id.con_country)
     }
 
@@ -43,6 +52,26 @@ class CountriesAdapter(
 
         holder.txt_country_name.text = getCountriesResponseItem.get(position).countryName
         holder.txt_country_prefix.text = getCountriesResponseItem.get(position).countryPrefix
+
+        if(position == 0){
+            holder.d_txt_country_code.visibility=View.VISIBLE
+            holder.d_txt_country_name.visibility=View.VISIBLE
+            holder.d_txt_code.visibility=View.VISIBLE
+
+            holder.horizontal_line_1.visibility=View.VISIBLE
+            holder.horizontal_line_2.visibility=View.VISIBLE
+            holder.horizontal_line_3.visibility=View.VISIBLE
+
+
+        }else{
+            holder.d_txt_country_code.visibility=View.VISIBLE
+            holder.d_txt_country_name.visibility=View.VISIBLE
+            holder.d_txt_code.visibility=View.VISIBLE
+
+            holder.horizontal_line_1.visibility=View.VISIBLE
+            holder.horizontal_line_2.visibility=View.VISIBLE
+            holder.horizontal_line_3.visibility=View.VISIBLE
+        }
 
 //        holder.con_country.setOnClickListener {
 //            val intent = Intent(context, activity::class.java)

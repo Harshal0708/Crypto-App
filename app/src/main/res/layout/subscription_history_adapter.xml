@@ -13,7 +13,7 @@
         android:id="@+id/txt_sub_history_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/nunito_bold"
+        android:fontFamily="@font/helvetica_bold"
         android:text=""
         android:textColor="@color/txt_color"
         android:textSize="16sp"
