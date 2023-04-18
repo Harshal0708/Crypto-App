@@ -7,8 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray">#EAEAEA</color>
     <color name="dark">#000F1E</color>
-    <color name="edit_text_color">#231F20</color>
+    <color name="edit_text_color">#99000000</color>
     <color name="edit_text_hint_color">#C1C1C1</color>
 
     <color name="background">@color/white</color>
@@ -19,6 +20,7 @@
     <color name="blue">#1200FF</color>
     <color name="hello">#272C37</color>
     <color name="sky_light">#FFCC00</color>
+    <color name="static_txt">#7A000000</color>
 <!--    <color name="primary_color">#1f7fe8</color>-->
 <!--    <color name="primary_color">#4F73FB</color>-->
     <color name="primary_color">#FFCC00</color>

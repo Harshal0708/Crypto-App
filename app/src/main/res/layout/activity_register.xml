@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:fillViewport="true"
+    android:background="@drawable/ic_login_15"
     android:layout_gravity="center"
     tools:context=".modual.login.RegisterActivity">
 
@@ -46,25 +47,23 @@
             android:id="@+id/txt_create_youre_account"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
             android:fontFamily="@font/helvetica_bold"
             android:text="@string/sign_up"
             android:textAlignment="viewStart"
             android:textColor="@color/hello"
-            android:textSize="34sp"
-            android:textStyle="bold"
+            android:textSize="24sp"
             android:typeface="normal"
             app:layout_constraintEnd_toStartOf="@+id/guideline53"
             app:layout_constraintStart_toStartOf="@+id/guideline50"
             app:layout_constraintTop_toTopOf="@+id/guideline52" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/txt_sign_aas"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/helvetica_bold"
-            android:text="@string/create_account"
-            android:textColor="@color/txt_color"
+            android:text="@string/please_sign_up"
+            android:textColor="@color/static_txt"
             android:textSize="16sp"
             android:textStyle="bold"
             android:typeface="normal"
@@ -83,73 +82,61 @@
             app:civ_border_width="2dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline53"
             app:layout_constraintStart_toStartOf="@+id/guideline50"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_sign_aas" />
 
-
-        <TextView
-
-            android:id="@+id/txt_upload_profile"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/helvetica_bold"
-            android:text="@string/upload_profile"
-            android:textAlignment="center"
-            android:textColor="@color/txt_color"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:typeface="normal"
-            app:layout_constraintEnd_toStartOf="@+id/guideline53"
-            app:layout_constraintStart_toStartOf="@+id/guideline50"
-            app:layout_constraintTop_toBottomOf="@+id/reg_profile_img" />
 
         <EditText
             android:id="@+id/sp_et_firstName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="24dp"
-            android:background="@drawable/background_edittext"
-            android:drawableStart="@drawable/ic_firstname"
+            android:drawableStart="@drawable/ic_new_email"
             android:drawablePadding="8dp"
             android:fontFamily="@font/helvetica_bold"
             android:hint="@string/first_name"
             android:padding="8dp"
             android:textColor="@color/edit_text_color"
             android:textColorHint="@color/edit_text_hint_color"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:typeface="normal"
-            app:layout_constraintEnd_toStartOf="@+id/guideline53"
-            app:layout_constraintHorizontal_bias="1.0"
+            android:textCursorDrawable="@color/sky_light"
+            android:drawableTint="@color/edit_text_color"
+            app:layout_constraintEnd_toStartOf="@+id/sp_et_lastName"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="@+id/guideline50"
-            app:layout_constraintTop_toBottomOf="@+id/txt_upload_profile" />
+            app:layout_constraintTop_toBottomOf="@+id/reg_profile_img" />
 
         <EditText
             android:id="@+id/sp_et_lastName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/background_edittext"
-            android:drawableStart="@drawable/ic_lastname"
+            android:layout_marginStart="8dp"
+            android:drawableStart="@drawable/ic_new_email"
             android:drawablePadding="8dp"
             android:fontFamily="@font/helvetica_bold"
             android:hint="@string/last_name"
             android:padding="8dp"
+            android:textCursorDrawable="@color/sky_light"
             android:textColor="@color/edit_text_color"
             android:textColorHint="@color/edit_text_hint_color"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:typeface="normal"
+            android:drawableTint="@color/edit_text_color"
+            app:layout_constraintBottom_toBottomOf="@+id/sp_et_firstName"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline53"
-            app:layout_constraintStart_toStartOf="@+id/guideline50"
-            app:layout_constraintTop_toBottomOf="@+id/sp_et_firstName" />
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/sp_et_firstName"
+            app:layout_constraintTop_toTopOf="@+id/sp_et_firstName"
+            app:layout_constraintVertical_bias="0.0" />
 
         <EditText
             android:id="@+id/sp_et_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/background_edittext"
-            android:drawableStart="@drawable/ic_email"
+            android:drawableStart="@drawable/ic_new_email"
             android:drawablePadding="8dp"
             android:fontFamily="@font/helvetica_bold"
             android:hint="@string/email"
@@ -157,8 +144,10 @@
             android:padding="8dp"
             android:textColor="@color/edit_text_color"
             android:textColorHint="@color/edit_text_hint_color"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:typeface="normal"
+            android:textCursorDrawable="@color/sky_light"
+            android:drawableTint="@color/edit_text_color"
             app:layout_constraintEnd_toStartOf="@+id/guideline53"
             app:layout_constraintStart_toStartOf="@+id/guideline50"
             app:layout_constraintTop_toBottomOf="@+id/sp_et_lastName" />
@@ -168,16 +157,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/background_edittext"
-            android:drawableStart="@drawable/ic_phone"
+            android:drawableTint="@color/edit_text_color"
+            android:drawableStart="@drawable/ic_phone_1"
             android:drawablePadding="8dp"
             android:fontFamily="@font/helvetica_bold"
-            android:text="@string/country_code"
             android:maxLength="10"
             android:padding="8dp"
+            android:text="@string/country_code"
             android:textColor="@color/edit_text_color"
             android:textColorHint="@color/edit_text_hint_color"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:typeface="normal"
             app:layout_constraintStart_toStartOf="@+id/guideline50"
             app:layout_constraintTop_toBottomOf="@+id/sp_et_email" />
@@ -189,8 +178,7 @@
             android:layout_marginStart="8dp"
 
             android:layout_marginTop="20dp"
-            android:background="@drawable/background_edittext"
-
+            android:textCursorDrawable="@color/sky_light"
             android:fontFamily="@font/helvetica_bold"
             android:hint="@string/phone_number"
             android:inputType="number"
@@ -198,7 +186,7 @@
             android:padding="8dp"
             android:textColor="@color/edit_text_color"
             android:textColorHint="@color/edit_text_hint_color"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:typeface="normal"
             app:layout_constraintEnd_toStartOf="@+id/guideline53"
             app:layout_constraintStart_toEndOf="@+id/mn_et_country_code"
@@ -209,16 +197,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/background_edittext"
-            android:drawableStart="@drawable/ic_lock"
+            android:drawableStart="@drawable/ic_show"
             android:drawablePadding="8dp"
             android:fontFamily="@font/helvetica_bold"
-            android:hint="@string/new_password"
+            android:hint="@string/password"
             android:padding="8dp"
             android:textColor="@color/edit_text_color"
+            android:drawableTint="@color/edit_text_color"
             android:textColorHint="@color/edit_text_hint_color"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:typeface="normal"
+            android:textCursorDrawable="@color/sky_light"
             app:layout_constraintEnd_toStartOf="@+id/guideline53"
             app:layout_constraintStart_toStartOf="@+id/guideline50"
             app:layout_constraintTop_toBottomOf="@+id/mn_et_phone" />
@@ -228,16 +217,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@drawable/background_edittext"
-            android:drawableStart="@drawable/ic_lock"
+            android:drawableStart="@drawable/ic_show"
             android:drawablePadding="8dp"
             android:fontFamily="@font/helvetica_bold"
             android:hint="@string/reenter_password"
             android:padding="8dp"
             android:textColor="@color/edit_text_color"
             android:textColorHint="@color/edit_text_hint_color"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:typeface="normal"
+            android:textCursorDrawable="@color/sky_light"
+            android:drawableTint="@color/edit_text_color"
             app:layout_constraintEnd_toStartOf="@+id/guideline53"
             app:layout_constraintStart_toStartOf="@+id/guideline50"
             app:layout_constraintTop_toBottomOf="@+id/sp_et_password" />
@@ -247,8 +237,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:buttonTint="@color/txt_color"
-            android:fontFamily="@font/helvetica_bold"
+            android:buttonTint="@color/sky_light"
+            android:fontFamily="@font/helvetica_light"
             android:text="@string/accept_condition"
             android:textColor="@color/txt_color"
             app:layout_constraintEnd_toStartOf="@+id/guideline53"
@@ -270,21 +260,36 @@
             app:layout_constraintTop_toBottomOf="@+id/cb_term_accept" />
 
         <TextView
+            android:id="@+id/txt_privacy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/helvetica_bold"
+            android:text="@string/privacy"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toTopOf="@+id/txt_sign_in_here"
+            app:layout_constraintEnd_toEndOf="@+id/txt_sign_here_two"
+            app:layout_constraintStart_toStartOf="@+id/txt_sign_in_here"
+            app:layout_constraintTop_toBottomOf="@+id/btn_progressBar"
+            app:layout_constraintVertical_bias="1.0" />
+
+
+        <TextView
             android:id="@+id/txt_sign_in_here"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="64dp"
             android:fontFamily="@font/helvetica_bold"
             android:gravity="center"
             android:text="@string/already_account"
             android:textAlignment="center"
             android:textColor="@color/txt_color"
             android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/guideline53"
-            app:layout_constraintHorizontal_bias="0.29"
+
+            app:layout_constraintBottom_toTopOf="@+id/guideline54"
             app:layout_constraintStart_toStartOf="@+id/guideline50"
-            app:layout_constraintTop_toBottomOf="@+id/btn_progressBar" />
+
+            />
 
         <TextView
             android:id="@+id/txt_sign_here_two"
@@ -292,22 +297,25 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:fontFamily="@font/helvetica_bold"
-            android:gravity="center"
-            android:text="@string/sign_in_here"
-            android:textAlignment="center"
+            android:gravity="start"
+            android:text="@string/sign_in_login"
+            android:textAlignment="textStart"
             android:textColor="@color/sky_light"
             android:textSize="12sp"
             android:textStyle="bold"
             android:typeface="normal"
             app:layout_constraintBottom_toBottomOf="@+id/txt_sign_in_here"
             app:layout_constraintStart_toEndOf="@+id/txt_sign_in_here"
-            app:layout_constraintTop_toTopOf="@+id/txt_sign_in_here" />
-
+            app:layout_constraintTop_toTopOf="@+id/txt_sign_in_here"
+            app:layout_constraintVertical_bias="0.61" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </ScrollView>
+
+
+
 
 
     <!--<TextView-->

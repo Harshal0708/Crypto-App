@@ -1,19 +1,16 @@
 package com.example.cryptoapp.modual.countries
 
+
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.GetCountriesResponseItem
-import com.example.cryptoapp.modual.login.LoginActivity
-import com.example.cryptoapp.modual.login.RegisterActivity
 import com.example.cryptoapp.network.onItemClickListener
 
 
@@ -29,16 +26,9 @@ class CountriesAdapter(
         var txt_country_code: TextView = itemView.findViewById(R.id.txt_country_code)
         var txt_country_name: TextView = itemView.findViewById(R.id.txt_country_name)
         var txt_country_prefix: TextView = itemView.findViewById(R.id.txt_country_prefix)
-
-        var d_txt_country_code: TextView = itemView.findViewById(R.id.d_txt_country_code)
-        var d_txt_country_name: TextView = itemView.findViewById(R.id.d_txt_country_name)
-        var d_txt_code: TextView = itemView.findViewById(R.id.d_txt_code)
-
-        var horizontal_line_1: View = itemView.findViewById(R.id.horizontal_line_1)
-        var horizontal_line_2: View = itemView.findViewById(R.id.horizontal_line_2)
-        var horizontal_line_3: View = itemView.findViewById(R.id.horizontal_line_3)
-
         var con_country: ConstraintLayout = itemView.findViewById(R.id.con_country)
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -53,25 +43,17 @@ class CountriesAdapter(
         holder.txt_country_name.text = getCountriesResponseItem.get(position).countryName
         holder.txt_country_prefix.text = getCountriesResponseItem.get(position).countryPrefix
 
-        if(position == 0){
-            holder.d_txt_country_code.visibility=View.VISIBLE
-            holder.d_txt_country_name.visibility=View.VISIBLE
-            holder.d_txt_code.visibility=View.VISIBLE
+        val number = position // Replace with your actual number
 
-            holder.horizontal_line_1.visibility=View.VISIBLE
-            holder.horizontal_line_2.visibility=View.VISIBLE
-            holder.horizontal_line_3.visibility=View.VISIBLE
-
-
-        }else{
-            holder.d_txt_country_code.visibility=View.VISIBLE
-            holder.d_txt_country_name.visibility=View.VISIBLE
-            holder.d_txt_code.visibility=View.VISIBLE
-
-            holder.horizontal_line_1.visibility=View.VISIBLE
-            holder.horizontal_line_2.visibility=View.VISIBLE
-            holder.horizontal_line_3.visibility=View.VISIBLE
+        val backgroundColor: Int
+        backgroundColor = if (number % 2 == 0) {
+            // Number is even, so set background color to blue
+            context.getResources().getColor(R.color.white)
+        } else {
+            // Number is odd, so set background color to green
+            context.getResources().getColor(R.color.gray)
         }
+       holder.con_country.setBackgroundColor(backgroundColor)
 
 //        holder.con_country.setOnClickListener {
 //            val intent = Intent(context, activity::class.java)
@@ -88,6 +70,7 @@ class CountriesAdapter(
         holder.itemView.setOnClickListener {
             onItemClickListener.onItemClick(position)
         }
+
     }
 
     override fun getItemCount(): Int {

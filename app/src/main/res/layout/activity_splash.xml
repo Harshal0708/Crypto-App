@@ -4,18 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_app_bg"
+    android:background="@color/white"
     tools:context=".modual.splash.SplashActivity">
 
-<!--    <ImageView-->
-<!--        android:id="@+id/SplashScreenImage"-->
-<!--        android:layout_width="400dp"-->
-<!--        android:layout_height="400dp"-->
-<!--        android:src="@drawable/ic_splash"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <ImageView
+        android:id="@+id/SplashScreenImage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/ic_app_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lotti_img"
@@ -31,7 +33,7 @@
         app:layout_constraintVertical_bias="0.478"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/splash"
-
+        android:visibility="gone"
         app:lottie_speed="1"
         tools:ignore="ContentDescription" />
 

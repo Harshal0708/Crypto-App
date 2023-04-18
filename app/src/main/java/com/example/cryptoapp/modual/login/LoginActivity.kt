@@ -2,6 +2,8 @@ package com.example.cryptoapp.modual.login
 
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.PorterDuff
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -15,6 +17,7 @@ import android.view.View.*
 import android.view.Window
 import android.view.WindowManager
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -90,7 +93,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
     lateinit var animationView: LottieAnimationView
     var countryId: String = ""
     lateinit var getCountriesResponseItem: ArrayList<GetCountriesResponseItem>
-    lateinit var dialog : Dialog
+    lateinit var dialog: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,13 +121,16 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 
         register_progressBar.visibility = GONE
         resent = view.findViewById(R.id.resent)
-        resent.text = getString(R.string.login)
+        resent.text = getString(R.string.sign_in_login)
         progressBar_cardView.setOnClickListener(this)
         txt_login_country_code.setOnClickListener(this)
 
         forgot_password.setOnClickListener(this)
         login_create.setOnClickListener(this)
         pwd_password.setOnTouchListener(this)
+
+        login_emailNumber.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+        pwd_password.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
 
         login_emailNumber.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -135,12 +141,19 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 
                 var pwd = login_emailNumber.text.toString().trim()
 
+                if (login_emailNumber.length() > 0) {
+                    login_emailNumber.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    login_emailNumber.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+
+
                 if (pwd.contains("@")) {
                     if (!(EMAIL_ADDRESS_PATTERN.toRegex().matches(pwd))) {
-                        txt_login_country_code.visibility= GONE
+                        txt_login_country_code.visibility = GONE
 
                         login_emailNumber.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                            R.drawable.ic_email, 0,0, 0
+                            R.drawable.ic_new_email, 0, 0, 0
                         )
 
                     }
@@ -148,15 +161,15 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 
                     if (TextUtils.isDigitsOnly(pwd)) {
                         if (!(PHONE_NUMBER_PATTERN.toRegex().matches(pwd))) {
-                            txt_login_country_code.visibility= VISIBLE
+                            txt_login_country_code.visibility = VISIBLE
                             login_emailNumber.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                               0, 0,0, 0
+                                0, 0, 0, 0
                             )
                         }
                     } else if (!(EMAIL_ADDRESS_PATTERN.toRegex().matches(pwd))) {
-                        txt_login_country_code.visibility= GONE
+                        txt_login_country_code.visibility = GONE
                         login_emailNumber.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                            R.drawable.ic_email, 0,0, 0
+                            R.drawable.ic_new_email, 0, 0, 0
                         )
                     }
                 }
@@ -168,7 +181,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 
         })
 
-            pwd_password.addTextChangedListener(object : TextWatcher {
+        pwd_password.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
@@ -176,6 +189,13 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
                 var pwd = pwd_password.text.toString().trim()
+
+                if (pwd_password.length() > 0) {
+                    pwd_password.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    pwd_password.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal));
+                }
+
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     if (pwd.length > 5) {
@@ -194,6 +214,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
         })
 
     }
+
     override fun onClick(p0: View?) {
         val id = p0!!.id
         when (id) {
@@ -370,13 +391,13 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 
                 if (passwordVisiable) {
                     pwd_password.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        R.drawable.ic_lock, 0, R.drawable.ic_eye, 0
+                        R.drawable.ic_new_email, 0, R.drawable.ic_eye, 0
                     )
                     pwd_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance())
                     passwordVisiable = false
                 } else {
                     pwd_password.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                        R.drawable.ic_lock, 0, R.drawable.ic_eye_off, 0
+                        R.drawable.ic_new_email, 0, R.drawable.ic_eye_off, 0
                     )
                     pwd_password.setTransformationMethod(PasswordTransformationMethod.getInstance())
                     passwordVisiable = true

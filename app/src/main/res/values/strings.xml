@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">CryptoApp</string>
     <string name="hello">Hello</string>
+    <string name="hello_there">Hello there,login to continue.</string>
     <string name="back">Back</string>
     <string name="home">Home</string>
     <string name="history">History</string>
@@ -10,6 +11,7 @@
     <string name="my_profile">My Profile</string>
     <string name="dark_theme">Dark Theme</string>
     <string name="login">Login</string>
+    <string name="sign_in_login">Sign In</string>
     <string name="logout">Logout</string>
     <string name="logout_successfully">Logout Successfully</string>
     <string name="user_not_created">User not created!</string>
@@ -21,16 +23,16 @@
     <string name="sign_in_with">- Or Sign in With -</string>
     <string name="next">Next</string>
     <string name="sign_in">Sign in to your account</string>
-    <string name="remember_me">Remember Me</string>
-    <string name="email">Email</string>
-    <string name="email_number">Email/Number</string>
+    <string name="remember_me">Remember me</string>
+    <string name="email">Enter your email</string>
+    <string name="email_number">Enter your Email/Number</string>
     <string name="code">Code</string>
     <string name="otp">Otp</string>
     <string name="email_otp">Email OTP :</string>
     <string name="phone_otp">Phone OTP :</string>
     <string name="submit">Submit</string>
     <string name="verify_continue">Verify &amp; Continue</string>
-    <string name="password">Password</string>
+    <string name="password">Enter your password</string>
     <string name="subscription">Subscription</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="reset_password">Reset Password</string>
@@ -41,9 +43,9 @@
     <string name="forgot_password_not_completed">Forgot Password not completed!</string>
     <string name="data_not_found">Data Not Found!</string>
     <string name="new_password">New Password</string>
-    <string name="reenter_password">Reenter Password</string>
+    <string name="reenter_password">Confirm password</string>
     <string name="welcome_to_crypto">Welcome to crypto</string>
-    <string name="accept_condition">I accept all terms and condition</string>
+    <string name="accept_condition">I accept all Tearms and Conditions *</string>
     <string name="connected">Connected !!!</string>
     <string name="disconnected">DisConnected !!!</string>
     <string name="available_connection">Yes you are online internet connection is available now.</string>
@@ -65,6 +67,7 @@
     <string name="otp_verify_done">OTP verify done</string>
     <string name="pan_number">PAN number</string>
     <string name="create_a_crypto_account">Don\'t have an account ?</string>
+    <string name="privacy">T&amp;S / FAQ\'s / Privacy Policy</string>
     <string name="can_not_scan">Can\'t Scan?Copy the key.</string>
     <string name="dont_receive">Don\'t receive OTP ?</string>
     <string name="already_account">Already have an account ?</string>
@@ -76,7 +79,7 @@
     <string name="resend_code">Resend Code</string>
     <string name="resend">Resend</string>
     <string name="reset">Reset</string>
-    <string name="phone_number">Phone Number</string>
+    <string name="phone_number">Enter your mobile number</string>
     <string name="country_code">- -</string>
     <string name="country_code_1">Country Code</string>
     <string name="country_name">Country Name</string>
@@ -84,6 +87,7 @@
     <string name="phone">Phone</string>
     <string name="sign_up">Sign Up</string>
     <string name="create_account">Create your Account</string>
+    <string name="please_sign_up">Please sign up to continue</string>
     <string name="upload_profile">Upload Profile</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>

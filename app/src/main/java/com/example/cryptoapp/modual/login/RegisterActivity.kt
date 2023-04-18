@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Base64
 import android.view.View
@@ -152,6 +153,149 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
         cb_term_accept.setOnClickListener(this)
         reg_profile_img.setOnClickListener(this)
         mn_et_country_code.setOnClickListener(this)
+
+
+        sp_et_firstName.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+
+        sp_et_lastName.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+        sp_et_email.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+        mn_et_phone.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+        sp_et_password.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+        sp_et_rePassword.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+
+        sp_et_firstName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (sp_et_firstName.length() > 0) {
+                    sp_et_firstName.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+
+                } else {
+                    sp_et_firstName.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+//
+//                sp_et_firstName.setCompoundDrawablesRelativeWithIntrinsicBounds(
+//                    R.drawable.ic_new_email, 0, 0, 0
+//                )
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+        sp_et_lastName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (sp_et_lastName.length() > 0) {
+                    sp_et_lastName.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    sp_et_lastName.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+        sp_et_email.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (sp_et_email.length() > 0) {
+                    sp_et_email.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    sp_et_email.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+
+
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+        mn_et_phone.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (mn_et_phone.length() > 0) {
+                    mn_et_phone.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    mn_et_phone.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+        sp_et_password.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (sp_et_password.length() > 0) {
+                    sp_et_password.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    sp_et_password.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+
+
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+        sp_et_rePassword.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (sp_et_rePassword.length() > 0) {
+                    sp_et_rePassword.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    sp_et_rePassword.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+
+                sp_et_rePassword.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    R.drawable.ic_show, 0, 0, 0
+                )
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
 
         sp_et_password.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
