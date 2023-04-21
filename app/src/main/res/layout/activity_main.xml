@@ -35,15 +35,40 @@
         app:labelVisibilityMode="labeled"
         android:scrollIndicators="left"/>
     </RelativeLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/background"
+        android:background="@color/sky_light"
         app:headerLayout="@layout/nav_header"
         app:itemIconTint="@color/icon_color"
-        app:itemTextColor="@color/txt_color"
+        app:itemTextColor="@color/hello"
         android:theme="@style/NavigationView"
-        app:menu="@menu/navigation_menu" />
+        app:menu="@menu/navigation_menu">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_privacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_margin="8dp"
+                android:fontFamily="@font/helvetica_bold"
+                android:text="@string/privacy"
+                android:textColor="@color/black"
+                android:textSize="10sp" />
+
+
+        </LinearLayout>
+
+    </com.google.android.material.navigation.NavigationView>
+
 </androidx.drawerlayout.widget.DrawerLayout>

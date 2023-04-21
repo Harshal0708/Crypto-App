@@ -13,7 +13,6 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Constants.Companion.showLog
@@ -25,6 +24,8 @@ import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.preferences.MyPreferences
 import com.google.gson.Gson
+import com.mukesh.mukeshotpview.completeListener.MukeshOtpCompleteListener
+import com.mukesh.mukeshotpview.mukeshOtpView.MukeshOtpView
 import com.strings.cryptoapp.Response.BarcodeImageResponse
 import com.strings.cryptoapp.Response.GenerateQrCodeResponnse
 import com.strings.cryptoapp.model.CreateUserGAKeyPayload
@@ -38,7 +39,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
 
     lateinit var qrIV: ImageView
     lateinit var idTVKey: TextView
-    lateinit var ed_totp: EditText
+    lateinit var ed_totp: MukeshOtpView
 
     lateinit var setupCode: String
     lateinit var userKey: String
@@ -51,7 +52,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
     lateinit var resent: TextView
     lateinit var progressBar_cardView: RelativeLayout
 
-    lateinit var animationView: LottieAnimationView
+    var generateOtp1: String =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +61,6 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
         qrIV = findViewById(R.id.idIVQrcode)
         idTVKey = findViewById(R.id.idTVKey)
         ed_totp = findViewById(R.id.ed_totp)
-        animationView = findViewById(R.id.auth_img)
 
         view = findViewById(R.id.btn_progressBar)
         register_progressBar = view.findViewById(R.id.register_progressBar)
@@ -72,8 +72,6 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
 
         data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
         preferences = MyPreferences(this)
-
-        setupAnim()
 
         progressBar_cardView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
@@ -91,16 +89,17 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                 copyTextToClipboard()
             }
         })
+        ed_totp.setOtpCompletionListener(object : MukeshOtpCompleteListener {
+            override fun otpCompleteListener(otp: String?) {
+                generateOtp1 = otp.toString()
+            }
+        })
 
         getCheckUserGAKey(data.userId)
 
     }
 
-    private fun setupAnim() {
-        animationView.setAnimation(R.raw.verified)
-        animationView.repeatCount = LottieDrawable.INFINITE
-        animationView.playAnimation()
-    }
+
 
 
     private fun copyTextToClipboard() {
@@ -199,7 +198,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
             ServiceBuilder(this@GoogleAuthenticatorActivity).buildService(RestApi::class.java)
 
         val payload = Verify2FAPayload(
-            ed_totp.text.toString(),
+            generateOtp1,
             userKey,
         )
 

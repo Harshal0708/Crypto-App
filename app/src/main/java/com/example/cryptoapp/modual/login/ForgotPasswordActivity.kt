@@ -3,6 +3,9 @@ package com.example.cryptoapp.modual.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.View
 import android.widget.*
 import com.example.cryptoapp.Constants.Companion.showToast
@@ -48,6 +51,33 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
         forgot.text = getString(R.string.forgot)
 
         fp_et_email.visibility = View.VISIBLE
+
+        fp_et_email.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+
+        fp_et_email.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                var pwd = fp_et_email.text.toString().trim()
+
+                if (fp_et_email.length() > 0) {
+                    fp_et_email.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    fp_et_email.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+
         progressBar_cardView.setOnClickListener(this)
 
 

@@ -154,7 +154,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
         reg_profile_img.setOnClickListener(this)
         mn_et_country_code.setOnClickListener(this)
 
-
         sp_et_firstName.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
 
         sp_et_lastName.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))

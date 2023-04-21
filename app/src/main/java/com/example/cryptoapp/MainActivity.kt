@@ -9,6 +9,7 @@ import android.util.Base64
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.view.View.OnClickListener
 import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -44,6 +45,8 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var nav_img: ImageView
     lateinit var nav_name: TextView
+    lateinit var nav_email: TextView
+    lateinit var txt_privacy: TextView
 
     lateinit var data: DataXX
 
@@ -60,15 +63,24 @@ class MainActivity : AppCompatActivity() {
         val parentView: View = navView.getHeaderView(0)
         nav_img = parentView.findViewById(R.id.nav_img)
         nav_name = parentView.findViewById(R.id.nav_name)
+        nav_email = parentView.findViewById(R.id.nav_email)
         menuItem = navView.menu.findItem(R.id.nav_switch)
+        txt_privacy = findViewById(R.id.txt_privacy)
 
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
         nav_name.text = data.name
+        nav_email.text = data.email
 
         Log.d("test", data.profilePicture)
         if (data.profilePicture != null && data.profilePicture != "") {
             nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
         }
+
+        txt_privacy.setOnClickListener(object :OnClickListener{
+            override fun onClick(p0: View?) {
+                showToast(this@MainActivity,"Privacy")
+            }
+        })
 
         // nav_img.setImageBitmap(writeOnDrawable(R.drawable.background_edittext, "Apurva")?.bitmap)
 //        val b = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888)
@@ -178,9 +190,11 @@ class MainActivity : AppCompatActivity() {
                     showToast(this@MainActivity, getString(R.string.logout_successfully))
                     true
                 }
+
                 else -> {
                     false
                 }
+
             }
         }
 

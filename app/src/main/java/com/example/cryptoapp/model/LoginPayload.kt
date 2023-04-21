@@ -7,5 +7,6 @@ class LoginPayload(
     var password: String,
     var mobile: String,
     var rememberMe: Boolean,
+    var countryId: String,
 
 )

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-    android:background="@color/background"
+    android:fillViewport="true"
+    android:background="@drawable/ic_login_15"
     tools:context=".modual.login.LoginOtpActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,35 +42,21 @@
             app:layout_constraintGuide_end="20dp" />
 
 
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/login_img"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:adjustViewBounds="true"
-            app:layout_constraintEnd_toStartOf="@+id/guideline46"
-            app:layout_constraintStart_toStartOf="@+id/guideline44"
-            app:layout_constraintTop_toTopOf="@+id/guideline45"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/verified"
-            app:lottie_speed="1"
-            tools:ignore="ContentDescription"
-            />
-
         <TextView
             android:id="@+id/txt_login_otp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="32dp"
             android:fontFamily="@font/helvetica_bold"
             android:text="@string/phone_verification"
-            android:textAlignment="center"
+            android:textAlignment="viewStart"
             android:textColor="@color/hello"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:textSize="24sp"
             android:typeface="normal"
             app:layout_constraintEnd_toStartOf="@+id/guideline46"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline44"
-            app:layout_constraintTop_toBottomOf="@+id/login_img" />
+            app:layout_constraintTop_toBottomOf="@+id/parent" />
 
         <TextView
             android:id="@+id/otp_phone_verification"
@@ -79,9 +65,10 @@
             android:layout_marginTop="16dp"
             android:fontFamily="@font/helvetica_bold"
             android:text="Please, enter the verification code we sent to your  Mobile **01 and Gmail **patel"
-            android:textAlignment="center"
-            android:textColor="@color/hello"
-            android:textSize="12sp"
+            android:textAlignment="viewStart"
+            android:textColor="@color/static_txt"
+            android:textSize="14sp"
+            android:typeface="normal"
             app:layout_constraintEnd_toStartOf="@+id/guideline46"
             app:layout_constraintStart_toStartOf="@+id/guideline44"
             app:layout_constraintTop_toBottomOf="@+id/txt_login_otp" />
@@ -93,9 +80,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:layout_constraintHorizontal_bias="0.0"
 
             app:layout_constraintEnd_toStartOf="@+id/guideline46"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline44"
             app:layout_constraintTop_toBottomOf="@+id/otp_phone_verification" />
 
@@ -124,7 +111,6 @@
             android:textColor="@color/txt_color"
             android:textSize="18sp"
             android:textStyle="bold"
-
             app:layout_constraintEnd_toEndOf="@+id/btn_progressBar"
             app:layout_constraintStart_toStartOf="@+id/btn_progressBar"
             app:layout_constraintTop_toBottomOf="@+id/btn_progressBar" />
@@ -140,7 +126,6 @@
             android:textAlignment="center"
             android:textColor="@color/txt_color"
             android:textSize="12sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/guideline46"
             app:layout_constraintHorizontal_bias="0.39"
             app:layout_constraintHorizontal_chainStyle="packed"

@@ -14,7 +14,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Constants.Companion.showToast
@@ -29,6 +28,9 @@ import com.example.cryptoapp.model.VerifyRegistrationOtpPayload
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.google.android.gms.auth.api.phone.SmsRetriever
+import com.mukesh.mukeshotpview.completeListener.MukeshOtpCompleteListener
+import com.mukesh.mukeshotpview.mukeshOtpView.MukeshOtpView
+
 import retrofit2.Call
 import java.util.regex.Pattern
 
@@ -38,8 +40,6 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 //    lateinit var register_progressBar: ProgressBar
 //
     lateinit var view: View
-    lateinit var otp_layout: View
-    lateinit var otp_layout_two: View
     lateinit var register_progressBar: ProgressBar
     lateinit var resent: TextView
     lateinit var progressBar_cardView: RelativeLayout
@@ -51,24 +51,9 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var txt_email_phone: TextView
     lateinit var resend_timer: TextView
 
-    lateinit var otp_1: EditText
-    lateinit var otp_2: EditText
-    lateinit var otp_3: EditText
-    lateinit var otp_4: EditText
-    lateinit var otp_5: EditText
-    lateinit var otp_6: EditText
-
-    lateinit var otp_two_1: EditText
-    lateinit var otp_two_2: EditText
-    lateinit var otp_two_3: EditText
-    lateinit var otp_two_4: EditText
-    lateinit var otp_two_5: EditText
-    lateinit var otp_two_6: EditText
-
     val REQ_USER_CONSENT = 200
     lateinit var smsBroadcastReceiver: SmsBroadcastReceiver
 
-    lateinit var animationView: LottieAnimationView
 
     var email: String = ""
     var phone: String = ""
@@ -79,10 +64,15 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     var countryId: String =""
     var selectedKeyPos: Int = 0
     var selectedKeyPos1: Int = 0
-    lateinit var generateOtp: String
-    lateinit var generateOtp1: String
+    var generateOtp: String = ""
+    var generateOtp1: String =""
 
     lateinit var timer: CountDownTimer
+
+
+    lateinit var otp_view_1: MukeshOtpView
+    lateinit var otp_view_2: MukeshOtpView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,28 +86,14 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         resend_code = findViewById(R.id.txt_sign_in_here)
         txt_otp_resend = findViewById(R.id.txt_otp_resend)
         resend_timer = findViewById(R.id.resend_timer)
-        animationView = findViewById(R.id.login_img)
-        setupAnim()
 
         view = findViewById(R.id.btn_progressBar)
-        otp_layout = findViewById(R.id.otp_layout)
-        otp_layout_two = findViewById(R.id.otp_layout_two)
+
         txt_email_phone = findViewById(R.id.txt_email_phone)
 
-        otp_1 = otp_layout.findViewById(R.id.otp_1)
-        otp_2 = otp_layout.findViewById(R.id.otp_2)
-        otp_3 = otp_layout.findViewById(R.id.otp_3)
-        otp_4 = otp_layout.findViewById(R.id.otp_4)
-        otp_5 = otp_layout.findViewById(R.id.otp_5)
-        otp_6 = otp_layout.findViewById(R.id.otp_6)
 
-
-        otp_two_1 = otp_layout_two.findViewById(R.id.otp_1)
-        otp_two_2 = otp_layout_two.findViewById(R.id.otp_2)
-        otp_two_3 = otp_layout_two.findViewById(R.id.otp_3)
-        otp_two_4 = otp_layout_two.findViewById(R.id.otp_4)
-        otp_two_5 = otp_layout_two.findViewById(R.id.otp_5)
-        otp_two_6 = otp_layout_two.findViewById(R.id.otp_6)
+        otp_view_1 = findViewById(R.id.otp_view_1)
+        otp_view_2 = findViewById(R.id.otp_view_2)
 
         register_progressBar = view.findViewById(R.id.register_progressBar)
         progressBar_cardView = view.findViewById(R.id.progressBar_cardView)
@@ -126,6 +102,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         resent = view.findViewById(R.id.resent)
         resent.text = getString(R.string.verify_continue)
         progressBar_cardView.setOnClickListener(this)
+
         email = intent.getStringExtra("email").toString()
         phone = intent.getStringExtra("phone").toString()
         firsName = intent.getStringExtra("firsName").toString()
@@ -153,228 +130,20 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         txt_otp_resend.setOnClickListener(this)
         progressBar_cardView.setOnClickListener(this)
 
+        otp_view_1.setOtpCompletionListener(object : MukeshOtpCompleteListener {
+            override fun otpCompleteListener(otp: String?) {
+                generateOtp = otp.toString()
+            }
+        })
+
+        otp_view_2.setOtpCompletionListener(object : MukeshOtpCompleteListener {
+            override fun otpCompleteListener(otp: String?) {
+                generateOtp1 = otp.toString()
+            }
+        })
+
+
         countdownTimer()
-        otp_1.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                    showkeybord(otp_2, otp_1, false)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
-
-        otp_2.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                    showkeybord(otp_3, otp_2, false)
-                } else {
-                    showkeybord(otp_1, otp_2, true)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
-
-        otp_3.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                    showkeybord(otp_4, otp_3, false)
-                } else {
-                    showkeybord(otp_2, otp_3, true)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
-
-        otp_4.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                    showkeybord(otp_5, otp_4, false)
-                } else {
-                    showkeybord(otp_3, otp_4, true)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
-
-        otp_5.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                    showkeybord(otp_6, otp_5, false)
-                } else {
-                    showkeybord(otp_4, otp_5, true)
-                }
-            }
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-        })
-
-        otp_6.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                } else {
-                    showkeybord(otp_5, otp_6, true)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
-
-        otp_two_1.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                    showkeybord(otp_two_2, otp_two_1, false)
-                } else {
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
-
-        otp_two_2.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                    showkeybord(otp_two_3, otp_two_2, false)
-                } else {
-                    showkeybord(otp_two_1, otp_two_2, true)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
-
-        otp_two_3.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                    showkeybord(otp_two_4, otp_two_3, false)
-                } else {
-                    showkeybord(otp_two_2, otp_two_3, true)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
-
-        otp_two_4.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                    showkeybord(otp_two_5, otp_two_4, false)
-                } else {
-                    showkeybord(otp_two_3, otp_two_4, true)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
-
-        otp_two_5.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                    showkeybord(otp_two_6, otp_two_5, false)
-                } else {
-                    showkeybord(otp_two_4, otp_two_5, true)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
-
-        otp_two_6.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-
-                } else {
-                    showkeybord(otp_two_5, otp_two_6, true)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
         //  startSmartUserConsent()
     }
 
@@ -462,24 +231,8 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
-    private fun showkeybord(one: EditText?, two: EditText?, isBoolean: Boolean) {
 
-        one?.setFocusable(true);
-        one?.setFocusableInTouchMode(true);
-        one?.requestFocus();
-        two?.setFocusable(false);
-        two?.setFocusableInTouchMode(false);
-        val imm: InputMethodManager =
-            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(one, InputMethodManager.SHOW_IMPLICIT)
 
-    }
-
-    private fun setupAnim() {
-        animationView.setAnimation(R.raw.verified)
-        animationView.repeatCount = LottieDrawable.INFINITE
-        animationView.playAnimation()
-    }
 
     private fun startSmartUserConsent() {
         val client = SmsRetriever.getClient(this)
@@ -540,19 +293,15 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         when (id) {
             R.id.progressBar_cardView -> {
 
-                generateOtp = otp_1.text.toString() +
-                        otp_2.text.toString() +
-                        otp_3.text.toString() +
-                        otp_4.text.toString() +
-                        otp_5.text.toString() +
-                        otp_6.text.toString()
+//                otp_view_1.setOtpCompletionListener {
+//                    Log.d("Actual Value", it)
+//                    generateOtp=it
+//                }
+//                otp_view_1.setOtpCompletionListener {
+//                    Log.d("Actual Value", it)
+//                    generateOtp1=it
+//                }
 
-                generateOtp1 = otp_two_1.text.toString() +
-                        otp_two_2.text.toString() +
-                        otp_two_3.text.toString() +
-                        otp_two_4.text.toString() +
-                        otp_two_5.text.toString() +
-                        otp_two_6.text.toString()
 
 
                 verifyRegistrationOtp(generateOtp, generateOtp1)
@@ -622,36 +371,25 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                             startActivity(intent)
                             finish()
                         } else {
-
                             register_progressBar.visibility = View.GONE
                             showToast(this@OtpActivity, getString(R.string.user_not_created))
                         }
 
                     }
+
                     override fun onFailure(call: Call<OtpResponse>, t: Throwable) {
                         register_progressBar.visibility = View.GONE
                         showToast(this@OtpActivity, getString(R.string.user_not_created))
                     }
+
                 }
             )
     }
 
     fun addResendOtp() {
 
-        otp_1.text.clear()
-        otp_2.text.clear()
-        otp_3.text.clear()
-        otp_4.text.clear()
-        otp_5.text.clear()
-        otp_6.text.clear()
-
-        otp_two_1.text.clear()
-        otp_two_2.text.clear()
-        otp_two_3.text.clear()
-        otp_two_4.text.clear()
-        otp_two_5.text.clear()
-        otp_two_6.text.clear()
-
+        otp_view_1.text?.clear()
+        otp_view_2.text?.clear()
         selectedKeyPos = 0
         selectedKeyPos1 = 0
         register_progressBar.visibility = View.VISIBLE
@@ -670,7 +408,6 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                         call: retrofit2.Call<SendRegistrationOtpResponce>,
                         response: retrofit2.Response<SendRegistrationOtpResponce>
                     ) {
-
 
                         if (response.body()?.isSuccess == true) {
                             register_progressBar.visibility = View.GONE
