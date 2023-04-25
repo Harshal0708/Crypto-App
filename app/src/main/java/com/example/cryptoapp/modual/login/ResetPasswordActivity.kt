@@ -72,6 +72,26 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
         progressBar_cardView.setOnClickListener(this)
 
 
+        rp_et_email.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (rp_et_email.length() > 0) {
+                    rp_et_email.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    rp_et_email.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
         rp_et_password.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -81,6 +101,11 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
                 var pwd = rp_et_password.text.toString().trim()
 
+                if (rp_et_password.length() > 0) {
+                    rp_et_password.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    rp_et_password.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     rp_et_password.setError(getString(R.string.valid_password))
@@ -103,6 +128,13 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
                 var pwd = rp_et_rePassword.text.toString().trim()
+
+
+                if (rp_et_rePassword.length() > 0) {
+                    rp_et_rePassword.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    rp_et_rePassword.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     rp_et_rePassword.setError(getString(R.string.valid_password))

@@ -24,6 +24,7 @@ import com.example.cryptoapp.modual.dashbord.HistoryFragment
 import com.example.cryptoapp.modual.dashbord.HomeFragment
 import com.example.cryptoapp.modual.dashbord.SettingFragment
 import com.example.cryptoapp.modual.login.LoginActivity
+import com.example.cryptoapp.modual.login.ProfileActivity
 import com.example.cryptoapp.modual.login.ResetPasswordActivity
 import com.example.cryptoapp.modual.subscription.SubscriptionActivity
 import com.example.cryptoapp.modual.watchlist.WatchlistFragment
@@ -143,6 +144,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
             }
+
             return@setOnItemSelectedListener true
         }
 
@@ -162,9 +164,12 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_profile -> {
-                    loadFragment(SettingFragment())
-                    bottomNav.setSelectedItemId(R.id.setting)
-                    drawerLayout?.close()
+//                    loadFragment(SettingFragment())
+//                    bottomNav.setSelectedItemId(R.id.setting)
+//                    drawerLayout?.close()
+                    var intent = Intent(this, ProfileActivity::class.java)
+                    startActivity(intent)
+                    finish()
                     true
                 }
 

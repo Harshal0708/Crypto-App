@@ -81,7 +81,6 @@ class ScriptFragment : Fragment(), View.OnClickListener {
         setupAnim()
         getPlans()
         //getUserSubscriptionDetail()
-
     }
 
     private fun setupAnim() {

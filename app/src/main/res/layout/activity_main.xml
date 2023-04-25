@@ -54,7 +54,7 @@
             android:clickable="true"
             android:gravity="center"
             android:orientation="vertical">
-
+e
             <TextView
                 android:id="@+id/txt_privacy"
                 android:layout_width="match_parent"

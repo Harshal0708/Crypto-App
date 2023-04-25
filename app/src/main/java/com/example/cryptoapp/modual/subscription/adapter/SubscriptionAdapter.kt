@@ -10,9 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.UserSubscriptionDataResponse
 import com.example.cryptoapp.modual.subscription.SubscriptionDetailActivity
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class SubscriptionAdapter (val context: Context, var subscriptionModelList: List<UserSubscriptionDataResponse>, var planId:String) :
     RecyclerView.Adapter<SubscriptionAdapter.ViewHolder>() {
+
+
+    lateinit var dialog: BottomSheetDialog
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var txt_subscriptionName : TextView = itemView.findViewById(R.id.txt_subscriptionName)

@@ -2,6 +2,7 @@ package com.example.cryptoapp.modual.login
 
 
 import android.Manifest
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -9,22 +10,31 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Base64
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.DataXX
+import com.example.cryptoapp.Response.GetCountriesResponseItem
 import com.example.cryptoapp.Response.Userupdatedsuccessfully
+import com.example.cryptoapp.modual.countries.CountriesAdapter
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
+import com.example.cryptoapp.network.onItemClickListener
 import com.example.cryptoapp.preferences.MyPreferences
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
@@ -35,7 +45,7 @@ import retrofit2.Call
 import java.io.ByteArrayOutputStream
 import java.util.regex.Pattern
 
-class ProfileActivity : AppCompatActivity(), View.OnClickListener {
+class ProfileActivity : AppCompatActivity(), View.OnClickListener , onItemClickListener {
 
     lateinit var edFirstname: EditText
     lateinit var edLastname: EditText
@@ -80,7 +90,15 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var dialog: BottomSheetDialog
     lateinit var str_array: ByteArray
     lateinit var data: DataXX
+    lateinit var mn_et_country_code: TextView
+    lateinit var dialog1 : Dialog
 
+    lateinit var rv_countryName: RecyclerView
+
+    lateinit var getCountriesResponseItem: ArrayList<GetCountriesResponseItem>
+
+    lateinit var countriesAdapter: CountriesAdapter
+    var countryId: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -101,20 +119,127 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
         edLastname = findViewById(R.id.edLastname)
         edEmail = findViewById(R.id.edEmail)
         edPhone = findViewById(R.id.edPhone)
+
+        mn_et_country_code = findViewById(R.id.mn_et_country_code)
+
         profile_img = findViewById(R.id.reg_profile_img)
         view = findViewById(R.id.btn_progressBar)
         register_progressBar = view.findViewById(R.id.register_progressBar)
 
         progressBar_cardView = view.findViewById(R.id.progressBar_cardView)
+
         register_progressBar.visibility = View.GONE
         resent = view.findViewById(R.id.resent)
-        resent.text = getString(R.string.save)
+        resent.text = getString(R.string.save_profile)
 
         viewLoader = findViewById(R.id.viewLoader)
         animationView = viewLoader.findViewById(R.id.lotti_img)
 
         progressBar_cardView.setOnClickListener(this)
         profile_img.setOnClickListener(this)
+        mn_et_country_code.setOnClickListener(this)
+
+        edFirstname.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (edFirstname.length() > 0) {
+                    edFirstname.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+
+                } else {
+                    edFirstname.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+//
+//                sp_et_firstName.setCompoundDrawablesRelativeWithIntrinsicBounds(
+//                    R.drawable.ic_new_email, 0, 0, 0
+//                )
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+        edEmail.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (edEmail.length() > 0) {
+                    edEmail.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+
+                } else {
+                    edEmail.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+//
+//                sp_et_firstName.setCompoundDrawablesRelativeWithIntrinsicBounds(
+//                    R.drawable.ic_new_email, 0, 0, 0
+//                )
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+        edLastname.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (edLastname.length() > 0) {
+                    edLastname.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+
+                } else {
+                    edLastname.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+//
+//                sp_et_firstName.setCompoundDrawablesRelativeWithIntrinsicBounds(
+//                    R.drawable.ic_new_email, 0, 0, 0
+//                )
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+        edPhone.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (edPhone.length() > 0) {
+                    edPhone.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+
+                } else {
+                    edPhone.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+//
+//                sp_et_firstName.setCompoundDrawablesRelativeWithIntrinsicBounds(
+//                    R.drawable.ic_new_email, 0, 0, 0
+//                )
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
 
         getUserDetails(userDetail.email)
         setupAnim()
@@ -164,7 +289,6 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
         val bytesofimage = byteArrayOutputStream.toByteArray()
         encodeImageString = Base64.encodeToString(bytesofimage, Base64.DEFAULT)
         //Constants.showLog(encodeImageString.toString())
-
     }
 
 
@@ -269,9 +393,48 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
                 openGallery()
                 dialog.dismiss()
             }
+            R.id.mn_et_country_code -> {
+                exit()
+            }
         }
     }
 
+    fun exit() {
+        dialog1 = Dialog(this, android.R.style.ThemeOverlay)
+        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog1.getWindow()?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        );
+        dialog1.setCancelable(true)
+        dialog1.setContentView(R.layout.custom_countries)
+        viewLoader = dialog1.findViewById(R.id.viewLoader)
+        animationView = viewLoader.findViewById(R.id.lotti_img)
+        rv_countryName = dialog1.findViewById(R.id.rv_countryName)
+        setupAnim()
+        getCountries()
+        dialog1.show()
+    }
+    private fun getCountries() {
+
+        viewLoader.visibility = View.VISIBLE
+        lifecycleScope.launch(Dispatchers.IO) {
+            var response = ServiceBuilder(this@ProfileActivity).buildService(RestApi::class.java)
+                .getCountries()
+            withContext(Dispatchers.Main) {
+                viewLoader.visibility = View.GONE
+                getCountriesResponseItem = response.body()!!
+                rv_countryName.layoutManager = LinearLayoutManager(this@ProfileActivity)
+                countriesAdapter = CountriesAdapter(
+                    this@ProfileActivity,
+                    getCountriesResponseItem,
+                    RegisterActivity(),
+                    this@ProfileActivity
+                )
+                rv_countryName.adapter = countriesAdapter
+            }
+        }
+    }
     private fun openBottomSheet() {
         dialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.profile_bottom_sheet, null)
@@ -315,6 +478,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         phone = edPhone.text.toString().trim()
+
         if (!(PHONE_NUMBER_PATTERN.toRegex().matches(phone))) {
             edPhone.setError(getString(R.string.phone_error));
             return false;
@@ -323,4 +487,9 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
         return true
     }
 
+    override fun onItemClick(pos: Int) {
+        mn_et_country_code.text = "+ ${getCountriesResponseItem.get(pos).countryCode}"
+        countryId = getCountriesResponseItem.get(pos).id
+        dialog1.dismiss()
+    }
 }

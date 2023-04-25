@@ -102,6 +102,8 @@
         android:textSize="18sp"
         app:hideLineWhenFilled="false"
         app:itemCount="6"
+        style="@style/OtpWidget.OtpView"
+        android:hint="******"
         app:layout_constraintEnd_toStartOf="@+id/guideline68"
         app:layout_constraintStart_toStartOf="@+id/guideline66"
         app:layout_constraintTop_toBottomOf="@+id/idTVKey"

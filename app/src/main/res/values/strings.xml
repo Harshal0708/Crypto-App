@@ -23,6 +23,7 @@
     <string name="please_accept_condition">Please accept terms and condition</string>
     <string name="login_failed">Login Failed</string>
     <string name="save">Save</string>
+    <string name="save_profile">Save Profile</string>
     <string name="sign_in_with">- Or Sign in With -</string>
     <string name="next">Next</string>
     <string name="sign_in">Sign in to your account</string>
@@ -117,4 +118,6 @@
     <string name="no_of_public_str">No. of public Strategies you can create</string>
     <string name="active">Active</string>
     <string name="qr_code_generator">QR Code Generator</string>
+    <string name="change_password">Change Password</string>
+    <string name="pls_new_password">Please create new password to continue.</string>
 </resources>
