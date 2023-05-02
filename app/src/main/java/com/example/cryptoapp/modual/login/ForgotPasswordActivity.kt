@@ -25,6 +25,7 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var register_progressBar: ProgressBar
     lateinit var forgot: TextView
     lateinit var progressBar_cardView: RelativeLayout
+    lateinit var ima_back: ImageView
 
     private lateinit var email: String
 
@@ -44,6 +45,8 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
         view = findViewById(R.id.btn_progressBar)
         register_progressBar = view.findViewById(R.id.register_progressBar)
+        ima_back = findViewById(R.id.ima_back)
+
 
         progressBar_cardView = view.findViewById(R.id.progressBar_cardView)
         register_progressBar.visibility = View.GONE
@@ -79,6 +82,7 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
 
         progressBar_cardView.setOnClickListener(this)
+        ima_back.setOnClickListener(this)
 
 
     }
@@ -92,6 +96,10 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
                     forgotPassword()
                 }
             }
+            R.id.ima_back -> {
+             onBackPressed()
+            }
+
         }
     }
 

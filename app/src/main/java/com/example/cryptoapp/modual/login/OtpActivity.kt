@@ -122,7 +122,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         Log.d("test", firsName)
         Log.d("test", lastName)
         Log.d("test", rePassword)
-        Log.d("test", imageUri.toString())
+        Log.d("test", imageUri)
 
         resend_code.isEnabled = false
         txt_otp_resend.isEnabled = false

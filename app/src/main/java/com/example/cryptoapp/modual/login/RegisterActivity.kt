@@ -71,6 +71,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
     private lateinit var txt_sign_in_here: TextView
     private lateinit var txt_sign_here_two: TextView
     private lateinit var reg_profile_img: ImageView
+    private lateinit var ima_back: ImageView
 
     val EMAIL_ADDRESS_PATTERN = Pattern.compile(
         "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -133,6 +134,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
         txt_sign_here_two = findViewById(R.id.txt_sign_here_two)
         reg_profile_img = findViewById(R.id.reg_profile_img)
         mn_et_country_code = findViewById(R.id.mn_et_country_code)
+        ima_back = findViewById(R.id.ima_back)
 
         sp_et_email = findViewById(R.id.sp_et_email)
         mn_et_phone = findViewById(R.id.mn_et_phone)
@@ -153,6 +155,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
         cb_term_accept.setOnClickListener(this)
         reg_profile_img.setOnClickListener(this)
         mn_et_country_code.setOnClickListener(this)
+        ima_back.setOnClickListener(this)
 
         sp_et_firstName.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
 
@@ -412,6 +415,12 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
             R.id.mn_et_country_code -> {
                 exit()
             }
+
+            R.id.ima_back -> {
+               onBackPressed()
+            }
+
+
 
         }
     }

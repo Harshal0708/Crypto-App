@@ -55,7 +55,6 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
         init()
     }
 
-
     fun init() {
         preferences = MyPreferences(this)
         rp_et_email = findViewById(R.id.rp_et_email)
@@ -216,8 +215,6 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
                 }
             )
-
-
     }
 
 
@@ -250,6 +247,4 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
         return true
     }
-
-
 }
