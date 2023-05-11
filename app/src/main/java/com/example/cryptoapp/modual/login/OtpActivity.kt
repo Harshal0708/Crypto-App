@@ -72,6 +72,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var otp_view_1: MukeshOtpView
     lateinit var otp_view_2: MukeshOtpView
+    lateinit var ima_back: ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,6 +95,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
         otp_view_1 = findViewById(R.id.otp_view_1)
         otp_view_2 = findViewById(R.id.otp_view_2)
+        ima_back = findViewById(R.id.ima_back)
 
         register_progressBar = view.findViewById(R.id.register_progressBar)
         progressBar_cardView = view.findViewById(R.id.progressBar_cardView)
@@ -102,14 +104,15 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         resent = view.findViewById(R.id.resent)
         resent.text = getString(R.string.verify_continue)
         progressBar_cardView.setOnClickListener(this)
+        ima_back.setOnClickListener(this)
 
-        email = intent.getStringExtra("email").toString()
-        phone = intent.getStringExtra("phone").toString()
-        firsName = intent.getStringExtra("firsName").toString()
-        lastName = intent.getStringExtra("lastName").toString()
-        rePassword = intent.getStringExtra("rePassword").toString()
-        countryId = intent.getStringExtra("countryId").toString()
-        imageUri = intent.getStringExtra("imageUri")!!
+//        email = intent.getStringExtra("email").toString()
+//        phone = intent.getStringExtra("phone").toString()
+//        firsName = intent.getStringExtra("firsName").toString()
+//        lastName = intent.getStringExtra("lastName").toString()
+//        rePassword = intent.getStringExtra("rePassword").toString()
+//        countryId = intent.getStringExtra("countryId").toString()
+//        imageUri = intent.getStringExtra("imageUri")!!
         //imageUri = byte
 
         //val byteArray = intent.getByteArrayExtra("imageUri")
@@ -314,6 +317,10 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
             R.id.txt_otp_resend -> {
                 resend()
             }
+            R.id.ima_back -> {
+                onBackPressed()
+            }
+
 
 
         }

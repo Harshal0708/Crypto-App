@@ -99,9 +99,6 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
 
     }
 
-
-
-
     private fun copyTextToClipboard() {
         val textToCopy = setupCode
         val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager

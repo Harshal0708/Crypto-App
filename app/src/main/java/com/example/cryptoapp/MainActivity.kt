@@ -68,14 +68,17 @@ class MainActivity : AppCompatActivity() {
         menuItem = navView.menu.findItem(R.id.nav_switch)
         txt_privacy = findViewById(R.id.txt_privacy)
 
-        data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
-        nav_name.text = data.name
-        nav_email.text = data.email
+//        data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
+//        nav_name.text = data.name
+//        nav_email.text = data.email
+//
+//        Log.d("test", data.profilePicture)
+//        if (data.profilePicture != null && data.profilePicture != "") {
+//            nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
+//        }
 
-        Log.d("test", data.profilePicture)
-        if (data.profilePicture != null && data.profilePicture != "") {
-            nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
-        }
+        nav_name.text = "Apurva Patel"
+        nav_email.text = "patelappu1495@gmail.com"
 
         txt_privacy.setOnClickListener(object :OnClickListener{
             override fun onClick(p0: View?) {

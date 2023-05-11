@@ -32,6 +32,7 @@
         app:itemIconTint="@drawable/bottom_navigation_selector"
         app:itemTextColor="@drawable/bottom_navigation_selector"
         app:menu="@menu/bottom_menu"
+
         app:labelVisibilityMode="labeled"
         android:scrollIndicators="left"/>
     </RelativeLayout>
@@ -45,8 +46,10 @@
         app:headerLayout="@layout/nav_header"
         app:itemIconTint="@color/icon_color"
         app:itemTextColor="@color/hello"
+        app:itemIconSize="18dp"
         android:theme="@style/NavigationView"
         app:menu="@menu/navigation_menu">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,7 +57,7 @@
             android:clickable="true"
             android:gravity="center"
             android:orientation="vertical">
-e
+
             <TextView
                 android:id="@+id/txt_privacy"
                 android:layout_width="match_parent"
@@ -65,7 +68,6 @@ e
                 android:text="@string/privacy"
                 android:textColor="@color/black"
                 android:textSize="10sp" />
-
 
         </LinearLayout>
 

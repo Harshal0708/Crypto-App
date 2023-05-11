@@ -52,7 +52,7 @@ class SplashActivity : AppCompatActivity() {
             }
         }, 3000)
 
-        // 3000 is the delayed time in millisecond.s.
+        // 3000 is the delayed time in milliseconds
     }
 
     private fun setupAnim() {
@@ -60,5 +60,4 @@ class SplashActivity : AppCompatActivity() {
         animationView.repeatCount = LottieDrawable.INFINITE
         animationView.playAnimation()
     }
-
 }

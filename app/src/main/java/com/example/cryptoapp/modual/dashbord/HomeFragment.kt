@@ -14,10 +14,8 @@ import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.R
-import com.example.cryptoapp.Response.DataXX
-import com.example.cryptoapp.Response.StrategyWSResponse
-import com.example.cryptoapp.modual.home.adapter.HomeAdapter
-import com.example.cryptoapp.modual.home.adapter.SliderViewPagerAdapter
+import com.example.cryptoapp.Response.*
+import com.example.cryptoapp.modual.home.adapter.*
 import com.example.cryptoapp.network.*
 import com.example.cryptoapp.preferences.MyPreferences
 import com.google.gson.Gson
@@ -31,14 +29,19 @@ import java.util.concurrent.TimeUnit
 class HomeFragment : Fragment(), View.OnClickListener {
 
     lateinit var strategies_rv: RecyclerView
+    lateinit var rv_top_coin: RecyclerView
+
     lateinit var ouput: TextView
     lateinit var homeAdapter: HomeAdapter
+    lateinit var topCoinAdapter: TopCoinAdapter
     lateinit var viewLoader: View
     lateinit var animationView: LottieAnimationView
     lateinit var preferences: MyPreferences
 
     lateinit var login_ViewPager: ViewPager
+    lateinit var view_pager_news: ViewPager
     lateinit var viewPagerAdapter: SliderViewPagerAdapter
+    lateinit var sliderNewsViewPagerAdapter: SliderNewsViewPagerAdapter
 
     lateinit var data: DataXX
 
@@ -52,6 +55,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private val executorService: ExecutorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE)
     lateinit var webSocket1: WebSocket
     lateinit var webSocket2: WebSocket
+
+    lateinit var strategyResList: ArrayList<StrategyWSResponseItem>
+    lateinit var topCoin: ArrayList<TopCoins>
+    lateinit var imageList: ArrayList<NewsData>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,14 +72,44 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private fun init(view: View) {
         preferences = MyPreferences(requireContext())
 
-        data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
+//        data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
         strategies_rv = view.findViewById(R.id.strategies_rv)
+        rv_top_coin = view.findViewById(R.id.rv_top_coin)
+
         ouput = view.findViewById(R.id.ouput)
         viewLoader = view.findViewById(R.id.viewLoader)
         animationView = viewLoader.findViewById(R.id.lotti_img)
 
         login_ViewPager = view.findViewById(R.id.login_ViewPager)
+        view_pager_news = view.findViewById(R.id.view_pager_news)
+
+
+        var strategy2 = Strategy("2/4/2023",getString(R.string.dummy_text),"",false,20.00,"7/4/2023",20.00,"Strategy 2")
+        strategyResList =  ArrayList()
+        topCoin =  ArrayList()
+
+        topCoin.add(TopCoins("","Bitcoin","BTC","1000"))
+        topCoin.add(TopCoins("","Ethereum","BTC","2000"))
+        topCoin.add(TopCoins("","Therum","BTC","3000"))
+
+        strategyResList.add(StrategyWSResponseItem(10.00,Strategy("1/4/2023",getString(R.string.dummy_text),"",false,10.00,"7/4/2023",10.00,"Strategy 1")))
+       // strategyResList.add(StrategyWSResponseItem(20.00,Strategy("2/4/2023",getString(R.string.dummy_text),"",false,20.00,"7/4/2023",20.00,"Strategy 2")))
+
+        strategies_rv.layoutManager = LinearLayoutManager(activity)
+        homeAdapter =  HomeAdapter(requireContext(), strategyResList,false)
+        strategies_rv.adapter = homeAdapter
+
+        rv_top_coin.layoutManager =  LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        topCoinAdapter =  TopCoinAdapter(requireContext(), topCoin)
+        rv_top_coin.adapter = topCoinAdapter
+
+        imageList = ArrayList()
+        imageList.add(NewsData(R.drawable.ic_home,"It is a long established fact that a reader"))
+        imageList.add(NewsData(R.drawable.ic_home,"It is a long established fact that a reader"))
+
+        sliderNewsViewPagerAdapter = SliderNewsViewPagerAdapter(requireContext(), imageList)
+        view_pager_news.adapter = sliderNewsViewPagerAdapter
 
         setupAnim()
         executorService.submit {
@@ -83,7 +121,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
             job1 = CoroutineScope(Dispatchers.Main).launch {
 //                val ws1 = async {
                 showLog("IO", "1")
-               getCMSList()
+           //    getCMSList()
                 //}
             }
 
@@ -91,7 +129,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 //val ws2 = async {
                 showLog("webSocket1", "2")
                 //initGetStrategyByUser()
-                webSocket1 = createWebSocket("ws://103.14.99.61:8084/getStrategyPL", 1)
+             //   webSocket1 = createWebSocket("ws://103.14.99.61:8084/getStrategyPL", 1)
 
                 //}
             }
@@ -100,7 +138,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 //val ws3 = async {
                 showLog("webSocket2", "3")
                 //  callFragment()
-                webSocket2 = createWebSocket("ws://103.14.99.61:8084/getPL", 2)
+          //      webSocket2 = createWebSocket("ws://103.14.99.61:8084/getPL", 2)
               //  webSocket2 = createWebSocket("wss://stream.binance.com:9443/ws/btcusdt@lastTradePrice", 2)
                 // }
             }
@@ -198,7 +236,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     suspend fun initGetStrategyByUser() {
 
-
         webSocketListener = object : WebSocketListener() {
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
                 super.onClosed(webSocket, code, reason)
@@ -286,6 +323,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
        //         viewLoader.visibility = View.GONE
                 viewPagerAdapter = SliderViewPagerAdapter(requireContext(), response.body()!!.data)
                 login_ViewPager.adapter = viewPagerAdapter
+
+
+
+
             }
         }
     }

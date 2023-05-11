@@ -229,16 +229,20 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
             R.id.txt_sign_in_here -> {
                 btSignup()
             }
+
             R.id.forgot_password -> {
                 val intent = Intent(this, ForgotPasswordActivity::class.java)
                 startActivity(intent)
             }
+
             R.id.txt_otp_resend -> {
                 btSignup()
             }
+
             R.id.txt_login_country_code -> {
                 exit()
             }
+
             R.id.toolbar_img_back -> {
                 dialog.dismiss()
             }
@@ -407,9 +411,11 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 
                 return true
             }
+
         }
 
         return false
+
     }
 
     override fun onItemClick(pos: Int) {
@@ -417,4 +423,5 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
         countryId = getCountriesResponseItem.get(pos).id
         dialog.dismiss()
     }
+
 }

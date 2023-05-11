@@ -5,31 +5,33 @@
         android:id="@+id/home"
         android:enabled="true"
         android:icon="@drawable/ic_home"
-        android:title="@string/home"
+        android:title=""
         app:showAsAction="always"
         />
+<!--    android:title="@string/home"-->
+
     <item
         android:id="@+id/watchlist"
         android:enabled="true"
         android:icon="@drawable/ic_chart"
-        android:title="@string/watchlist"
+        android:title=""
         app:showAsAction="always"
         />
-
+<!--    android:title="@string/watchlist"-->
    <item
         android:id="@+id/history"
         android:enabled="true"
         android:icon="@drawable/ic_chart"
-        android:title="@string/history"
+       android:title=""
         app:showAsAction="always"
         />
-
+<!--    android:title="@string/history"-->
     <item
         android:id="@+id/setting"
         android:enabled="true"
         android:icon="@drawable/ic_bookmark"
-        android:title="@string/setting"
+        android:title=""
         app:showAsAction="always"
         />
-
+<!--    android:title="@string/setting"-->
 </menu>

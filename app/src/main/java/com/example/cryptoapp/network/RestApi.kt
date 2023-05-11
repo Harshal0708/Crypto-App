@@ -182,7 +182,6 @@ interface RestApi {
     @GET(Constants.getDocumentsByCountry)
     suspend fun getDocumentsByCountry(@Query("countryId") countryId: String): Response<DocumentResponse>
 
-
     @POST(Constants.createApiKeys)
     fun addCreateApiKeys(@Body createApiKeysPayload: CreateApiKeysPayload): Call<CmsAdsAddResponse>
 

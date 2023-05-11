@@ -24,16 +24,15 @@ class HomeAdapter(var context: Context, var strategyResList: ArrayList<StrategyW
 
     class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
+
         var txt_strategies_name: TextView = itemView.findViewById(R.id.txt_strategies_name)
-        var txt_strategies_monthlyFees: TextView =
-            itemView.findViewById(R.id.txt_strategies_monthlyFees)
-        var txt_strategies_min_capital: TextView =
-            itemView.findViewById(R.id.txt_strategies_min_capital)
-        var txt_strategies_by: TextView = itemView.findViewById(R.id.txt_strategies_by)
-        var txt_strategies_time: TextView = itemView.findViewById(R.id.txt_strategies_time)
-        var txt_strategies_status: TextView = itemView.findViewById(R.id.txt_strategies_status)
-        var img_strategies_menu: ImageView = itemView.findViewById(R.id.img_strategies_menu)
-        var txt_pl: TextView = itemView.findViewById(R.id.txt_pl)
+        var txt_strategies_desc: TextView = itemView.findViewById(R.id.txt_strategies_desc)
+
+//        var txt_strategies_by: TextView = itemView.findViewById(R.id.txt_strategies_by)
+//        var txt_strategies_time: TextView = itemView.findViewById(R.id.txt_strategies_time)
+//        var txt_strategies_status: TextView = itemView.findViewById(R.id.txt_strategies_status)
+//        var img_strategies_menu: ImageView = itemView.findViewById(R.id.img_strategies_menu)
+//        var txt_pl: TextView = itemView.findViewById(R.id.txt_pl)
 
     }
 
@@ -45,40 +44,40 @@ class HomeAdapter(var context: Context, var strategyResList: ArrayList<StrategyW
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
        holder.txt_strategies_name.text = strategyResList.get(position).Strategy.StrategyName
-        holder.txt_pl.text = "Strategy PL : ${strategyResList.get(position).PL}"
-        holder.txt_strategies_min_capital.text =
-            strategyResList.get(position).Strategy.MinCapital.toString()
-        holder.txt_strategies_monthlyFees.text =
-            strategyResList.get(position).Strategy.MonthlyFee.toString()
-        holder.txt_strategies_by.text = strategyResList.get(position).Strategy.Description
-        holder.txt_strategies_time.text =
-            "Created By : ${strategyResList.get(position).Strategy.CreatedDate}"
-
-        if (strategyResList.get(position).Strategy.IsActive != true) {
-            holder.txt_strategies_status.text = "Status : Not Active"
-            holder.txt_strategies_status.setTextColor(context.resources.getColor(R.color.red))
-        } else {
-            holder.txt_strategies_status.text = "Status : Active"
-            holder.txt_strategies_status.setTextColor(context.resources.getColor(R.color.light_green))
-        }
-
-        holder.img_strategies_menu.setOnClickListener {
-            showDialog()
-        }
-
-        holder.txt_strategies_name.setOnClickListener {
-//            val intent = Intent(context, HomeDetailActivity::class.java)
-//            intent.putExtra("strategyId", strategyResList.get(position).Strategy.Id)
-//            context.startActivity(intent)
-        }
-
-        holder.itemView.setOnClickListener{
-            if(haveAnySubscription==true){
-
-            } else {
-                showSubscribeDialog()
-            }
-        }
+//        holder.txt_pl.text = "Strategy PL : ${strategyResList.get(position).PL}"
+//        holder.txt_strategies_min_capital.text =
+//            strategyResList.get(position).Strategy.MinCapital.toString()
+//        holder.txt_strategies_monthlyFees.text =
+//            strategyResList.get(position).Strategy.MonthlyFee.toString()
+        holder.txt_strategies_desc.text = strategyResList.get(position).Strategy.Description
+//        holder.txt_strategies_time.text =
+//            "Created By : ${strategyResList.get(position).Strategy.CreatedDate}"
+//
+//        if (strategyResList.get(position).Strategy.IsActive != true) {
+//            holder.txt_strategies_status.text = "Status : Not Active"
+//            holder.txt_strategies_status.setTextColor(context.resources.getColor(R.color.red))
+//        } else {
+//            holder.txt_strategies_status.text = "Status : Active"
+//            holder.txt_strategies_status.setTextColor(context.resources.getColor(R.color.light_green))
+//        }
+//
+//        holder.img_strategies_menu.setOnClickListener {
+//            showDialog()
+//        }
+//
+//        holder.txt_strategies_name.setOnClickListener {
+////            val intent = Intent(context, HomeDetailActivity::class.java)
+////            intent.putExtra("strategyId", strategyResList.get(position).Strategy.Id)
+////            context.startActivity(intent)
+//        }
+//
+//        holder.itemView.setOnClickListener{
+//            if(haveAnySubscription==true){
+//
+//            } else {
+//                showSubscribeDialog()
+//            }
+//        }
     }
 
     override fun getItemCount(): Int {

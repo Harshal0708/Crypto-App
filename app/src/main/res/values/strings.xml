@@ -16,6 +16,7 @@
     <string name="sign_in_login">Sign In</string>
     <string name="sign_out">Sign Out</string>
     <string name="logout">Logout</string>
+    <string name="read_more">Read More</string>
     <string name="logout_successfully">Logout Successfully</string>
     <string name="user_not_created">User not created!</string>
     <string name="register_failed">Register Failed</string>
@@ -120,4 +121,5 @@
     <string name="qr_code_generator">QR Code Generator</string>
     <string name="change_password">Change Password</string>
     <string name="pls_new_password">Please create new password to continue.</string>
+    <string name="dummy_text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</string>
 </resources>

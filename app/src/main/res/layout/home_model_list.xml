@@ -4,170 +4,173 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
     app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="8dp"
-
-    >
+    android:layout_marginTop="8dp"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
+    android:layout_marginBottom="4dp"
+    app:cardElevation="8dp"
+    app:cardCornerRadius="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="8dp">
-
-
-        <TextView
-            android:id="@+id/txt_strategies_time"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="@color/primary_color"
-            android:textSize="14sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txt_strategies_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/helvetica_bold"
+            android:text="@string/welcome_back"
+            android:textAlignment="viewStart"
+            android:textColor="@color/hello"
+            android:textSize="14sp"
+            android:typeface="normal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.562"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_strategies_time" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/txt_strategies_by"
+            android:id="@+id/txt_strategies_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/helvetica_bold"
+            android:maxLines="1"
+            android:text="@string/hello_there"
+            android:textAlignment="viewStart"
+            android:textColor="@color/static_txt"
+            android:textSize="12sp"
+            android:typeface="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_red_more"
+            app:layout_constraintEnd_toStartOf="@+id/txt_red_more"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txt_red_more" />
+
+        <TextView
+            android:id="@+id/txt_red_more"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:drawableEnd="@drawable/ic_side_arrow"
+            android:drawablePadding="4dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:text="@string/read_more"
+            android:textColor="@color/hello"
+            android:textSize="12sp"
+            android:typeface="normal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_strategies_name" />
 
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/lighgrey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_strategies_desc" />
+
 
         <TextView
-            android:id="@+id/txt_monthlyFees"
+            android:id="@+id/txt_strategies_monthly_fee"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:gravity="center"
             android:text="Monthly Fee"
-            android:textAlignment="center"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/txt_strategies_monthlyFees"
-            app:layout_constraintEnd_toStartOf="@+id/guideline33"
+            android:textColor="@color/static_txt"
+            android:textSize="12sp"
+            android:typeface="normal"
+            app:layout_constraintEnd_toStartOf="@+id/txt_strategies_monthly_capital"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_strategies_by"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="DropDown" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_strategies_desc" />
 
         <TextView
-            android:id="@+id/txt_strategies_monthlyFees"
+            android:id="@+id/txt_strategies_monthly_capital"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline33"
+            android:fontFamily="@font/helvetica_bold"
+            android:gravity="center"
+            android:text="Min Capital"
+            android:textColor="@color/static_txt"
+            android:textSize="12sp"
+            android:typeface="normal"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_monthlyFees" />
+            app:layout_constraintStart_toEndOf="@+id/txt_strategies_monthly_fee"
+            app:layout_constraintTop_toTopOf="@+id/txt_strategies_monthly_fee" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline33"
+
+        <TextView
+            android:id="@+id/txt_strategies_monthly_fee_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/helvetica_bold"
+            android:gravity="center"
+            android:text="$10"
+            android:textColor="@color/hello"
+            android:textSize="10sp"
+            android:typeface="normal"
+            app:layout_constraintEnd_toEndOf="@+id/txt_strategies_monthly_fee"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_strategies_monthly_fee" />
+
+        <TextView
+            android:id="@+id/txt_strategies_monthly_capital_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/helvetica_bold"
+            android:gravity="center"
+            android:text="$10"
+            android:textColor="@color/hello"
+            android:textSize="10sp"
+            android:typeface="normal"
+            app:layout_constraintEnd_toEndOf="@+id/txt_strategies_monthly_capital"
+            app:layout_constraintStart_toEndOf="@+id/txt_strategies_monthly_fee"
+            app:layout_constraintTop_toBottomOf="@+id/txt_strategies_monthly_capital" />
+
+        <TextView
+            android:id="@+id/txt_status_active"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Active"
+            android:textColor="@color/light_green"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_strategies_monthly_capital_price" />
+
+        <TextView
+            android:id="@+id/txt_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="180dp" />
-
-        <TextView
-            android:id="@+id/txt_min_capital"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:text="MIn Capital"
-            android:textAlignment="center"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/txt_strategies_min_capital"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/txt_monthlyFees"
-            app:layout_constraintTop_toBottomOf="@+id/txt_strategies_by"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-        <TextView
-            android:id="@+id/txt_strategies_min_capital"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:textAlignment="center"
-            android:textColor="@color/black"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:text="Status :"
+            android:textColor="@color/hello"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/txt_strategies_monthlyFees"
-            app:layout_constraintTop_toBottomOf="@+id/txt_min_capital" />
-
-        <TextView
-            android:id="@+id/txt_strategies_status"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:typeface="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_status_active"
+            app:layout_constraintEnd_toStartOf="@+id/txt_status_active"
+            app:layout_constraintHorizontal_bias="0.97"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_strategies_monthlyFees" />
-
-        <ImageView
-            android:id="@+id/img_strategies_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/txt_strategies_time"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/txt_strategies_time"
-            app:layout_constraintTop_toTopOf="@+id/txt_strategies_time"
-            app:srcCompat="@drawable/ic_menu" />
-
-        <TextView
-            android:id="@+id/txt_pl"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_strategies_status" />
-
+            app:layout_constraintTop_toTopOf="@+id/txt_status_active"
+            app:layout_constraintVertical_bias="0.47000003" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.cardview.widget.CardView>
 
-    <!--<TextView-->
-    <!--android:id="@+id/txt_strategies_name"-->
-    <!--android:layout_width="133dp"-->
-    <!--android:layout_height="77dp"-->
-    <!--android:text="TextView"-->
-    <!--android:textColor="@color/black"-->
-    <!--android:textSize="20sp"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+
+
+
+
+

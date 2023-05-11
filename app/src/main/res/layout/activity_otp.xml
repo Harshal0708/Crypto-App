@@ -55,13 +55,13 @@
             android:typeface="normal"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
             app:layout_constraintStart_toStartOf="@+id/guideline48"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/ima_back" />
 
         <TextView
             android:id="@+id/otp_phone_verification"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="40dp"
             android:fontFamily="@font/helvetica_bold"
             android:text="@string/email_otp"
             android:textAlignment="textStart"
@@ -203,7 +203,7 @@
             android:text="@string/resend"
             android:textAlignment="center"
             android:textAllCaps="true"
-            android:textColor="@color/sky_light"
+            android:textColor="@color/black"
             android:textSize="12sp"
             android:textStyle="bold"
             android:typeface="normal"
@@ -222,6 +222,14 @@
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
             app:layout_constraintStart_toStartOf="@+id/guideline48"
             app:layout_constraintTop_toBottomOf="@+id/txt_email_phone" />
+
+        <ImageView
+            android:id="@+id/ima_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/guideline48"
+            app:layout_constraintTop_toTopOf="@+id/guideline51"
+            app:srcCompat="@drawable/ic_back" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
