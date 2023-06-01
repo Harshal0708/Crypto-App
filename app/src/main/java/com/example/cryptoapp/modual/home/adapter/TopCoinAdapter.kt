@@ -11,7 +11,6 @@ import com.example.cryptoapp.R
 class TopCoinAdapter (var context: Context, var topCoins: ArrayList<TopCoins>) :
     RecyclerView.Adapter<TopCoinAdapter.ViewHolder>() {
 
-
     class ViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
 

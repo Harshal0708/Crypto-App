@@ -25,6 +25,7 @@
     <string name="login_failed">Login Failed</string>
     <string name="save">Save</string>
     <string name="save_profile">Save Profile</string>
+    <string name="buy_now">Buy Now</string>
     <string name="sign_in_with">- Or Sign in With -</string>
     <string name="next">Next</string>
     <string name="sign_in">Sign in to your account</string>
@@ -118,8 +119,9 @@
     <string name="no_of_private_str">No. of private Strategies you can create</string>
     <string name="no_of_public_str">No. of public Strategies you can create</string>
     <string name="active">Active</string>
+    <string name="not_active">Not Active</string>
     <string name="qr_code_generator">QR Code Generator</string>
     <string name="change_password">Change Password</string>
     <string name="pls_new_password">Please create new password to continue.</string>
-    <string name="dummy_text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</string>
+    <string name="dummy_text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is .Save ProfileSave ProfileSave ProfileSave ProfileSave ProfileSave ProfileSave ProfileSave ProfileSave ProfileSave .</string>
 </resources>

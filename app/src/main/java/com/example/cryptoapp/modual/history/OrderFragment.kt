@@ -115,7 +115,7 @@ class OrderFragment : Fragment() {
         var payload = GetOrderHistoryListPayload(
             pageNumber,
             pageSize,
-            data.userId
+            "d5ec3459-7721-4ca6-92ed-314cc4fb9410"
         )
 
         response.addOrderHistoryList(payload)
@@ -148,6 +148,7 @@ class OrderFragment : Fragment() {
 
                         } else {
                             // viewLoader.visibility = View.GONE
+
                             Constants.showToast(
                                 requireContext(),
                                 "End of data reached.."
@@ -210,16 +211,17 @@ class OrderFragment : Fragment() {
                         response: Response<OrderHistoriesResponse>
                     ) {
                         if (response.body()!!.isSuccess == true) {
+
 //                            viewLoader.visibility = View.GONE
 //                            isLoading == false
 
                             if (response.body()!!.data.orderHistories.size != 0) {
                                 orderHistories.addAll(response.body()!!.data.orderHistories)
                                 orderHistoryAdapter.notifyDataSetChanged()
-
                             } else {
                                 txt_order_data_not_found.visibility = View.GONE
                             }
+
 
                         } else {
 

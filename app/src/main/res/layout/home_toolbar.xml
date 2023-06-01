@@ -15,7 +15,7 @@
         android:layout_marginStart="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_back" />
+        app:srcCompat="@drawable/vector_bar" />
 
     <TextView
         android:id="@+id/toolbar_txt_back"

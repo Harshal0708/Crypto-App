@@ -10,8 +10,8 @@
     <!-- TODO: Update blank fragment layout -->
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
         <include
             android:id="@+id/viewLoader"
@@ -69,6 +69,7 @@
             android:id="@+id/ouput"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
             android:layout_marginTop="8dp"
             android:text="Top Coins"
             android:textColor="@color/black"
@@ -117,7 +118,6 @@
             android:layout_marginTop="16dp"
             android:fontFamily="@font/helvetica_bold"
             android:text="Basket :"
-
             android:textColor="@color/hello"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/guideline21"
@@ -146,7 +146,6 @@
             android:layout_marginTop="16dp"
             android:fontFamily="@font/helvetica_bold"
             android:text="Profit /Loss :"
-
             android:textColor="@color/hello"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/guideline23"
@@ -159,12 +158,12 @@
             android:ellipsize="end"
             android:fontFamily="@font/helvetica_bold"
             android:maxLines="1"
-            android:text="$ 1000"
             android:textAlignment="viewStart"
             android:textColor="@color/static_txt"
             android:textSize="12sp"
             android:typeface="normal"
             app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintStart_toStartOf="@+id/txt_pl"
             app:layout_constraintTop_toBottomOf="@+id/txt_pl" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -181,6 +180,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="50dp"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/guideline24"
             app:layout_constraintEnd_toStartOf="@+id/guideline23"

@@ -12,8 +12,19 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/home_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:indeterminateTint="@color/primary_color"
+            />
+
     <FrameLayout
         android:id="@+id/container"
+        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomNav"
@@ -32,9 +43,9 @@
         app:itemIconTint="@drawable/bottom_navigation_selector"
         app:itemTextColor="@drawable/bottom_navigation_selector"
         app:menu="@menu/bottom_menu"
-
         app:labelVisibilityMode="labeled"
         android:scrollIndicators="left"/>
+
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView

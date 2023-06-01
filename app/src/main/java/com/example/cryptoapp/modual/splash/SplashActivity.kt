@@ -41,8 +41,8 @@ class SplashActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             if (preferences.getRemember() == true) {
-                val intent = Intent(this, UserActivity::class.java)
-                 //val intent = Intent(this, MainActivity::class.java)
+                //val intent = Intent(this, UserActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             } else {

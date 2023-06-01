@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Constants.Companion.showLog
+import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.model.GenerateQrCodePayload
@@ -52,7 +53,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
     lateinit var resent: TextView
     lateinit var progressBar_cardView: RelativeLayout
 
-    var generateOtp1: String =""
+    var generateOtp1: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -130,7 +131,8 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                     setupCode = response.body()?.data!!.setupCode
                     qrIV.setImageBitmap(byteArrayToBitmap(response.body()?.data!!.barcodeImageUrl!!.toByteArray()))
 
-                    Log.d("test", response.body()?.data!!.setupCode)
+                    showLog("test", response.body()?.data!!.setupCode)
+
                 }
 
                 override fun onFailure(call: retrofit2.Call<BarcodeImageResponse>, t: Throwable) {
@@ -199,12 +201,14 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
             userKey,
         )
 
+
         response.addVerify2FA(payload)
             .enqueue(object : retrofit2.Callback<GenerateQrCodeResponnse> {
                 override fun onResponse(
                     call: retrofit2.Call<GenerateQrCodeResponnse>,
                     response: retrofit2.Response<GenerateQrCodeResponnse>
                 ) {
+
                     if (response.body()?.data == true) {
                         if (isTrue == false) {
                             addCreateUserGAKey()
@@ -223,12 +227,9 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                         }
 
                     } else {
-                        Toast.makeText(
-                            this@GoogleAuthenticatorActivity,
-                            "Failed",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        showToast(this@GoogleAuthenticatorActivity, "Failed")
                     }
+
                 }
 
                 override fun onFailure(
@@ -236,7 +237,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                     t: Throwable
                 ) {
                     //register_progressBar.visibility = View.GONE
-                    Constants.showToast(
+                    showToast(
                         this@GoogleAuthenticatorActivity,
                         getString(R.string.login_failed)
                     )
@@ -266,6 +267,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                     addGenerateQrCode()
                     qrIV.visibility = View.VISIBLE
                 }
+
             }
         }
     }
@@ -279,12 +281,14 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                     .getGAKeyByUserId(id)
             withContext(Dispatchers.Main) {
                 //viewLoader.visibility = View.GONE
+
                 if (response.body()!!.isSuccess == true) {
                     userKey = response?.body()!!.data
 
                     idTVKey.visibility = View.GONE
                     isTrue = true
                 }
+
             }
         }
     }

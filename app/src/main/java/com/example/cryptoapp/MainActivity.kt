@@ -51,6 +51,9 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var data: DataXX
 
+    lateinit var toolbar: View
+    lateinit var toolbar_img_back: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -68,17 +71,24 @@ class MainActivity : AppCompatActivity() {
         menuItem = navView.menu.findItem(R.id.nav_switch)
         txt_privacy = findViewById(R.id.txt_privacy)
 
-//        data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
-//        nav_name.text = data.name
-//        nav_email.text = data.email
-//
-//        Log.d("test", data.profilePicture)
-//        if (data.profilePicture != null && data.profilePicture != "") {
-//            nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
-//        }
+        toolbar = findViewById(R.id.toolbar)
+        toolbar_img_back = toolbar.findViewById(R.id.toolbar_img_back)
 
-        nav_name.text = "Apurva Patel"
-        nav_email.text = "patelappu1495@gmail.com"
+        toolbar_img_back.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+             drawerLayout?.open()
+            }
+        })
+        data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
+        nav_name.text = data.name
+        nav_email.text = data.email
+
+        if (data.profilePicture != null && data.profilePicture != "") {
+            nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
+        }
+
+//        nav_name.text = "Apurva Patel"
+//        nav_email.text = "patelappu1495@gmail.com"
 
         txt_privacy.setOnClickListener(object :OnClickListener{
             override fun onClick(p0: View?) {
@@ -133,14 +143,17 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(HomeFragment())
                     return@setOnItemSelectedListener true
                 }
+
                 R.id.watchlist -> {
                     loadFragment(WatchlistFragment())
                     return@setOnItemSelectedListener true
                 }
+
                 R.id.history -> {
                     loadFragment(HistoryFragment())
                     return@setOnItemSelectedListener true
                 }
+
                 R.id.setting -> {
                     loadFragment(SettingFragment())
                     return@setOnItemSelectedListener true
@@ -154,18 +167,21 @@ class MainActivity : AppCompatActivity() {
 
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
+
                 R.id.nav_dashboard -> {
                     var intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     finish()
                     true
                 }
+
                 R.id.nav_history -> {
                     loadFragment(HistoryFragment())
                     bottomNav.setSelectedItemId(R.id.history)
                     drawerLayout?.close()
                     true
                 }
+
                 R.id.nav_profile -> {
 //                    loadFragment(SettingFragment())
 //                    bottomNav.setSelectedItemId(R.id.setting)

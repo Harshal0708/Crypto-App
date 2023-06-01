@@ -1,8 +1,13 @@
 package com.example.cryptoapp
 
 import android.content.Context
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class Constants {
 
@@ -10,6 +15,14 @@ class Constants {
 
         const val BASE_URL = "http://103.14.99.61:8084/api/"
         const val STRIPE_PAYMENT_URL = "https://api.stripe.com/v1/"
+
+        //const val LOCAl_URL = "https://localhost:5001/api/"
+        //const val LOCAl_URL = "https://192.168.0.121:5001/api/"
+        const val LOCAl_URL = "http://192.168.29.76:883/api/"
+
+        const val WEB_SOCKET_1 = "ws://192.168.29.76:883/getStrategyPL"
+
+        //http://192.168.29.76:883/api/AccountsApi/login
 
         // api routers
         const val login = "AccountsApi/login"
@@ -38,7 +51,7 @@ class Constants {
         const val getOrderHistoryList = "HistoryApi/GetOrderHistoryList"
         const val getSubscriptionHistoryList = "HistoryApi/GetSubscriptionHistoryList"
 
-        const val stripe_payment_customers_id= "customers"
+        const val stripe_payment_customers_id = "customers"
         const val stripe_payment_ephemeral_keys = "ephemeral_keys"
         const val stripe_payment_intents = "payment_intents"
 
@@ -47,7 +60,6 @@ class Constants {
         const val verify2FA = "GoogleAuthenticatorApi/verify2FA"
         const val checkUserGAKey = "GoogleAuthenticatorApi/checkUserGAKey"
         const val getGAKeyByUserId = "GoogleAuthenticatorApi/getGAKeyByUserId"
-
 
         const val getCountries = "CountryApi/getCountries"
         const val getDocuments = "AccountsApi/getDocuments"
@@ -69,7 +81,10 @@ class Constants {
         const val BROADCAST_REFRESH = "refresh"
         const val DISMISS_TO_LOGIN = "dismissToLogin"
 
-        fun showLog(hint:String,log: String) {
+        const val VIEW_TYPE_ITEM = 0
+        const val VIEW_TYPE_LOADING = 1
+
+        fun showLog(hint: String, log: String) {
             Log.d("test:-${hint}", log)
         }
 
@@ -77,7 +92,16 @@ class Constants {
             Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
         }
 
-        const val VIEW_TYPE_ITEM = 0
-        const val VIEW_TYPE_LOADING = 1
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun getDate(date: String): String {
+            val inputFormatter = DateTimeFormatter.ISO_DATE_TIME
+            val myDate1 = LocalDate.parse(date, inputFormatter)
+
+
+            var formatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy")
+            var formattedDate1 = myDate1.format(formatter)
+
+            return formattedDate1
+        }
     }
 }

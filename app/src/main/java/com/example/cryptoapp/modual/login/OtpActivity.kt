@@ -106,13 +106,13 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         progressBar_cardView.setOnClickListener(this)
         ima_back.setOnClickListener(this)
 
-//        email = intent.getStringExtra("email").toString()
-//        phone = intent.getStringExtra("phone").toString()
-//        firsName = intent.getStringExtra("firsName").toString()
-//        lastName = intent.getStringExtra("lastName").toString()
-//        rePassword = intent.getStringExtra("rePassword").toString()
-//        countryId = intent.getStringExtra("countryId").toString()
-//        imageUri = intent.getStringExtra("imageUri")!!
+        email = intent.getStringExtra("email").toString()
+        phone = intent.getStringExtra("phone").toString()
+        firsName = intent.getStringExtra("firsName").toString()
+        lastName = intent.getStringExtra("lastName").toString()
+        rePassword = intent.getStringExtra("rePassword").toString()
+        countryId = intent.getStringExtra("countryId").toString()
+        imageUri = intent.getStringExtra("imageUri")!!
         //imageUri = byte
 
         //val byteArray = intent.getByteArrayExtra("imageUri")

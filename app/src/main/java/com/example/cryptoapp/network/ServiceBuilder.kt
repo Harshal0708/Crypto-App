@@ -22,14 +22,14 @@ class ServiceBuilder(context5: Context) {
 
     private val client = OkHttpClient.Builder()
         .addInterceptor(logger)
-        .addInterceptor(OAuthInterceptor("Bearer",context5))
+        .addInterceptor(OAuthInterceptor("Bearer", context5))
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
         .writeTimeout(30, TimeUnit.SECONDS)
         .build()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl(Constants.BASE_URL) // change this IP for testing by your actual machine IP
+        .baseUrl(Constants.LOCAl_URL) // change this IP for testing by your actual machine IP
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)
         .build()
@@ -37,7 +37,6 @@ class ServiceBuilder(context5: Context) {
     fun <T> buildService(service: Class<T>): T {
         return retrofit.create(service)
     }
-
 }
 
 class OAuthInterceptor(
@@ -47,12 +46,12 @@ class OAuthInterceptor(
     Interceptor {
     override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
         var request = chain.request()
-        var tok=""
-        if(tok != null){
-            tok =MyPreferences(context).getToken()
+        var tok = ""
+        if (tok != null) {
+            tok = MyPreferences(context).getToken()
         }
         request = request.newBuilder().header("Authorization", "$tokenType $tok").build()
-       // request = request.newBuilder().header("Authorization", "$tokenType sk_test_51MFAOfSHmxsQH4CHc0B63ccrQu8tu1m9ynAXYaEydRrSQwp4nhBqKtJFaEYZn9aTYhsdw1Ti8VHA9Cw4ZRcZR8Lg00qUCjkGZk").build()
+        // request = request.newBuilder().header("Authorization", "$tokenType sk_test_51MFAOfSHmxsQH4CHc0B63ccrQu8tu1m9ynAXYaEydRrSQwp4nhBqKtJFaEYZn9aTYhsdw1Ti8VHA9Cw4ZRcZR8Lg00qUCjkGZk").build()
         return chain.proceed(request)
     }
 }

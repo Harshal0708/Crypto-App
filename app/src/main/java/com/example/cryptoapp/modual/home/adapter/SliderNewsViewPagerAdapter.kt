@@ -44,6 +44,7 @@ class SliderNewsViewPagerAdapter (val context: Context, val imageList: ArrayList
 //                context.startActivity(intent)
 
             }
+
         })
 
         Objects.requireNonNull(container).addView(itemView)

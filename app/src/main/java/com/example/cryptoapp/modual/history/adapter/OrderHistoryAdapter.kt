@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cryptoapp.Constants
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.OrderHistory
 import java.text.SimpleDateFormat
@@ -71,6 +73,7 @@ class OrderHistoryAdapter(var context: Context, val orderHistories: ArrayList<Or
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         if (holder is ViewHolder) {
@@ -83,10 +86,14 @@ class OrderHistoryAdapter(var context: Context, val orderHistories: ArrayList<Or
             holder.txt_order_history_quantity.text = "${orderHistories.get(position)?.quantity}"
             holder.txt_order_history_price.text = "${orderHistories.get(position)?.price}"
 
-            val dateString = orderHistories.get(position)?.timestamp
-            val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            val date = format.parse(dateString)
-            holder.txt_order_history_trading_date.text = "${date}"
+//            val dateString = orderHistories.get(position)?.timestamp
+//            val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+//            val date = format.parse(dateString)
+            holder.txt_order_history_trading_date.text = "${orderHistories.get(position)?.timestamp?.let {
+                Constants.getDate(
+                    it
+                )
+            }}"
 
             if (orderHistories.get(position)?.side == 0) {
                 holder.txt_order_history_status.text = "Buy"

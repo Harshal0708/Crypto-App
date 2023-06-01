@@ -45,7 +45,7 @@ import java.io.ByteArrayOutputStream
 import java.util.regex.Pattern
 
 
-class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListener {
+class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListener {
 
 
     lateinit var sp_et_email: EditText
@@ -111,7 +111,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
     lateinit var viewLoader: View
     lateinit var animationView: LottieAnimationView
     lateinit var getCountriesResponseItem: ArrayList<GetCountriesResponseItem>
-    lateinit var dialog1 : Dialog
+    lateinit var dialog1: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -225,7 +225,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
                 }
 
 
-
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -265,8 +264,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
                 } else {
                     sp_et_password.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
                 }
-
-
 
             }
 
@@ -314,6 +311,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
                 } else {
                     showToast(this@RegisterActivity, getString(R.string.password_verify_done))
                 }
+
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -388,7 +386,9 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
 
                 if (validation() == true) {
                     sendRegistrationOtp()
+                    encodeImageString
                 }
+
             }
             R.id.txt_sign_in_here -> {
                 signInHere()
@@ -403,10 +403,12 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
             R.id.reg_profile_img -> {
                 openBottomSheet()
             }
+
             R.id.bs_img_camera -> {
                 openCamera()
                 dialog.dismiss()
             }
+
             R.id.bs_img_gallery -> {
                 openGallery()
                 dialog.dismiss()
@@ -417,10 +419,8 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
             }
 
             R.id.ima_back -> {
-               onBackPressed()
+                onBackPressed()
             }
-
-
 
         }
     }
@@ -442,7 +442,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
         dialog1.show()
     }
 
-
     fun sendRegistrationOtp() {
 
         register_progressBar.visibility = View.VISIBLE
@@ -463,6 +462,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
                     ) {
                         if (response.body()?.isSuccess == true) {
                             register_progressBar.visibility = GONE
+
                             val intent = Intent(this@RegisterActivity, OtpActivity::class.java)
                             intent.putExtra("email", email)
                             intent.putExtra("phone", phone)
@@ -474,11 +474,13 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
                             startActivity(intent)
 
                             response.body()?.message?.let { showToast(this@RegisterActivity, it) }
+
                         } else {
                             register_progressBar.visibility = GONE
                             Toast.makeText(this@RegisterActivity, "Failed", Toast.LENGTH_SHORT)
                                 .show()
                         }
+
                     }
 
                     override fun onFailure(
@@ -487,6 +489,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
                     ) {
                         register_progressBar.visibility = GONE
                         showToast(this@RegisterActivity, getString(R.string.register_failed))
+
                     }
                 }
             )
@@ -543,6 +546,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
             encodeBitmapImage(photo)
             reg_profile_img.setImageBitmap(photo)
         }
+
     }
 
 
@@ -572,6 +576,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
         }
 
         email = sp_et_email.text.toString().trim()
+
         if (!(EMAIL_ADDRESS_PATTERN.toRegex().matches(email))) {
             sp_et_email.setError(getString(R.string.email_error));
             return false;
@@ -617,4 +622,5 @@ class RegisterActivity : AppCompatActivity(), OnClickListener,onItemClickListene
         countryId = getCountriesResponseItem.get(pos).id
         dialog1.dismiss()
     }
+
 }
