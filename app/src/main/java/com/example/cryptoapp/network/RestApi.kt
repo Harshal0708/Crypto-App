@@ -90,8 +90,8 @@ interface RestApi {
     @GET(Constants.getProfileDetail)
     suspend fun getUserDetails(@Query("email") email: String): Response<UserDetailsResponse>
 
-    @GET("${Constants.strategy}/{id}")
-    suspend fun getStrategyById(@Path("id") id: String): Response<StrategyDetailRes>
+//    @GET("${Constants.strategy}/{id}")
+//    suspend fun getStrategyById(@Path("id") id: String): Response<StrategyDetailRes>
 
     @GET(Constants.getplans)
     suspend fun getPlans(): Response<GetPlanResponse>

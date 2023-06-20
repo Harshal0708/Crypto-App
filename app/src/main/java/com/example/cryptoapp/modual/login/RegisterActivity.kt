@@ -394,6 +394,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
                 signInHere()
 
             }
+
             R.id.txt_sign_here_two -> {
                 signInHere()
             }

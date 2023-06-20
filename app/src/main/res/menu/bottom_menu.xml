@@ -4,7 +4,7 @@
     <item
         android:id="@+id/home"
         android:enabled="true"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/ic_bottom_home"
         android:title=""
         app:showAsAction="always"
         />
@@ -13,7 +13,7 @@
     <item
         android:id="@+id/watchlist"
         android:enabled="true"
-        android:icon="@drawable/ic_chart"
+        android:icon="@drawable/ic_bottom_watchlist"
         android:title=""
         app:showAsAction="always"
         />
@@ -21,7 +21,7 @@
    <item
         android:id="@+id/history"
         android:enabled="true"
-        android:icon="@drawable/ic_chart"
+        android:icon="@drawable/ic_bottom_history"
        android:title=""
         app:showAsAction="always"
         />
@@ -29,7 +29,7 @@
     <item
         android:id="@+id/setting"
         android:enabled="true"
-        android:icon="@drawable/ic_bookmark"
+        android:icon="@drawable/ic_bottom_setting"
         android:title=""
         app:showAsAction="always"
         />

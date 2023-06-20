@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity() {
              drawerLayout?.open()
             }
         })
+
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
         nav_name.text = data.name
         nav_email.text = data.email
@@ -260,5 +261,4 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
 }

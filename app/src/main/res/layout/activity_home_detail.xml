@@ -82,6 +82,7 @@
             android:id="@+id/scrollView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:fillViewport="false"
             app:layout_constraintEnd_toStartOf="@+id/guideline27"
             app:layout_constraintStart_toStartOf="@+id/guideline25"
@@ -96,9 +97,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/helvetica"
+                    android:justificationMode="inter_word"
                     android:lineSpacingExtra="5sp"
                     android:textColor="#80000000"
-                    android:justificationMode="inter_word"
                     android:textSize="14sp" />
 
             </LinearLayout>
@@ -120,7 +121,6 @@
             android:id="@+id/txt_sd_minCapital"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:fontFamily="@font/helvetica_bold"
             android:gravity="center"
             android:text="Min Capital"
@@ -187,6 +187,21 @@
             app:layout_constraintEnd_toStartOf="@+id/guideline27"
             app:layout_constraintStart_toStartOf="@+id/guideline25"
             app:layout_constraintTop_toBottomOf="@+id/txt_sd_minCapital_price" />
+
+
+        <TextView
+            android:id="@+id/txt_strategy_pl"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:text="000"
+            android:textColor="@color/hello"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline27"
+            app:layout_constraintStart_toStartOf="@+id/guideline25"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

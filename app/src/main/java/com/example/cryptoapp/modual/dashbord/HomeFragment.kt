@@ -1,5 +1,6 @@
 package com.example.cryptoapp.modual.dashbord
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.*
+import com.example.cryptoapp.modual.home.HomeDetailActivity
 import com.example.cryptoapp.modual.home.adapter.*
 import com.example.cryptoapp.network.*
 import com.example.cryptoapp.preferences.MyPreferences
@@ -34,6 +36,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     lateinit var ouput: TextView
     lateinit var txt_pl_price: TextView
+    lateinit var txt_strategies_desc: TextView
     lateinit var homeAdapter: HomeAdapter
     lateinit var topCoinAdapter: TopCoinAdapter
     lateinit var viewLoader: View
@@ -86,6 +89,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
         login_ViewPager = view.findViewById(R.id.login_ViewPager)
         view_pager_news = view.findViewById(R.id.view_pager_news)
+
+        txt_strategies_desc = view.findViewById(R.id.txt_strategies_desc)
 
         strategyResList = ArrayList()
         topCoin = ArrayList()
@@ -147,8 +152,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 //val ws2 = async {
                 showLog("webSocket1", "2")
                 //initGetStrategyByUser()
-                //   webSocket1 = createWebSocket("ws://103.14.99.61:8084/getStrategyPL", 1)
-                webSocket1 = createWebSocket("ws://192.168.29.76:883/getStrategyPL", 1)
+              //  webSocket1 = createWebSocket("ws://103.14.99.61:8084/getStrategyPL", 1)
+            //        webSocket1 = createWebSocket("ws://192.168.29.76:883/getStrategyPL", 1)
 
                 //}
             }
@@ -157,7 +162,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 //val ws3 = async {
                 showLog("webSocket2", "3")
                 //  callFragment()
-                webSocket2 = createWebSocket("ws://192.168.29.76:883/getPL", 2)
+           //     webSocket2 = createWebSocket("ws://192.168.29.76:883/getPL", 2)
                 //  webSocket2 = createWebSocket("wss://stream.binance.com:9443/ws/btcusdt@lastTradePrice", 2)
                 // }
             }
@@ -170,10 +175,18 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 job1.join() // Wait for job1 to complete before sending message to ws2
                 job2.join() // Wait for job2 to complete before sending message to ws1
                 job3.join() // Wait for job2 to complete before sending message to ws1
-                webSocket1.send(data.userId)
-                webSocket2.send(data.userId)
+//                webSocket1.send(data.userId)
+//                webSocket2.send(data.userId)
             }
 
+            txt_strategies_desc.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(p0: View?) {
+                    val intent = Intent(context, HomeDetailActivity::class.java)
+                    //intent.putExtra("strategyId", strategyResList.get(position).Strategy.Id)
+                    startActivity(intent)
+                }
+
+            })
             //}
         }
     }

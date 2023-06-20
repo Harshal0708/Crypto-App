@@ -428,8 +428,8 @@ class SettingFragment : Fragment(),  View.OnClickListener ,
                 countriesAdapter = CountriesAdapter(
                     requireContext(),
                     getCountriesResponseItem,
-                    RegisterActivity(),
-                    RegisterActivity()
+                    requireActivity(),
+                    this@SettingFragment
                 )
                 rv_countryName.adapter = countriesAdapter
             }
@@ -447,41 +447,42 @@ class SettingFragment : Fragment(),  View.OnClickListener ,
 
         dialog.setContentView(view)
         dialog.show()
+
     }
 
     fun validation(): Boolean {
 
         if (edFirstname.length() == 0) {
             edFirstname.setError(getString(R.string.valid_error));
-            return false;
+            return false
         }
 
         if (edLastname.length() == 0) {
             edLastname.setError(getString(R.string.valid_error));
-            return false;
+            return false
         }
 
         if (edEmail.length() == 0) {
             edEmail.setError(getString(R.string.valid_error));
-            return false;
+            return false
         }
 
         email = edEmail.text.toString().trim()
         if (!(EMAIL_ADDRESS_PATTERN.toRegex().matches(email))) {
             edEmail.setError(getString(R.string.email_error));
-            return false;
+            return false
         }
 
         if (edPhone.length() == 0) {
             edPhone.setError(getString(R.string.valid_error));
-            return false;
+            return false
         }
 
         phone = edPhone.text.toString().trim()
 
         if (!(PHONE_NUMBER_PATTERN.toRegex().matches(phone))) {
             edPhone.setError(getString(R.string.phone_error));
-            return false;
+            return false
         }
 
         return true

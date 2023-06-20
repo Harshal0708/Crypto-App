@@ -193,8 +193,7 @@ class WatchlistFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-
-        webSocket1.close(1000, "Activity destroyed 1")
+          webSocket1.close(1000, "Activity destroyed 1")
 //        webSocket2.close(1000, "Activity destroyed 2")
 //        webSocket3.close(1000, "Activity destroyed 3")
 

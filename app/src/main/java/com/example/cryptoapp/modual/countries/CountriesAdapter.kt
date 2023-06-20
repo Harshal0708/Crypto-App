@@ -27,8 +27,6 @@ class CountriesAdapter(
         var txt_country_name: TextView = itemView.findViewById(R.id.txt_country_name)
         var txt_country_prefix: TextView = itemView.findViewById(R.id.txt_country_prefix)
         var con_country: ConstraintLayout = itemView.findViewById(R.id.con_country)
-
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

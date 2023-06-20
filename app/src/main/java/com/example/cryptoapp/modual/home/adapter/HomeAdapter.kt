@@ -74,11 +74,11 @@ class HomeAdapter(
 //            showDialog()
 //        }
 //
-//        holder.txt_strategies_name.setOnClickListener {
-////            val intent = Intent(context, HomeDetailActivity::class.java)
-////            intent.putExtra("strategyId", strategyResList.get(position).Strategy.Id)
-////            context.startActivity(intent)
-//        }
+        holder.txt_strategies_name.setOnClickListener {
+            val intent = Intent(context, HomeDetailActivity::class.java)
+            intent.putExtra("strategyId", strategyResList.get(position).Strategy.Id)
+            context.startActivity(intent)
+        }
 //
 //        holder.itemView.setOnClickListener{
 //            if(haveAnySubscription==true){
