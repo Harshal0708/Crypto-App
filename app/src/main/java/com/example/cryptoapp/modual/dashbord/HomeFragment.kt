@@ -115,7 +115,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
             )
         )
 
-        // strategyResList.add(StrategyWSResponseItem(20.00,Strategy("2/4/2023",getString(R.string.dummy_text),"",false,20.00,"7/4/2023",20.00,"Strategy 2")))
+//         strategyResList.add(StrategyWSResponseItem(20.00,Strategy("2/4/2023",getString(R.string.dummy_text),"",false,20.00,"7/4/2023",20.00,"Strategy 2")))
 
 //        strategies_rv.layoutManager = LinearLayoutManager(activity)
 //        homeAdapter = HomeAdapter(requireContext(), strategyResList, false)
@@ -152,8 +152,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 //val ws2 = async {
                 showLog("webSocket1", "2")
                 //initGetStrategyByUser()
-              //  webSocket1 = createWebSocket("ws://103.14.99.61:8084/getStrategyPL", 1)
-            //        webSocket1 = createWebSocket("ws://192.168.29.76:883/getStrategyPL", 1)
+                //  webSocket1 = createWebSocket("ws://103.14.99.61:8084/getStrategyPL", 1)
+                webSocket1 = createWebSocket("ws://103.14.99.42/getStrategyPL", 1)
 
                 //}
             }
@@ -162,7 +162,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 //val ws3 = async {
                 showLog("webSocket2", "3")
                 //  callFragment()
-           //     webSocket2 = createWebSocket("ws://192.168.29.76:883/getPL", 2)
+                webSocket2 = createWebSocket("ws://103.14.99.42/getPL", 2)
                 //  webSocket2 = createWebSocket("wss://stream.binance.com:9443/ws/btcusdt@lastTradePrice", 2)
                 // }
             }
@@ -175,8 +175,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 job1.join() // Wait for job1 to complete before sending message to ws2
                 job2.join() // Wait for job2 to complete before sending message to ws1
                 job3.join() // Wait for job2 to complete before sending message to ws1
-//                webSocket1.send(data.userId)
-//                webSocket2.send(data.userId)
+                webSocket1.send(data.userId)
+                webSocket2.send(data.userId)
             }
 
             txt_strategies_desc.setOnClickListener(object : View.OnClickListener {
@@ -207,21 +207,21 @@ class HomeFragment : Fragment(), View.OnClickListener {
             override fun onMessage(webSocket: WebSocket, text: String) {
 
                 if (value == 1) {
-                    // viewLoader.visibility = View.GONE
+                    viewLoader.visibility = View.GONE
                     setGetStrategyByUser(text)
                 } else if (value == 2) {
-                    //   viewLoader.visibility = View.GONE
+                    viewLoader.visibility = View.GONE
                     setUpBtcPriceText(text)
                 }
 
             }
 
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                println("WebSocket disconnected from $url")
+
             }
 
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                println("WebSocket connection to $url failed: ${t.message}")
+                showLog("WebSocket connection to $url failed",t.message.toString())
             }
 
         }
@@ -233,8 +233,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
     override fun onDestroy() {
         super.onDestroy()
 
-//        webSocket1.close(1000, "Activity destroyed")
-//        webSocket2.close(1000, "Activity destroyed")
+        webSocket1.close(1000, "Activity destroyed")
+        webSocket2.close(1000, "Activity destroyed")
         job1.cancel() // Cancel the coroutine job when the activity is destroyed
         job2.cancel()
         job3.cancel()
@@ -308,7 +308,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
         //val request: Request = Request.Builder().url("wss://stream.binance.com:443/ws/!ticker@arr").build()
         val request: Request = Request.Builder()
-            .url("ws://192.168.29.76:883/getStrategyPL").build()
+            .url("ws://103.14.99.42/getStrategyPL").build()
 
         val ws = client!!.newWebSocket(request, webSocketListener)
         client!!.dispatcher.executorService.shutdown()

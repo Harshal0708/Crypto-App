@@ -490,7 +490,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
                     ) {
                         register_progressBar.visibility = GONE
                         showToast(this@RegisterActivity, getString(R.string.register_failed))
-
                     }
                 }
             )
@@ -504,6 +503,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
     }
 
     private fun openBottomSheet() {
+
         dialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.profile_bottom_sheet, null)
         dialog.setCancelable(true)
@@ -515,6 +515,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
 
         dialog.setContentView(view)
         dialog.show()
+
     }
 
     private fun openCamera() {

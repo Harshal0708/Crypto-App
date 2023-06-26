@@ -18,7 +18,7 @@ class Constants {
 
         //const val LOCAl_URL = "https://localhost:5001/api/"
         //const val LOCAl_URL = "https://192.168.0.121:5001/api/"
-        const val LOCAl_URL = "http://192.168.29.76:883/api/"
+        const val LOCAl_URL = "http://103.14.99.42/api/"
 
         const val WEB_SOCKET_1 = "ws://192.168.29.76:883/getStrategyPL"
 
