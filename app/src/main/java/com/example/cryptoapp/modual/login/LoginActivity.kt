@@ -136,7 +136,6 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
             }
-
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
                 var pwd = login_emailNumber.text.toString().trim()
@@ -146,7 +145,6 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
                 } else {
                     login_emailNumber.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
                 }
-
 
                 if (pwd.contains("@")) {
                     if (!(EMAIL_ADDRESS_PATTERN.toRegex().matches(pwd))) {
@@ -411,7 +409,6 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 
                 return true
             }
-
         }
 
         return false

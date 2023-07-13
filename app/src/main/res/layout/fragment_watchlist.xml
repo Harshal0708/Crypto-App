@@ -68,11 +68,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_watchlist2"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="150dp"
         android:layout_marginTop="20dp"
         android:background="@color/red"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/guideline73"
         app:layout_constraintEnd_toStartOf="@+id/guideline72"
         app:layout_constraintStart_toStartOf="@+id/guideline70"
         app:layout_constraintTop_toBottomOf="@+id/view_pager" />

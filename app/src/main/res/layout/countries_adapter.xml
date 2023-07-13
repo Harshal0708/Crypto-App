@@ -3,11 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/con_country"
-
-    android:padding="4dp"
-    android:layout_gravity="center"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/txt_country_code"
@@ -17,6 +25,7 @@
             android:layout_marginTop="8dp"
             android:gravity="start"
             android:textSize="12sp"
+            android:textColor="#000000"
             app:layout_constraintEnd_toStartOf="@+id/txt_country_name"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
@@ -30,6 +39,7 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:textSize="12sp"
+            android:textColor="#000000"
             app:layout_constraintBottom_toBottomOf="@+id/txt_country_code"
             app:layout_constraintEnd_toStartOf="@+id/txt_country_prefix"
             app:layout_constraintHorizontal_bias="0.5"
@@ -43,12 +53,13 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:textSize="12sp"
+            android:textColor="#000000"
             app:layout_constraintBottom_toBottomOf="@+id/txt_country_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/txt_country_name"
             app:layout_constraintTop_toTopOf="@+id/txt_country_name" />
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

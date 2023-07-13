@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -28,10 +29,12 @@ import com.example.cryptoapp.model.VerifyRegistrationOtpPayload
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.google.android.gms.auth.api.phone.SmsRetriever
+import com.google.gson.Gson
 import com.mukesh.mukeshotpview.completeListener.MukeshOtpCompleteListener
 import com.mukesh.mukeshotpview.mukeshOtpView.MukeshOtpView
 
 import retrofit2.Call
+import java.io.ByteArrayOutputStream
 import java.util.regex.Pattern
 
 
@@ -66,6 +69,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     var selectedKeyPos1: Int = 0
     var generateOtp: String = ""
     var generateOtp1: String =""
+    lateinit var userData: MyData
 
     lateinit var timer: CountDownTimer
 
@@ -83,6 +87,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun init() {
+
 
         resend_code = findViewById(R.id.txt_sign_in_here)
         txt_otp_resend = findViewById(R.id.txt_otp_resend)
@@ -106,13 +111,20 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         progressBar_cardView.setOnClickListener(this)
         ima_back.setOnClickListener(this)
 
-        email = intent.getStringExtra("email").toString()
-        phone = intent.getStringExtra("phone").toString()
-        firsName = intent.getStringExtra("firsName").toString()
-        lastName = intent.getStringExtra("lastName").toString()
-        rePassword = intent.getStringExtra("rePassword").toString()
-        countryId = intent.getStringExtra("countryId").toString()
-        imageUri = intent.getStringExtra("imageUri")!!
+        if(intent.extras != null){
+            val jsonData = intent.getStringExtra("data")
+            val gson = Gson()
+            userData= gson.fromJson(jsonData, MyData::class.java)
+            email = userData.email
+            phone = userData.phone
+            firsName = userData.firsName
+            lastName = userData.lastName
+            rePassword = userData.rePassword
+            countryId = userData.countryId
+            imageUri =bitmapToString(userData.imageUri)
+
+        }
+
         //imageUri = byte
 
         //val byteArray = intent.getByteArrayExtra("imageUri")
@@ -149,7 +161,12 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         countdownTimer()
         //  startSmartUserConsent()
     }
-
+    fun bitmapToString(bitmap: Bitmap): String {
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+        val byteArray = outputStream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    }
     fun verifyRegistrationOtp(str_email: String, str_phone: String) {
 
         register_progressBar?.visibility = View.VISIBLE

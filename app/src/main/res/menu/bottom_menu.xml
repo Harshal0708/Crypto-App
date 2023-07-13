@@ -5,16 +5,15 @@
         android:id="@+id/home"
         android:enabled="true"
         android:icon="@drawable/ic_bottom_home"
-        android:title=""
+        android:title="@string/home"
         app:showAsAction="always"
         />
-<!--    android:title="@string/home"-->
 
     <item
         android:id="@+id/watchlist"
         android:enabled="true"
         android:icon="@drawable/ic_bottom_watchlist"
-        android:title=""
+        android:title="@string/watchlist"
         app:showAsAction="always"
         />
 <!--    android:title="@string/watchlist"-->
@@ -22,7 +21,7 @@
         android:id="@+id/history"
         android:enabled="true"
         android:icon="@drawable/ic_bottom_history"
-       android:title=""
+       android:title="@string/history"
         app:showAsAction="always"
         />
 <!--    android:title="@string/history"-->
@@ -30,7 +29,7 @@
         android:id="@+id/setting"
         android:enabled="true"
         android:icon="@drawable/ic_bottom_setting"
-        android:title=""
+        android:title="@string/setting"
         app:showAsAction="always"
         />
 <!--    android:title="@string/setting"-->

@@ -38,6 +38,7 @@ import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.network.onItemClickListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -148,7 +149,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
         register_progressBar.visibility = View.GONE
         resent = view.findViewById(R.id.resent)
 
-        resent.text = getString(R.string.sign_up)
+        resent.text = getString(R.string.sign_up_account)
         progressBar_cardView.setOnClickListener(this)
         txt_sign_in_here.setOnClickListener(this)
         txt_sign_here_two.setOnClickListener(this)
@@ -183,6 +184,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
 //                    R.drawable.ic_new_email, 0, 0, 0
 //                )
 
+
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -211,6 +213,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
             }
 
         })
+
         sp_et_email.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -224,7 +227,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
                     sp_et_email.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
                 }
 
-
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -232,6 +234,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
             }
 
         })
+
         mn_et_phone.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -272,6 +275,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
             }
 
         })
+
         sp_et_rePassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -386,7 +390,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
 
                 if (validation() == true) {
                     sendRegistrationOtp()
-                    encodeImageString
+                        //  encodeImageString
                 }
 
             }
@@ -464,14 +468,14 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
                         if (response.body()?.isSuccess == true) {
                             register_progressBar.visibility = GONE
 
+                            val imageBytes = Base64.decode(encodeImageString, 0)
+                            val image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                            val myData= MyData(email,phone,firsName,lastName,rePassword,image, countryId)
+                            val gson = Gson()
+                            val jsonData = gson.toJson(myData)
+
                             val intent = Intent(this@RegisterActivity, OtpActivity::class.java)
-                            intent.putExtra("email", email)
-                            intent.putExtra("phone", phone)
-                            intent.putExtra("firsName", firsName)
-                            intent.putExtra("lastName", lastName)
-                            intent.putExtra("rePassword", rePassword)
-                            intent.putExtra("imageUri", encodeImageString)
-                            intent.putExtra("countryId", countryId)
+                            intent.putExtra("data", jsonData)
                             startActivity(intent)
 
                             response.body()?.message?.let { showToast(this@RegisterActivity, it) }
@@ -618,6 +622,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
         return true
 
     }
+
 
     override fun onItemClick(pos: Int) {
         mn_et_country_code.text = "+ ${getCountriesResponseItem.get(pos).countryCode}"

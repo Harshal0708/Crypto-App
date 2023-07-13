@@ -1,5 +1,6 @@
 package com.example.cryptoapp.modual.login.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -37,6 +38,7 @@ class UserFragment : Fragment(), View.OnClickListener {
     lateinit var preferences: MyPreferences
     lateinit var userDetail: DataXX
 
+    private lateinit var fragmentContext: Context
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,7 +51,7 @@ class UserFragment : Fragment(), View.OnClickListener {
     }
 
     private fun Init(view: View) {
-        preferences = MyPreferences(requireContext())
+        preferences = MyPreferences(fragmentContext)
         userDetail = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
         doc_submit = view.findViewById(R.id.doc_submit)
         doc_api_key = view.findViewById(R.id.doc_api_key)
@@ -59,6 +61,10 @@ class UserFragment : Fragment(), View.OnClickListener {
 
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
     private fun addCreateApiKeys() {
         //register_progressBar.visibility = View.VISIBLE
 

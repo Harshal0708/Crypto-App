@@ -40,6 +40,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
 
     lateinit var qrIV: ImageView
     lateinit var idTVKey: TextView
+    lateinit var idTVKey1: TextView
     lateinit var ed_totp: MukeshOtpView
 
     lateinit var setupCode: String
@@ -61,6 +62,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
 
         qrIV = findViewById(R.id.idIVQrcode)
         idTVKey = findViewById(R.id.idTVKey)
+        idTVKey1 = findViewById(R.id.idTVKey1)
         ed_totp = findViewById(R.id.ed_totp)
 
         view = findViewById(R.id.btn_progressBar)
@@ -90,6 +92,14 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                 copyTextToClipboard()
             }
         })
+
+        idTVKey1.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+                copyTextToClipboard()
+            }
+        })
+
+
         ed_totp.setOtpCompletionListener(object : MukeshOtpCompleteListener {
             override fun otpCompleteListener(otp: String?) {
                 generateOtp1 = otp.toString()

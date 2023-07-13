@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
+
     tools:context=".modual.dashbord.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
 
         <include
             android:id="@+id/viewLoader"
@@ -80,23 +80,16 @@
             app:layout_constraintStart_toStartOf="@+id/guideline21"
             app:layout_constraintTop_toBottomOf="@+id/strategies_rv" />
 
-        <FrameLayout
-            android:id="@+id/view_pager"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:layout_constraintEnd_toStartOf="@+id/guideline23"
-            app:layout_constraintStart_toStartOf="@+id/guideline21"
-            app:layout_constraintTop_toBottomOf="@+id/strategies_rv" />
+<!--        <FrameLayout-->
+<!--            android:id="@+id/view_pager"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:visibility="visible"-->
+<!--            app:layout_constraintEnd_toStartOf="@+id/guideline23"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/guideline21"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/strategies_rv" />-->
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/login_ViewPager"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@+id/guideline23"
-            app:layout_constraintStart_toStartOf="@+id/guideline21"
-            app:layout_constraintTop_toBottomOf="@+id/ouput" />
+
 
 
         <!--    <TextView-->
@@ -118,7 +111,7 @@
             android:layout_marginTop="16dp"
             android:fontFamily="@font/helvetica_bold"
             android:text="Basket :"
-            android:textColor="@color/hello"
+            android:textColor="@color/home_text"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/guideline21"
             app:layout_constraintTop_toTopOf="@+id/guideline22" />
@@ -132,7 +125,7 @@
             android:maxLines="1"
             android:text="Total Amount : $ 1000"
             android:textAlignment="viewStart"
-            android:textColor="@color/static_txt"
+            android:textColor="@color/home_text"
             android:textSize="12sp"
             android:typeface="normal"
             app:layout_constraintStart_toStartOf="@+id/txt_status"
@@ -146,7 +139,7 @@
             android:layout_marginTop="16dp"
             android:fontFamily="@font/helvetica_bold"
             android:text="Profit /Loss :"
-            android:textColor="@color/hello"
+            android:textColor="@color/home_text"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/guideline23"
             app:layout_constraintTop_toTopOf="@+id/guideline22" />
@@ -158,8 +151,9 @@
             android:ellipsize="end"
             android:fontFamily="@font/helvetica_bold"
             android:maxLines="1"
+            android:text="$ 1000"
             android:textAlignment="viewStart"
-            android:textColor="@color/static_txt"
+            android:textColor="@color/home_text"
             android:textSize="12sp"
             android:typeface="normal"
             app:layout_constraintEnd_toStartOf="@+id/guideline23"
@@ -173,24 +167,33 @@
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toStartOf="@+id/guideline23"
             app:layout_constraintStart_toStartOf="@+id/guideline21"
-            app:layout_constraintTop_toBottomOf="@+id/login_ViewPager" />
+            app:layout_constraintTop_toBottomOf="@+id/ouput" />
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/view_pager_news"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="50dp"
-            android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@+id/guideline24"
-            app:layout_constraintEnd_toStartOf="@+id/guideline23"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline21"
-            app:layout_constraintTop_toBottomOf="@+id/rv_top_coin"
-            app:layout_constraintVertical_bias="0.0" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/login_ViewPager"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/guideline23"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline21"
+        app:layout_constraintTop_toBottomOf="@+id/rv_top_coin" />
 
-</ScrollView>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager_news"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline24"
+        app:layout_constraintEnd_toStartOf="@+id/guideline23"
+        app:layout_constraintStart_toStartOf="@+id/guideline21"
+        app:layout_constraintTop_toBottomOf="@+id/login_ViewPager" />
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 

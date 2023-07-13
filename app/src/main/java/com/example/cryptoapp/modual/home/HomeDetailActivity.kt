@@ -16,6 +16,7 @@ import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.StrategyDetailResponse
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import kotlinx.coroutines.*
 import okhttp3.*
@@ -78,10 +79,19 @@ class HomeDetailActivity : AppCompatActivity() {
 
         toolbar_img_back.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                onBackPressed()
-                finish()
+//                onBackPressed()
+//                finish()
+                openBottomSheet()
             }
         })
+
+        txt_sd_minCapital_price.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+                openBottomSheet()
+            }
+        })
+
+
 
         executorService.submit {
             // handle WebSocket connection here
@@ -90,7 +100,8 @@ class HomeDetailActivity : AppCompatActivity() {
             client = OkHttpClient.Builder().readTimeout(0, TimeUnit.MILLISECONDS).build()
 
             job1 = CoroutineScope(Dispatchers.Main).launch {
-                webSocket1 = createWebSocket("ws://192.168.29.76:883/getStrategyDetail", 1)
+                webSocket1 = createWebSocket("ws://103.14.99.42/getStrategyDetail", 1)
+               // ws://103.14.99.42/getStrategyPL
             }
 
             CoroutineScope(Dispatchers.IO).launch {
@@ -115,7 +126,10 @@ class HomeDetailActivity : AppCompatActivity() {
             override fun onOpen(webSocket: WebSocket, response: Response) {
 
                 if (value == 1) {
-                   webSocket.send("5d989550-1320-4d24-1df0-08db5ddc8525")
+                   //    webSocket.send(intent.getStringExtra("strategyId").toString())
+                   // webSocket.send("54a0df6d-de7f-4c60-a868-1ec38b06f7ec")
+                   webSocket.send("8799e47e-ceb3-46e6-8589-08db72efa6fe")
+
                 }
 
             }
@@ -123,9 +137,7 @@ class HomeDetailActivity : AppCompatActivity() {
             override fun onMessage(webSocket: WebSocket, text: String) {
 
                 if (value == 1) {
-                    // viewLoader.visibility = View.GONE
                     setGetStrategyByUser(text)
-
                 }
 
             }
@@ -145,10 +157,10 @@ class HomeDetailActivity : AppCompatActivity() {
 
     private fun setGetStrategyByUser(text: String) {
 
-        showLog("setGetStrategyByUser",text)
+
         val gson = Gson()
         val objectList = gson.fromJson(text, StrategyDetailResponse::class.java)
-//
+        showLog("setGetStrategyByUser", objectList.toString())
         txt_sd_strategyName.text = "${objectList.Strategy.StrategyName}"
         txt_sd_description.text = "${objectList.Strategy.Description}"
         txt_sd_minCapital_price.text = objectList.Strategy.MinCapital.toString()
@@ -164,5 +176,24 @@ class HomeDetailActivity : AppCompatActivity() {
         animationView.playAnimation()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+//
+        webSocket1.close(1000, "Activity destroyed")
+        job1.cancel() // Cancel the coroutine job when the activity is destroyed
+        scope.cancel()
+        //cancel()
+    }
 
+    private fun openBottomSheet() {
+
+        val dialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.robot_bottom_sheet, null)
+        dialog.setCancelable(true)
+
+
+        dialog.setContentView(view)
+        dialog.show()
+
+    }
 }

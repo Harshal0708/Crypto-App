@@ -46,7 +46,7 @@ class CountriesAdapter(
         val backgroundColor: Int
         backgroundColor = if (number % 2 == 0) {
             // Number is even, so set background color to blue
-            context.getResources().getColor(R.color.white)
+            context.getResources().getColor(R.color.country_code)
         } else {
             // Number is odd, so set background color to green
             context.getResources().getColor(R.color.gray)

@@ -1,3 +1,6 @@
 package com.example.cryptoapp.Response
 
-class StrategyWSResponse : ArrayList<StrategyWSResponseItem>()
+data class StrategyWSResponse(
+    val StrategyPLVMs: List<StrategyPLVM>,
+    val TotalPL: Double
+)

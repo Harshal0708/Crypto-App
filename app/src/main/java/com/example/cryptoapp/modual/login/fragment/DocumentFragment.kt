@@ -1,5 +1,6 @@
 package com.example.cryptoapp.modual.login.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants.Companion.showLog
+import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.modual.login.adapter.DocSpinnerAdapter
 import com.example.cryptoapp.network.RestApi
@@ -31,6 +33,7 @@ class DocumentFragment : Fragment(), View.OnClickListener {
     lateinit var animationView: LottieAnimationView
     lateinit var adapter:DocSpinnerAdapter
 
+    private lateinit var fragmentContext: Context
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -110,10 +113,15 @@ class DocumentFragment : Fragment(), View.OnClickListener {
         animationView.playAnimation()
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
+
     private fun getDocuments() {
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder(requireContext()).buildService(RestApi::class.java)
+            var response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
                 .getDocuments()
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE
@@ -125,8 +133,8 @@ class DocumentFragment : Fragment(), View.OnClickListener {
     private fun getDocumentsByCountry() {
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder(requireContext()).buildService(RestApi::class.java)
-                .getDocumentsByCountry("3319df1e-bdfd-4525-8baf-08db08fd45f0")
+            var response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
+                .getDocumentsByCountry("90346729-3d9f-4f0d-886a-08db3f0422fd")
                 //.getDocumentsByCountry("179fc3dc-42b6-4985-74bd-08db13d960a2")
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE
@@ -142,9 +150,11 @@ class DocumentFragment : Fragment(), View.OnClickListener {
 
                             showLog("documentName",response.body()!!.get(position).documentName)
 
-                            if(response.body()!!.get(position).documentName.equals("Pancard")){
+                            if(response.body()!!.get(position).documentName.equals("Passport")){
+                                aadhar_card_number?.visibility=View.GONE
                                 pan_number?.visibility=View.VISIBLE
-                            }else if(response.body()!!.get(position).documentName.equals("aadhar card")){
+                            }else if(response.body()!!.get(position).documentName.equals("Adhar Card")){
+                                pan_number?.visibility=View.GONE
                                 aadhar_card_number?.visibility=View.VISIBLE
                             }
 

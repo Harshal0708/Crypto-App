@@ -1,5 +1,6 @@
 package com.example.cryptoapp.modual.history
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -34,6 +35,7 @@ class SubscriptionFragment : Fragment() {
     lateinit var data: DataXX
     lateinit var viewLoader: View
     lateinit var animationView: LottieAnimationView
+    private lateinit var fragmentContext: Context
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +47,7 @@ class SubscriptionFragment : Fragment() {
     }
 
     private fun InIt(view: View) {
-        preferences = MyPreferences(requireContext())
+        preferences = MyPreferences(fragmentContext)
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
         viewLoader = view.findViewById(R.id.viewLoader)
@@ -64,9 +66,14 @@ class SubscriptionFragment : Fragment() {
         animationView.playAnimation()
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
+
     fun getSubscriptionHistoryList(pageNumber: Int, pageSize: Int) {
         viewLoader.visibility = View.VISIBLE
-        val response = ServiceBuilder(requireContext()).buildService(RestApi::class.java)
+        val response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
         var payload = GetOrderHistoryListPayload(
             pageNumber,
             pageSize,
@@ -86,7 +93,7 @@ class SubscriptionFragment : Fragment() {
                                 rec_sub_history.layoutManager = LinearLayoutManager(activity)
                                 subscriptionHistoryAdapter =
                                     SubscriptionHistoryAdapter(
-                                        requireContext(),
+                                        fragmentContext,
                                         response.body()!!.data.userSubscriptions
                                     )
                                 rec_sub_history.adapter = subscriptionHistoryAdapter
@@ -97,7 +104,7 @@ class SubscriptionFragment : Fragment() {
                         } else {
                             viewLoader.visibility = View.GONE
                             Constants.showToast(
-                                requireContext(),
+                                fragmentContext,
                                 getString(R.string.data_not_found)
                             )
                         }
@@ -106,7 +113,7 @@ class SubscriptionFragment : Fragment() {
                     override fun onFailure(call: Call<UserSubscriptionsResponse>, t: Throwable) {
                         viewLoader.visibility = View.GONE
                         Constants.showToast(
-                            requireContext(),
+                            fragmentContext,
                             getString(R.string.data_not_found)
                         )
                     }

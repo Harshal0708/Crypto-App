@@ -7,7 +7,7 @@
         android:endColor="@color/sky_light"
         android:angle="0"/>
     <corners
-        android:radius="25dp"/>
+        android:radius="18dp"/>
 </shape>
 
 

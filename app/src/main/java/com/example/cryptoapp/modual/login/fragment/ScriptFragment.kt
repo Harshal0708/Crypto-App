@@ -1,5 +1,6 @@
 package com.example.cryptoapp.modual.login.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -52,6 +53,8 @@ class ScriptFragment : Fragment(), View.OnClickListener {
     lateinit var viewLoader: View
     lateinit var animationView: LottieAnimationView
 
+    private lateinit var fragmentContext: Context
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,7 +67,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
 
     private fun init(view: View) {
 
-        preferences = MyPreferences(requireContext())
+        preferences = MyPreferences(fragmentContext)
         userDetail = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
         viewLoader = view.findViewById(R.id.viewLoader)
         animationView = viewLoader.findViewById(R.id.lotti_img)
@@ -95,7 +98,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
             var response =
-                ServiceBuilder(requireContext()).buildService(RestApi::class.java).getPlans()
+                ServiceBuilder(fragmentContext).buildService(RestApi::class.java).getPlans()
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE
 
@@ -127,7 +130,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
         viewLoader.visibility = View.VISIBLE
    // <--- Removes all elements
 
-        val response = ServiceBuilder(requireContext()).buildService(RestApi::class.java)
+        val response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
         var payload = UserSubscriptionModel(
             id.toString(),
             "",
@@ -155,7 +158,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
 
                     override fun onFailure(call: Call<UserSubscriptionResponse>, t: Throwable) {
                         // register_progressBar?.visibility = View.GONE
-                        Constants.showToast(requireContext(), getString(R.string.data_not_found))
+                        Constants.showToast(fragmentContext, getString(R.string.data_not_found))
                     }
 
                 }
@@ -171,9 +174,9 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                 txt_sub_quartly.setBackgroundResource(0)
                 txt_sub_yearly.setBackgroundResource(0)
 
-                txt_sub_monthly.setTextColor(resources.getColor(R.color.white))
-                txt_sub_quartly.setTextColor(resources.getColor(R.color.primary_color))
-                txt_sub_yearly.setTextColor(resources.getColor(R.color.primary_color))
+                txt_sub_monthly.setTextColor(resources.getColor(R.color.bottom_icon_color_1))
+                txt_sub_quartly.setTextColor(resources.getColor(R.color.sky_light))
+                txt_sub_yearly.setTextColor(resources.getColor(R.color.sky_light))
 
                 subscriptionModelList.isNullOrEmpty()
                 getUserSubscription(one)
@@ -185,9 +188,9 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                 txt_sub_quartly.setBackgroundResource(R.drawable.background_tab_primary_color)
                 txt_sub_yearly.setBackgroundResource(0)
 
-                txt_sub_monthly.setTextColor(resources.getColor(R.color.primary_color))
-                txt_sub_quartly.setTextColor(resources.getColor(R.color.white))
-                txt_sub_yearly.setTextColor(resources.getColor(R.color.primary_color))
+                txt_sub_monthly.setTextColor(resources.getColor(R.color.sky_light))
+                txt_sub_quartly.setTextColor(resources.getColor(R.color.bottom_icon_color_1))
+                txt_sub_yearly.setTextColor(resources.getColor(R.color.sky_light))
 
                 subscriptionModelList.isNullOrEmpty()
                 getUserSubscription(two)
@@ -199,9 +202,9 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                 txt_sub_quartly.setBackgroundResource(0)
                 txt_sub_yearly.setBackgroundResource(R.drawable.background_tab_primary_color)
 
-                txt_sub_monthly.setTextColor(resources.getColor(R.color.primary_color))
-                txt_sub_quartly.setTextColor(resources.getColor(R.color.primary_color))
-                txt_sub_yearly.setTextColor(resources.getColor(R.color.white))
+                txt_sub_monthly.setTextColor(resources.getColor(R.color.sky_light))
+                txt_sub_quartly.setTextColor(resources.getColor(R.color.sky_light))
+                txt_sub_yearly.setTextColor(resources.getColor(R.color.bottom_icon_color_1))
 
                 subscriptionModelList.isNullOrEmpty()
                 getUserSubscription(three)
@@ -209,14 +212,19 @@ class ScriptFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
+
     private fun ScriptAdapter(
         subscriptionModelList: List<UserSubscriptionDataResponse>,
         planId: String
     ) {
 
-        rv_subsribtion.layoutManager = LinearLayoutManager(requireContext())
+        rv_subsribtion.layoutManager = LinearLayoutManager(fragmentContext)
         subscriptionAdapter = SubscriptionAdapter(
-            requireContext(),
+            fragmentContext,
             subscriptionModelList,
             planId
         )

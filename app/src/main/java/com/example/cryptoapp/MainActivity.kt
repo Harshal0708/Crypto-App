@@ -58,7 +58,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         var preferences: MyPreferences
         preferences = MyPreferences(this)
 
@@ -184,12 +183,12 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_profile -> {
-//                    loadFragment(SettingFragment())
-//                    bottomNav.setSelectedItemId(R.id.setting)
-//                    drawerLayout?.close()
-                    var intent = Intent(this, ProfileActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    loadFragment(SettingFragment())
+                    bottomNav.setSelectedItemId(R.id.setting)
+                    drawerLayout?.close()
+//                    var intent = Intent(this, ProfileActivity::class.java)
+//                    startActivity(intent)
+//                    finish()
                     true
                 }
 

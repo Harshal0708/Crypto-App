@@ -50,126 +50,134 @@
             android:fontFamily="@font/helvetica_bold"
             android:text="@string/phone_verification"
             android:textAlignment="viewStart"
-            android:textColor="@color/hello"
+            android:textColor="@color/hello_1"
             android:textSize="24sp"
             android:typeface="normal"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
             app:layout_constraintStart_toStartOf="@+id/guideline48"
             app:layout_constraintTop_toBottomOf="@+id/ima_back" />
 
-        <TextView
-            android:id="@+id/otp_phone_verification"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:fontFamily="@font/helvetica_bold"
-            android:text="@string/email_otp"
-            android:textAlignment="textStart"
-            android:textColor="@color/static_txt"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:typeface="normal"
+
+            app:layout_constraintBottom_toTopOf="@+id/resend_timer"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/guideline48"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView">
 
-        <com.mukesh.mukeshotpview.mukeshOtpView.MukeshOtpView
-            android:id="@+id/otp_view_1"
-            style="@style/OtpWidget.OtpView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="******"
-            android:inputType="number"
-            android:itemBackground="@drawable/otp_edittext"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:hideLineWhenFilled="false"
-            app:itemCount="6"
+            <TextView
+                android:id="@+id/otp_phone_verification"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/helvetica_bold"
+                android:text="@string/email_otp"
+                android:textAlignment="textStart"
+                android:textColor="@color/static_txt_2"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:typeface="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            app:layout_constraintEnd_toStartOf="@+id/guideline55"
-            app:layout_constraintStart_toStartOf="@+id/guideline48"
-            app:layout_constraintTop_toBottomOf="@+id/otp_phone_verification"
-            app:lineColor="@color/black"
-            app:state_filled="true"
-            app:viewType="none" />
+            <com.mukesh.mukeshotpview.mukeshOtpView.MukeshOtpView
+                android:id="@+id/otp_view_1"
+                style="@style/OtpWidget.OtpView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="******"
+                android:inputType="number"
+                android:itemBackground="@drawable/otp_edittext"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:hideLineWhenFilled="false"
+                app:itemCount="6"
+                app:itemSpacing="14dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/otp_phone_verification"
+                app:lineColor="@color/black"
+                app:state_filled="true"
+                app:viewType="none" />
 
-        <TextView
-            android:id="@+id/email_otp_verification"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/helvetica_bold"
-            android:text="@string/phone_otp"
-            android:textAlignment="textStart"
-            android:textColor="@color/static_txt"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/guideline55"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline48"
-            app:layout_constraintTop_toBottomOf="@+id/otp_view_1" />
+            <TextView
+                android:id="@+id/email_otp_verification"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/helvetica_bold"
+                android:text="@string/phone_otp"
+                android:textAlignment="textStart"
+                android:textColor="@color/static_txt_2"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/otp_view_1" />
 
+            <com.mukesh.mukeshotpview.mukeshOtpView.MukeshOtpView
+                android:id="@+id/otp_view_2"
+                style="@style/OtpWidget.OtpView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:hint="******"
+                android:inputType="number"
+                android:itemBackground="@drawable/otp_edittext"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:hideLineWhenFilled="false"
+                app:itemCount="6"
+                app:itemSpacing="14dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email_otp_verification"
+                app:lineColor="@color/black"
+                app:state_filled="true"
+                app:viewType="none" />
 
-        <com.mukesh.mukeshotpview.mukeshOtpView.MukeshOtpView
-            android:id="@+id/otp_view_2"
-            style="@style/OtpWidget.OtpView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:hint="******"
-            android:inputType="number"
-            android:itemBackground="@drawable/otp_edittext"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:hideLineWhenFilled="false"
-            app:itemCount="6"
-            app:layout_constraintEnd_toStartOf="@+id/guideline55"
-            app:layout_constraintStart_toStartOf="@+id/guideline48"
-            app:layout_constraintTop_toBottomOf="@+id/email_otp_verification"
-            app:lineColor="@color/black"
-            app:state_filled="true"
-            app:viewType="none" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <include
             android:id="@+id/btn_progressBar"
             layout="@layout/progressbar_button"
             android:layout_width="0dp"
-            android:layout_height="42dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="64dp"
+            android:layout_marginBottom="64dp"
+            app:layout_constraintBottom_toTopOf="@+id/txt_sign_in_here"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
-            app:layout_constraintStart_toStartOf="@+id/guideline48"
-            app:layout_constraintTop_toBottomOf="@+id/otp_view_2" />
+            app:layout_constraintStart_toStartOf="@+id/guideline48" />
 
 
         <TextView
             android:id="@+id/resend_timer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/helvetica_bold"
             android:text="00"
             android:textAlignment="center"
-            android:textSize="18sp"
             android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_progressBar"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
-            app:layout_constraintStart_toStartOf="@+id/guideline48"
-            app:layout_constraintTop_toBottomOf="@+id/btn_progressBar" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline48" />
 
         <TextView
             android:id="@+id/txt_email_phone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/helvetica_bold"
+            android:fontFamily="@font/helvetica"
             android:text="Please, enter the verification code we sent to your  Mobile **01 and Gmail **patel"
             android:textAlignment="viewStart"
-            android:textColor="@color/static_txt"
+            android:textColor="@color/static_txt_2"
             android:textSize="14sp"
             android:typeface="normal"
             app:layout_constraintEnd_toStartOf="@+id/guideline55"
@@ -180,18 +188,17 @@
             android:id="@+id/txt_sign_in_here"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:fontFamily="@font/helvetica_bold"
             android:gravity="center"
             android:text="@string/dont_receive"
             android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="10sp"
+            android:textColor="@color/static_txt_2"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline56"
             app:layout_constraintEnd_toStartOf="@+id/txt_otp_resend"
             app:layout_constraintHorizontal_bias="0.48"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="@+id/guideline48"
-            app:layout_constraintTop_toBottomOf="@+id/resend_timer" />
+            app:layout_constraintStart_toStartOf="@+id/guideline48" />
 
         <TextView
             android:id="@+id/txt_otp_resend"
@@ -200,9 +207,8 @@
             android:layout_marginStart="8dp"
             android:fontFamily="@font/helvetica_bold"
             android:gravity="center"
-            android:text="@string/resend"
+            android:text="@string/send_again"
             android:textAlignment="center"
-            android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="12sp"
             android:textStyle="bold"
@@ -235,149 +241,3 @@
 
 </ScrollView>
 
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_weight="1"-->
-    <!--android:orientation="vertical">-->
-
-    <!--<TextView-->
-    <!--    android:layout_width="match_parent"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:layout_marginTop="4dp"-->
-    <!--    android:fontFamily="@font/nunito_bold"-->
-    <!--    android:gravity="center"-->
-    <!--    android:text="@string/phone_verification"-->
-    <!--    android:textColor="@color/black"-->
-    <!--    android:textSize="24sp"-->
-    <!--    android:textStyle="bold" />-->
-
-
-    <!--<LinearLayout-->
-    <!--    android:layout_width="match_parent"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:layout_margin="16dp"-->
-    <!--    android:layout_weight="1"-->
-    <!--    android:orientation="vertical">-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/otp_phone_verification"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="4dp"-->
-    <!--        android:fontFamily="@font/nunito_bold"-->
-    <!--        android:gravity="start"-->
-    <!--        android:text="@string/phone_verification"-->
-    <!--        android:textColor="@color/black"-->
-    <!--        android:textSize="18sp"-->
-    <!--        android:textStyle="bold" />-->
-
-
-    <!--    <EditText-->
-    <!--        android:id="@+id/et_phone_otp"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="12dp"-->
-    <!--        android:background="@drawable/background_edittext"-->
-    <!--        android:drawableEnd="@drawable/ic_lock"-->
-    <!--        android:hint="@string/code"-->
-    <!--        android:padding="8dp"-->
-    <!--        android:textSize="18dp" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/email_otp_verification"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="4dp"-->
-    <!--        android:fontFamily="@font/nunito_bold"-->
-    <!--        android:gravity="start"-->
-    <!--        android:text="@string/phone_verification"-->
-    <!--        android:textColor="@color/black"-->
-    <!--        android:textSize="18sp"-->
-    <!--        android:textStyle="bold" />-->
-
-
-    <!--    <EditText-->
-    <!--        android:id="@+id/et_email_otp"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="12dp"-->
-    <!--        android:background="@drawable/background_edittext"-->
-    <!--        android:drawableEnd="@drawable/ic_lock"-->
-    <!--        android:hint="@string/code"-->
-    <!--        android:padding="8dp"-->
-    <!--        android:textSize="18dp" />-->
-
-    <!--    &lt;!&ndash;            <Button&ndash;&gt;-->
-    <!--    &lt;!&ndash;                android:id="@+id/otp"&ndash;&gt;-->
-    <!--    &lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
-    <!--    &lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
-    <!--    &lt;!&ndash;                android:layout_margin="16dp"&ndash;&gt;-->
-    <!--    &lt;!&ndash;                android:background="@drawable/background_button"&ndash;&gt;-->
-    <!--    &lt;!&ndash;                android:text="@string/submit"&ndash;&gt;-->
-    <!--    &lt;!&ndash;                android:textAllCaps="false"&ndash;&gt;-->
-    <!--    &lt;!&ndash;                android:textColor="@color/white" />&ndash;&gt;-->
-
-
-    <!--    <androidx.cardview.widget.CardView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="40dp"-->
-    <!--        app:cardElevation="8dp"-->
-    <!--        android:layout_margin="8dp"-->
-    <!--        app:cardBackgroundColor="@color/primary_color"-->
-    <!--        app:cardCornerRadius="18dp"-->
-    <!--        >-->
-    <!--        <RelativeLayout-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="match_parent">-->
-
-    <!--            <ProgressBar-->
-    <!--                android:id="@+id/register_progressBar"-->
-    <!--                android:layout_width="30dp"-->
-    <!--                android:layout_height="30dp"-->
-    <!--                android:layout_centerVertical="true"-->
-    <!--                android:layout_gravity="center"-->
-    <!--                android:layout_toLeftOf="@+id/otp"-->
-    <!--                android:indeterminateTint="@color/white"-->
-    <!--                android:visibility="visible" />-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/otp"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:layout_centerInParent="true"-->
-    <!--                android:layout_marginLeft="4dp"-->
-    <!--                android:text="@string/submit"-->
-    <!--                android:textColor="@color/white" />-->
-
-    <!--        </RelativeLayout>-->
-    <!--    </androidx.cardview.widget.CardView>-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/resend_timer"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="4dp"-->
-    <!--        android:fontFamily="@font/nunito_bold"-->
-    <!--        android:gravity="center"-->
-    <!--        android:text="00"-->
-    <!--        android:textColor="@color/black"-->
-    <!--        android:textSize="16sp"-->
-    <!--        android:textStyle="bold" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/resend_code"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="4dp"-->
-    <!--        android:fontFamily="@font/nunito_bold"-->
-    <!--        android:gravity="center"-->
-    <!--        android:text="@string/resend_code"-->
-    <!--        android:textColor="@color/black"-->
-    <!--        android:textSize="12sp"-->
-    <!--        android:textStyle="bold" />-->
-    <!--</LinearLayout>-->
-
-
-    <!--</LinearLayout>-->

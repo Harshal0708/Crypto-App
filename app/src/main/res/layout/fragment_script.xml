@@ -40,7 +40,7 @@
             android:background="@drawable/background_tab_primary_color"
             android:padding="12dp"
             android:textAlignment="center"
-            android:textColor="@color/white"
+
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/txt_sub_quartly"
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:textAlignment="center"
-            android:textColor="@color/primary_color"
+
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/txt_sub_monthly"
             app:layout_constraintEnd_toStartOf="@+id/txt_sub_yearly"
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:textAlignment="center"
-            android:textColor="@color/primary_color"
+
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/txt_sub_quartly"
             app:layout_constraintEnd_toEndOf="parent"

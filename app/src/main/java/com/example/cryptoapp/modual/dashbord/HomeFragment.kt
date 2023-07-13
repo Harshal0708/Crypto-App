@@ -1,5 +1,6 @@
 package com.example.cryptoapp.modual.dashbord
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -61,10 +62,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
     lateinit var webSocket1: WebSocket
     lateinit var webSocket2: WebSocket
 
-    lateinit var strategyResList: ArrayList<StrategyWSResponseItem>
+    lateinit var strategyResList: ArrayList<StrategyPLVM>
     lateinit var topCoin: ArrayList<TopCoins>
     lateinit var imageList: ArrayList<NewsData>
-
+    private lateinit var fragmentContext: Context
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -75,7 +76,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     private fun init(view: View) {
-        preferences = MyPreferences(requireContext())
+        preferences = MyPreferences(fragmentContext)
 
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
@@ -99,38 +100,24 @@ class HomeFragment : Fragment(), View.OnClickListener {
         topCoin.add(TopCoins("", "Ethereum", "BTC", "2000"))
         topCoin.add(TopCoins("", "Therum", "BTC", "3000"))
 
-        strategyResList.add(
-            StrategyWSResponseItem(
-                10.00,
-                Strategy(
-                    "1/4/2023",
-                    getString(R.string.dummy_text),
-                    "",
-                    false,
-                    10.00,
-                    "7/4/2023",
-                    10.00,
-                    "Strategy 1"
-                )
-            )
-        )
-
-//         strategyResList.add(StrategyWSResponseItem(20.00,Strategy("2/4/2023",getString(R.string.dummy_text),"",false,20.00,"7/4/2023",20.00,"Strategy 2")))
-
+//        strategyResList.add(StrategyWSResponseItem(10.00,Strategy("1/3/2023",getString(R.string.dummy_text),"",false,10.00,"1/4/2023",10.00,"Strategy 1")))
+//        strategyResList.add(StrategyWSResponseItem(20.00,Strategy("7/3/2023",getString(R.string.dummy_text),"",true,20.00,"7/4/2023",20.00,"Strategy 2")))
+//        strategyResList.add(StrategyWSResponseItem(30.00,Strategy("17/3/2023",getString(R.string.dummy_text),"",true,30.00,"17/4/2023",30.00,"Strategy 3")))
+//
 //        strategies_rv.layoutManager = LinearLayoutManager(activity)
-//        homeAdapter = HomeAdapter(requireContext(), strategyResList, false)
+//        homeAdapter = HomeAdapter(fragmentContext, strategyResList, false)
 //        strategies_rv.adapter = homeAdapter
 
         rv_top_coin.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        topCoinAdapter = TopCoinAdapter(requireContext(), topCoin)
+        topCoinAdapter = TopCoinAdapter(fragmentContext, topCoin)
         rv_top_coin.adapter = topCoinAdapter
 
         imageList = ArrayList()
-//        imageList.add(NewsData(R.drawable.ic_home, "It is a long established fact that a reader"))
-//        imageList.add(NewsData(R.drawable.ic_home, "It is a long established fact that a reader"))
+        imageList.add(NewsData(R.drawable.ic_home, "It is a long established fact that a reader"))
+        imageList.add(NewsData(R.drawable.ic_home, "It is a long established fact that a reader"))
 
-        sliderNewsViewPagerAdapter = SliderNewsViewPagerAdapter(requireContext(), imageList)
+        sliderNewsViewPagerAdapter = SliderNewsViewPagerAdapter(fragmentContext, imageList)
         view_pager_news.adapter = sliderNewsViewPagerAdapter
 
         setupAnim()
@@ -139,12 +126,12 @@ class HomeFragment : Fragment(), View.OnClickListener {
             // handle WebSocket connection here
             //    scope.launch {
 
-            client = OkHttpClient.Builder().readTimeout(0, TimeUnit.MILLISECONDS).build()
+            client = OkHttpClient.Builder().readTimeout(0, TimeUnit.MINUTES).build()
 
             job1 = CoroutineScope(Dispatchers.Main).launch {
 //                val ws1 = async {
                 showLog("IO", "1")
-                //    getCMSList()
+                   getCMSList()
                 //}
             }
 
@@ -152,9 +139,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 //val ws2 = async {
                 showLog("webSocket1", "2")
                 //initGetStrategyByUser()
-                //  webSocket1 = createWebSocket("ws://103.14.99.61:8084/getStrategyPL", 1)
                 webSocket1 = createWebSocket("ws://103.14.99.42/getStrategyPL", 1)
-
                 //}
             }
 
@@ -162,7 +147,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 //val ws3 = async {
                 showLog("webSocket2", "3")
                 //  callFragment()
-                webSocket2 = createWebSocket("ws://103.14.99.42/getPL", 2)
+               // webSocket2 = createWebSocket("ws://103.14.99.42/getPL", 2)
                 //  webSocket2 = createWebSocket("wss://stream.binance.com:9443/ws/btcusdt@lastTradePrice", 2)
                 // }
             }
@@ -175,8 +160,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 job1.join() // Wait for job1 to complete before sending message to ws2
                 job2.join() // Wait for job2 to complete before sending message to ws1
                 job3.join() // Wait for job2 to complete before sending message to ws1
-                webSocket1.send(data.userId)
-                webSocket2.send(data.userId)
+//                webSocket1.send(data.userId)
+//                webSocket2.send(data.userId)
             }
 
             txt_strategies_desc.setOnClickListener(object : View.OnClickListener {
@@ -209,10 +194,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 if (value == 1) {
                     viewLoader.visibility = View.GONE
                     setGetStrategyByUser(text)
-                } else if (value == 2) {
-                    viewLoader.visibility = View.GONE
-                    setUpBtcPriceText(text)
                 }
+//                } else if (value == 2) {
+//                    viewLoader.visibility = View.GONE
+//                    setUpBtcPriceText(text)
+//                }
 
             }
 
@@ -221,7 +207,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
             }
 
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                showLog("WebSocket connection to $url failed",t.message.toString())
+                showLog("WebSocket connection to $url failed", t.message.toString())
             }
 
         }
@@ -233,8 +219,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
     override fun onDestroy() {
         super.onDestroy()
 
+//
         webSocket1.close(1000, "Activity destroyed")
-        webSocket2.close(1000, "Activity destroyed")
+//        webSocket2.close(1000, "Activity destroyed")
         job1.cancel() // Cancel the coroutine job when the activity is destroyed
         job2.cancel()
         job3.cancel()
@@ -281,7 +268,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
             override fun onFailure(
                 webSocket: WebSocket,
                 t: Throwable,
-                response: okhttp3.Response?
+                response:Response?
             ) {
                 super.onFailure(webSocket, t, response)
                 showLog("test", t.message.toString())
@@ -323,17 +310,30 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 val gson = Gson()
                 val objectList = gson.fromJson(message, StrategyWSResponse::class.java)
 
+                if(!objectList.TotalPL.toString().isEmpty()){
+                    setUpBtcPriceText(objectList.TotalPL!!.toString())
+                }
+
                 showLog("test", objectList.toString())
 
                 viewLoader.visibility = View.GONE
                 strategies_rv.layoutManager = LinearLayoutManager(activity)
-                homeAdapter =
-                    context?.let { it1 -> HomeAdapter(it1, objectList, data.haveAnySubscription) }!!
+                homeAdapter= HomeAdapter(fragmentContext,objectList.StrategyPLVMs,false)!!
+//                  homeAdapter =
+//                    context?.let { it1 -> HomeAdapter(it1, objectList.StrategyPLVMs, false) }!!
+
                 strategies_rv.adapter = homeAdapter
 
+              ///  homeAdapter =
+//                    context?.let { it1 -> HomeAdapter(it1, objectList, data.haveAnySubscription) }!!
             }
             // }).start()
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
     }
 
     fun setUpBtcPriceText(message: String?) {
@@ -345,7 +345,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 //
 //            runOnUiThread { output.text = "${objectList?.get(0)?.s} : ${objectList?.get(0)?.p} " }
 
-            requireActivity().runOnUiThread { txt_pl_price.text = "${message} " }
+             txt_pl_price.text = "${message} "
 
         }
     }
@@ -354,12 +354,12 @@ class HomeFragment : Fragment(), View.OnClickListener {
         //   viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.Main) {
 
-            var response = ServiceBuilder(requireContext()).buildService(RestApi::class.java)
+            var response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
                 .getCmsAdsList(data.userId)
 
             withContext(Dispatchers.Main) {
                 //         viewLoader.visibility = View.GONE
-                viewPagerAdapter = SliderViewPagerAdapter(requireContext(), response.body()!!.data)
+                viewPagerAdapter = SliderViewPagerAdapter(fragmentContext, response.body()!!.data)
                 login_ViewPager.adapter = viewPagerAdapter
 
             }

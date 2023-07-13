@@ -7,7 +7,6 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -16,14 +15,13 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.R
-import com.example.cryptoapp.Response.StrategyDataRes
-import com.example.cryptoapp.Response.StrategyWSResponseItem
+import com.example.cryptoapp.Response.StrategyPLVM
 import com.example.cryptoapp.modual.home.HomeDetailActivity
 import com.example.cryptoapp.modual.subscription.SubscriptionActivity
 
 class HomeAdapter(
     var context: Context,
-    var strategyResList: ArrayList<StrategyWSResponseItem>,
+    var strategyResList: List<StrategyPLVM>,
     var haveAnySubscription: Boolean
 ) :
     RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
@@ -34,14 +32,18 @@ class HomeAdapter(
 
         var txt_strategies_name: TextView = itemView.findViewById(R.id.txt_strategies_name)
         var txt_strategies_desc: TextView = itemView.findViewById(R.id.txt_strategies_desc)
-        var txt_strategies_monthly_fee_price: TextView = itemView.findViewById(R.id.txt_strategies_monthly_fee_price)
-        var txt_strategies_monthly_capital_price: TextView = itemView.findViewById(R.id.txt_strategies_monthly_capital_price)
+        var txt_strategies_monthly_fee_price: TextView =
+            itemView.findViewById(R.id.txt_strategies_monthly_fee_price)
+        var txt_strategies_monthly_capital_price: TextView =
+            itemView.findViewById(R.id.txt_strategies_monthly_capital_price)
 
         //        var txt_strategies_by: TextView = itemView.findViewById(R.id.txt_strategies_by)
         var txt_strategies_time: TextView = itemView.findViewById(R.id.txt_strategies_time)
-       var txt_status_active: TextView = itemView.findViewById(R.id.txt_status_active)
-//        var img_strategies_menu: ImageView = itemView.findViewById(R.id.img_strategies_menu)
+        var txt_status_active: TextView = itemView.findViewById(R.id.txt_status_active)
+
+        //        var img_strategies_menu: ImageView = itemView.findViewById(R.id.img_strategies_menu)
         var txt_pl: TextView = itemView.findViewById(R.id.txt_pl)
+        var txt_red_more: TextView = itemView.findViewById(R.id.txt_red_more)
 
     }
 
@@ -61,7 +63,13 @@ class HomeAdapter(
             strategyResList.get(position).Strategy.MonthlyFee.toString()
         holder.txt_strategies_desc.text = strategyResList.get(position).Strategy.Description
 
-        holder.txt_strategies_time.text = Constants.getDate(strategyResList.get(position).Strategy.CreatedDate)
+        holder.txt_strategies_time.text =
+            Constants.getDate(strategyResList.get(position).Strategy.CreatedDate)
+
+//        holder.txt_strategies_time.text =
+//            strategyResList.get(position).Strategy.CreatedDate
+
+
         if (strategyResList.get(position).Strategy.IsActive != true) {
             holder.txt_status_active.text = context.resources.getString(R.string.not_active)
             holder.txt_status_active.setTextColor(context.resources.getColor(R.color.red))
@@ -74,11 +82,11 @@ class HomeAdapter(
 //            showDialog()
 //        }
 //
-        holder.txt_strategies_name.setOnClickListener {
-            val intent = Intent(context, HomeDetailActivity::class.java)
-            intent.putExtra("strategyId", strategyResList.get(position).Strategy.Id)
-            context.startActivity(intent)
-        }
+//        holder.txt_strategies_name.setOnClickListener {
+//            val intent = Intent(context, HomeDetailActivity::class.java)
+//            intent.putExtra("strategyId", strategyResList.get(position).Strategy.Id)
+//            context.startActivity(intent)
+//        }
 //
 //        holder.itemView.setOnClickListener{
 //            if(haveAnySubscription==true){
@@ -89,10 +97,10 @@ class HomeAdapter(
 //        }
 
 
-        holder.itemView.setOnClickListener(object : View.OnClickListener {
+        holder.txt_red_more.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 val intent = Intent(context, HomeDetailActivity::class.java)
-                //intent.putExtra("strategyId", strategyResList.get(position).Strategy.Id)
+                intent.putExtra("strategyId", strategyResList.get(position).Strategy.Id)
                 context.startActivity(intent)
             }
 

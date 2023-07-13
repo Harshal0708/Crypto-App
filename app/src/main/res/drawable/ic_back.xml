@@ -7,7 +7,7 @@
       android:pathData="M1,6.315L1,15.686C1,18.951 3.313,21 6.585,21L15.415,21C18.688,21 21,18.962 21,15.686L21,6.315C21,3.039 18.688,1 15.415,1L6.585,1C3.313,1 1,3.039 1,6.315Z"
       android:strokeLineJoin="round"
       android:strokeWidth="1.5"
-      android:fillColor="#00000000"
+      android:fillColor="@color/back_icon_color"
       android:fillType="evenOdd"
       android:strokeColor="#000000"
       android:strokeLineCap="round"/>
@@ -15,7 +15,7 @@
       android:pathData="M13.035,15.053L8.965,11.001L13.035,6.949"
       android:strokeLineJoin="round"
       android:strokeWidth="1.5"
-      android:fillColor="#00000000"
+      android:fillColor="@color/back_icon_color"
       android:strokeColor="#000000"
       android:strokeLineCap="round"/>
 </vector>

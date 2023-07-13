@@ -1,5 +1,6 @@
 package com.example.cryptoapp.modual.history
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -49,6 +50,8 @@ class OrderFragment : Fragment() {
     lateinit var orderHistories: ArrayList<OrderHistory>
     var noLoading = true
     lateinit var scrollListener: RecyclerViewLoadMoreScroll
+
+    private lateinit var fragmentContext: Context
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,7 +62,7 @@ class OrderFragment : Fragment() {
     }
 
     private fun InIt(view: View) {
-        preferences = MyPreferences(requireContext())
+        preferences = MyPreferences(fragmentContext)
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
         viewLoader = view.findViewById(R.id.viewLoader)
@@ -69,7 +72,7 @@ class OrderFragment : Fragment() {
         layoutManager = LinearLayoutManager(activity)
         rec_order_history.layoutManager = layoutManager
         rec_order_history.itemAnimator = DefaultItemAnimator()
-        //rec_order_history.addItemDecoration(requireContext(),LinearLayoutManager.VERTICAL)
+        //rec_order_history.addItemDecoration(fragmentContext,LinearLayoutManager.VERTICAL)
 
         setupAnim()
 
@@ -78,10 +81,17 @@ class OrderFragment : Fragment() {
 
 
         rec_order_history.adapter = orderHistoryAdapter
-        getOrderHistoryList(pageNumber,pageSize)
+        getOrderHistoryList(pageNumber, pageSize)
         //addScrollListener()
         setRVScrollListener()
     }
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
+
 
     private fun setupAnim() {
         animationView.setAnimation(R.raw.currency)
@@ -89,35 +99,35 @@ class OrderFragment : Fragment() {
         animationView.playAnimation()
     }
 
-    private  fun setRVScrollListener() {
+    private fun setRVScrollListener() {
 
         scrollListener = RecyclerViewLoadMoreScroll(layoutManager)
         scrollListener.setOnLoadMoreListener(object :
             OnLoadMoreListener {
             override fun onLoadMore() {
-                addScrollListener(pageNumber,pageSize)
+                addScrollListener(pageNumber, pageSize)
             }
         })
 
         rec_order_history.addOnScrollListener(scrollListener)
     }
 
-    private fun addScrollListener(number: Int,size:Int) {
+    private fun addScrollListener(number: Int, size: Int) {
 
 //        showLog("test", pageNumber.toString())
-       // orderHistoryAdapter.addLoadingView()
-        pageNumber=number+1
-        pageSize=size+10
+        // orderHistoryAdapter.addLoadingView()
+        pageNumber = number + 1
+        pageSize = size + 10
         showLog("pageNumber", (pageNumber).toString())
         showLog("pageSize", (pageSize).toString())
         val response =
-            ServiceBuilder(requireContext()).buildService(RestApi::class.java)
+            ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
         var payload = GetOrderHistoryListPayload(
             pageNumber,
             pageSize,
-            "d5ec3459-7721-4ca6-92ed-314cc4fb9410"
+            data.userId
         )
-
+//"2b490b8b-aba1-4a36-937b-08fee8821c16"
         response.addOrderHistoryList(payload)
             .enqueue(
                 object : Callback<OrderHistoriesResponse> {
@@ -134,8 +144,8 @@ class OrderFragment : Fragment() {
 //                            orderHistoryAdapter.notifyItemRemoved(orderHistories.size)
                             if (response.body()!!.data.orderHistories.size != 0) {
                                 orderHistories.addAll(response.body()!!.data.orderHistories)
-                        //        orderHistoryAdapter.notifyDataSetChanged()
-                               // noLoading = true
+                                //        orderHistoryAdapter.notifyDataSetChanged()
+                                // noLoading = true
                                 scrollListener.setLoaded()
                                 //Update the recyclerView in the main thread
                                 rec_order_history.post {
@@ -150,7 +160,7 @@ class OrderFragment : Fragment() {
                             // viewLoader.visibility = View.GONE
 
                             Constants.showToast(
-                                requireContext(),
+                                fragmentContext,
                                 "End of data reached.."
                             )
 
@@ -164,7 +174,7 @@ class OrderFragment : Fragment() {
                         // viewLoader.visibility = View.GONE
 
                         Constants.showToast(
-                            requireContext(),
+                            fragmentContext,
                             getString(R.string.data_not_found)
                         )
 
@@ -190,13 +200,13 @@ class OrderFragment : Fragment() {
     }
 
 
-    fun getOrderHistoryList(pageNumber: Int,pageSize:Int) {
+    fun getOrderHistoryList(pageNumber: Int, pageSize: Int) {
 
         showLog("pageNumber", (pageNumber).toString())
         showLog("pageSize", (pageSize).toString())
-//        viewLoader.visibility = View.VISIBLE
+        viewLoader.visibility = View.VISIBLE
 //        isLoading == true
-        val response = ServiceBuilder(requireContext()).buildService(RestApi::class.java)
+        val response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
         var payload = GetOrderHistoryListPayload(
             pageNumber,
             pageSize,
@@ -212,7 +222,7 @@ class OrderFragment : Fragment() {
                     ) {
                         if (response.body()!!.isSuccess == true) {
 
-//                            viewLoader.visibility = View.GONE
+                            viewLoader.visibility = View.GONE
 //                            isLoading == false
 
                             if (response.body()!!.data.orderHistories.size != 0) {
@@ -227,7 +237,7 @@ class OrderFragment : Fragment() {
 
                             // viewLoader.visibility = View.GONE
                             Constants.showToast(
-                                requireContext(),
+                                fragmentContext,
                                 getString(R.string.data_not_found)
                             )
 
@@ -237,7 +247,7 @@ class OrderFragment : Fragment() {
                     override fun onFailure(call: Call<OrderHistoriesResponse>, t: Throwable) {
                         // viewLoader.visibility = View.GONE
                         Constants.showToast(
-                            requireContext(),
+                            fragmentContext,
                             getString(R.string.data_not_found)
                         )
                     }

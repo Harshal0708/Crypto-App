@@ -1,49 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="12dp"
-    android:padding="12dp"
-    android:id="@+id/rl_progressBar"
-    android:background="@drawable/ic_button_bg">
+    app:cardElevation="12dp"
+    app:cardCornerRadius="20dp"
+    android:layout_margin="10dp"
+    app:cardBackgroundColor="@color/black"
+    app:cardMaxElevation="12dp"
+   >
 
     <RelativeLayout
-        android:id="@+id/progressBar_cardView"
+        android:id="@+id/rl_progressBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:padding="12dp"
+        android:layout_height="match_parent"
+       >
 
-        <ProgressBar
-            android:id="@+id/register_progressBar"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:layout_toLeftOf="@+id/resent"
-            android:indeterminateTint="@color/sky_light"
-            android:visibility="visible" />
+        <RelativeLayout
+            android:id="@+id/progressBar_cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/resent"
-            android:layout_centerInParent="true"
-            android:textColor="@color/sky_light"
-            android:layout_marginLeft="4dp"
-            android:text="@string/next"
-            android:fontFamily="@font/helvetica_bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            <ProgressBar
+                android:id="@+id/register_progressBar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_toLeftOf="@+id/resent"
+                android:indeterminateTint="@color/sky_light"
+                android:visibility="visible" />
 
-        <ImageView
-            android:id="@+id/img_ic_right_arrow"
-            android:src="@drawable/ic_right_arrow"
-            app:tint="@color/sky_light"
-            android:layout_toRightOf="@id/resent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="18dp"
-            android:layout_alignParentEnd="true"/>
+            <TextView
+                android:id="@+id/resent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="4dp"
+                android:fontFamily="@font/helvetica_bold"
+                android:text="@string/next"
+                android:textColor="@color/sky_light" />
 
+            <ImageView
+                android:id="@+id/img_ic_right_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="18dp"
+                android:layout_toRightOf="@id/resent"
+                android:src="@drawable/ic_right_arrow"
+                android:visibility="gone"
+                app:tint="@color/sky_light" />
+
+        </RelativeLayout>
     </RelativeLayout>
-
-</RelativeLayout>
+</androidx.cardview.widget.CardView>

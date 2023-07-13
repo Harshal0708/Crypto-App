@@ -5,30 +5,38 @@
     <color name="purple_700">#8cbbf2</color>
     <color name="teal_200">#3ee4a3</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="gray">#EAEAEA</color>
+    <color name="black">#FFFFFF</color>
+    <color name="white">#000000</color>
+    <color name="splash">#000000</color>
+    <color name="country_code">#FFFFFF</color>
+    <color name="gray">#E1EAEAEA</color>
     <color name="dark">#000F1E</color>
-    <color name="edit_text_color">#99000000</color>
+    <color name="edit_text_color">#FFFFFF</color>
     <color name="edit_text_hint_color">#C1C1C1</color>
 
     <color name="background">@color/dark</color>
     <color name="bottom_background">@color/dark</color>
 
     <color name="background_day">@color/white</color>
-    <color name="txt_color">@color/white</color>
-    <color name="icon_color">@color/black</color>
+
+
+    <color name="cb_txt_color">#FFFFFF</color>
+    <color name="icon_color">#FFFFFF</color>
+    <color name="icon_color_1">#000000</color>
+    <color name="back_icon_color">#FFFFFF</color>
+
+
+
     <color name="blue">#1200FF</color>
-    <color name="hello">#FFFFFF</color>
-    <color name="sky_light">#00DEF5</color>
-<!--    <color name="primary_color">#1f7fe8</color>-->
-    <color name="primary_color">#4F73FB</color>
+    <color name="sky_light">#FFCC00</color>
+
+    <!--    <color name="primary_color">#1f7fe8</color>-->
+    <color name="primary_color">#000000</color>
+    <color name="default_color">#000000</color>
     <color name="secondary_color">#8cbbf2</color>
     <color name="light_green">#3ee4a3</color>
     <color name="light_grey">#DA888F97</color>
     <color name="red">#E40C37</color>
-    <color name="bottom_icon_color">@color/primary_color</color>
-    <color name="bottom_icon_color_1">@color/white</color>
 
     <color name="lighgrey">#989797</color>
     <color name="lighgreytab">#F2F0F2</color>
@@ -36,4 +44,22 @@
 
     <color name="underline">#D8D6D6</color>
     <color name="divider">#D28A8282</color>
+
+
+    <color name="bottom_icon_color">#FFCC00</color>
+    <color name="bottom_icon_color_1">#FFFFFF</color>
+
+    <color name="nav_color">#000000</color>
+    <color name="home_color">#272C37</color>
+
+    <color name="home_text">#FFFFFF</color>
+
+    <color name="static_txt">#7A000000</color>
+    <color name="static_txt_1">#FFFFFF</color>
+    <color name="static_txt_2">#A3FFFFFF</color>
+
+    <color name="hello">#272C37</color>
+    <color name="hello_1">#FFFFFF</color>
+
+    <color name="txt_color">#99000000</color>
 </resources>

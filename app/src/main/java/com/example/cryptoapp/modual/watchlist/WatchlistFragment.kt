@@ -1,14 +1,13 @@
 package com.example.cryptoapp.modual.watchlist
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.TextView
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,16 +20,11 @@ import com.example.cryptoapp.Response.TickerResponseItem
 import com.example.cryptoapp.modual.dashbord.PLFragment
 import com.example.cryptoapp.modual.home.adapter.AirQualityData
 import com.example.cryptoapp.modual.home.adapter.CryptoName
-import com.example.cryptoapp.modual.home.adapter.HomeAdapter
 import com.example.cryptoapp.modual.watchlist.adapter.WatchlistAdapter
 import com.google.gson.Gson
 import kotlinx.coroutines.*
 import okhttp3.*
-
 import okio.ByteString
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 
 
@@ -55,6 +49,9 @@ class WatchlistFragment : Fragment() {
     lateinit var webSocket3: WebSocket
     val airQualityDatalist = ArrayList<AirQualityData>()
     var airQualityDatalist1 = ArrayList<AirQualityData>()
+
+    private lateinit var fragmentContext: Context
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,7 +59,7 @@ class WatchlistFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_watchlist, container, false)
 
-        client = OkHttpClient.Builder().readTimeout(0, TimeUnit.MILLISECONDS).build()
+        client = OkHttpClient.Builder().readTimeout(0, TimeUnit.MINUTES).build()
         rv_watchlist = view.findViewById(R.id.rv_watchlist)
         rv_watchlist1 = view.findViewById(R.id.rv_watchlist1)
         rv_watchlist2 = view.findViewById(R.id.rv_watchlist2)
@@ -77,15 +74,15 @@ class WatchlistFragment : Fragment() {
                 webSocket1 = createWebSocket("wss://stream.binance.com:443/ws/!ticker@arr", 1)
             }
 
-//            val ws2 = async {
-//                Constants.showLog("IO", "2")
-//                webSocket2 = createWebSocket("wss://stream.binance.com:443/ws/!ticker@arr", 2)
-//            }
-//
-//            val ws3 = async {
-//                Constants.showLog("IO", "3")
-//                webSocket3 = createWebSocket("wss://stream.binance.com:443/ws/!ticker@arr", 3)
-//            }
+            val ws2 = async {
+                showLog("IO", "2")
+               // webSocket2 = createWebSocket("wss://stream.binance.com:443/ws/!ticker@arr", 2)
+            }
+
+            val ws3 = async {
+                showLog("IO", "3")
+                //webSocket3 = createWebSocket("wss://stream.binance.com:443/ws/!ticker@arr", 3)
+            }
 //
 //            val ws4 = async {
 //                Constants.showLog("IO", "4")
@@ -94,9 +91,10 @@ class WatchlistFragment : Fragment() {
 //
 
             ws1.await()
-//            ws2.await()
-//            ws3.await()
+            ws2.await()
+            ws3.await()
 //            ws4.await()
+
         }
 
         return view
@@ -141,7 +139,6 @@ class WatchlistFragment : Fragment() {
             override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
                 super.onClosing(webSocket, code, reason)
                 showLog("onClosing", reason)
-
             }
 
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
@@ -193,13 +190,19 @@ class WatchlistFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-          webSocket1.close(1000, "Activity destroyed 1")
+        webSocket1.close(1000, "Activity destroyed 1")
 //        webSocket2.close(1000, "Activity destroyed 2")
 //        webSocket3.close(1000, "Activity destroyed 3")
 
         scope.cancel()
         //cancel()
     }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
+
 
     fun setUpBtcPriceText(message: String?, value: Int) {
         // showLog("objectList", message.toString())
@@ -216,19 +219,7 @@ class WatchlistFragment : Fragment() {
                 first.add(CryptoName("LTCBTC"))
                 first.add(CryptoName("EOSBTC"))
 
-                 val objectList = gson.fromJson(message, TickerResponse::class.java)
-
-//                val objectList = ArrayList<AirQualityData>()
-//                objectList.add(AirQualityData("ETHBTC", "1000"))
-//                objectList.add(AirQualityData("MAGICBTC", "2000"))
-//                objectList.add(AirQualityData("ETHBTC", "3000"))
-//                objectList.add(AirQualityData("MAGICBTC", "4000"))
-//                objectList.add(AirQualityData("MAGICBTC", "5000"))
-//                objectList.add(AirQualityData("MAGICBTC", "6000"))
-//                objectList.add(AirQualityData("ETHBTC", "7000"))
-//                objectList.add(AirQualityData("MAGICBTC", "8000"))
-//                objectList.add(AirQualityData("MAGICBTC", "9000"))
-//                objectList.add(AirQualityData("MCUSDT", "10000"))
+                val objectList = gson.fromJson(message, TickerResponse::class.java)
 
                 var isAvailable = false
                 objectList.mapIndexed { index, dto ->
@@ -237,16 +228,17 @@ class WatchlistFragment : Fragment() {
                             if (airQualityDatalist.size != 0) {
 
                                 for ((i, value) in airQualityDatalist.withIndex()) {
-                                    if(dto.s.equals(value.name)){
-                                        airQualityDatalist[i]=AirQualityData(dto.s,dto.c)
+                                    if (dto.s.equals(value.name)) {
+                                        airQualityDatalist[i] = AirQualityData(dto.s, dto.c)
+
                                         isAvailable = true
                                         break
-                                    }else{
+                                    } else {
                                         isAvailable = false
                                     }
                                 }
 
-                                if(isAvailable == false){
+                                if (isAvailable == false) {
                                     airQualityDatalist.add(AirQualityData(dto.s, dto.c))
                                 }
 
@@ -259,7 +251,66 @@ class WatchlistFragment : Fragment() {
                 isAvailable = false
 
                 requireActivity().runOnUiThread {
-                    rv_watchlist.layoutManager = LinearLayoutManager(activity)
+                    rv_watchlist.layoutManager = LinearLayoutManager(fragmentContext)
+//                    watchlistAdapter =
+//                        context?.let { it1 ->
+//                            WatchlistAdapter(
+//                                it1,
+//                                airQualityDatalist
+//                            )
+//                        }!!
+
+                    watchlistAdapter = WatchlistAdapter(fragmentContext,airQualityDatalist)
+                    rv_watchlist.adapter = watchlistAdapter
+
+//                    airQualityDatalist.clear()
+//                    rv_watchlist.adapter!!.notifyDataSetChanged()
+                }
+
+            } else if (value == 2) {
+                val gson = Gson()
+                first.add(CryptoName("BTCUSDT"))
+                first.add(CryptoName("MAGICBTC"))
+                first.add(CryptoName("ETHBTC"))
+//                first.add(CryptoName("MCUSDT"))
+//                first.add(CryptoName("BNBBTC"))
+//                first.add(CryptoName("NEOBTC"))
+//                first.add(CryptoName("LTCBTC"))
+//                first.add(CryptoName("EOSBTC"))
+
+                val objectList = gson.fromJson(message, TickerResponse::class.java)
+
+                var isAvailable = false
+                objectList.mapIndexed { index, dto ->
+                    for (person in first) {
+                        if (dto.s.equals(person.name))
+                            if (airQualityDatalist.size != 0) {
+
+                                for ((i, value) in airQualityDatalist.withIndex()) {
+                                    if (dto.s.equals(value.name)) {
+                                        airQualityDatalist[i] = AirQualityData(dto.s, dto.c)
+
+                                        isAvailable = true
+                                        break
+                                    } else {
+                                        isAvailable = false
+                                    }
+                                }
+
+                                if (isAvailable == false) {
+                                    airQualityDatalist.add(AirQualityData(dto.s, dto.c))
+                                }
+
+                            } else {
+                                airQualityDatalist.add(AirQualityData(dto.s, dto.c))
+                            }
+                    }
+                }
+
+                isAvailable = false
+
+                requireActivity().runOnUiThread {
+                    rv_watchlist1.layoutManager = LinearLayoutManager(activity)
                     watchlistAdapter =
                         context?.let { it1 ->
                             WatchlistAdapter(
@@ -268,62 +319,62 @@ class WatchlistFragment : Fragment() {
                             )
                         }!!
 
-                    rv_watchlist.adapter = watchlistAdapter
+                    rv_watchlist1.adapter = watchlistAdapter
+                }
+            } else if (value == 3) {
+                val gson = Gson()
+                first.add(CryptoName("BTCUSDT"))
+                first.add(CryptoName("MAGICBTC"))
+                first.add(CryptoName("ETHBTC"))
+//                first.add(CryptoName("MCUSDT"))
+//                first.add(CryptoName("BNBBTC"))
+//                first.add(CryptoName("NEOBTC"))
+//                first.add(CryptoName("LTCBTC"))
+//                first.add(CryptoName("EOSBTC"))
 
-//                    airQualityDatalist.clear()
-//                    rv_watchlist.adapter!!.notifyDataSetChanged()
+                val objectList = gson.fromJson(message, TickerResponse::class.java)
+
+                var isAvailable = false
+                objectList.mapIndexed { index, dto ->
+                    for (person in first) {
+                        if (dto.s.equals(person.name))
+                            if (airQualityDatalist.size != 0) {
+
+                                for ((i, value) in airQualityDatalist.withIndex()) {
+                                    if (dto.s.equals(value.name)) {
+                                        airQualityDatalist[i] = AirQualityData(dto.s, dto.c)
+
+                                        isAvailable = true
+                                        break
+                                    } else {
+                                        isAvailable = false
+                                    }
+                                }
+
+                                if (isAvailable == false) {
+                                    airQualityDatalist.add(AirQualityData(dto.s, dto.c))
+                                }
+
+                            } else {
+                                airQualityDatalist.add(AirQualityData(dto.s, dto.c))
+                            }
+                    }
                 }
 
-//            } else if (value == 2) {
-//                val gson = Gson()
-//                first.add("ETHIC")
-//                first.add("MAGICBTC")
-//                first.add("MCUSDT")
-//
-//                val objectList = gson.fromJson(message, TickerResponse::class.java)
-//                val list = ArrayList<AirQualityData>()
-//
-//                objectList.map { dto ->
-//                    for ((index, value) in first.withIndex()) {
-//                        if (dto.s.equals(value)) {
-//                            airQualityData = AirQualityData(dto.s, dto.p)
-//                            list.add(airQualityData)
-//                            Log.d("test", "${index} :- ${value} = ${dto.s}")
-//                        }
-//                    }
-//                }
-//
-//                requireActivity().runOnUiThread {
-//                    rv_watchlist1.layoutManager = LinearLayoutManager(requireContext())
-//                    watchlistAdapter = WatchlistAdapter(requireContext(), list)
-//                    rv_watchlist1.adapter = watchlistAdapter
-//                }
-//
-//            } else if (value == 3) {
-//                val gson = Gson()
-//                first.add("ETHBTC")
-//                first.add("MAGICBTC")
-//                first.add("MCUSDT")
-//
-//                val objectList = gson.fromJson(message, TickerResponse::class.java)
-//                val list = ArrayList<AirQualityData>()
-//
-//                objectList.map { dto ->
-//                    for ((index, value) in first.withIndex()) {
-//                        if (dto.s.equals(value)) {
-//                            airQualityData = AirQualityData(dto.s, dto.p)
-//                            list.add(airQualityData)
-//                            Log.d("test", "${index} :- ${value} = ${dto.s}")
-//                        }
-//                    }
-//                }
+                isAvailable = false
 
-//                requireActivity().runOnUiThread {
-//                    rv_watchlist2.layoutManager = LinearLayoutManager(requireContext())
-//                    watchlistAdapter = WatchlistAdapter(requireContext(), list)
-//                    rv_watchlist2.adapter = watchlistAdapter
-//                }
+                requireActivity().runOnUiThread {
+                    rv_watchlist2.layoutManager = LinearLayoutManager(activity)
+                    watchlistAdapter =
+                        context?.let { it1 ->
+                            WatchlistAdapter(
+                                it1,
+                                airQualityDatalist
+                            )
+                        }!!
 
+                    rv_watchlist2.adapter = watchlistAdapter
+                }
             }
         }
     }
