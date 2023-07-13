@@ -167,6 +167,7 @@ class HomeDetailActivity : AppCompatActivity() {
         txt_sd_monthlyFee_price.text = objectList.Strategy.MonthlyFee.toString()
         txt_strategy_pl.text = objectList.PL.toString()
 
+
     }
 
 
