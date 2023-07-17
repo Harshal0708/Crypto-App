@@ -5,8 +5,7 @@ data class StrategyX(
     val Description: String,
     val Id: String,
     val IsActive: Boolean,
-    val MinCapital: Double,
     val ModifiedDate: String,
-    val MonthlyFee: Double,
-    val StrategyName: String
+    val StrategyName: String,
+    val StrategyNumber: Int
 )

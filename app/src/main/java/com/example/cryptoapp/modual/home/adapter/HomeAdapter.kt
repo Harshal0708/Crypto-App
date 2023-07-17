@@ -77,6 +77,7 @@ class HomeAdapter(
             holder.txt_status_active.text = context.resources.getString(R.string.active)
             holder.txt_status_active.setTextColor(context.resources.getColor(R.color.light_green))
         }
+
 //
 //        holder.img_strategies_menu.setOnClickListener {
 //            showDialog()

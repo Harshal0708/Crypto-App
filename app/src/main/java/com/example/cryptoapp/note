@@ -106,3 +106,8 @@ UI Freezing while doing heavy processing in background Android
   Additionally, you may want to consider reducing the number of WebSocket connections in your app if possible. This can help reduce the load on the device and prevent performance issues. You can also optimize the WebSocket messages to minimize their size and frequency, which can help improve performance as well.
 
   -calculate the percentage change and keep track of the top gainers from binance web socket in kotlin example
+
+
+
+   android:justificationMode="inter_word"
+   android:lineSpacingExtra="5sp"§
