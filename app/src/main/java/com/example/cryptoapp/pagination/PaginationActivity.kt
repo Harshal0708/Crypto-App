@@ -3,26 +3,9 @@ package com.example.cryptoapp.pagination
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.view.View
-import android.widget.TextView
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cryptoapp.Constants
-import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.R
-import com.example.cryptoapp.Response.DataXX
-import com.example.cryptoapp.Response.OrderHistoriesResponse
-import com.example.cryptoapp.Response.OrderHistory
-import com.example.cryptoapp.model.GetOrderHistoryListPayload
-import com.example.cryptoapp.modual.history.adapter.OrderHistoryAdapter
-import com.example.cryptoapp.network.RestApi
-import com.example.cryptoapp.network.ServiceBuilder
-import com.example.cryptoapp.preferences.MyPreferences
-import com.google.gson.Gson
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class PaginationActivity : AppCompatActivity() {
     lateinit var itemsCells: ArrayList<String?>

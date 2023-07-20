@@ -25,10 +25,17 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".pagination.PaginationActivity"
-            android:exported="true" >
+            android:name=".modual.strategy.WelcomeActivity"
+            android:exported="false"
 
-        </activity>
+            android:theme="@style/no_tool_bar" />
+        <activity
+            android:name=".modual.strategy.BuyCoinActivity"
+            android:exported="false"
+            android:theme="@style/no_tool_bar" />
+        <activity
+            android:name=".pagination.PaginationActivity"
+            android:exported="true" />
         <activity
             android:name=".modual.home.ImageSliderDetailActivity"
             android:exported="false"
@@ -63,7 +70,7 @@
         </activity>
         <activity
             android:name=".modual.gpay.GpayActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".modual.card.CardActivity"
             android:exported="true">
@@ -74,7 +81,7 @@
         <activity
             android:name=".modual.payment.PaymentActivity"
             android:exported="true"
-            android:theme="@style/no_tool_bar"></activity>
+            android:theme="@style/no_tool_bar" />
         <activity
             android:name=".modual.subscription.SubscriptionDetailActivity"
             android:exported="false"
@@ -106,10 +113,8 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
+
         </activity>
         <activity
             android:name=".modual.login.ProfileActivity"
@@ -142,8 +147,6 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
-
         </activity>
 
         <receiver
@@ -189,14 +192,16 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/no_tool_bar">
-
-        </activity>
+            android:theme="@style/no_tool_bar" />
         <activity
             android:name=".chart.BarChartActivity"
             android:exported="true">
@@ -239,7 +244,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
     </application>
 
 </manifest>

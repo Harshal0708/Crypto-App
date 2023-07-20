@@ -6,7 +6,6 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.View.OnClickListener
@@ -24,7 +23,6 @@ import com.example.cryptoapp.modual.dashbord.HistoryFragment
 import com.example.cryptoapp.modual.dashbord.HomeFragment
 import com.example.cryptoapp.modual.dashbord.SettingFragment
 import com.example.cryptoapp.modual.login.LoginActivity
-import com.example.cryptoapp.modual.login.ProfileActivity
 import com.example.cryptoapp.modual.login.ResetPasswordActivity
 import com.example.cryptoapp.modual.subscription.SubscriptionActivity
 import com.example.cryptoapp.modual.watchlist.WatchlistFragment

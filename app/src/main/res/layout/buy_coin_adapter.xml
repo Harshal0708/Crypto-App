@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="@color/country_code"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/img_buy_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_bitcoin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txt_range_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:text="500-1000"
+            android:textColor="@color/hello_1"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_buy"
+            app:layout_constraintStart_toEndOf="@+id/img_buy_icon"
+            app:layout_constraintTop_toTopOf="@+id/img_buy_icon" />
+
+
+        <TextView
+            android:id="@+id/txt_coin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:text="15 Coins"
+            android:textColor="@color/hello_1"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/img_buy_icon"
+            app:layout_constraintEnd_toEndOf="@+id/txt_range_price"
+            app:layout_constraintStart_toEndOf="@+id/img_buy_icon"
+            app:layout_constraintTop_toBottomOf="@+id/txt_range_price" />
+
+        <Button
+            android:id="@+id/btn_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@color/sky_light"
+            android:text="Buy Coin"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_coin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txt_range_price" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

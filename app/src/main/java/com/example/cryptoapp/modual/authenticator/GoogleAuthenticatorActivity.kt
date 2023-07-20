@@ -8,12 +8,10 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.Constants.Companion.showToast
@@ -73,8 +71,9 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
         resent = view.findViewById(R.id.resent)
         resent.text = getString(R.string.login)
 
-        data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
-        preferences = MyPreferences(this)
+        if(intent.getStringExtra("data") != ""){
+            data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
+        }
 
         progressBar_cardView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {

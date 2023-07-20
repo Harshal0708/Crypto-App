@@ -1,5 +1,6 @@
 package com.example.cryptoapp.modual.home
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,6 +17,7 @@ import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.StrategyDetailResponse
+import com.example.cryptoapp.modual.strategy.BuyCoinActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import kotlinx.coroutines.*
@@ -222,7 +224,8 @@ class HomeDetailActivity : AppCompatActivity() {
 
         resent.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                showToast(this@HomeDetailActivity,"OK")
+                val intent = Intent(this@HomeDetailActivity, BuyCoinActivity::class.java)
+                startActivity(intent)
             }
         })
 

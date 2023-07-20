@@ -26,11 +26,6 @@ import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.Response.GetCountriesResponseItem
 import com.example.cryptoapp.Response.Userupdatedsuccessfully
 import com.example.cryptoapp.modual.countries.CountriesAdapter
-import com.example.cryptoapp.modual.login.LoginActivity
-import com.example.cryptoapp.modual.login.ProfileActivity
-import com.example.cryptoapp.modual.login.RegisterActivity
-import com.example.cryptoapp.modual.login.ResetPasswordActivity
-import com.example.cryptoapp.modual.subscription.SubscriptionActivity
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.network.onItemClickListener
@@ -47,7 +42,6 @@ import java.util.regex.Pattern
 
 class SettingFragment : Fragment(),  View.OnClickListener ,
     onItemClickListener {
-
 
     lateinit var edFirstname: EditText
     lateinit var edLastname: EditText
@@ -76,6 +70,7 @@ class SettingFragment : Fragment(),  View.OnClickListener ,
     )
 
     lateinit var preferences: MyPreferences
+
     lateinit var userDetail: DataXX
 
     lateinit var viewLoader: View

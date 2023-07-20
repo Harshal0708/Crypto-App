@@ -1,34 +1,22 @@
 package com.example.cryptoapp.modual.login.fragment
 
 import android.content.Context
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.Toast
-import com.airbnb.lottie.LottieAnimationView
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.CmsAdsAddResponse
-import com.example.cryptoapp.Response.DataX
 import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.model.CreateApiKeysPayload
-import com.example.cryptoapp.modual.login.ForgotPasswordActivity
-import com.example.cryptoapp.modual.login.UserActivity
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.preferences.MyPreferences
 import com.google.gson.Gson
-import com.strings.cryptoapp.Response.GenerateQrCodeResponnse
-import com.strings.cryptoapp.model.CreateUserGAKeyPayload
-import java.util.regex.Pattern
 
 class UserFragment : Fragment(), View.OnClickListener {
 

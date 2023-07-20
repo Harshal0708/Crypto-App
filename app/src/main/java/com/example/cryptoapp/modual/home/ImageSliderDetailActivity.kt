@@ -2,17 +2,11 @@ package com.example.cryptoapp.modual.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.CmsAdsAddResponse
 import com.example.cryptoapp.Response.DataXX
-import com.example.cryptoapp.Response.UserSubscriptionsResponse
 import com.example.cryptoapp.model.CmsAdsAddPayload
-import com.example.cryptoapp.model.GetOrderHistoryListPayload
-import com.example.cryptoapp.modual.history.adapter.SubscriptionHistoryAdapter
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.preferences.MyPreferences
