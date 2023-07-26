@@ -185,4 +185,10 @@ interface RestApi {
     @POST(Constants.createApiKeys)
     fun addCreateApiKeys(@Body createApiKeysPayload: CreateApiKeysPayload): Call<CmsAdsAddResponse>
 
+    @GET(Constants.tradeSlotApi)
+    suspend fun getTradeSlotApi(): Response<TradeSlotApiResponse>
+
+    @POST(Constants.getusersubscription)
+    fun addCreateTradeSlot(@Body createTradeSlotPayload: CreateTradeSlotPayload): Call<CmsAdsAddResponse>
+
 }

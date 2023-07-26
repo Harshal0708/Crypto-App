@@ -62,4 +62,6 @@
     <color name="hello_1">#FFFFFF</color>
 
     <color name="txt_color">#99000000</color>
+
+    <color name="coin_color">#FFCC00</color>
 </resources>

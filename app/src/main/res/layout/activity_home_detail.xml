@@ -74,6 +74,7 @@
             android:id="@+id/txt_sd_strategyName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/helvetica_bold"
             android:textAlignment="viewStart"
             android:textColor="@color/hello_1"
@@ -83,16 +84,31 @@
             app:layout_constraintStart_toStartOf="@+id/guideline25"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
+
+        <TextView
+            android:id="@+id/txt_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/static_txt_2"
+            android:textSize="18sp"
+            android:fontFamily="@font/helvetica"
+            android:text="Strategy Description :"
+            app:layout_constraintEnd_toStartOf="@+id/guideline27"
+            app:layout_constraintStart_toStartOf="@+id/guideline25"
+            app:layout_constraintTop_toBottomOf="@+id/txt_sd_strategyName" />
+
         <TextView
             android:id="@+id/txt_sd_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:textColor="@color/static_txt_2"
-            android:textSize="18sp"
+            android:textSize="14sp"
+            android:fontFamily="@font/helvetica"
             app:layout_constraintEnd_toStartOf="@+id/guideline27"
             app:layout_constraintStart_toStartOf="@+id/guideline25"
-            app:layout_constraintTop_toBottomOf="@+id/txt_sd_strategyName" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_description" />
 
         <TextView
             android:id="@+id/txt_sd_create_date"
@@ -100,7 +116,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:textColor="@color/static_txt_2"
-            android:textSize="18sp"
+            android:textSize="14sp"
+            android:fontFamily="@font/helvetica"
             app:layout_constraintEnd_toStartOf="@+id/guideline27"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/guideline25"
@@ -133,10 +150,9 @@
         <include
             android:id="@+id/btn_progressBar"
             layout="@layout/progressbar_button"
-            android:layout_width="0dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="128dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="200dp"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline28"
             app:layout_constraintEnd_toStartOf="@+id/guideline27"

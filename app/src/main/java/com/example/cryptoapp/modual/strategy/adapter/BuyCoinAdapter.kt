@@ -1,5 +1,6 @@
 package com.example.cryptoapp.modual.strategy.adapter
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -15,13 +16,19 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cryptoapp.Constants
 import com.example.cryptoapp.R
+import com.example.cryptoapp.Response.DataXXXX
 import com.example.cryptoapp.modual.strategy.BuyCoinActivity
+import com.example.cryptoapp.modual.strategy.CoinSelectionActivity
 import com.example.cryptoapp.modual.strategy.WelcomeActivity
+import com.example.cryptoapp.network.onItemClickListener
 
-class BuyCoinAdapter (
+class BuyCoinAdapter(
     var context: Context,
-    var buyCoinsList: List<BuyCoins>
+    var buyCoinsList: List<DataXXXX>,
+    val onItemClickListener: onItemClickListener,
+    var activity: Activity,
 ) :
     RecyclerView.Adapter<BuyCoinAdapter.ViewHolder>() {
 
@@ -31,7 +38,7 @@ class BuyCoinAdapter (
 
         var txt_range_price: TextView = itemView.findViewById(R.id.txt_range_price)
         var txt_coin: TextView = itemView.findViewById(R.id.txt_coin)
-        var btn_buy: Button = itemView.findViewById(R.id.btn_buy)
+        var btn_buy: TextView = itemView.findViewById(R.id.btn_buy)
 
     }
 
@@ -43,16 +50,15 @@ class BuyCoinAdapter (
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.txt_range_price.text = buyCoinsList.get(position).coin_start + " - " + buyCoinsList.get(position).coin_end
-        holder.txt_coin.text = buyCoinsList.get(position).coin
+        holder.txt_range_price.text =
+            "$" + buyCoinsList.get(position).startValue.toString() + " - " + "$" + buyCoinsList.get(
+                position
+            ).endValue.toString()
+        holder.txt_coin.text = buyCoinsList.get(position).coinCount.toString() + " Coin"
 
-
-        holder.btn_buy.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(p0: View?) {
-                val intent = Intent(context, WelcomeActivity::class.java)
-                context.startActivity(intent)
-            }
-        })
+        holder.btn_buy.setOnClickListener {
+            onItemClickListener.onItemClick(position)
+        }
 
 
     }

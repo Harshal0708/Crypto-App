@@ -66,6 +66,10 @@ class Constants {
         const val getDocumentsByCountry = "AccountsApi/getDocumentsByCountry"
         const val createApiKeys = "AccountsApi/createApiKeys"
 
+
+        const val tradeSlotApi = "TradeSlotApi"
+        const val createTradeSlot = "TradeSlotApi/CreateTradeSlot"
+
         const val cryptocurrencylist = "data-api/v3/cryptocurrency/listing?start=1&limit=10"
 
         const val CONNECT_TIMEOUT: Long = 60 * 1000 // 1 minutes

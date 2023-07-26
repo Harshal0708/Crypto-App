@@ -10,6 +10,7 @@ import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants
@@ -65,10 +66,6 @@ class HomeDetailActivity : AppCompatActivity() {
         txt_sd_strategyName = findViewById(R.id.txt_sd_strategyName)
         txt_sd_description = findViewById(R.id.txt_sd_description)
         txt_sd_create_date = findViewById(R.id.txt_sd_create_date)
-//        txt_sd_minCapital = findViewById(R.id.txt_sd_minCapital)
-//        txt_sd_monthlyFee = findViewById(R.id.txt_sd_monthlyFee)
-//        txt_sd_minCapital_price = findViewById(R.id.txt_sd_minCapital_price)
-//        txt_sd_monthlyFee_price = findViewById(R.id.txt_sd_monthlyFee_price)
         txt_strategy_pl = findViewById(R.id.txt_strategy_pl)
         txt_status_active = findViewById(R.id.txt_status_active)
 
@@ -113,22 +110,16 @@ class HomeDetailActivity : AppCompatActivity() {
             client = OkHttpClient.Builder().readTimeout(0, TimeUnit.MILLISECONDS).build()
 
             job1 = CoroutineScope(Dispatchers.Main).launch {
-                webSocket1 = createWebSocket("ws://103.14.99.42/getStrategyDetail", 1)
+                //    webSocket1 = createWebSocket("ws://103.14.99.42/getStrategyDetail", 1)
                 // ws://103.14.99.42/getStrategyPL
             }
 
             CoroutineScope(Dispatchers.IO).launch {
                 job1.join() // Wait for job1 to complete before sending message to ws2
             }
-
-
             //}
         }
 
-//        txt_sd_strategyName.text = "Strategy 1"
-//        txt_sd_description.text = "Strategy Description : \n\n${getString(R.string.dummy_text)}"
-//        txt_sd_minCapital_price.text = "10.00"
-//        txt_sd_monthlyFee_price.text = "10.00"
 
     }
 
@@ -141,7 +132,7 @@ class HomeDetailActivity : AppCompatActivity() {
                 if (value == 1) {
                     //    webSocket.send(intent.getStringExtra("strategyId").toString())
                     // webSocket.send("54a0df6d-de7f-4c60-a868-1ec38b06f7ec")
-                    webSocket.send("8799e47e-ceb3-46e6-8589-08db72efa6fe")
+                    webSocket.send("74608bee-f55f-43df-9fb2-08db8c0477d5")
 
                 }
 
@@ -177,7 +168,7 @@ class HomeDetailActivity : AppCompatActivity() {
         val objectList = gson.fromJson(text, StrategyDetailResponse::class.java)
         showLog("setGetStrategyByUser", objectList.toString())
         txt_sd_strategyName.text = objectList.Strategy.StrategyName
-        txt_sd_description.text = Constants.getDate(objectList.Strategy.CreatedDate)
+        txt_sd_description.text = objectList.Strategy.Description
         txt_sd_create_date.text = Constants.getDate(objectList.Strategy.CreatedDate)
 ////        txt_sd_description.text = getString(R.string.dummy_text)
 //        txt_sd_minCapital_price.text = objectList.Strategy.MinCapital.toString()
@@ -204,7 +195,7 @@ class HomeDetailActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
 //
-        webSocket1.close(1000, "Activity destroyed")
+        //  webSocket1.close(1000, "Activity destroyed")
         job1.cancel() // Cancel the coroutine job when the activity is destroyed
         scope.cancel()
         //cancel()
@@ -216,16 +207,65 @@ class HomeDetailActivity : AppCompatActivity() {
         val viewBottom = layoutInflater.inflate(R.layout.robot_bottom_sheet, null)
         dialog.setCancelable(true)
 
-        var view :View = viewBottom.findViewById(R.id.btn_progressBar)
+        var auto = false
+        var manual = false
+
+        var view: View = viewBottom.findViewById(R.id.btn_progressBar)
         var register_progressBar: ProgressBar = view.findViewById(R.id.register_progressBar)
-        var resent: TextView  = view.findViewById(R.id.resent)
+
+        var con_auto_coin: ConstraintLayout = viewBottom.findViewById(R.id.con_auto_coin)
+        var con_manual_coin: ConstraintLayout = viewBottom.findViewById(R.id.con_manual_coin)
+
+
+        var resent: TextView = view.findViewById(R.id.resent)
         register_progressBar.visibility = View.GONE
         resent.text = getString(R.string.next)
 
+        con_auto_coin.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+
+                auto = true
+                manual = false
+                con_auto_coin.setBackground(resources.getDrawable(R.drawable.coin_select_background))
+                con_manual_coin.setBackground(resources.getDrawable(R.drawable.coin_background))
+
+            }
+        })
+
+        con_manual_coin.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+                auto = false
+                manual = true
+                con_manual_coin.setBackground(resources.getDrawable(R.drawable.coin_select_background))
+                con_auto_coin.setBackground(resources.getDrawable(R.drawable.coin_background))
+
+            }
+        })
+
+
         resent.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                val intent = Intent(this@HomeDetailActivity, BuyCoinActivity::class.java)
-                startActivity(intent)
+                var coin = -1
+                if (auto == true) {
+                    coin =0
+                } else if (manual == true) {
+                    coin = 1
+                } else {
+                    coin =-1
+                }
+
+
+                if(coin.equals("")){
+                    showToast(this@HomeDetailActivity,"Please select option")
+                }else{
+                    val intent = Intent(this@HomeDetailActivity, BuyCoinActivity::class.java)
+                    intent.putExtra("tradingType", coin)
+                    intent.putExtra("strategyId", "74608bee-f55f-43df-9fb2-08db8c0477d5")
+                    intent.putExtra("userId", "d1e231f4-0c70-45e8-8bf1-79e45a7edd2a")
+                    startActivity(intent)
+                    dialog.dismiss()
+                }
+
             }
         })
 

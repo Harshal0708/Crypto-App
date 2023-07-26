@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardBackgroundColor="@color/country_code"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="8dp">
+    app:cardCornerRadius="4dp"
+    app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:fontFamily="@font/helvetica_bold"
+            android:fontFamily="@font/helvetica"
             android:text="500-1000"
             android:textColor="@color/hello_1"
             android:textSize="18sp"
@@ -43,24 +43,29 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:fontFamily="@font/helvetica_bold"
+            android:fontFamily="@font/helvetica"
             android:text="15 Coins"
-            android:textColor="@color/hello_1"
+            android:textColor="@color/static_txt_2"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/img_buy_icon"
             app:layout_constraintEnd_toEndOf="@+id/txt_range_price"
             app:layout_constraintStart_toEndOf="@+id/img_buy_icon"
             app:layout_constraintTop_toBottomOf="@+id/txt_range_price" />
 
-        <Button
+        <TextView
             android:id="@+id/btn_buy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:background="@color/sky_light"
+            android:background="@drawable/background_button"
+            android:backgroundTint="@color/coin_color"
             android:text="Buy Coin"
             android:textSize="14sp"
-            android:textColor="@color/black"
+            android:paddingRight="14dp"
+            android:paddingLeft="14dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="@color/bottom_background"
             app:layout_constraintBottom_toBottomOf="@+id/txt_coin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/txt_range_price" />

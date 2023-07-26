@@ -428,7 +428,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener , onItemClickL
                 countriesAdapter = CountriesAdapter(
                     this@ProfileActivity,
                     getCountriesResponseItem,
-                    RegisterActivity(),
+                    ProfileActivity(),
                     this@ProfileActivity
                 )
                 rv_countryName.adapter = countriesAdapter

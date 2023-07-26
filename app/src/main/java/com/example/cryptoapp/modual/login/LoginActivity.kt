@@ -2,7 +2,6 @@ package com.example.cryptoapp.modual.login
 
 import android.app.Dialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -15,6 +14,7 @@ import android.view.View.*
 import android.view.Window
 import android.view.WindowManager
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +26,7 @@ import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.Response.GetCountriesResponseItem
 import com.example.cryptoapp.Response.LoginResponse
 import com.example.cryptoapp.model.LoginPayload
+import com.example.cryptoapp.modual.authenticator.GoogleAuthenticatorActivity
 import com.example.cryptoapp.modual.countries.CountriesAdapter
 import com.example.cryptoapp.modual.strategy.WelcomeActivity
 import com.example.cryptoapp.network.RestApi
@@ -36,6 +37,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.Serializable
 import java.util.regex.Pattern
 
 class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onItemClickListener {
@@ -218,9 +220,9 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 
             R.id.progressBar_cardView -> {
                 password = pwd_password.text.toString()
-               // if (btLogin() == true) {
+                if (btLogin() == true) {
                     addLogin(login_emailNumber.text.toString())
-               // }
+                }
             }
 
             R.id.txt_sign_in_here -> {
@@ -307,13 +309,15 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
             str_mobile = email
         }
 
+        val payload = LoginPayload(
+            str_email, password, str_mobile, false, countryId
+        )
+//
+//
 //        val payload = LoginPayload(
-//            str_email, password, str_mobile, false, countryId
+//            "apurva.skyttus@gmail.com", "Test@123", "9714675391", false,"973e68ae-1963-430d-2d8f-08db88dc0d87"
 //        )
 
-        val payload = LoginPayload(
-            "apurva.skyttus@gmail.com", "Test@123", "9714675391", false,"973e68ae-1963-430d-2d8f-08db88dc0d87"
-        )
 
         response.addLogin(payload).enqueue(object : retrofit2.Callback<LoginResponse> {
             override fun onResponse(
@@ -321,15 +325,18 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
             ) {
 
 
-//                showToast(this@LoginActivity, response.body()?.message.toString())
-//                register_progressBar.visibility = GONE
-//
-//                if (response.body()?.isSuccess == true) {
-//                    var intent = Intent(this@LoginActivity, WelcomeActivity::class.java)
-//                    intent.putExtra("data", Gson().toJson(response.body()?.data))
-//                    intent.putExtra("isChecked", cb_remember_me.isChecked)
-//                    startActivity(intent)
-//                }
+                showToast(this@LoginActivity, response.body()?.message.toString())
+                register_progressBar.visibility = GONE
+
+//                val dataXX = ArrayList<DataXX>()
+//                dataXX.add(response.body()!!.data)
+                if (response.body()?.isSuccess == true) {
+                    var intent = Intent(this@LoginActivity, GoogleAuthenticatorActivity::class.java)
+                    //intent.putExtra("data", response.body()!!.data);
+                    intent.putExtra("data", Gson().toJson(response.body()!!.data))
+                    intent.putExtra("isChecked", cb_remember_me.isChecked)
+                    startActivity(intent)
+                }
 
 //
 //                val imageBytes = Base64.decode(response.body()!!.data.profilePicture, 0)
@@ -384,10 +391,12 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 //                val jsonData = gson.toJson(myData)
 
 
-                var intent = Intent(this@LoginActivity, WelcomeActivity::class.java)
-                intent.putExtra("data", Gson().toJson(response.body()!!.data.userId))
-                intent.putExtra("isChecked", cb_remember_me.isChecked)
-                startActivity(intent)
+//                var intent = Intent(this@LoginActivity, WelcomeActivity::class.java)
+//                intent.putExtra("data", Gson().toJson(response.body()!!.data.profilePicture))
+//                intent.putExtra("isChecked", cb_remember_me.isChecked)
+//                startActivity(intent)
+//
+
             }
 
             override fun onFailure(call: retrofit2.Call<LoginResponse>, t: Throwable) {

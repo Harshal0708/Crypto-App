@@ -48,6 +48,10 @@
         <item name="android:minHeight">0dp</item>
         <item name="android:maxLines">1</item>
     </style>
-
+    <style name="ThemeOverlay.App.Slider" parent="">
+        <item name="colorPrimary">@color/sky_light</item>
+        <item name="colorOnPrimary">@color/sky_light</item>
+        <item name="colorOnSurface">@color/sky_light</item>
+    </style>
 
 </resources>

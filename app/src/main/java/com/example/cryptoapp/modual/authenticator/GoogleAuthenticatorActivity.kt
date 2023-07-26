@@ -57,6 +57,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_google_authenticator)
+        preferences = MyPreferences(this)
 
         qrIV = findViewById(R.id.idIVQrcode)
         idTVKey = findViewById(R.id.idTVKey)
@@ -71,9 +72,11 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
         resent = view.findViewById(R.id.resent)
         resent.text = getString(R.string.login)
 
-        if(intent.getStringExtra("data") != ""){
-            data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
-        }
+//        if(intent.getStringExtra("data") != ""){
+//            data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
+//        }
+
+        data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
 
         progressBar_cardView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {

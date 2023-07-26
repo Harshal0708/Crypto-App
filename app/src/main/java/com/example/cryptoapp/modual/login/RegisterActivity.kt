@@ -389,8 +389,8 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
                 rePassword = sp_et_rePassword.text.toString()
 
                 if (validation() == true) {
-                    sendRegistrationOtp()
-                        //  encodeImageString
+                    //sendRegistrationOtp()
+                    showLog("encodeImageString",encodeImageString)
                 }
 
             }
@@ -405,7 +405,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
             R.id.cb_term_accept -> {
                 //Toast.makeText(this,"cb_term_accept",Toast.LENGTH_SHORT).show()
             }
-            R.id.reg_profile_img -> {
+            R.id.reg_profile_img -> {6
                 openBottomSheet()
             }
 

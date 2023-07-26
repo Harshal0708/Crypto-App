@@ -4,7 +4,8 @@ import android.content.Context
 import com.example.cryptoapp.Response.DataXX
 import com.google.gson.Gson
 
-class MyPreferences(context: Context) {
+class
+MyPreferences(context: Context) {
     val PREFERENCES_NAME = "SharedPreferencesCrypto"
     val LOGIN_USER_DETAIL = "LoginUserDetail"
     val REMEMBER_ME = "RememberMe"

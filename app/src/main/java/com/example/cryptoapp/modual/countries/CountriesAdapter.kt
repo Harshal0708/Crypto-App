@@ -41,29 +41,16 @@ class CountriesAdapter(
         holder.txt_country_name.text = getCountriesResponseItem.get(position).countryName
         holder.txt_country_prefix.text = getCountriesResponseItem.get(position).countryPrefix
 
-        val number = position // Replace with your actual number
+        val number = position
 
         val backgroundColor: Int
         backgroundColor = if (number % 2 == 0) {
-            // Number is even, so set background color to blue
             context.getResources().getColor(R.color.country_code)
         } else {
-            // Number is odd, so set background color to green
             context.getResources().getColor(R.color.gray)
         }
        holder.con_country.setBackgroundColor(backgroundColor)
 
-//        holder.con_country.setOnClickListener {
-//            val intent = Intent(context, activity::class.java)
-//            intent.putExtra(
-//                "countryCode",
-//                getCountriesResponseItem.get(position).countryCode.toString()
-//            )
-//            intent.putExtra("countryId", getCountriesResponseItem.get(position).id)
-//            context.startActivity(intent)
-//            (context as Activity).finish()
-//
-//        }
 
         holder.itemView.setOnClickListener {
             onItemClickListener.onItemClick(position)
