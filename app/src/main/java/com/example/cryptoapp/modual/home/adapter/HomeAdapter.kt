@@ -32,10 +32,10 @@ class HomeAdapter(
 
         var txt_strategies_name: TextView = itemView.findViewById(R.id.txt_strategies_name)
         var txt_strategies_desc: TextView = itemView.findViewById(R.id.txt_strategies_desc)
-        var txt_strategies_monthly_fee_price: TextView =
-            itemView.findViewById(R.id.txt_strategies_monthly_fee_price)
-        var txt_strategies_monthly_capital_price: TextView =
-            itemView.findViewById(R.id.txt_strategies_monthly_capital_price)
+//        var txt_strategies_monthly_fee_price: TextView =
+//            itemView.findViewById(R.id.txt_strategies_monthly_fee_price)
+//        var txt_strategies_monthly_capital_price: TextView =
+//            itemView.findViewById(R.id.txt_strategies_monthly_capital_price)
 
         //        var txt_strategies_by: TextView = itemView.findViewById(R.id.txt_strategies_by)
         var txt_strategies_time: TextView = itemView.findViewById(R.id.txt_strategies_time)
@@ -57,10 +57,7 @@ class HomeAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.txt_strategies_name.text = strategyResList.get(position).Strategy.StrategyName
         holder.txt_pl.text = "Strategy PL : ${strategyResList.get(position).PL}"
-        holder.txt_strategies_monthly_capital_price.text =
-            strategyResList.get(position).Strategy.MinCapital.toString()
-        holder.txt_strategies_monthly_fee_price.text =
-            strategyResList.get(position).Strategy.MonthlyFee.toString()
+
         holder.txt_strategies_desc.text = strategyResList.get(position).Strategy.Description
 
         holder.txt_strategies_time.text =
@@ -98,7 +95,7 @@ class HomeAdapter(
 //        }
 
 
-        holder.txt_red_more.setOnClickListener(object : View.OnClickListener {
+        holder.itemView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 val intent = Intent(context, HomeDetailActivity::class.java)
                 intent.putExtra("strategyId", strategyResList.get(position).Strategy.Id)

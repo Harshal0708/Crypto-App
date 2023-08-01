@@ -20,6 +20,7 @@ import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.*
 import com.example.cryptoapp.modual.home.HomeDetailActivity
 import com.example.cryptoapp.modual.home.adapter.*
+import com.example.cryptoapp.modual.watchlist.adapter.WatchlistAdapter
 import com.example.cryptoapp.network.*
 import com.example.cryptoapp.preferences.MyPreferences
 import com.google.gson.Gson
@@ -61,11 +62,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private val executorService: ExecutorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE)
     lateinit var webSocket1: WebSocket
     lateinit var webSocket2: WebSocket
-
-    lateinit var strategyResList: ArrayList<StrategyPLVM>
-    lateinit var topCoin: ArrayList<TopCoins>
     lateinit var imageList: ArrayList<NewsData>
     private lateinit var fragmentContext: Context
+    lateinit var first: ArrayList<CryptoName>
+    val airQualityDatalist = ArrayList<AirQualityData>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -80,6 +81,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
+        first = ArrayList()
         strategies_rv = view.findViewById(R.id.strategies_rv)
         rv_top_coin = view.findViewById(R.id.rv_top_coin)
 
@@ -93,32 +95,13 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
         txt_strategies_desc = view.findViewById(R.id.txt_strategies_desc)
 
-        strategyResList = ArrayList()
-        topCoin = ArrayList()
 
-        topCoin.add(TopCoins("", "Bitcoin", "BTC", "1000"))
-        topCoin.add(TopCoins("", "Ethereum", "BTC", "2000"))
-        topCoin.add(TopCoins("", "Therum", "BTC", "3000"))
-
-//        strategyResList.add(StrategyWSResponseItem(10.00,Strategy("1/3/2023",getString(R.string.dummy_text),"",false,10.00,"1/4/2023",10.00,"Strategy 1")))
-//        strategyResList.add(StrategyWSResponseItem(20.00,Strategy("7/3/2023",getString(R.string.dummy_text),"",true,20.00,"7/4/2023",20.00,"Strategy 2")))
-//        strategyResList.add(StrategyWSResponseItem(30.00,Strategy("17/3/2023",getString(R.string.dummy_text),"",true,30.00,"17/4/2023",30.00,"Strategy 3")))
+//        imageList = ArrayList()
+//        imageList.add(NewsData(R.drawable.ic_home, "It is a long established fact that a reader"))
+//        imageList.add(NewsData(R.drawable.ic_home, "It is a long established fact that a reader"))
 //
-//        strategies_rv.layoutManager = LinearLayoutManager(activity)
-//        homeAdapter = HomeAdapter(fragmentContext, strategyResList, false)
-//        strategies_rv.adapter = homeAdapter
-
-        rv_top_coin.layoutManager =
-            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        topCoinAdapter = TopCoinAdapter(fragmentContext, topCoin)
-        rv_top_coin.adapter = topCoinAdapter
-
-        imageList = ArrayList()
-        imageList.add(NewsData(R.drawable.ic_home, "It is a long established fact that a reader"))
-        imageList.add(NewsData(R.drawable.ic_home, "It is a long established fact that a reader"))
-
-        sliderNewsViewPagerAdapter = SliderNewsViewPagerAdapter(fragmentContext, imageList)
-        view_pager_news.adapter = sliderNewsViewPagerAdapter
+//        sliderNewsViewPagerAdapter = SliderNewsViewPagerAdapter(fragmentContext, imageList)
+//        view_pager_news.adapter = sliderNewsViewPagerAdapter
 
         setupAnim()
 
@@ -129,50 +112,26 @@ class HomeFragment : Fragment(), View.OnClickListener {
             client = OkHttpClient.Builder().readTimeout(0, TimeUnit.MINUTES).build()
 
             job1 = CoroutineScope(Dispatchers.Main).launch {
-//                val ws1 = async {
-                showLog("IO", "1")
-                   getCMSList()
-                //}
+                //getCMSList()
             }
 
             job2 = CoroutineScope(Dispatchers.IO).launch {
-                //val ws2 = async {
-                showLog("webSocket1", "2")
-                //initGetStrategyByUser()
                 webSocket1 = createWebSocket("ws://103.14.99.42/getStrategyPL", 1)
-                //}
             }
 
             job3 = CoroutineScope(Dispatchers.IO).launch {
-                //val ws3 = async {
-                showLog("webSocket2", "3")
-                //  callFragment()
-               // webSocket2 = createWebSocket("ws://103.14.99.42/getPL", 2)
-                //  webSocket2 = createWebSocket("wss://stream.binance.com:9443/ws/btcusdt@lastTradePrice", 2)
-                // }
+                webSocket2 = createWebSocket("wss://fstream.binance.com:443/ws/!ticker@arr", 2)
             }
 
-//                ws1.await()
-//                ws2.await()
-//                ws3.await()
+
 
             CoroutineScope(Dispatchers.IO).launch {
                 job1.join() // Wait for job1 to complete before sending message to ws2
                 job2.join() // Wait for job2 to complete before sending message to ws1
                 job3.join() // Wait for job2 to complete before sending message to ws1
-//                webSocket1.send(data.userId)
-//                webSocket2.send(data.userId)
+
             }
 
-            txt_strategies_desc.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(p0: View?) {
-                    val intent = Intent(context, HomeDetailActivity::class.java)
-                    //intent.putExtra("strategyId", strategyResList.get(position).Strategy.Id)
-                    startActivity(intent)
-                }
-
-            })
-            //}
         }
     }
 
@@ -183,23 +142,16 @@ class HomeFragment : Fragment(), View.OnClickListener {
             override fun onOpen(webSocket: WebSocket, response: Response) {
                 if (value == 1) {
                     webSocket.send(data.userId)
-                } else if (value == 2) {
-                    webSocket.send(data.userId)
                 }
-
             }
 
             override fun onMessage(webSocket: WebSocket, text: String) {
-
                 if (value == 1) {
                     viewLoader.visibility = View.GONE
                     setGetStrategyByUser(text)
+                } else if (value == 2) {
+                    setUpBtcPriceText(text, value)
                 }
-//                } else if (value == 2) {
-//                    viewLoader.visibility = View.GONE
-//                    setUpBtcPriceText(text)
-//                }
-
             }
 
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
@@ -221,7 +173,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
 //
         webSocket1.close(1000, "Activity destroyed")
-//        webSocket2.close(1000, "Activity destroyed")
+        webSocket2.close(1000, "Activity destroyed")
         job1.cancel() // Cancel the coroutine job when the activity is destroyed
         job2.cancel()
         job3.cancel()
@@ -229,105 +181,25 @@ class HomeFragment : Fragment(), View.OnClickListener {
         //cancel()
     }
 
-    suspend fun callFragment() {
-        // Thread(Runnable {
-        // performing some dummy time taking operation
-
-//        val mainLooper = Looper.getMainLooper()
-//        Handler(mainLooper).post {
-//        requireActivity().runOnUiThread {
-//            val fragmentManager = requireActivity().supportFragmentManager
-//            val fragmentTransaction = fragmentManager.beginTransaction()
-//            fragmentTransaction.replace(R.id.view_pager, PLFragment()).commit()
-//        }
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            withContext(Dispatchers.Main) {
-                val fragmentManager = requireActivity().supportFragmentManager
-                val fragmentTransaction = fragmentManager.beginTransaction()
-                fragmentTransaction.replace(R.id.view_pager, PLFragment()).commit()
-            }
-        }
-
-        //}
-        //}).start()
-    }
-
-    suspend fun initGetStrategyByUser() {
-
-        webSocketListener = object : WebSocketListener() {
-            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosed(webSocket, code, reason)
-            }
-
-            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosing(webSocket, code, reason)
-                showLog("test${"reason"}", reason)
-            }
-
-            override fun onFailure(
-                webSocket: WebSocket,
-                t: Throwable,
-                response:Response?
-            ) {
-                super.onFailure(webSocket, t, response)
-                showLog("test", t.message.toString())
-                showLog("test${"messageByUser"}", t.message.toString())
-            }
-
-            override fun onMessage(webSocket: WebSocket, text: String) {
-                super.onMessage(webSocket, text)
-                setGetStrategyByUser(text)
-            }
-
-            override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
-                super.onMessage(webSocket, bytes)
-                showLog("test${"onMessage2"}", bytes.hex())
-            }
-
-            override fun onOpen(webSocket: WebSocket, response: okhttp3.Response) {
-                super.onOpen(webSocket, response)
-                webSocket.send(data.userId)
-                showLog("data.userId", data.userId)
-            }
-
-        }
-
-        //val request: Request = Request.Builder().url("wss://stream.binance.com:443/ws/!ticker@arr").build()
-        val request: Request = Request.Builder()
-            .url("ws://103.14.99.42/getStrategyPL").build()
-
-        val ws = client!!.newWebSocket(request, webSocketListener)
-        client!!.dispatcher.executorService.shutdown()
-
-    }
-
     fun setGetStrategyByUser(message: String?) {
         message?.let {
-            // Thread(Runnable {
             requireActivity().runOnUiThread {
 
                 val gson = Gson()
                 val objectList = gson.fromJson(message, StrategyWSResponse::class.java)
 
-                if(!objectList.TotalPL.toString().isEmpty()){
+                if (!objectList.TotalPL.toString().isEmpty()) {
                     setUpBtcPriceText(objectList.TotalPL!!.toString())
                 }
 
-                showLog("test", objectList.toString())
+                //  showLog("test", Gson().toJson(objectList))
 
                 viewLoader.visibility = View.GONE
                 strategies_rv.layoutManager = LinearLayoutManager(activity)
-                homeAdapter= HomeAdapter(fragmentContext,objectList.StrategyPLVMs,false)!!
-//                  homeAdapter =
-//                    context?.let { it1 -> HomeAdapter(it1, objectList.StrategyPLVMs, false) }!!
-
+                homeAdapter = HomeAdapter(fragmentContext, objectList.StrategyPLVMs, false)!!
                 strategies_rv.adapter = homeAdapter
 
-              ///  homeAdapter =
-//                    context?.let { it1 -> HomeAdapter(it1, objectList, data.haveAnySubscription) }!!
             }
-            // }).start()
         }
     }
 
@@ -345,7 +217,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 //
 //            runOnUiThread { output.text = "${objectList?.get(0)?.s} : ${objectList?.get(0)?.p} " }
 
-             txt_pl_price.text = "${message} "
+            txt_pl_price.text = "${message} "
 
         }
     }
@@ -372,19 +244,63 @@ class HomeFragment : Fragment(), View.OnClickListener {
         animationView.playAnimation()
     }
 
-    private fun getStrategy() {
+    fun setUpBtcPriceText(message: String?, value: Int) {
+        message?.let {
 
-//        viewLoader.visibility = View.VISIBLE
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            var response = ServiceBuilder(requireContext()).buildService(RestApi::class.java).getStrategy()
-//            withContext(Dispatchers.Main) {
-//                viewLoader.visibility = View.GONE
-//                strategies_rv.layoutManager = LinearLayoutManager(requireContext())
-//                homeAdapter = HomeAdapter(requireContext(), response.body()!!)
-//                strategies_rv.adapter = homeAdapter
-//            }
-//        }
+            if (value == 2) {
+                val gson = Gson()
+                first.add(CryptoName("ETHUSDT"))
+                first.add(CryptoName("BTCUSDT"))
+                first.add(CryptoName("XRPUSDT"))
+//                first.add(CryptoName("MCUSDT"))
+//                first.add(CryptoName("BNBBTC"))
+//                first.add(CryptoName("NEOBTC"))
+//                first.add(CryptoName("LTCBTC"))
+//                first.add(CryptoName("EOSBTC"))
 
+                val objectList = gson.fromJson(message, TickerResponse::class.java)
+                showLog("objectList", objectList.toString())
+
+                var isAvailable = false
+                objectList.mapIndexed { index, dto ->
+                    for (person in first) {
+                        if (dto.s.equals(person.name))
+                            if (airQualityDatalist.size != 0) {
+
+                                for ((i, value) in airQualityDatalist.withIndex()) {
+                                    if (dto.s.equals(value.name)) {
+                                        airQualityDatalist[i] = AirQualityData(dto.s, dto.c)
+
+                                        isAvailable = true
+                                        break
+                                    } else {
+                                        isAvailable = false
+                                    }
+                                }
+
+                                if (isAvailable == false) {
+                                    airQualityDatalist.add(AirQualityData(dto.s, dto.c))
+                                }
+
+                            } else {
+                                airQualityDatalist.add(AirQualityData(dto.s, dto.c))
+                            }
+                    }
+                }
+
+                isAvailable = false
+
+                requireActivity().runOnUiThread {
+
+                    rv_top_coin.layoutManager =
+                        LinearLayoutManager(fragmentContext, LinearLayoutManager.HORIZONTAL, false)
+                    topCoinAdapter = TopCoinAdapter(fragmentContext, airQualityDatalist)
+                    rv_top_coin.adapter = topCoinAdapter
+
+                }
+
+            }
+        }
     }
 
     override fun onClick(p0: View?) {

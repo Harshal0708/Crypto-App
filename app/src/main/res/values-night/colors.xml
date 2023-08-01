@@ -6,9 +6,14 @@
     <color name="teal_200">#3ee4a3</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FFFFFF</color>
+
+    <color name="button_color">#FFCC00</color>
+    <color name="button_txt_color">#000000</color>
+
     <color name="white">#000000</color>
     <color name="splash">#000000</color>
-    <color name="country_code">#FFFFFF</color>
+    <color name="country_code">#353535</color>
+<!--    <color name="country_code">#FFFFFF</color>-->
     <color name="gray">#E1EAEAEA</color>
     <color name="dark">#000F1E</color>
     <color name="edit_text_color">#FFFFFF</color>
@@ -16,6 +21,7 @@
 
     <color name="background">@color/dark</color>
     <color name="bottom_background">@color/dark</color>
+>
 
     <color name="background_day">@color/white</color>
 
@@ -54,14 +60,23 @@
 
     <color name="home_text">#FFFFFF</color>
 
-    <color name="static_txt">#7A000000</color>
+    <color name="static_txt">#FFFFFF</color>
     <color name="static_txt_1">#FFFFFF</color>
     <color name="static_txt_2">#A3FFFFFF</color>
 
-    <color name="hello">#272C37</color>
+    <color name="hello">#FFFFFF</color>
     <color name="hello_1">#FFFFFF</color>
 
     <color name="txt_color">#99000000</color>
 
     <color name="coin_color">#FFCC00</color>
+    <color name="read_more_green">#2EBD85</color>
+
+    <color name="white_color">#FFFFFF</color>
+
+    <color name="black_color">#000000</color>
 </resources>
+
+
+    <!--    <color name="hello">#272C37</color>-->
+<!--<color name="static_txt">#7A000000</color>-->

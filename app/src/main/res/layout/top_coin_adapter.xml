@@ -43,7 +43,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:fontFamily="@font/helvetica_bold"
+            android:fontFamily="@font/helvetica"
             android:textAlignment="viewStart"
             android:textColor="@color/hello"
             android:textSize="12sp"
@@ -61,35 +61,35 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_ic_user" />
 
-        <TextView
-            android:id="@+id/txt_coin_price"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:fontFamily="@font/helvetica_bold"
-            android:text="1000"
-            android:textAlignment="viewStart"
-            android:textColor="@color/hello"
-            android:textSize="12sp"
-            android:typeface="normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+<!--        <TextView-->
+<!--            android:id="@+id/txt_coin_price"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:fontFamily="@font/helvetica_bold"-->
+<!--            android:text="1000"-->
+<!--            android:textAlignment="viewStart"-->
+<!--            android:textColor="@color/hello"-->
+<!--            android:textSize="12sp"-->
+<!--            android:typeface="normal"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/imageView5" />-->
 
-        <TextView
-            android:id="@+id/txt_coin_price_1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:fontFamily="@font/helvetica_bold"
-            android:text="+ 3.80%"
-            android:textAlignment="viewStart"
-            android:textColor="@color/hello"
-            android:textSize="12sp"
-            android:typeface="normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_coin_price" />
+<!--        <TextView-->
+<!--            android:id="@+id/txt_coin_price_1"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="8dp"-->
+<!--            android:fontFamily="@font/helvetica_bold"-->
+<!--            android:text="+ 3.80%"-->
+<!--            android:textAlignment="viewStart"-->
+<!--            android:textColor="@color/hello"-->
+<!--            android:textSize="12sp"-->
+<!--            android:typeface="normal"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/txt_coin_price" />-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

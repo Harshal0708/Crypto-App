@@ -22,7 +22,7 @@ class CoinSelectionActivity : AppCompatActivity() {
     lateinit var btn_progressBar:TextView
 
     var coin_selection: String = ""
-    var slider_price: String = ""
+    var slider_price: Int = -1
     var tradingType: Int = -1
     var strategyId: String = ""
     var userId: String = ""
@@ -35,25 +35,25 @@ class CoinSelectionActivity : AppCompatActivity() {
         btn_progressBar = findViewById(R.id.btn_progressBar)
 
         coin_selection =  intent.extras?.getString("coin_selection").toString()
-        slider_price =  intent.extras?.getString("slider_price").toString()
+        slider_price =  intent.extras!!.getInt("slider_price",-1)
         tradingType = intent.getIntExtra("tradingType",-1)
         strategyId = intent.getStringExtra("strategyId").toString()
         userId = intent.getStringExtra("userId").toString()
 
         Constants.showLog("coin",coin_selection)
-        Constants.showLog("slider_price",slider_price)
+        Constants.showLog("slider_price",slider_price.toString())
         Constants.showLog("tradingType",tradingType.toString())
         Constants.showLog("strategyId",strategyId)
         Constants.showLog("userId",userId)
 
         list.add(CoinDataset("BTCUSDT"))
-        list.add(CoinDataset("MAGICBTC"))
-        list.add(CoinDataset("ETHBTC"))
+        list.add(CoinDataset("MAGICUSDT"))
+        list.add(CoinDataset("ETHUSDT"))
         list.add(CoinDataset("MCUSDT"))
-        list.add(CoinDataset("BNBBTC"))
-        list.add(CoinDataset("NEOBTC"))
-        list.add(CoinDataset("LTCBTC"))
-        list.add(CoinDataset("EOSBTC"))
+        list.add(CoinDataset("BNBUSDT"))
+        list.add(CoinDataset("NEOUSDT"))
+        list.add(CoinDataset("LTCUSDT"))
+        list.add(CoinDataset("EOSUSDT"))
 
         adapter = CoinSelectionAdapter(this@CoinSelectionActivity,list)
         rv_selection_coin.layoutManager = LinearLayoutManager(this)

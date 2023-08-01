@@ -110,7 +110,7 @@ class HomeDetailActivity : AppCompatActivity() {
             client = OkHttpClient.Builder().readTimeout(0, TimeUnit.MILLISECONDS).build()
 
             job1 = CoroutineScope(Dispatchers.Main).launch {
-                //    webSocket1 = createWebSocket("ws://103.14.99.42/getStrategyDetail", 1)
+                    webSocket1 = createWebSocket("ws://103.14.99.42/getStrategyDetail", 1)
                 // ws://103.14.99.42/getStrategyPL
             }
 
@@ -210,16 +210,11 @@ class HomeDetailActivity : AppCompatActivity() {
         var auto = false
         var manual = false
 
-        var view: View = viewBottom.findViewById(R.id.btn_progressBar)
-        var register_progressBar: ProgressBar = view.findViewById(R.id.register_progressBar)
+        var btn_progressBar: TextView = viewBottom.findViewById(R.id.btn_progressBar)
 
         var con_auto_coin: ConstraintLayout = viewBottom.findViewById(R.id.con_auto_coin)
         var con_manual_coin: ConstraintLayout = viewBottom.findViewById(R.id.con_manual_coin)
 
-
-        var resent: TextView = view.findViewById(R.id.resent)
-        register_progressBar.visibility = View.GONE
-        resent.text = getString(R.string.next)
 
         con_auto_coin.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
@@ -243,7 +238,7 @@ class HomeDetailActivity : AppCompatActivity() {
         })
 
 
-        resent.setOnClickListener(object : View.OnClickListener {
+        btn_progressBar.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 var coin = -1
                 if (auto == true) {
@@ -260,8 +255,8 @@ class HomeDetailActivity : AppCompatActivity() {
                 }else{
                     val intent = Intent(this@HomeDetailActivity, BuyCoinActivity::class.java)
                     intent.putExtra("tradingType", coin)
-                    intent.putExtra("strategyId", "74608bee-f55f-43df-9fb2-08db8c0477d5")
-                    intent.putExtra("userId", "d1e231f4-0c70-45e8-8bf1-79e45a7edd2a")
+                    intent.putExtra("strategyId", "a93a6ff3-d5da-46e9-9ce7-08db8e9ab9d5")
+                    intent.putExtra("userId", "050eec64-a803-4def-b0ec-6d82060c40fd")
                     startActivity(intent)
                     dialog.dismiss()
                 }

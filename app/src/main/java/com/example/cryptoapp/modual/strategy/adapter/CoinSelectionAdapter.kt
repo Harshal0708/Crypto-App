@@ -43,7 +43,7 @@ class CoinSelectionAdapter(val context: Context, var list: ArrayList<CoinDataset
             }
         }
     }
-    fun customMethod(coin_selection:String,slider_price:String,tradingType:Int,strategyId:String,userId:String) :Boolean {
+    fun customMethod(coin_selection:String,slider_price:Int,tradingType:Int,strategyId:String,userId:String) :Boolean {
         if(coinSelectList.size != 0){
             val intent = Intent(context, WelcomeActivity::class.java)
             intent.putExtra("data",coinSelectList)

@@ -6,6 +6,10 @@
     <color name="teal_200">#3ee4a3</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#000000</color>
+
+    <color name="button_color">#000000</color>
+    <color name="button_txt_color">#FFCC00</color>
+
     <color name="white">#FFFFFFFF</color>
     <color name="splash">#FFFFFF</color>
     <color name="country_code">#FFFFFF</color>
@@ -62,4 +66,8 @@
     <color name="hello_1">#272C37</color>
     <color name="txt_color">#99000000</color>
     <color name="coin_color">#000000</color>
+
+    <color name="read_more_green">#2EBD85</color>
+    <color name="white_color">#FFFFFF</color>
+    <color name="black_color">#000000</color>
 </resources>

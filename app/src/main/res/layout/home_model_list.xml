@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
-            android:fontFamily="@font/helvetica_bold"
+            android:fontFamily="@font/helvetica"
             android:maxLines="1"
             android:text="@string/hello_there"
             android:textAlignment="viewStart"
@@ -59,7 +59,7 @@
             android:drawablePadding="4dp"
             android:fontFamily="@font/helvetica_bold"
             android:text="@string/read_more"
-            android:textColor="@color/hello"
+            android:textColor="@color/read_more_green"
             android:textSize="12sp"
             android:typeface="normal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -76,65 +76,12 @@
             app:layout_constraintTop_toBottomOf="@+id/txt_strategies_desc" />
 
 
-        <TextView
-            android:id="@+id/txt_strategies_monthly_fee"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/helvetica_bold"
-            android:gravity="center"
-            android:text="Monthly Fee"
-            android:textColor="@color/static_txt"
-            android:textSize="12sp"
-            android:typeface="normal"
-            app:layout_constraintEnd_toStartOf="@+id/txt_strategies_monthly_capital"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_strategies_desc" />
-
-        <TextView
-            android:id="@+id/txt_strategies_monthly_capital"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/helvetica_bold"
-            android:gravity="center"
-            android:text="Min Capital"
-            android:textColor="@color/static_txt"
-            android:textSize="12sp"
-            android:typeface="normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/txt_strategies_monthly_fee"
-            app:layout_constraintTop_toTopOf="@+id/txt_strategies_monthly_fee" />
 
 
-        <TextView
-            android:id="@+id/txt_strategies_monthly_fee_price"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/helvetica_bold"
-            android:gravity="center"
-            android:text="$10"
-            android:textColor="@color/hello"
-            android:textSize="10sp"
-            android:typeface="normal"
-            app:layout_constraintEnd_toEndOf="@+id/txt_strategies_monthly_fee"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_strategies_monthly_fee" />
 
-        <TextView
-            android:id="@+id/txt_strategies_monthly_capital_price"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/helvetica_bold"
-            android:gravity="center"
-            android:text="$10"
-            android:textColor="@color/hello"
-            android:textSize="10sp"
-            android:typeface="normal"
-            app:layout_constraintEnd_toEndOf="@+id/txt_strategies_monthly_capital"
-            app:layout_constraintStart_toEndOf="@+id/txt_strategies_monthly_fee"
-            app:layout_constraintTop_toBottomOf="@+id/txt_strategies_monthly_capital" />
+
+
+
 
         <TextView
             android:id="@+id/txt_status_active"
@@ -145,7 +92,7 @@
             android:textColor="@color/light_green"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_strategies_monthly_capital_price" />
+            app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <TextView
             android:id="@+id/txt_status"

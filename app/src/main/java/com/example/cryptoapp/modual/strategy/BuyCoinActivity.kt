@@ -33,7 +33,7 @@ class BuyCoinActivity : AppCompatActivity(), onItemClickListener {
     var tradingType: Int = -1
     var strategyId: String = ""
     var userId: String = ""
-    var slider_price: String = ""
+    var slider_price: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,13 +46,16 @@ class BuyCoinActivity : AppCompatActivity(), onItemClickListener {
         rv_buy_coin = findViewById(R.id.rv_buy_coin)
         continuousSlider = findViewById(R.id.continuousSlider)
 
-        tradingType = intent.getIntExtra("tradingType",-1)
-        strategyId = intent.getStringExtra("strategyId").toString()
-        userId = intent.getStringExtra("userId").toString()
+        if(intent.extras != null){
+            tradingType = intent.getIntExtra("tradingType",-1)
+            strategyId = intent.getStringExtra("strategyId").toString()
+            userId = intent.getStringExtra("userId").toString()
 
-        showLog("tradingType", tradingType.toString())
-        showLog("strategyId", strategyId)
-        showLog("userId", userId)
+            showLog("tradingType", tradingType.toString())
+            showLog("strategyId", strategyId)
+            showLog("userId", userId)
+
+        }
 
         continuousSlider.setLabelFormatter { value: Float ->
             val format = NumberFormat.getInstance()
@@ -80,7 +83,7 @@ class BuyCoinActivity : AppCompatActivity(), onItemClickListener {
             @SuppressLint("RestrictedApi")
             override fun onValueChange(slider: Slider, value: Float, fromUser: Boolean) {
                 //Log.d("test", slider.value.toString())
-                slider_price = slider.value.toString()
+                slider_price = slider.value.toInt()
             }
         })
         getTradeSlotApi()
@@ -110,7 +113,7 @@ class BuyCoinActivity : AppCompatActivity(), onItemClickListener {
 
     override fun onItemClick(pos: Int) {
 
-        if(slider_price.equals("")){
+        if(slider_price == -1){
             showToast(this@BuyCoinActivity,"Please select price")
         }else{
             val intent = Intent(this@BuyCoinActivity, CoinSelectionActivity::class.java)

@@ -6,7 +6,7 @@
     app:cardElevation="12dp"
     app:cardCornerRadius="20dp"
     android:layout_margin="10dp"
-    app:cardBackgroundColor="@color/black"
+    app:cardBackgroundColor="@color/button_color"
     app:cardMaxElevation="12dp"
    >
 
@@ -29,7 +29,7 @@
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:layout_toLeftOf="@+id/resent"
-                android:indeterminateTint="@color/sky_light"
+                android:indeterminateTint="@color/button_txt_color"
                 android:visibility="visible" />
 
             <TextView
@@ -40,7 +40,7 @@
                 android:layout_marginLeft="4dp"
                 android:fontFamily="@font/helvetica_bold"
                 android:text="@string/next"
-                android:textColor="@color/sky_light" />
+                android:textColor="@color/button_txt_color" />
 
             <ImageView
                 android:id="@+id/img_ic_right_arrow"
@@ -52,7 +52,7 @@
                 android:layout_toRightOf="@id/resent"
                 android:src="@drawable/ic_right_arrow"
                 android:visibility="gone"
-                app:tint="@color/sky_light" />
+                app:tint="@color/button_txt_color" />
 
         </RelativeLayout>
     </RelativeLayout>

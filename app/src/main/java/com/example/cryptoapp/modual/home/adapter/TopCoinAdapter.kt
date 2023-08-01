@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
 
-class TopCoinAdapter (var context: Context, var topCoins: ArrayList<TopCoins>) :
+class TopCoinAdapter (var context: Context, var tickerResponseItem: ArrayList<AirQualityData>) :
     RecyclerView.Adapter<TopCoinAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) :
@@ -26,17 +26,14 @@ class TopCoinAdapter (var context: Context, var topCoins: ArrayList<TopCoins>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        holder.txt_coin_name.text = "Apurva"
-//        holder.txt_coin_sub_name.text = "patel"
-//
-        holder.txt_coin_name.text = topCoins.get(position).coin_name
-        holder.txt_coin_sub_name.text = topCoins.get(position).coin_sub_name
+        holder.txt_coin_name.text = tickerResponseItem.get(position).name
+        holder.txt_coin_sub_name.text = tickerResponseItem.get(position).price
 
 
     }
 
     override fun getItemCount(): Int {
-        return topCoins.size
+        return tickerResponseItem.size
     }
 
 }

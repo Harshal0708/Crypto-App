@@ -188,7 +188,7 @@ interface RestApi {
     @GET(Constants.tradeSlotApi)
     suspend fun getTradeSlotApi(): Response<TradeSlotApiResponse>
 
-    @POST(Constants.getusersubscription)
-    fun addCreateTradeSlot(@Body createTradeSlotPayload: CreateTradeSlotPayload): Call<CmsAdsAddResponse>
+    @POST(Constants.createTradeSlot)
+    fun addCreateTradeSlot(@Body createTradeSlotPayload: CreateTradeSlotPayload): Call<CreateTradeSlotResponse>
 
 }
