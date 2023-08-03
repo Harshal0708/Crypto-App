@@ -192,7 +192,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                     setUpBtcPriceText(objectList.TotalPL!!.toString())
                 }
 
-                //  showLog("test", Gson().toJson(objectList))
+//                 showLog("test", Gson().toJson(objectList))
 
                 viewLoader.visibility = View.GONE
                 strategies_rv.layoutManager = LinearLayoutManager(activity)

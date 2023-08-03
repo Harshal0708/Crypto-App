@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.R
@@ -19,6 +20,7 @@ import com.example.cryptoapp.modual.login.ForgotPasswordActivity
 import com.example.cryptoapp.modual.strategy.adapter.CoinData
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
+import com.example.cryptoapp.pagination.Utility.showErrorToast
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import java.text.SimpleDateFormat
@@ -143,6 +145,7 @@ class WelcomeActivity : AppCompatActivity(), View.OnClickListener {
 
             R.id.progressBar_cardView -> {
                 //addCreateApiKeys()
+               Toast.makeText(this@WelcomeActivity,"Welcome",Toast.LENGTH_SHORT).show()
             }
 
 

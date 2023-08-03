@@ -132,7 +132,7 @@ class HomeDetailActivity : AppCompatActivity() {
                 if (value == 1) {
                     //    webSocket.send(intent.getStringExtra("strategyId").toString())
                     // webSocket.send("54a0df6d-de7f-4c60-a868-1ec38b06f7ec")
-                    webSocket.send("74608bee-f55f-43df-9fb2-08db8c0477d5")
+                    webSocket.send("4b2992f5-9282-4483-9ce8-08db8e9ab9d5")
 
                 }
 
@@ -255,7 +255,7 @@ class HomeDetailActivity : AppCompatActivity() {
                 }else{
                     val intent = Intent(this@HomeDetailActivity, BuyCoinActivity::class.java)
                     intent.putExtra("tradingType", coin)
-                    intent.putExtra("strategyId", "a93a6ff3-d5da-46e9-9ce7-08db8e9ab9d5")
+                    intent.putExtra("strategyId", "4b2992f5-9282-4483-9ce8-08db8e9ab9d5")
                     intent.putExtra("userId", "050eec64-a803-4def-b0ec-6d82060c40fd")
                     startActivity(intent)
                     dialog.dismiss()

@@ -182,6 +182,13 @@ interface RestApi {
     @GET(Constants.getDocumentsByCountry)
     suspend fun getDocumentsByCountry(@Query("countryId") countryId: String): Response<DocumentResponse>
 
+    @GET(Constants.getStrategy1OrderHistoryDetail)
+    suspend fun getStrategy1OrderHistoryDetail(@Query("UserId") UserId: String): Response<OrderHistoryDetailResponse>
+
+    @GET(Constants.getStrategy2OrderHistoryDetail)
+    suspend fun getStrategy2OrderHistoryDetail(@Query("UserId") UserId: String): Response<OrderHistoryDetailResponse>
+
+
     @POST(Constants.createApiKeys)
     fun addCreateApiKeys(@Body createApiKeysPayload: CreateApiKeysPayload): Call<CmsAdsAddResponse>
 

@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.OrderHistory
-import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -62,7 +60,7 @@ class OrderHistoryAdapter(var context: Context, val orderHistories: ArrayList<Or
 
         var txt_order_history_name: TextView = itemView.findViewById(R.id.txt_order_history_name)
         var txt_order_history_quantity: TextView =
-            itemView.findViewById(R.id.txt_order_history_quantity)
+            itemView.findViewById(R.id.txt_order_hq)
         var txt_order_history_price: TextView = itemView.findViewById(R.id.txt_order_history_price)
         var txt_order_history_status: TextView =
             itemView.findViewById(R.id.txt_order_history_status)

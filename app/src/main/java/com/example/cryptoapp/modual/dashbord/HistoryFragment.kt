@@ -33,7 +33,7 @@ class HistoryFragment : Fragment() {
 
         //adapter.addFragment(TradeFragment(), "Trade")
         adapter.addFragment(PositionFragment(), "Position")
-        adapter.addFragment(OrderFragment(), "Order")
+        adapter.addFragment(OrderStrategyFragment(), "History")
         adapter.addFragment(SubscriptionFragment(), "Subscription")
         history_view_pager.adapter = adapter
         history_tab_layout.setupWithViewPager(history_view_pager)

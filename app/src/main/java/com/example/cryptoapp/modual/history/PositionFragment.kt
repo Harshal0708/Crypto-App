@@ -102,7 +102,7 @@ class PositionFragment : Fragment() {
             }
 
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                Constants.showLog("WebSocket connection to $url failed", t.message.toString())
+                //Constants.showLog("WebSocket connection to $url failed", t.message.toString())
             }
 
         }
@@ -112,13 +112,14 @@ class PositionFragment : Fragment() {
 
     private fun setLiveOrderPL(text: String) {
 
-        Constants.showLog("setLiveOrderPL", text)
+        //Constants.showLog("setLiveOrderPL", text)
         val gson = Gson()
         val objectList = gson.fromJson(text, LiveOrderResponse::class.java)
 //
 ////        liveOrderResponse= objectList
 ////        Constants.showLog("setLiveOrderPL", Gson().toJson(objectList))
 //
+
         requireActivity().runOnUiThread {
             rv_position.layoutManager = LinearLayoutManager(activity)
             positionAdapter = PositionAdapter(fragmentContext, objectList)!!

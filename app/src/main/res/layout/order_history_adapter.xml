@@ -16,7 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp">
-        android:padding="8dp">
         <TextView
             android:id="@+id/txt_order_history_name"
             android:layout_width="0dp"
@@ -64,7 +63,7 @@
             app:layout_constraintTop_toTopOf="@+id/txt_order_history_trading_type" />
 
         <TextView
-            android:id="@+id/txt_order_history_quantity"
+            android:id="@+id/txt_order_hq"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -87,11 +86,11 @@
             android:text="two"
             android:textColor="@color/hello"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/txt_order_history_quantity"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_order_hq"
             app:layout_constraintEnd_toStartOf="@+id/txt_order_history_price"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/txt_order_history_quantity"
-            app:layout_constraintTop_toTopOf="@+id/txt_order_history_quantity" />
+            app:layout_constraintStart_toEndOf="@+id/txt_order_hq"
+            app:layout_constraintTop_toTopOf="@+id/txt_order_hq" />
 
 
         <TextView

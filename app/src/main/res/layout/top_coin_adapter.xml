@@ -45,7 +45,7 @@
             android:layout_marginStart="8dp"
             android:fontFamily="@font/helvetica"
             android:textAlignment="viewStart"
-            android:textColor="@color/hello"
+            android:textColor="@color/static_txt"
             android:textSize="12sp"
             android:typeface="normal"
             app:layout_constraintEnd_toEndOf="parent"

@@ -13,11 +13,13 @@ class PositionAdapter(
     var context: Context,
     val liveOrderResponseItem: ArrayList<LiveOrderResponseItem>
 ) : RecyclerView.Adapter<PositionAdapter.ViewHolder>() {
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var txt_position_coin: TextView = itemView.findViewById(R.id.txt_position_coin)
-        var txt_position_pl: TextView = itemView.findViewById(R.id.txt_position_pl)
+        var txt_position_pl_price: TextView = itemView.findViewById(R.id.txt_position_pl_price)
         var txt_position_num: TextView = itemView.findViewById(R.id.txt_position_num)
+        var txt_position_buy_price: TextView = itemView.findViewById(R.id.txt_position_buy_price)
 
     }
 
@@ -32,9 +34,9 @@ class PositionAdapter(
 //        Constants.showLog("test", liveOrderResponseItem.get(0).toString())
 
         holder.txt_position_coin.text =liveOrderResponseItem.get(position).Strategy.StrategyName
-        holder.txt_position_pl.text =liveOrderResponseItem.get(position).PL.toString()
+        holder.txt_position_pl_price.text =liveOrderResponseItem.get(position).PL.toString()
         holder.txt_position_num.text =liveOrderResponseItem.get(position).Strategy.Description
-
+        holder.txt_position_buy_price.text =liveOrderResponseItem.get(position).BuyPrice.toString()
     }
 
 

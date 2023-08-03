@@ -50,6 +50,8 @@ public class DocSpinnerAdapter extends ArrayAdapter<DocumentResponseItem> {
         // current item is not null.
         if (currentItem != null) {
             txt_doc_name.setText(currentItem.getDocumentName());
+        }else {
+            txt_doc_name.setText("No Data Found");
         }
         return convertView;
     }

@@ -64,6 +64,10 @@ class Constants {
         const val getCountries = "CountryApi/getCountries"
         const val getDocuments = "AccountsApi/getDocuments"
         const val getDocumentsByCountry = "AccountsApi/getDocumentsByCountry"
+
+        const val getStrategy1OrderHistoryDetail = "HistoryApi/getStrategy1OrderHistoryDetail"
+        const val getStrategy2OrderHistoryDetail = "HistoryApi/getStrategy2OrderHistoryDetail"
+
         const val createApiKeys = "AccountsApi/createApiKeys"
 
 
