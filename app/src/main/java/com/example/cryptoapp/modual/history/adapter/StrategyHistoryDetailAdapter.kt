@@ -2,7 +2,6 @@ package com.example.cryptoapp.modual.history.adapter
 
 import android.content.Context
 import android.os.Build
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +10,10 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.R
-import com.example.cryptoapp.Response.OrderHistory
-import com.example.cryptoapp.Response.OrderHistoryDetailResponseItem
+import com.example.cryptoapp.Response.OrderHistoryDetailResponseItemX
 
-class StrategyHistoryDetailAdapter(var context: Context, val orderHistoryDetailResponseItem: ArrayList<OrderHistoryDetailResponseItem>) :
+class StrategyHistoryDetailAdapter(var context: Context, val orderHistoryDetailResponseItem:  List<OrderHistoryDetailResponseItemX>
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -74,27 +73,34 @@ class StrategyHistoryDetailAdapter(var context: Context, val orderHistoryDetailR
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         if (holder is ViewHolder) {
-            holder.txt_order_history_name.text = orderHistoryDetailResponseItem.get(position)?.symbol.toString()
-            holder.txt_order_hq_price.text = orderHistoryDetailResponseItem.get(position)?.quantity.toString()
-            holder.txt_order_bp_price.text = orderHistoryDetailResponseItem.get(position)?.buyPrice.toString()
-            holder.txt_order_sp_price.text = orderHistoryDetailResponseItem.get(position)?.sellPrice.toString()
-            holder.txt_strategy_number.text = orderHistoryDetailResponseItem.get(position)?.strategyNumber.toString()
-            holder.txt_strategy_pl.text =orderHistoryDetailResponseItem.get(position)?.pl.toString()
+            holder.txt_order_history_name.text = orderHistoryDetailResponseItem.get(position).symbol
+            holder.txt_order_hq_price.text = orderHistoryDetailResponseItem.get(position).quantity.toString()
+            holder.txt_order_bp_price.text = orderHistoryDetailResponseItem.get(position).buyPrice.toString()
+            holder.txt_order_sp_price.text = orderHistoryDetailResponseItem.get(position).sellPrice.toString()
+            holder.txt_strategy_number.text = orderHistoryDetailResponseItem.get(position).strategy.strategyNumber.toString()
+            holder.txt_strategy_pl.text =orderHistoryDetailResponseItem.get(position).pl.toString()
+            holder.txt_strategy_pl.setTextColor(context.getColor(R.color.red))
 
-            holder.txt_order_et_time.text = Constants.getDate(orderHistoryDetailResponseItem.get(position)?.tradeEntryTime.toString())
-            if(orderHistoryDetailResponseItem.get(position)?.tradingType == 0){
+            holder.txt_order_et_time.text = Constants.getDate(orderHistoryDetailResponseItem.get(position).tradeEntryTime)
+            if(orderHistoryDetailResponseItem.get(position).tradingType == 0){
                 holder.txt_order_tt_price.text = "AUTO"
             }else{
                 holder.txt_order_tt_price.text = "Manual"
             }
 
-            holder.txt_order_end_time_price.text = Constants.getDate(orderHistoryDetailResponseItem.get(position)?.tradeExitTime.toString())
+            holder.txt_order_end_time_price.text = Constants.getDate(orderHistoryDetailResponseItem.get(position).tradeExitTime)
 
-            if(orderHistoryDetailResponseItem.get(position)?.orderMode == 0){
-                holder.txt_order_mode_price.text = "Selling"
-            }else{
-                holder.txt_order_mode_price.text = "Buying"
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (orderHistoryDetailResponseItem.get(position).orderMode == 0) {
+                    holder.txt_order_mode_price.text = "Buying"
+                    holder.txt_order_mode_price.setTextColor(context.getColor(R.color.light_green))
+                } else if (orderHistoryDetailResponseItem.get(position).orderMode == 1) {
+                    holder.txt_order_mode_price.text = "Selling"
+                    holder.txt_order_mode_price.setTextColor(context.getColor(R.color.red))
+                }
             }
+
         }
 
     }

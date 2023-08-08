@@ -1,3 +1,6 @@
 package com.example.cryptoapp.Response
 
-class LiveOrderResponse : ArrayList<LiveOrderResponseItem>()
+data class LiveOrderResponse(
+    val TotalPL: Double,
+    val liveOrderResponseModels: List<LiveOrderResponseModel>
+)

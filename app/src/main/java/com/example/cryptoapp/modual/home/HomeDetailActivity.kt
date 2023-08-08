@@ -63,6 +63,7 @@ class HomeDetailActivity : AppCompatActivity() {
     }
 
     private fun InIt() {
+
         txt_sd_strategyName = findViewById(R.id.txt_sd_strategyName)
         txt_sd_description = findViewById(R.id.txt_sd_description)
         txt_sd_create_date = findViewById(R.id.txt_sd_create_date)
@@ -90,9 +91,8 @@ class HomeDetailActivity : AppCompatActivity() {
 
         toolbar_img_back.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-//                onBackPressed()
-//                finish()
-                openBottomSheet()
+                onBackPressed()
+                finish()
             }
         })
 
@@ -102,7 +102,6 @@ class HomeDetailActivity : AppCompatActivity() {
             }
         })
 
-
         executorService.submit {
             // handle WebSocket connection here
             //    scope.launch {
@@ -110,7 +109,7 @@ class HomeDetailActivity : AppCompatActivity() {
             client = OkHttpClient.Builder().readTimeout(0, TimeUnit.MILLISECONDS).build()
 
             job1 = CoroutineScope(Dispatchers.Main).launch {
-                    webSocket1 = createWebSocket("ws://103.14.99.42/getStrategyDetail", 1)
+                webSocket1 = createWebSocket("ws://103.14.99.42/getStrategyDetail", 1)
                 // ws://103.14.99.42/getStrategyPL
             }
 
@@ -119,7 +118,6 @@ class HomeDetailActivity : AppCompatActivity() {
             }
             //}
         }
-
 
     }
 
@@ -133,7 +131,6 @@ class HomeDetailActivity : AppCompatActivity() {
                     //    webSocket.send(intent.getStringExtra("strategyId").toString())
                     // webSocket.send("54a0df6d-de7f-4c60-a868-1ec38b06f7ec")
                     webSocket.send("4b2992f5-9282-4483-9ce8-08db8e9ab9d5")
-
                 }
 
             }
@@ -170,9 +167,11 @@ class HomeDetailActivity : AppCompatActivity() {
         txt_sd_strategyName.text = objectList.Strategy.StrategyName
         txt_sd_description.text = objectList.Strategy.Description
         txt_sd_create_date.text = Constants.getDate(objectList.Strategy.CreatedDate)
+
 ////        txt_sd_description.text = getString(R.string.dummy_text)
 //        txt_sd_minCapital_price.text = objectList.Strategy.MinCapital.toString()
 //        txt_sd_monthlyFee_price.text = objectList.Strategy.MonthlyFee.toString()
+
         txt_strategy_pl.text = objectList.PL.toString()
         if (objectList.Strategy.IsActive != true) {
             txt_status_active.text = resources.getString(R.string.not_active)
@@ -181,8 +180,6 @@ class HomeDetailActivity : AppCompatActivity() {
             txt_status_active.text = resources.getString(R.string.active)
             txt_status_active.setTextColor(resources.getColor(R.color.light_green))
         }
-
-
     }
 
 
@@ -195,7 +192,7 @@ class HomeDetailActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
 //
-        //  webSocket1.close(1000, "Activity destroyed")
+        webSocket1.close(1000, "Activity destroyed")
         job1.cancel() // Cancel the coroutine job when the activity is destroyed
         scope.cancel()
         //cancel()
@@ -242,17 +239,16 @@ class HomeDetailActivity : AppCompatActivity() {
             override fun onClick(p0: View?) {
                 var coin = -1
                 if (auto == true) {
-                    coin =0
+                    coin = 0
                 } else if (manual == true) {
                     coin = 1
                 } else {
-                    coin =-1
+                    coin = -1
                 }
 
-
-                if(coin.equals("")){
-                    showToast(this@HomeDetailActivity,"Please select option")
-                }else{
+                if (coin.equals("")) {
+                    showToast(this@HomeDetailActivity, "Please select option")
+                } else {
                     val intent = Intent(this@HomeDetailActivity, BuyCoinActivity::class.java)
                     intent.putExtra("tradingType", coin)
                     intent.putExtra("strategyId", "4b2992f5-9282-4483-9ce8-08db8e9ab9d5")
@@ -263,8 +259,7 @@ class HomeDetailActivity : AppCompatActivity() {
 
             }
         })
-
-
+        
         dialog.setContentView(viewBottom)
         dialog.show()
 

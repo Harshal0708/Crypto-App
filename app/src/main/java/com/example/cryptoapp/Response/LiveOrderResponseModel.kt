@@ -1,6 +1,6 @@
 package com.example.cryptoapp.Response
 
-data class LiveOrderResponseItem(
+data class LiveOrderResponseModel(
     val BuyPrice: Double,
     val OrderId: String,
     val OrderMode: Int,

@@ -185,10 +185,6 @@ interface RestApi {
     @GET(Constants.getStrategy1OrderHistoryDetail)
     suspend fun getStrategy1OrderHistoryDetail(@Query("UserId") UserId: String): Response<OrderHistoryDetailResponse>
 
-    @GET(Constants.getStrategy2OrderHistoryDetail)
-    suspend fun getStrategy2OrderHistoryDetail(@Query("UserId") UserId: String): Response<OrderHistoryDetailResponse>
-
-
     @POST(Constants.createApiKeys)
     fun addCreateApiKeys(@Body createApiKeysPayload: CreateApiKeysPayload): Call<CmsAdsAddResponse>
 

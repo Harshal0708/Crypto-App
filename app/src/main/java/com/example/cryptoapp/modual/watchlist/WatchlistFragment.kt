@@ -127,7 +127,7 @@ class WatchlistFragment : Fragment() {
 
 
     fun setUpBtcPriceText(message: String?, value: Int) {
-        // showLog("objectList", message.toString())
+         showLog("objectList", message.toString())
         message?.let {
 
             if (value == 1) {

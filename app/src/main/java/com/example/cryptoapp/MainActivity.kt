@@ -22,6 +22,7 @@ import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.modual.dashbord.HistoryFragment
 import com.example.cryptoapp.modual.dashbord.HomeFragment
 import com.example.cryptoapp.modual.dashbord.SettingFragment
+import com.example.cryptoapp.modual.home.HomeDetailActivity
 import com.example.cryptoapp.modual.login.LoginActivity
 import com.example.cryptoapp.modual.login.ResetPasswordActivity
 import com.example.cryptoapp.modual.subscription.SubscriptionActivity
@@ -52,6 +53,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var toolbar: View
     lateinit var toolbar_img_back: ImageView
 
+     var x :Float? = null
+     var y :Float? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -81,9 +85,26 @@ class MainActivity : AppCompatActivity() {
         nav_name.text = data.name
         nav_email.text = data.email
 
-        if (data.profilePicture != null && data.profilePicture != "") {
-            nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
-        }
+       // if (data.profilePicture != null && data.profilePicture != "") {
+//            nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
+//
+//            nav_img.setImageBitmap(writeOnDrawable(R.drawable.background_edittext, "Apurva")?.bitmap)
+//            val b = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888)
+//            val c = Canvas(b)
+//            val paint = Paint()
+//            paint.setStyle(Paint.Style.FILL)
+//            paint.setColor(Color.RED)
+//            paint.setTextSize(20F)
+//            c.drawText("Apurva", x!!.toFloat(), y!!.toFloat(), paint)
+//            nav_img.setImageBitmap(b)
+
+
+     //   }
+
+        val fullName = "${data.firstName} ${data.lastName}"
+        val bitmap = createTextImage(fullName)
+
+        nav_img.setImageBitmap(bitmap)
 
 //        nav_name.text = "Apurva Patel"
 //        nav_email.text = "patelappu1495@gmail.com"
@@ -91,18 +112,11 @@ class MainActivity : AppCompatActivity() {
         txt_privacy.setOnClickListener(object :OnClickListener{
             override fun onClick(p0: View?) {
                 showToast(this@MainActivity,"Privacy")
+                val intent = Intent(this@MainActivity, HomeDetailActivity::class.java)
+                startActivity(intent)
+
             }
         })
-
-        // nav_img.setImageBitmap(writeOnDrawable(R.drawable.background_edittext, "Apurva")?.bitmap)
-//        val b = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888)
-//        val c = Canvas(b)
-//        val paint = Paint()
-//        paint.setStyle(Paint.Style.FILL)
-//        paint.setColor(Color.RED)
-//        paint.setTextSize(20F)
-//        c.drawText("Apurva", x.toFloat(), y.toFloat(), paint)
-//        nav_img.setImageBitmap(b)
 
         compoundButton = menuItem.actionView as CompoundButton
 
@@ -222,6 +236,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
+
     fun writeOnDrawable(drawableId: Int, text: String?): BitmapDrawable? {
         val bm =
             BitmapFactory.decodeResource(resources, drawableId).copy(Bitmap.Config.ARGB_8888, true)
@@ -258,4 +274,22 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun createTextImage(text: String): Bitmap {
+        val width = 400 // Set your desired width
+        val height = 200 // Set your desired height
+
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        canvas.drawColor(Color.WHITE) // Background color
+
+        val paint = Paint().apply {
+            color = Color.BLACK
+            textSize = 30f
+        }
+
+        canvas.drawText(text, 20f, height / 2f, paint)
+        return bitmap
+    }
+
 }

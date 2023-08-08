@@ -1,10 +1,13 @@
 package com.example.cryptoapp.modual.history
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,10 +18,7 @@ import com.example.cryptoapp.modual.history.adapter.PositionAdapter
 import com.example.cryptoapp.modual.watchlist.adapter.WatchlistAdapter
 import com.example.cryptoapp.preferences.MyPreferences
 import com.google.gson.Gson
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import okhttp3.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -37,8 +37,9 @@ class PositionFragment : Fragment() {
     private lateinit var fragmentContext: Context
 
     lateinit var rv_position: RecyclerView
+    lateinit var txt_position_detail_pl: TextView
     lateinit var positionAdapter: PositionAdapter
-    lateinit var liveOrderResponse: ArrayList<LiveOrderResponseItem>
+//    lateinit var liveOrderResponse: ArrayList<LiveOrderResponseItem>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +58,7 @@ class PositionFragment : Fragment() {
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
         rv_position = view.findViewById(R.id.rv_position)
+        txt_position_detail_pl = view.findViewById(R.id.txt_position_detail_pl)
 
         executorService.submit {
 
@@ -90,6 +92,7 @@ class PositionFragment : Fragment() {
 
             }
 
+            @RequiresApi(Build.VERSION_CODES.M)
             override fun onMessage(webSocket: WebSocket, text: String) {
 
                 if (value == 1) {
@@ -110,20 +113,32 @@ class PositionFragment : Fragment() {
         return client.newWebSocket(request, listener)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun setLiveOrderPL(text: String) {
 
         //Constants.showLog("setLiveOrderPL", text)
         val gson = Gson()
         val objectList = gson.fromJson(text, LiveOrderResponse::class.java)
-//
-////        liveOrderResponse= objectList
-////        Constants.showLog("setLiveOrderPL", Gson().toJson(objectList))
-//
+
+
+//        liveOrderResponse= objectList
+     //   Constants.showLog("setLiveOrderPL", Gson().toJson(objectList))
+
 
         requireActivity().runOnUiThread {
-            rv_position.layoutManager = LinearLayoutManager(activity)
-            positionAdapter = PositionAdapter(fragmentContext, objectList)!!
+            txt_position_detail_pl.text = objectList.TotalPL.toString()
+            txt_position_detail_pl.setTextColor(fragmentContext.getColor(R.color.red))
+            rv_position.layoutManager = LinearLayoutManager(fragmentContext)
+            positionAdapter = PositionAdapter(fragmentContext, objectList.liveOrderResponseModels)!!
             rv_position.adapter = positionAdapter
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        webSocket1.close(1000, "Activity destroyed")
+        job2.cancel() // Cancel the coroutine job when the activity is destroyed
+//        scope.cancel()
+    }
+
 }

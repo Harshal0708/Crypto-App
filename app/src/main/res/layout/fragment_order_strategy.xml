@@ -35,13 +35,6 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_end="20dp" />
 
-    <Spinner
-        android:id="@+id/order_strategy_spinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/guideline87"
-        app:layout_constraintStart_toStartOf="@+id/guideline85"
-        app:layout_constraintTop_toTopOf="@+id/guideline86" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_order_strategy"
@@ -51,7 +44,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline88"
         app:layout_constraintEnd_toStartOf="@+id/guideline87"
         app:layout_constraintStart_toStartOf="@+id/guideline85"
-        app:layout_constraintTop_toBottomOf="@+id/order_strategy_spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline86" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -125,8 +125,5 @@ class BuyCoinActivity : AppCompatActivity(), onItemClickListener {
             startActivity(intent)
             this.finish()
         }
-
-
     }
-
 }

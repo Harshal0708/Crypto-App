@@ -120,10 +120,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
             }
 
             job3 = CoroutineScope(Dispatchers.IO).launch {
-                webSocket2 = createWebSocket("wss://fstream.binance.com:443/ws/!ticker@arr", 2)
+//                webSocket2 = createWebSocket("wss://fstream.binance.com:443/ws/!ticker@arr", 2)
+                webSocket2 = createWebSocket("wss://fstream.binance.com/ws/!ticker@arr", 2)
             }
-
-
 
             CoroutineScope(Dispatchers.IO).launch {
                 job1.join() // Wait for job1 to complete before sending message to ws2
