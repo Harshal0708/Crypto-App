@@ -45,11 +45,13 @@ class CardActivity : AppCompatActivity() {
         cardInputWidget = findViewById(R.id.cardInputWidget)
         payButton = findViewById(R.id.payButton)
 
-        stripe =Stripe(this,PaymentConfiguration.getInstance(applicationContext).publishableKey)
         PaymentConfiguration.init(
             applicationContext,
             PUBLISH_KEY
         )
+
+        stripe =Stripe(this,PaymentConfiguration.getInstance(applicationContext).publishableKey)
+
         val paymentConfiguration = PaymentConfiguration.getInstance(applicationContext)
         paymentLauncher = PaymentLauncher.Companion.create(
             this,
@@ -57,6 +59,7 @@ class CardActivity : AppCompatActivity() {
             paymentConfiguration.stripeAccountId,
             ::onPaymentResult
         )
+
         getClientSecretKey()
     }
     private fun startCheckout() {

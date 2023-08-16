@@ -2,25 +2,19 @@ package com.example.cryptoapp.modual.watchlist
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.TickerResponse
-import com.example.cryptoapp.Response.TickerResponseItem
-import com.example.cryptoapp.modual.dashbord.PLFragment
+import com.example.cryptoapp.model.CryptoName
 import com.example.cryptoapp.modual.home.adapter.AirQualityData
-import com.example.cryptoapp.modual.home.adapter.CryptoName
 import com.example.cryptoapp.modual.watchlist.adapter.WatchlistAdapter
 import com.google.gson.Gson
 import kotlinx.coroutines.*
@@ -127,7 +121,7 @@ class WatchlistFragment : Fragment() {
 
 
     fun setUpBtcPriceText(message: String?, value: Int) {
-         showLog("objectList", message.toString())
+//         showLog("objectList", message.toString())
         message?.let {
 
             if (value == 1) {

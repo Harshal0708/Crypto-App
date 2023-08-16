@@ -29,6 +29,7 @@ class BuyCoinAdapter(
     var buyCoinsList: List<DataXXXX>,
     val onItemClickListener: onItemClickListener,
     var activity: Activity,
+
 ) :
     RecyclerView.Adapter<BuyCoinAdapter.ViewHolder>() {
 

@@ -12,20 +12,19 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.R
-import com.example.cryptoapp.Response.StrategyDataRes
+import com.example.cryptoapp.Response.StrategyPLVM
 import com.example.cryptoapp.modual.home.HomeDetailActivity
 import com.example.cryptoapp.modual.subscription.SubscriptionActivity
 
-class HomeAdapter(
+class HomeWSAdapter (
     var context: Context,
-    var strategyResList: List<StrategyDataRes>,
+    var strategyResList: List<StrategyPLVM>,
     var haveAnySubscription: Boolean
 ) :
-    RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+    RecyclerView.Adapter<HomeWSAdapter.ViewHolder>() {
 
 
     class ViewHolder(itemView: View) :
@@ -33,11 +32,18 @@ class HomeAdapter(
 
         var txt_strategies_name: TextView = itemView.findViewById(R.id.txt_strategies_name)
         var txt_strategies_desc: TextView = itemView.findViewById(R.id.txt_strategies_desc)
+//        var txt_strategies_monthly_fee_price: TextView =
+//            itemView.findViewById(R.id.txt_strategies_monthly_fee_price)
+//        var txt_strategies_monthly_capital_price: TextView =
+//            itemView.findViewById(R.id.txt_strategies_monthly_capital_price)
+
+        //        var txt_strategies_by: TextView = itemView.findViewById(R.id.txt_strategies_by)
         var txt_strategies_time: TextView = itemView.findViewById(R.id.txt_strategies_time)
         var txt_status_active: TextView = itemView.findViewById(R.id.txt_status_active)
 
         //        var img_strategies_menu: ImageView = itemView.findViewById(R.id.img_strategies_menu)
-
+        var txt_pl: TextView = itemView.findViewById(R.id.txt_pl)
+        var txt_red_more: TextView = itemView.findViewById(R.id.txt_red_more)
 
     }
 
@@ -49,21 +55,24 @@ class HomeAdapter(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.txt_strategies_name.text = strategyResList.get(position).Strategy.StrategyName
+        holder.txt_pl.text = "Strategy PL : ${strategyResList.get(position).PL}"
 
-        holder.txt_strategies_name.text = strategyResList.get(position).strategyName
-
-        holder.txt_strategies_desc.text = strategyResList.get(position).description
+        holder.txt_strategies_desc.text = strategyResList.get(position).Strategy.Description
 
         holder.txt_strategies_time.text =
-            Constants.getDate(strategyResList.get(position).createdDate)
+            Constants.getDate(strategyResList.get(position).Strategy.CreatedDate)
 
-        if (strategyResList.get(position).isActive != true) {
+//        holder.txt_strategies_time.text =
+//            strategyResList.get(position).Strategy.CreatedDate
+
+
+        if (strategyResList.get(position).Strategy.IsActive != true) {
             holder.txt_status_active.text = context.resources.getString(R.string.not_active)
-            holder.txt_status_active.setTextColor(ContextCompat.getColor(context,R.color.red)
-            )
+            holder.txt_status_active.setTextColor(context.resources.getColor(R.color.red))
         } else {
             holder.txt_status_active.text = context.resources.getString(R.string.active)
-            holder.txt_status_active.setTextColor(ContextCompat.getColor(context,R.color.light_green))
+            holder.txt_status_active.setTextColor(context.resources.getColor(R.color.light_green))
         }
 
 //
@@ -89,7 +98,7 @@ class HomeAdapter(
         holder.itemView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 val intent = Intent(context, HomeDetailActivity::class.java)
-                intent.putExtra("strategyId", strategyResList.get(position).id)
+                intent.putExtra("strategyId", strategyResList.get(position).Strategy.Id)
                 context.startActivity(intent)
             }
 
@@ -101,7 +110,7 @@ class HomeAdapter(
     }
 
     fun showDialog() {
-        val dialog = Dialog(context)
+        var dialog = Dialog(context)
         dialog.setContentView(R.layout.custom_homestatus_dialog)
         //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setLayout(
@@ -149,7 +158,7 @@ class HomeAdapter(
     }
 
     fun showSubscribeDialog() {
-        val dialog = Dialog(context)
+        var dialog = Dialog(context)
         dialog.setContentView(R.layout.custom_subscribe_dialog)
         //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window?.setLayout(

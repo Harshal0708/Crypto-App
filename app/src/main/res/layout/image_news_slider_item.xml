@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="2dp"
+    android:layout_marginRight="2dp"
+    android:layout_marginBottom="8dp"
+    app:cardBackgroundColor="@color/country_code"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
 
     <ImageView
         android:id="@+id/idIVImage"
         android:layout_width="0dp"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
         android:layout_centerInParent="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -19,15 +31,14 @@
         android:id="@+id/txt_cms_slider_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/welcome_back"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="20sp"
+        android:fontFamily="@font/helvetica"
+        android:textColor="@color/sky_light"
+        android:textSize="18sp"
         android:textStyle="bold"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/idIVImage"
-        app:layout_constraintStart_toStartOf="@+id/idIVImage"
-        app:layout_constraintTop_toBottomOf="@+id/idIVImage" />
-
-
+        app:layout_constraintStart_toStartOf="@+id/idIVImage" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

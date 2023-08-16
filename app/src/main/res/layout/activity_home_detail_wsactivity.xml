@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     android:fillViewport="true"
-    tools:context=".modual.home.HomeDetailActivity">
+    tools:context=".modual.home.HomeDetailWSActivity">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -93,6 +94,7 @@
             android:textColor="@color/static_txt_2"
             android:textSize="18sp"
             android:fontFamily="@font/helvetica"
+            android:text="Strategy Description :"
             app:layout_constraintEnd_toStartOf="@+id/guideline27"
             app:layout_constraintStart_toStartOf="@+id/guideline25"
             app:layout_constraintTop_toBottomOf="@+id/txt_sd_strategyName" />
@@ -140,6 +142,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:text="Active"
             android:textColor="@color/light_green"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/guideline27"

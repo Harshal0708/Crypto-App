@@ -50,8 +50,12 @@ class OAuthInterceptor(
         if (tok != null) {
             tok = MyPreferences(context).getToken()
         }
-        request = request.newBuilder().header("Authorization", "$tokenType $tok").build()
-        // request = request.newBuilder().header("Authorization", "$tokenType sk_test_51MFAOfSHmxsQH4CHc0B63ccrQu8tu1m9ynAXYaEydRrSQwp4nhBqKtJFaEYZn9aTYhsdw1Ti8VHA9Cw4ZRcZR8Lg00qUCjkGZk").build()
+
+        //For Api
+        //request = request.newBuilder().header("Authorization", "$tokenType $tok").build()
+
+        //For Stripe
+         request = request.newBuilder().header("Authorization", "$tokenType sk_test_51MFAOfSHmxsQH4CHc0B63ccrQu8tu1m9ynAXYaEydRrSQwp4nhBqKtJFaEYZn9aTYhsdw1Ti8VHA9Cw4ZRcZR8Lg00qUCjkGZk").build()
         return chain.proceed(request)
     }
 }

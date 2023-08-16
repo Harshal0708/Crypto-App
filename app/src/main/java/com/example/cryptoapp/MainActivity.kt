@@ -236,8 +236,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-
     fun writeOnDrawable(drawableId: Int, text: String?): BitmapDrawable? {
         val bm =
             BitmapFactory.decodeResource(resources, drawableId).copy(Bitmap.Config.ARGB_8888, true)

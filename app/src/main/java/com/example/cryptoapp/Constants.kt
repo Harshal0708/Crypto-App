@@ -42,7 +42,9 @@ class Constants {
         const val cmsAdsList = "CMSAdsApi/CMSAdsList"
         const val cmsAdsAdd = "CMSAdsApi/UserCMSAdsAdd"
 
-        const val strategy = "StrategyApi"
+        const val strategy = "StrategyApi/List"
+        const val getBystrategyId = "StrategyApi/GetById"
+
         const val getplans = "PlanApi/GetPlans"
         const val getusersubscription = "UserSubscriptionApi/GetSubscriptionList"
         const val getSubscriptionDetails = "UserSubscriptionApi/GetSubscriptionDetails"
@@ -68,7 +70,6 @@ class Constants {
         const val getStrategy1OrderHistoryDetail = "HistoryApi/getStrategyOrderHistoryDetail"
 
         const val createApiKeys = "AccountsApi/createApiKeys"
-
 
         const val tradeSlotApi = "TradeSlotApi"
         const val createTradeSlot = "TradeSlotApi/CreateTradeSlot"

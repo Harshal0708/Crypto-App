@@ -11,12 +11,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cryptoapp.Constants
+import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.CmsAdsAddResponse
 import com.example.cryptoapp.Response.CreateTradeSlotResponse
 import com.example.cryptoapp.model.CreateApiKeysPayload
 import com.example.cryptoapp.model.CreateTradeSlotPayload
 import com.example.cryptoapp.modual.login.ForgotPasswordActivity
+import com.example.cryptoapp.modual.login.OtpActivity
 import com.example.cryptoapp.modual.strategy.adapter.CoinData
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
@@ -29,6 +31,7 @@ import java.time.format.DateTimeFormatter
 
 import java.util.*
 import kotlin.collections.ArrayList
+
 class WelcomeActivity : AppCompatActivity(), View.OnClickListener {
 
 
@@ -64,8 +67,15 @@ class WelcomeActivity : AppCompatActivity(), View.OnClickListener {
         strategyId = intent.getStringExtra("strategyId").toString()
         userId = intent.getStringExtra("userId").toString()
 
-        coinSelectList = numberList as ArrayList<CoinData>
-        coinSeparatedString = concatenateStrings(coinSelectList)
+
+
+        if (!numberList!!.equals("")) {
+            coinSelectList = numberList as ArrayList<CoinData>
+            coinSeparatedString = concatenateStrings(coinSelectList)
+        }else{
+            coinSeparatedString=""
+        }
+
     }
 
     fun concatenateStrings(list: ArrayList<CoinData>): String {
@@ -84,9 +94,8 @@ class WelcomeActivity : AppCompatActivity(), View.OnClickListener {
         val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         val formattedDate: String = formatter.format(date)
 
-
         val response =
-            this?.let { ServiceBuilder(it).buildService(RestApi::class.java) }
+            this.let { ServiceBuilder(it).buildService(RestApi::class.java) }
 
         val payload = CreateTradeSlotPayload(
             coinSeparatedString.trimEnd(','),
@@ -101,35 +110,36 @@ class WelcomeActivity : AppCompatActivity(), View.OnClickListener {
 
         Constants.showLog("test", Gson().toJson(payload))
 
-//        response!!.addCreateTradeSlot(payload)
-//            .enqueue(object : retrofit2.Callback<CreateTradeSlotResponse> {
-//                override fun onResponse(
-//                    call: retrofit2.Call<CreateTradeSlotResponse>,
-//                    response: retrofit2.Response<CreateTradeSlotResponse>
-//                ) {
-//
-//                    if (response.body()?.isSuccess == true) {
-//                        Constants.showToast(this@WelcomeActivity, "Welcome")
-//                    }else{
-//                        Constants.showToast(this@WelcomeActivity, "Failed...")
-//                    }
-//                    register_progressBar.visibility = View.GONE
-//
-//
-//                }
-//
-//                override fun onFailure(
-//                    call: retrofit2.Call<CreateTradeSlotResponse>,
-//                    t: Throwable
-//                ) {
-//
-//                    register_progressBar.visibility = View.GONE
-//                    Constants.showToast(
-//                        this@WelcomeActivity,
-//                        getString(R.string.login_failed)
-//                    )
-//                }
-//            })
+        response!!.addCreateTradeSlot(payload)
+            .enqueue(object : retrofit2.Callback<CreateTradeSlotResponse> {
+                override fun onResponse(
+                    call: retrofit2.Call<CreateTradeSlotResponse>,
+                    response: retrofit2.Response<CreateTradeSlotResponse>
+                ) {
+
+                    if (response.body()?.isSuccess == true) {
+                        val intent = Intent(this@WelcomeActivity, MainActivity::class.java)
+                        startActivity(intent)
+                    } else {
+                        Constants.showToast(this@WelcomeActivity, "Failed...")
+                    }
+                    register_progressBar.visibility = View.GONE
+
+
+                }
+
+                override fun onFailure(
+                    call: retrofit2.Call<CreateTradeSlotResponse>,
+                    t: Throwable
+                ) {
+
+                    register_progressBar.visibility = View.GONE
+                    Constants.showToast(
+                        this@WelcomeActivity,
+                        getString(R.string.login_failed)
+                    )
+                }
+            })
 
     }
 
@@ -144,14 +154,11 @@ class WelcomeActivity : AppCompatActivity(), View.OnClickListener {
         when (id) {
 
             R.id.progressBar_cardView -> {
-                //addCreateApiKeys()
-               Toast.makeText(this@WelcomeActivity,"Welcome",Toast.LENGTH_SHORT).show()
+                addCreateApiKeys()
+//                val intent = Intent(this@WelcomeActivity, MainActivity::class.java)
+//                startActivity(intent)
+//                Toast.makeText(this@WelcomeActivity, "Welcome", Toast.LENGTH_SHORT).show()
             }
-
-
         }
     }
-
 }
-
-

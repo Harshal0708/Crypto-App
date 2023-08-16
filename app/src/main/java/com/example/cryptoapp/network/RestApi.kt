@@ -84,7 +84,8 @@ interface RestApi {
         @Query("mobile") mobile: String,
     ): Call<OtpResponse>
 
-    @GET(Constants.strategy)
+//    @GET(Constants.strategy)
+    @GET("http://103.14.99.42/api/StrategyApi/List")
     suspend fun getStrategy(): Response<StrategyRes>
 
     @GET(Constants.getProfileDetail)
@@ -92,6 +93,9 @@ interface RestApi {
 
 //    @GET("${Constants.strategy}/{id}")
 //    suspend fun getStrategyById(@Path("id") id: String): Response<StrategyDetailRes>
+
+    @GET(Constants.getBystrategyId)
+    suspend fun getStrategyById(@Query("StrategyId") StrategyId: String): Response<StrategyDetailRes>
 
     @GET(Constants.getplans)
     suspend fun getPlans(): Response<GetPlanResponse>

@@ -9,15 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewpager.widget.PagerAdapter
-import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.CmsAdsListResponseData
-import com.example.cryptoapp.modual.home.ImageSliderDetailActivity
 import java.util.*
 
 import android.util.Base64
+import androidx.cardview.widget.CardView
+
 class SliderViewPagerAdapter (val context: Context, val imageList: List<CmsAdsListResponseData>) : PagerAdapter() {
 
     override fun getCount(): Int {
@@ -25,7 +24,7 @@ class SliderViewPagerAdapter (val context: Context, val imageList: List<CmsAdsLi
     }
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
-        return view === `object` as ConstraintLayout
+        return view === `object` as CardView
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
@@ -41,7 +40,6 @@ class SliderViewPagerAdapter (val context: Context, val imageList: List<CmsAdsLi
        // imageView.setImageResource(R.drawable.ic_splash)
 
         imageView.setImageBitmap(convertStringToBitmap(imageList.get(position).image))
-
 
         txt_cms_slider_name.text=imageList.get(position).title
 
@@ -68,6 +66,6 @@ class SliderViewPagerAdapter (val context: Context, val imageList: List<CmsAdsLi
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
 
-        container.removeView(`object` as ConstraintLayout)
+        container.removeView(`object` as CardView)
     }
 }

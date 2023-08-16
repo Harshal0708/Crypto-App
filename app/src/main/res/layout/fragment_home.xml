@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:fillViewport="true"
     tools:context=".modual.dashbord.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <include
             android:id="@+id/viewLoader"
@@ -60,6 +60,7 @@
             android:id="@+id/strategies_rv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:visibility="visible"
             app:layout_constraintEnd_toStartOf="@+id/guideline23"
             app:layout_constraintStart_toStartOf="@+id/guideline21"
             app:layout_constraintTop_toBottomOf="@+id/txt_strategies_desc" />
@@ -80,16 +81,14 @@
             app:layout_constraintStart_toStartOf="@+id/guideline21"
             app:layout_constraintTop_toBottomOf="@+id/strategies_rv" />
 
-<!--        <FrameLayout-->
-<!--            android:id="@+id/view_pager"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:visibility="visible"-->
-<!--            app:layout_constraintEnd_toStartOf="@+id/guideline23"-->
-<!--            app:layout_constraintStart_toStartOf="@+id/guideline21"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/strategies_rv" />-->
-
-
+        <!--        <FrameLayout-->
+        <!--            android:id="@+id/view_pager"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:visibility="visible"-->
+        <!--            app:layout_constraintEnd_toStartOf="@+id/guideline23"-->
+        <!--            app:layout_constraintStart_toStartOf="@+id/guideline21"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/strategies_rv" />-->
 
 
         <!--    <TextView-->
@@ -165,35 +164,67 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:visibility="visible"
             app:layout_constraintEnd_toStartOf="@+id/guideline23"
             app:layout_constraintStart_toStartOf="@+id/guideline21"
             app:layout_constraintTop_toBottomOf="@+id/ouput" />
 
+        <TextView
+            android:id="@+id/txt_top_coin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="8dp"
+            android:text="Advertisement"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintStart_toStartOf="@+id/guideline21"
+            app:layout_constraintTop_toBottomOf="@+id/rv_top_coin" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/login_ViewPager"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:visibility="visible"
-        app:layout_constraintEnd_toStartOf="@+id/guideline23"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline21"
-        app:layout_constraintTop_toBottomOf="@+id/rv_top_coin" />
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/login_ViewPager"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="8dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline21"
+            app:layout_constraintTop_toBottomOf="@+id/txt_top_coin" />
+
+        <TextView
+            android:id="@+id/txt_top_news"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="8dp"
+            android:text="Top news"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintStart_toStartOf="@+id/guideline21"
+            app:layout_constraintTop_toBottomOf="@+id/login_ViewPager" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager_news"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="8dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline21"
+            app:layout_constraintTop_toBottomOf="@+id/txt_top_news" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
 
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager_news"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline24"
-        app:layout_constraintEnd_toStartOf="@+id/guideline23"
-        app:layout_constraintStart_toStartOf="@+id/guideline21"
-        app:layout_constraintTop_toBottomOf="@+id/login_ViewPager" />
-    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-</androidx.constraintlayout.widget.ConstraintLayout>
 
 

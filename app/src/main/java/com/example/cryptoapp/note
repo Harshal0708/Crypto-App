@@ -94,19 +94,9 @@ https://binance-docs.github.io/apidocs/websocket_api/en/#change-log
 21) Android RecyclerView Load More On Scroll Example Using Retrofit2 Kotlin & Java - Download Code
 https://www.youtube.com/watch?v=XOF28t4wBzY
 
-can you plz write code for multiple webscoket connection in kotlin android
+22) https://www.youtube.com/watch?v=1VrqUFlW1yA
 
-UI Freezing while doing heavy processing in background Android
-- When you have multiple WebSockets open in your Android app, it can cause the UI to freeze or become unresponsive. This is because WebSockets run in the same thread as the UI, and when the WebSocket is blocked waiting for data, it can prevent the UI thread from responding to user input.
+23) https://www.youtube.com/watch?v=nX7ByI1qBK4
 
-  To avoid this issue, you can use a separate thread for each WebSocket connection. This allows the WebSocket to run in the background without blocking the UI thread. You can use the Java Executor Framework to manage these threads.
-
-  Another approach is to use a WebSocket library that provides asynchronous APIs. This allows you to handle WebSocket events in a non-blocking manner, without having to manage threads manually. Some popular libraries for Android include OkHttp and Java-WebSocket.
-
-  Additionally, you may want to consider reducing the number of WebSocket connections in your app if possible. This can help reduce the load on the device and prevent performance issues. You can also optimize the WebSocket messages to minimize their size and frequency, which can help improve performance as well.
-
-  -calculate the percentage change and keep track of the top gainers from binance web socket in kotlin example
-
-
-22) https://www.youtube.com/watch?v=z9g7G3oX89w
+24) https://www.youtube.com/watch?v=z9g7G3oX89w
 

@@ -11,14 +11,19 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants
-import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
-import com.example.cryptoapp.Response.StrategyDetailResponse
+import com.example.cryptoapp.Response.DataXX
+import com.example.cryptoapp.Response.DataXXXXX
 import com.example.cryptoapp.modual.strategy.BuyCoinActivity
+import com.example.cryptoapp.network.RestApi
+import com.example.cryptoapp.network.ServiceBuilder
+import com.example.cryptoapp.preferences.MyPreferences
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import kotlinx.coroutines.*
@@ -29,32 +34,38 @@ import java.util.concurrent.TimeUnit
 
 class HomeDetailActivity : AppCompatActivity() {
 
-    lateinit var txt_sd_strategyName: TextView
-    lateinit var txt_sd_description: TextView
-    lateinit var txt_strategy_pl: TextView
-    lateinit var txt_sd_create_date: TextView
-    lateinit var txt_status_active: TextView
+    private lateinit var txt_sd_strategyName: TextView
+    private lateinit var txt_sd_description: TextView
+    private lateinit var txt_strategy_pl: TextView
+    private lateinit var txt_sd_create_date: TextView
+    private lateinit var txt_status_active: TextView
+    private lateinit var txt_description: TextView
 
-    lateinit var viewLoader: View
-    lateinit var toolbar: View
-    lateinit var toolbar_img_back: ImageView
+    private lateinit var viewLoader: View
+    private lateinit var toolbar: View
+    private lateinit var toolbar_img_back: ImageView
 
-    lateinit var view: View
-    lateinit var register_progressBar: ProgressBar
+    private lateinit var view: View
+    private lateinit var register_progressBar: ProgressBar
 
-    lateinit var animationView: LottieAnimationView
+    private lateinit var animationView: LottieAnimationView
 
-    lateinit var progressBar_cardView: RelativeLayout
-
-    lateinit var webSocketListener: WebSocketListener
-    lateinit var client: OkHttpClient
+    private lateinit var progressBar_cardView: RelativeLayout
+    private lateinit var client: OkHttpClient
     private val scope = CoroutineScope(Dispatchers.Main)
     private lateinit var job1: Job
     private val THREAD_POOL_SIZE = 10
-    private val executorService: ExecutorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE)
-    lateinit var webSocket1: WebSocket
-    lateinit var resent: TextView
+    private val executorService: ExecutorService =
+        Executors.newFixedThreadPool(THREAD_POOL_SIZE)
 
+    private lateinit var resent: TextView
+
+    private lateinit var strategydata: DataXXXXX
+
+    private lateinit var data: DataXX
+    private lateinit var preferences: MyPreferences
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_detail)
@@ -62,13 +73,18 @@ class HomeDetailActivity : AppCompatActivity() {
         InIt()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun InIt() {
+
+        preferences = MyPreferences(this)
+        data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
         txt_sd_strategyName = findViewById(R.id.txt_sd_strategyName)
         txt_sd_description = findViewById(R.id.txt_sd_description)
         txt_sd_create_date = findViewById(R.id.txt_sd_create_date)
         txt_strategy_pl = findViewById(R.id.txt_strategy_pl)
         txt_status_active = findViewById(R.id.txt_status_active)
+        txt_description = findViewById(R.id.txt_description)
 
         toolbar = findViewById(R.id.toolbar)
         toolbar_img_back = toolbar.findViewById(R.id.toolbar_img_back)
@@ -82,16 +98,15 @@ class HomeDetailActivity : AppCompatActivity() {
         register_progressBar = view.findViewById(R.id.register_progressBar)
 
 
+        view.visibility = View.GONE
         register_progressBar.visibility = View.GONE
         resent = view.findViewById(R.id.resent)
         resent.text = getString(R.string.next)
 
         setupAnim()
-        //  getStrategyId(intent.getStringExtra("strategyId").toString())
 
         toolbar_img_back.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                onBackPressed()
                 finish()
             }
         })
@@ -103,85 +118,26 @@ class HomeDetailActivity : AppCompatActivity() {
         })
 
         executorService.submit {
-            // handle WebSocket connection here
-            //    scope.launch {
 
             client = OkHttpClient.Builder().readTimeout(0, TimeUnit.MILLISECONDS).build()
 
+            var stringId = intent.getStringExtra("strategyId").toString()
             job1 = CoroutineScope(Dispatchers.Main).launch {
-                webSocket1 = createWebSocket("ws://103.14.99.42/getStrategyDetail", 1)
-                // ws://103.14.99.42/getStrategyPL
+                if (!stringId.equals("")) {
+                    getStrategyId(intent.getStringExtra("strategyId").toString())
+                } else {
+                    view.visibility = View.GONE
+                    showToast(this@HomeDetailActivity, getString(R.string.something_wrong))
+                }
+
             }
 
             CoroutineScope(Dispatchers.IO).launch {
-                job1.join() // Wait for job1 to complete before sending message to ws2
-            }
-            //}
-        }
-
-    }
-
-    private fun createWebSocket(url: String, value: Int): WebSocket {
-        //viewLoader.visibility = View.VISIBLE
-        val request = Request.Builder().url(url).build()
-        val listener = object : WebSocketListener() {
-            override fun onOpen(webSocket: WebSocket, response: Response) {
-
-                if (value == 1) {
-                    //    webSocket.send(intent.getStringExtra("strategyId").toString())
-                    // webSocket.send("54a0df6d-de7f-4c60-a868-1ec38b06f7ec")
-                    webSocket.send("4b2992f5-9282-4483-9ce8-08db8e9ab9d5")
-                }
-
-            }
-
-            @RequiresApi(Build.VERSION_CODES.O)
-            override fun onMessage(webSocket: WebSocket, text: String) {
-
-                if (value == 1) {
-                    setGetStrategyByUser(text)
-                }
-
-            }
-
-            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                println("WebSocket disconnected from $url")
-            }
-
-            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                println("WebSocket connection to $url failed: ${t.message}")
+                job1.join()
             }
 
         }
-
-        return client.newWebSocket(request, listener)
     }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun setGetStrategyByUser(text: String) {
-
-
-        val gson = Gson()
-        val objectList = gson.fromJson(text, StrategyDetailResponse::class.java)
-        showLog("setGetStrategyByUser", objectList.toString())
-        txt_sd_strategyName.text = objectList.Strategy.StrategyName
-        txt_sd_description.text = objectList.Strategy.Description
-        txt_sd_create_date.text = Constants.getDate(objectList.Strategy.CreatedDate)
-
-////        txt_sd_description.text = getString(R.string.dummy_text)
-//        txt_sd_minCapital_price.text = objectList.Strategy.MinCapital.toString()
-//        txt_sd_monthlyFee_price.text = objectList.Strategy.MonthlyFee.toString()
-
-        txt_strategy_pl.text = objectList.PL.toString()
-        if (objectList.Strategy.IsActive != true) {
-            txt_status_active.text = resources.getString(R.string.not_active)
-            txt_status_active.setTextColor(resources.getColor(R.color.red))
-        } else {
-            txt_status_active.text = resources.getString(R.string.active)
-            txt_status_active.setTextColor(resources.getColor(R.color.light_green))
-        }
-    }
-
 
     private fun setupAnim() {
         animationView.setAnimation(R.raw.currency)
@@ -191,11 +147,8 @@ class HomeDetailActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-//
-        webSocket1.close(1000, "Activity destroyed")
-        job1.cancel() // Cancel the coroutine job when the activity is destroyed
+        job1.cancel()
         scope.cancel()
-        //cancel()
     }
 
     private fun openBottomSheet() {
@@ -207,10 +160,10 @@ class HomeDetailActivity : AppCompatActivity() {
         var auto = false
         var manual = false
 
-        var btn_progressBar: TextView = viewBottom.findViewById(R.id.btn_progressBar)
+        val btn_progressBar: TextView = viewBottom.findViewById(R.id.btn_progressBar)
 
-        var con_auto_coin: ConstraintLayout = viewBottom.findViewById(R.id.con_auto_coin)
-        var con_manual_coin: ConstraintLayout = viewBottom.findViewById(R.id.con_manual_coin)
+        val con_auto_coin: ConstraintLayout = viewBottom.findViewById(R.id.con_auto_coin)
+        val con_manual_coin: ConstraintLayout = viewBottom.findViewById(R.id.con_manual_coin)
 
 
         con_auto_coin.setOnClickListener(object : View.OnClickListener {
@@ -218,9 +171,18 @@ class HomeDetailActivity : AppCompatActivity() {
 
                 auto = true
                 manual = false
-                con_auto_coin.setBackground(resources.getDrawable(R.drawable.coin_select_background))
-                con_manual_coin.setBackground(resources.getDrawable(R.drawable.coin_background))
-
+                con_auto_coin.setBackground(
+                    ContextCompat.getDrawable(
+                        this@HomeDetailActivity,
+                        R.drawable.coin_select_background
+                    )
+                )
+                con_manual_coin.setBackground(
+                    ContextCompat.getDrawable(
+                        this@HomeDetailActivity,
+                        R.drawable.coin_background
+                    )
+                )
             }
         })
 
@@ -228,9 +190,18 @@ class HomeDetailActivity : AppCompatActivity() {
             override fun onClick(p0: View?) {
                 auto = false
                 manual = true
-                con_manual_coin.setBackground(resources.getDrawable(R.drawable.coin_select_background))
-                con_auto_coin.setBackground(resources.getDrawable(R.drawable.coin_background))
-
+                con_manual_coin.setBackground(
+                    ContextCompat.getDrawable(
+                        this@HomeDetailActivity,
+                        R.drawable.coin_select_background
+                    )
+                )
+                con_auto_coin.setBackground(
+                    ContextCompat.getDrawable(
+                        this@HomeDetailActivity,
+                        R.drawable.coin_background
+                    )
+                )
             }
         })
 
@@ -246,22 +217,69 @@ class HomeDetailActivity : AppCompatActivity() {
                     coin = -1
                 }
 
-                if (coin.equals("")) {
-                    showToast(this@HomeDetailActivity, "Please select option")
+                if (coin == -1) {
+                    showToast(
+                        this@HomeDetailActivity,
+                        this@HomeDetailActivity.getString(R.string.Please_select_option)
+                    )
                 } else {
                     val intent = Intent(this@HomeDetailActivity, BuyCoinActivity::class.java)
                     intent.putExtra("tradingType", coin)
-                    intent.putExtra("strategyId", "4b2992f5-9282-4483-9ce8-08db8e9ab9d5")
-                    intent.putExtra("userId", "050eec64-a803-4def-b0ec-6d82060c40fd")
+                    intent.putExtra("strategyId", strategydata.id)
+                    intent.putExtra("userId", data.userId)
                     startActivity(intent)
                     dialog.dismiss()
                 }
 
             }
         })
-        
+
         dialog.setContentView(viewBottom)
         dialog.show()
 
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getStrategyId(id: String) {
+        animationView.visibility = View.VISIBLE
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            val response = ServiceBuilder(this@HomeDetailActivity).buildService(RestApi::class.java)
+                .getStrategyById(id)
+            withContext(Dispatchers.Main) {
+
+                if(response.body()!!.isSuccess){
+                    animationView.visibility = View.GONE
+                    view.visibility = View.VISIBLE
+
+                    strategydata = response.body()!!.data
+                    txt_sd_strategyName.text = strategydata.strategyName
+                    txt_description.text = getString(R.string.strategy_description)
+                    txt_sd_description.text = strategydata.description
+                    txt_sd_create_date.text = Constants.getDate(strategydata.createdDate)
+
+                    if (response.body()!!.data.isActive != true) {
+                        txt_status_active.text = resources.getString(R.string.not_active)
+                        txt_status_active.setTextColor(
+                            ContextCompat.getColor(
+                                this@HomeDetailActivity,
+                                R.color.red
+                            )
+                        )
+                    } else {
+                        txt_status_active.text = resources.getString(R.string.active)
+                        txt_status_active.setTextColor(
+                            ContextCompat.getColor(
+                                this@HomeDetailActivity,
+                                R.color.light_green
+                            )
+                        )
+                    }
+                }else{
+                    showToast(this@HomeDetailActivity, getString(R.string.data_not_found))
+                }
+
+            }
+        }
     }
 }
