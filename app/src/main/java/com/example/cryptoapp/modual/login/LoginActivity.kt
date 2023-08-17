@@ -64,16 +64,6 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
     )
 
     lateinit var pwd_password: EditText
-//    val EMAIL_ADDRESS_PATTERN = Pattern.compile(
-//        "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
-//                "\\@" +
-//                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
-//                "(" +
-//                "\\." +
-//                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
-//                ")+"
-//    )
-
 
     val EMAIL_ADDRESS_PATTERN = Pattern.compile(
         "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
@@ -114,8 +104,8 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 
         view = findViewById(R.id.btn_progressBar)
         register_progressBar = view.findViewById(R.id.register_progressBar)
-
         progressBar_cardView = view.findViewById(R.id.progressBar_cardView)
+
         forgot_password = findViewById(R.id.forgot_password)
         login_create = findViewById(R.id.txt_otp_resend)
         txt_login_country_code = findViewById(R.id.txt_login_country_code)

@@ -9,6 +9,7 @@ MyPreferences(context: Context) {
     val PREFERENCES_NAME = "SharedPreferencesCrypto"
     val LOGIN_USER_DETAIL = "LoginUserDetail"
     val REMEMBER_ME = "RememberMe"
+    val BIO_ENABLE = "BioEnable"
     val TOKEN = "Token"
 
     val preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
@@ -50,4 +51,15 @@ MyPreferences(context: Context) {
     }
 
 
+    fun setEnable(isChecked: Boolean) {
+        val editor = preferences.edit()
+        editor.putBoolean(BIO_ENABLE, isChecked)
+        editor.apply()
+        editor.commit()
+    }
+
+    fun getEnable(): Boolean {
+        val remember = preferences.getBoolean(BIO_ENABLE, false)
+        return remember
+    }
 }

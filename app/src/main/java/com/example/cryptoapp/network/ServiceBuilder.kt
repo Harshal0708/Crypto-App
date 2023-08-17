@@ -29,7 +29,8 @@ class ServiceBuilder(context5: Context) {
         .build()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl(Constants.LOCAl_URL) // change this IP for testing by your actual machine IP
+        //.baseUrl(Constants.LOCAl_URL) // change this IP for testing by your actual machine IP
+        .baseUrl(Constants.STRIPE_PAYMENT_URL) // change this IP for testing by your actual machine IP
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)
         .build()

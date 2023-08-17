@@ -9,6 +9,8 @@ import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
+import com.example.cryptoapp.modual.login.BiometricActivity
+import com.example.cryptoapp.modual.login.BiometricEnableActivity
 import com.example.cryptoapp.modual.login.LoginActivity
 import com.example.cryptoapp.modual.login.UserActivity
 import com.example.cryptoapp.preferences.MyPreferences
@@ -46,9 +48,17 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             } else {
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-                finish()
+//                val intent = Intent(this, LoginActivity::class.java)
+                if(preferences.getEnable() == false){
+                    val intent = Intent(this, BiometricEnableActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }else{
+                    val intent = Intent(this, BiometricActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+
             }
         }, 3000)
 

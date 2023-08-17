@@ -138,4 +138,9 @@
     <string name="Please_select_price">Please select price</string>
     <string name="Please_other_select_price">Please select other price</string>
     <string name="Please_other_select_coin">Please select a coin</string>
+    <string name="enable_security">Enable 2FA Security</string>
+    <string name="enable_biometric_security">Enable biometric devices lock on the app for 2Factor Security.</string>
+    <string name="enable">Enable</string>
+    <string name="login_with_biometric">Login with biometric</string>
+
 </resources>
