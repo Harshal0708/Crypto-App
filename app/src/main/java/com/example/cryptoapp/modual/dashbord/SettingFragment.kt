@@ -99,7 +99,8 @@ class SettingFragment : Fragment(), View.OnClickListener,
 
     lateinit var countriesAdapter: CountriesAdapter
     var countryId: String = ""
-    var selectedSuperStar : String = ""
+    var selectedSuperStar: String = ""
+    lateinit var radioGoogle: RadioButton
     lateinit var radioOtp: RadioButton
     lateinit var radioFinger: RadioButton
 
@@ -119,6 +120,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
         preferences = MyPreferences(fragmentContext)
         radioOtp = view1.findViewById(R.id.radioOtp)
         radioFinger = view1.findViewById(R.id.radioFinger)
+        radioGoogle = view1.findViewById(R.id.radioGoogle)
         userDetail = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
         edFirstname = view1.findViewById(R.id.edFirstname)
@@ -141,11 +143,27 @@ class SettingFragment : Fragment(), View.OnClickListener,
         viewLoader = view1.findViewById(R.id.viewLoader)
         animationView = viewLoader.findViewById(R.id.lotti_img)
 
+        if (MyPreferences(fragmentContext).getAuth() == 0) {
+            radioGoogle.isChecked = true
+            radioFinger.isChecked = false
+            radioOtp.isChecked = false
+        } else if (MyPreferences(fragmentContext).getAuth() == 1) {
+            radioGoogle.isChecked = false
+            radioFinger.isChecked = true
+            radioOtp.isChecked = false
+        } else if (MyPreferences(fragmentContext).getAuth() == 2) {
+            radioGoogle.isChecked = false
+            radioFinger.isChecked = false
+            radioOtp.isChecked = true
+        }
+
+
         progressBar_cardView.setOnClickListener(this)
         profile_img.setOnClickListener(this)
         mn_et_country_code.setOnClickListener(this)
         radioOtp.setOnClickListener(this)
         radioFinger.setOnClickListener(this)
+        radioGoogle.setOnClickListener(this)
 
 
         edFirstname.addTextChangedListener(object : TextWatcher {
@@ -313,7 +331,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
                 edLastname.setText(response.body()!!.lastName)
                 edEmail.setText(response.body()!!.email)
                 edPhone.setText(response.body()!!.phoneNumber)
-                mn_et_country_code.setText("+"+response.body()!!.countryCode.toString())
+                mn_et_country_code.setText("+" + response.body()!!.countryCode.toString())
 
 
                 if (response.body()!!.profileImage != null && response.body()!!.profileImage != "") {
@@ -324,7 +342,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
                         .error(R.drawable.ic_app_icon)
                         .into(profile_img)
 
-                }else{
+                } else {
                     profile_img.setImageDrawable(fragmentContext.getDrawable(R.drawable.ic_account))
                 }
             }
@@ -414,22 +432,32 @@ class SettingFragment : Fragment(), View.OnClickListener,
             R.id.mn_et_country_code -> {
                 exit()
             }
-            R.id.radioOtp -> {
-                selectedSuperStar  = "Otp"
-                showToast(fragmentContext,selectedSuperStar)
-                radioOtp.isChecked=true
-                radioFinger.isChecked=false
+            R.id.radioGoogle -> {
+                selectedSuperStar = "Google"
+                showToast(fragmentContext, selectedSuperStar)
+                radioGoogle.isChecked = true
+                radioFinger.isChecked = false
+                radioOtp.isChecked = false
                 MyPreferences(fragmentContext).setAuth(0)
             }
 
             R.id.radioFinger -> {
-                selectedSuperStar  = "Finger Print"
-                showToast(fragmentContext,selectedSuperStar)
-                radioFinger.isChecked=true
-                radioOtp.isChecked=false
+                selectedSuperStar = "Finger Print"
+                showToast(fragmentContext, selectedSuperStar)
+                radioFinger.isChecked = true
+                radioGoogle.isChecked = false
+                radioOtp.isChecked = false
                 MyPreferences(fragmentContext).setAuth(1)
             }
 
+            R.id.radioOtp -> {
+                selectedSuperStar = "Otp Print"
+                showToast(fragmentContext, selectedSuperStar)
+                radioOtp.isChecked = true
+                radioFinger.isChecked = false
+                radioGoogle.isChecked = false
+                MyPreferences(fragmentContext).setAuth(2)
+            }
 
 
         }

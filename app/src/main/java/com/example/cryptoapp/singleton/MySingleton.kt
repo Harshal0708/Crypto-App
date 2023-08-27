@@ -1,5 +1,6 @@
 package com.example.cryptoapp.singleton
 
+import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.modual.home.adapter.AirQualityData
 import javax.inject.Singleton
 
@@ -10,6 +11,7 @@ class MySingleton {
         private var storedValue = ""
         var tickerResponseItem: AirQualityData = AirQualityData()
         private val instance = Singleton()
+        lateinit var data: DataXX
 
         fun getInstance(): Singleton {
             return instance
@@ -40,5 +42,14 @@ class MySingleton {
     fun getPos(): Int {
         return pos
     }
+
+    fun setData(value: DataXX) {
+        data = value
+    }
+
+    fun getData(): DataXX {
+        return data
+    }
+
 
 }

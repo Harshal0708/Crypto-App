@@ -74,6 +74,8 @@ class Constants {
         const val tradeSlotApi = "TradeSlotApi"
         const val createTradeSlot = "TradeSlotApi/CreateTradeSlot"
 
+        const val getLiveTopGainers = "http://103.14.99.42/GetLiveTopGainers"
+
         const val cryptocurrencylist = "data-api/v3/cryptocurrency/listing?start=1&limit=10"
 
         const val CONNECT_TIMEOUT: Long = 60 * 1000 // 1 minutes

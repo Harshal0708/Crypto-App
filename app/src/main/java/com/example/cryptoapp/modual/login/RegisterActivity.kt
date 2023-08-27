@@ -543,22 +543,22 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
                 imageUri = data!!.data ?: return
                 imageFile = File(imageUri?.path)
                 showLog("imageFile",imageFile.absolutePath)
-//                try {
-//                    val inputStream = contentResolver.openInputStream(imageUri!!)
-//                    val bitmap = BitmapFactory.decodeStream(inputStream)
-//                    inputStream?.close()
-//
-//                    saveBitmapAsPNG(bitmap)
-//                } catch (e: IOException) {
-//                    e.printStackTrace()
-//
-//            }
-//
-//                val inputStream = contentResolver.openInputStream(imageUri!!)
-//                var bitmap = BitmapFactory.decodeStream(inputStream)
-//                reg_profile_img.setImageBitmap(bitmap)
-////                encodeBitmapImage(bitmap)
-//                showLog("photo", photo.toString())
+                try {
+                    val inputStream = contentResolver.openInputStream(imageUri!!)
+                    val bitmap = BitmapFactory.decodeStream(inputStream)
+                    inputStream?.close()
+
+                    saveBitmapAsPNG(bitmap)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+
+            }
+
+                val inputStream = contentResolver.openInputStream(imageUri!!)
+                var bitmap = BitmapFactory.decodeStream(inputStream)
+                reg_profile_img.setImageBitmap(bitmap)
+//                encodeBitmapImage(bitmap)
+                showLog("photo", photo.toString())
 
 
 

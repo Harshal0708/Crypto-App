@@ -34,6 +34,7 @@ import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.network.onItemClickListener
 import com.example.cryptoapp.preferences.MyPreferences
+import com.example.cryptoapp.singleton.MySingleton
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -344,27 +345,37 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 
                 if (response.body()?.isSuccess == true) {
 
+                    MySingleton().setData(response.body()!!.data)
 
                     if(MyPreferences(this@LoginActivity).getAuth() == 0){
                         var intent = Intent(this@LoginActivity, GoogleAuthenticatorActivity::class.java)
                         //intent.putExtra("data", response.body()!!.data);
-                        intent.putExtra("data", Gson().toJson(response.body()!!.data))
                         intent.putExtra("isChecked", cb_remember_me.isChecked)
                         startActivity(intent)
                     }else if(MyPreferences(this@LoginActivity).getAuth() == 1){
                         if (preferences.getEnable() == false) {
                             val intent = Intent(this@LoginActivity, BiometricEnableActivity::class.java)
+//                            intent.putExtra("data", Gson().toJson(response.body()!!.data))
+                            intent.putExtra("isChecked", cb_remember_me.isChecked)
                             startActivity(intent)
                             finish()
                         } else {
                             val intent = Intent(this@LoginActivity, BiometricActivity::class.java)
+//                            intent.putExtra("data", Gson().toJson(response.body()!!.data))
+                            intent.putExtra("isChecked", cb_remember_me.isChecked)
                             startActivity(intent)
                             finish()
                         }
+                    }else if(MyPreferences(this@LoginActivity).getAuth() == 2){
+                        var intent = Intent(this@LoginActivity, LoginOtpActivity::class.java)
+                        //intent.putExtra("data", response.body()!!.data);
+//                        intent.putExtra("data", Gson().toJson(response.body()!!.data))
+                        intent.putExtra("isChecked", cb_remember_me.isChecked)
+                        startActivity(intent)
                     }else{
                         var intent = Intent(this@LoginActivity, GoogleAuthenticatorActivity::class.java)
                         //intent.putExtra("data", response.body()!!.data);
-                        intent.putExtra("data", Gson().toJson(response.body()!!.data))
+//                        intent.putExtra("data", Gson().toJson(response.body()!!.data))
                         intent.putExtra("isChecked", cb_remember_me.isChecked)
                         startActivity(intent)
                     }

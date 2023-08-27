@@ -4,11 +4,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.R
+import com.example.cryptoapp.modual.strategy.adapter.BuyCoinAdapter
 import com.example.cryptoapp.modual.strategy.adapter.CoinSelectionAdapter
+import com.example.cryptoapp.network.RestApi
+import com.example.cryptoapp.network.ServiceBuilder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CoinSelectionActivity : AppCompatActivity() {
 
@@ -63,6 +70,21 @@ class CoinSelectionActivity : AppCompatActivity() {
                 Constants.showToast(this@CoinSelectionActivity, resources.getString(R.string.Please_other_select_coin))
             }
         }
-
+        getLiveTopGainers()
     }
+
+    private fun getLiveTopGainers() {
+        // viewLoader.visibility = View.VISIBLE
+        lifecycleScope.launch(Dispatchers.IO) {
+            val response = ServiceBuilder(this@CoinSelectionActivity).buildService(RestApi::class.java)
+                .getLiveTopGainers()
+            withContext(Dispatchers.Main) {
+                //viewLoader.visibility = View.GONE
+
+
+                Constants.showLog("getLiveTopGainers",response.body().toString())
+            }
+        }
+    }
+
 }

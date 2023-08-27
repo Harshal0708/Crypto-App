@@ -19,6 +19,7 @@ import com.example.cryptoapp.model.VerifyLoginOtpPayload
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.preferences.MyPreferences
+import com.example.cryptoapp.singleton.MySingleton
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.gson.Gson
 import com.mukesh.mukeshotpview.completeListener.MukeshOtpCompleteListener
@@ -51,7 +52,7 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var resend_code: TextView
     lateinit var txt_otp_resend: TextView
 
-    lateinit var generateOtp: String
+    var generateOtp: String = ""
 
     lateinit var ima_back: ImageView
 
@@ -79,15 +80,29 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
         resent.text = getString(R.string.submit)
         resent.text = getString(R.string.verify_continue)
         ima_back = findViewById(R.id.ima_back)
+        otp_1 = findViewById(R.id.otp_layout)
 //        data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
+        data = MySingleton().getData()
 
-        otp_phone_verification.setText("Please, enter the verification code we sent to your  Mobile 9714675391 and Gmail apurva.patel@skyttus.com}")
-//        otp_phone_verification.setText("Please, enter the verification code we sent to your  Mobile ${data.mobile} and Gmail ${data.email}")
+//        otp_phone_verification.setText("Please, enter the verification code we sent to your  Mobile 9714675391 and Gmail apurva.patel@skyttus.com}")
+        otp_phone_verification.setText("Please, enter the verification code we sent to your  Mobile ${data.mobile} and Gmail ${data.email}")
 
         countdownTimer()
 
+
+        otp_1.setOtpCompletionListener(object : MukeshOtpCompleteListener {
+            override fun otpCompleteListener(otp: String?) {
+                generateOtp = otp.toString()
+                Toast.makeText(
+                    this@LoginOtpActivity,
+                    "Entered OTP Number is $otp",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        })
+
         progressBar_cardView.setOnClickListener(this)
-        otp_1 = findViewById(R.id.otp_layout)
+
 
         resend_code.isEnabled = false
         txt_otp_resend.isEnabled = false
@@ -233,18 +248,8 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
 //                    generateOtp=it
 //                }
 
-                otp_1.setOtpCompletionListener(object : MukeshOtpCompleteListener {
-                    override fun otpCompleteListener(otp: String?) {
-                        generateOtp = otp.toString()
-                        Toast.makeText(
-                            this@LoginOtpActivity,
-                            "Entered OTP Number is $otp",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                })
 
-                //verifyRegistrationOtp(generateOtp)
+                verifyRegistrationOtp(generateOtp)
             }
             R.id.txt_sign_in_here -> {
                 resend()

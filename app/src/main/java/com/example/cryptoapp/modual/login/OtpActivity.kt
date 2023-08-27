@@ -211,11 +211,8 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun addCreateAccount() {
-
         register_progressBar?.visibility = View.VISIBLE
         val response = ServiceBuilder(this@OtpActivity).buildService(RestApi::class.java)
-
-
 //        response.addRegister(
 //            firsName,
 //            lastName,
@@ -227,25 +224,23 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 //            imageUri.absolutePath
 //        ).enqueue(
 //
-
-
         val fileDir = applicationContext.filesDir
         val file = File(fileDir,"image.png")
         val inputStream = contentResolver.openInputStream(imageUri)
         val outputStream = FileOutputStream(file)
         inputStream!!.copyTo(outputStream)
 
-
 //        val requestFile: RequestBody = create(MediaType.parse("multipart/form-data"), file)
 //        val requestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
         val requestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
 
         val part = MultipartBody.Part.createFormData("ProfileImage",file.name,requestBody)
-        val cusName: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), "Apurva")
-        val cusLastName: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), "Patel")
-        val cusLastPassword: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), "Test@123")
-        val cusLastEmail: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), "apurva.skyttus@gmail.com")
-        val cusLastMobile: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), "9714675391")
+        val cusName: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), firsName)
+        val cusLastName: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), lastName)
+        val cusCountryId: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), countryId)
+        val cusLastPassword: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), rePassword)
+        val cusLastEmail: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), email)
+        val cusLastMobile: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), phone)
         val cusUri: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), file.name)
 
         showLog("part", part.toString())
@@ -264,6 +259,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
             cusName,
             cusLastName,
             cusLastPassword,
+            cusCountryId,
             cusLastEmail,
             cusLastMobile,
             part,

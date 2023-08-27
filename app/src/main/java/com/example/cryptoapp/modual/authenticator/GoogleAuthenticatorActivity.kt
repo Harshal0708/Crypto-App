@@ -22,6 +22,7 @@ import com.example.cryptoapp.modual.login.UserActivity
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.preferences.MyPreferences
+import com.example.cryptoapp.singleton.MySingleton
 import com.google.gson.Gson
 import com.mukesh.mukeshotpview.completeListener.MukeshOtpCompleteListener
 import com.mukesh.mukeshotpview.mukeshOtpView.MukeshOtpView
@@ -76,7 +77,8 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
 //            data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
 //        }
 
-        data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
+//        data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
+        data = MySingleton().getData()
 
         progressBar_cardView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {

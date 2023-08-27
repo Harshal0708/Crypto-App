@@ -47,9 +47,10 @@ interface RestApi {
         @Part("FirstName") FirstName: RequestBody,
         @Part("LastName") LastName: RequestBody,
         @Part("Password") Password: RequestBody,
+        @Part("CountryId") CountryId: RequestBody,
         @Part("Email") Email: RequestBody,
         @Part("PhoneNumber") PhoneNumber: RequestBody,
-        @Part("ProfileImage") ProfileImage: MultipartBody.Part,
+        @Part ProfileImage: MultipartBody.Part,
         @Part("ImageURL") ImageURL: RequestBody,
         ): Call<RegisterResponse>
 
@@ -206,5 +207,8 @@ interface RestApi {
 
     @POST(Constants.createTradeSlot)
     fun addCreateTradeSlot(@Body createTradeSlotPayload: CreateTradeSlotPayload): Call<CreateTradeSlotResponse>
+
+    @GET(Constants.getLiveTopGainers)
+    suspend fun getLiveTopGainers(): Response<getLiveTopGainersResponse>
 
 }

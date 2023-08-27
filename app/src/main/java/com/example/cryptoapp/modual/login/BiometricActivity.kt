@@ -12,7 +12,10 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.R
+import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.preferences.MyPreferences
+import com.example.cryptoapp.singleton.MySingleton
+import com.google.gson.Gson
 import java.util.concurrent.Executor
 
 
@@ -29,13 +32,19 @@ class BiometricActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var img_back: ImageView
 
     lateinit var preferences: MyPreferences
+    lateinit var data: DataXX
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_biometric)
 
 
+
         preferences = MyPreferences(this)
+
+//        data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
+        data = MySingleton().getData()
+
         imgFingure = findViewById(R.id.imgFingure)
         txt_button_login = findViewById(R.id.txt_button_login)
         img_back = findViewById(R.id.img_back)
@@ -64,8 +73,20 @@ class BiometricActivity : AppCompatActivity(), View.OnClickListener {
                     super.onAuthenticationSucceeded(result)
 
                     preferences.setEnable(true)
-                    val intent = Intent(this@BiometricActivity, LoginActivity::class.java)
+
+                    if (intent.getBooleanExtra("isChecked", false) == true) {
+                        preferences.setRemember(true)
+                    } else {
+                        preferences.setRemember(false)
+                    }
+
+                    preferences.setLogin(data)
+                    preferences.setToken(data.accessToken)
+
+                    var intent = Intent(this@BiometricActivity, UserActivity::class.java)
                     startActivity(intent)
+
+
                     Toast.makeText(
                         applicationContext,
                         "Authentication succeeded!", Toast.LENGTH_SHORT
@@ -106,6 +127,8 @@ class BiometricActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.img_back -> {
                 preferences.setEnable(false)
+                var intent = Intent(this@BiometricActivity, LoginActivity::class.java)
+                startActivity(intent)
                 this@BiometricActivity.finish()
             }
 
