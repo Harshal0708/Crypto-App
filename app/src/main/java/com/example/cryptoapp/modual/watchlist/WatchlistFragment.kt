@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
@@ -16,6 +17,7 @@ import com.example.cryptoapp.Response.TickerResponse
 import com.example.cryptoapp.model.CryptoName
 import com.example.cryptoapp.modual.home.adapter.AirQualityData
 import com.example.cryptoapp.modual.watchlist.adapter.WatchlistAdapter
+import com.example.cryptoapp.singleton.MySingleton
 import com.google.gson.Gson
 import kotlinx.coroutines.*
 import okhttp3.*
@@ -64,6 +66,7 @@ class WatchlistFragment : Fragment() {
 
             ws1.await()
         }
+
         return view
     }
 
@@ -126,9 +129,9 @@ class WatchlistFragment : Fragment() {
 
             if (value == 1) {
                 val gson = Gson()
-                first.add(CryptoName("ETHUSDT"))
+                first.add(CryptoName("BTCUSDT"))
 //                first.add(CryptoName("MAGICBTC"))
-//                first.add(CryptoName("ETHBTC"))
+                first.add(CryptoName("ETHUSDT"))
 //                first.add(CryptoName("MCUSDT"))
 //                first.add(CryptoName("BNBBTC"))
 //                first.add(CryptoName("NEOBTC"))
@@ -138,16 +141,63 @@ class WatchlistFragment : Fragment() {
                 val objectList = gson.fromJson(message, TickerResponse::class.java)
 
                 var isAvailable = false
+
                 objectList.mapIndexed { index, dto ->
+
                     for (person in first) {
                         if (dto.s.equals(person.name))
                             if (airQualityDatalist.size != 0) {
 
                                 for ((i, value) in airQualityDatalist.withIndex()) {
-                                    if (dto.s.equals(value.name)) {
-                                        airQualityDatalist[i] = AirQualityData(dto.s, dto.c)
 
+                                    if (dto.s.equals(value.name)) {
+                                        airQualityDatalist[i] = AirQualityData(dto.s, dto.c, dto.c)
+//                                        showLog("-------", "--------------------------------")
+//                                        showLog("objectList", dto.c)
+//                                        showLog("airQualityDatalist", value.price)
+//
+//
+//                                        showLog("-------", "--------------------------------")
+
+//                                        if (value.price.toDouble() < dto.c.toDouble()) {
+//                                            airQualityDatalist[i] = AirQualityData(dto.s, dto.c, dto.c)
+////                                            val isTrue = value.price.toDouble() < dto.c.toDouble()
+////                                            showLog("1", value.price + ":" + dto.c.toDouble() + "----"  + isTrue)
+//                                        } else {
+//
+//                                            if(value.price.toDouble() > dto.c.toDouble()){
+//                                                airQualityDatalist[i] = AirQualityData(dto.s, dto.c, dto.c)
+////                                                val isTrue = value.price.toDouble() < dto.c.toDouble()
+////                                                showLog("2", value.price + ":" + dto.c.toDouble() + "----"  + isTrue)
+//                                            } else {
+//                                                airQualityDatalist[i] = AirQualityData(dto.s, dto.c, value.price)
+////                                                val isTrue = value.price.toDouble() < dto.c.toDouble()
+////                                                showLog("3", value.price + ":" + dto.c.toDouble() + "----"  + isTrue)
+//                                            }
+//
+//                                        }
+
+
+
+//                                        var previewPrice = MySingleton().getStoredValue()
+
+//                                        if (previewPrice.equals("")) {
+//                                            airQualityDatalist[i] =
+//                                                AirQualityData(dto.s, dto.c, dto.c)
+//                                        } else {
+//                                            if (dto.c.toDouble() > previewPrice.toDouble()) {
+//                                                airQualityDatalist[i] =
+//                                                    AirQualityData(dto.s, dto.c, previewPrice)
+//                                            } else {
+//                                                airQualityDatalist[i] =
+//                                                    AirQualityData(dto.s, dto.c, dto.c)
+//                                            }
+//                                        }
+
+
+//                                        MySingleton().setStoredValue(dto.c)
                                         isAvailable = true
+
                                         break
                                     } else {
                                         isAvailable = false
@@ -155,11 +205,11 @@ class WatchlistFragment : Fragment() {
                                 }
 
                                 if (isAvailable == false) {
-                                    airQualityDatalist.add(AirQualityData(dto.s, dto.c))
+                                    airQualityDatalist.add(AirQualityData(dto.s, dto.c, "0.00"))
                                 }
 
                             } else {
-                                airQualityDatalist.add(AirQualityData(dto.s, dto.c))
+                                airQualityDatalist.add(AirQualityData(dto.s, dto.c, "0.00"))
                             }
                     }
                 }
@@ -170,7 +220,6 @@ class WatchlistFragment : Fragment() {
                     rv_watchlist.layoutManager = LinearLayoutManager(fragmentContext)
                     watchlistAdapter = WatchlistAdapter(fragmentContext, airQualityDatalist)
                     rv_watchlist.adapter = watchlistAdapter
-
                 }
             }
         }

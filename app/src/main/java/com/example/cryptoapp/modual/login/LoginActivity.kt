@@ -337,20 +337,42 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
                 call: retrofit2.Call<LoginResponse>, response: retrofit2.Response<LoginResponse>
             ) {
 
-
                 showToast(this@LoginActivity, response.body()?.message.toString())
                 register_progressBar.visibility = GONE
 
-//                val dataXX = ArrayList<DataXX>()
-//                dataXX.add(response.body()!!.data)
+
+
                 if (response.body()?.isSuccess == true) {
-                    var intent = Intent(this@LoginActivity, GoogleAuthenticatorActivity::class.java)
-                    //intent.putExtra("data", response.body()!!.data);
-                    intent.putExtra("data", Gson().toJson(response.body()!!.data))
-                    intent.putExtra("isChecked", cb_remember_me.isChecked)
-                    startActivity(intent)
+
+
+                    if(MyPreferences(this@LoginActivity).getAuth() == 0){
+                        var intent = Intent(this@LoginActivity, GoogleAuthenticatorActivity::class.java)
+                        //intent.putExtra("data", response.body()!!.data);
+                        intent.putExtra("data", Gson().toJson(response.body()!!.data))
+                        intent.putExtra("isChecked", cb_remember_me.isChecked)
+                        startActivity(intent)
+                    }else if(MyPreferences(this@LoginActivity).getAuth() == 1){
+                        if (preferences.getEnable() == false) {
+                            val intent = Intent(this@LoginActivity, BiometricEnableActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            val intent = Intent(this@LoginActivity, BiometricActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                    }else{
+                        var intent = Intent(this@LoginActivity, GoogleAuthenticatorActivity::class.java)
+                        //intent.putExtra("data", response.body()!!.data);
+                        intent.putExtra("data", Gson().toJson(response.body()!!.data))
+                        intent.putExtra("isChecked", cb_remember_me.isChecked)
+                        startActivity(intent)
+                    }
+
                 }
 
+//                val dataXX = ArrayList<DataXX>()
+//                dataXX.add(response.body()!!.data)
 //
 //                val imageBytes = Base64.decode(response.body()!!.data.profilePicture, 0)
 //

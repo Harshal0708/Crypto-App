@@ -51,9 +51,7 @@ class SliderNewsViewPagerAdapter (val context: Context, val items: List<Item>) :
                 val intent = Intent(context, WebviewActivity::class.java)
                 intent.putExtra("newsUrl",items.get(position).url)
                 context.startActivity(intent)
-
             }
-
         })
 
         Objects.requireNonNull(container).addView(itemView)

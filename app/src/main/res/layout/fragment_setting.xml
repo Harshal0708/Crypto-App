@@ -159,6 +159,36 @@
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/edPhone" />
 
+
+        <RadioButton
+            android:id="@+id/radioOtp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:buttonTint="@color/edit_text_color"
+            android:checked="false"
+            android:text="Otp Authentication"
+            android:textColor="@color/edit_text_color"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/btn_progressBar" />
+
+        <RadioButton
+            android:id="@+id/radioFinger"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:buttonTint="@color/edit_text_color"
+            android:checked="false"
+            android:text="Finger Authentication"
+            android:textColor="@color/edit_text_color"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/radioOtp" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"
             android:layout_width="wrap_content"

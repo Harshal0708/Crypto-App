@@ -8,9 +8,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Base64
 import android.view.View
@@ -42,7 +42,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.ByteArrayOutputStream
+import java.io.*
 import java.util.regex.Pattern
 
 
@@ -96,7 +96,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
     private val pickCamera = 200
     private var imageUri: Uri? = null
 
-    lateinit var imagePath: String
 
     lateinit var bs_img_camera: ImageView
     lateinit var bs_img_gallery: ImageView
@@ -105,6 +104,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
     lateinit var photo: Bitmap
     var encodeImageString: String = ""
     var countryId: String = ""
+    lateinit var imageFile: File
 
 
     lateinit var countriesAdapter: CountriesAdapter
@@ -389,8 +389,8 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
                 rePassword = sp_et_rePassword.text.toString()
 
                 if (validation() == true) {
-                    //sendRegistrationOtp()
-                    showLog("encodeImageString",encodeImageString)
+                    sendRegistrationOtp()
+                  //  showLog("encodeImageString",encodeImageString)
                 }
 
             }
@@ -470,7 +470,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
 
                             val imageBytes = Base64.decode(encodeImageString, 0)
                             val image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-                            val myData= MyData(email,phone,firsName,lastName,rePassword,image, countryId)
+                            val myData= MyData(email,phone,firsName,lastName,rePassword,imageUri.toString(), countryId)
                             val gson = Gson()
                             val jsonData = gson.toJson(myData)
 
@@ -529,6 +529,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
 
     private fun openGallery() {
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        intent.type = "image/*"
         startActivityForResult(gallery, pickImage)
     }
 
@@ -538,22 +539,87 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
 
         if (resultCode == RESULT_OK && requestCode == pickImage) {
             try {
-                imageUri = data?.data
-                val inputStream = contentResolver.openInputStream(imageUri!!)
-                var bitmap = BitmapFactory.decodeStream(inputStream)
-                reg_profile_img.setImageBitmap(bitmap)
-                encodeBitmapImage(bitmap)
-                showLog("photo", photo.toString())
+
+                imageUri = data!!.data ?: return
+                imageFile = File(imageUri?.path)
+                showLog("imageFile",imageFile.absolutePath)
+//                try {
+//                    val inputStream = contentResolver.openInputStream(imageUri!!)
+//                    val bitmap = BitmapFactory.decodeStream(inputStream)
+//                    inputStream?.close()
+//
+//                    saveBitmapAsPNG(bitmap)
+//                } catch (e: IOException) {
+//                    e.printStackTrace()
+//
+//            }
+//
+//                val inputStream = contentResolver.openInputStream(imageUri!!)
+//                var bitmap = BitmapFactory.decodeStream(inputStream)
+//                reg_profile_img.setImageBitmap(bitmap)
+////                encodeBitmapImage(bitmap)
+//                showLog("photo", photo.toString())
+
+
+
             } catch (ex: Exception) {
             }
         } else if (resultCode == RESULT_OK && requestCode == pickCamera) {
             photo = data?.extras?.get("data") as Bitmap
-            showLog("photo", photo.toString())
-            encodeBitmapImage(photo)
+//            encodeBitmapImage(photo)
+//            saveImageAsPNG(photo)
+            imageFile = createImageFileFromBitmap(photo)
+            showLog("imageFile",imageFile.absolutePath)
             reg_profile_img.setImageBitmap(photo)
         }
 
     }
+
+    private fun createImageFileFromBitmap(bitmap: Bitmap): File {
+        val imageFile = File(cacheDir, "temp_image.jpg")
+        imageFile.createNewFile()
+
+        val outputStream = FileOutputStream(imageFile)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
+
+
+        outputStream.close()
+
+        return imageFile
+    }
+
+
+
+    private fun saveImageAsPNG(imageBitmap: Bitmap) {
+        val storageDir = getExternalFilesDir(null)
+        val imageFile = File.createTempFile(
+            "image",  /* prefix */
+            ".png",   /* suffix */
+            storageDir /* directory */
+        )
+
+        try {
+            val stream = FileOutputStream(imageFile)
+            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            stream.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+    }
+
+    private fun saveBitmapAsPNG(bitmap: Bitmap) {
+        val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        imageFile = File(storageDir, "my_image.png")
+
+        val outputStream: OutputStream = FileOutputStream(imageFile)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+        outputStream.flush()
+        outputStream.close()
+    }
+
+
+
 
 
     private fun encodeBitmapImage(bitmap: Bitmap) {
@@ -631,3 +697,27 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
     }
 
 }
+
+
+//override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//    super.onActivityResult(requestCode, resultCode, data)
+//
+//    if (resultCode == AppCompatActivity.RESULT_OK && requestCode == pickImage) {
+//        try {
+//            imageUri = data?.data
+//            val inputStream = contentResolver.openInputStream(imageUri!!)
+//            var bitmap = BitmapFactory.decodeStream(inputStream)
+//            reg_profile_img.setImageBitmap(bitmap)
+//            encodeBitmapImage(bitmap)
+//            showLog("photo", photo.toString())
+//        } catch (ex: Exception) {
+//        }
+//    } else if (resultCode == AppCompatActivity.RESULT_OK && requestCode == pickCamera) {
+//        photo = data?.extras?.get("data") as Bitmap
+//        showLog("photo", photo.toString())
+//        encodeBitmapImage(photo)
+//        reg_profile_img.setImageBitmap(photo)
+//    }
+//
+//}
+

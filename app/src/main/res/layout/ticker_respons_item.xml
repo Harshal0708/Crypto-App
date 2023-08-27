@@ -5,6 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+<!--//home_text-->
+<!--    static_txt_1-->
+
+
 
     <TextView
         android:id="@+id/output_name"
@@ -13,7 +17,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="@font/helvetica_bold"
         android:gravity="start"
-        android:textColor="@color/home_text"
+        android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/output_price"
         app:layout_constraintHorizontal_bias="0.5"
@@ -28,7 +32,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="@font/helvetica_bold"
         android:gravity="end"
-        android:textColor="@color/static_txt_1"
+        android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

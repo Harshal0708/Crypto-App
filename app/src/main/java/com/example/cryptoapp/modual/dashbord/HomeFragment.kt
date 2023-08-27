@@ -188,8 +188,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
             withContext(Dispatchers.Main) {
                 //         viewLoader.visibility = View.GONE
-                viewPagerAdapter = SliderViewPagerAdapter(fragmentContext, response.body()!!.data)
-                login_ViewPager.adapter = viewPagerAdapter
+//                viewPagerAdapter = SliderViewPagerAdapter(fragmentContext, response.body()!!.data)
+//                login_ViewPager.adapter = viewPagerAdapter
 
             }
         }
@@ -197,7 +197,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     private fun getNewsList() {
 
-        val url = "https://rss.app/feeds/v1.1/7nFKrhvpzsUtzAaz.json"
+        val url = "https://rss.app/feeds/v1.1/ttZsbTXBVGxUxbTW.json"
 
         val client = OkHttpClient()
         val request = Request.Builder()
@@ -260,7 +260,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
                             for ((i, item) in airQualityDatalist.withIndex()) {
                                 if (dto.s.equals(item.name)) {
-                                    airQualityDatalist[i] = AirQualityData(dto.s, dto.c)
+                                    airQualityDatalist[i] = AirQualityData(dto.s, dto.c,"1")
 
                                     isAvailable = true
                                     break
@@ -270,11 +270,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
                             }
 
                             if (isAvailable == false) {
-                                airQualityDatalist.add(AirQualityData(dto.s, dto.c))
+                                airQualityDatalist.add(AirQualityData(dto.s, dto.c,"1"))
                             }
 
                         } else {
-                            airQualityDatalist.add(AirQualityData(dto.s, dto.c))
+                            airQualityDatalist.add(AirQualityData(dto.s, dto.c,"1"))
                         }
                 }
             }

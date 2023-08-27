@@ -1,7 +1,7 @@
 package com.example.cryptoapp.Response
 
 data class UserDetailsResponse(
-    val apiKey: Any,
+    val apiKey: String,
     val email: String,
     val firstName: String,
     val id: String,
@@ -9,5 +9,6 @@ data class UserDetailsResponse(
     val phoneNumber: String,
     val profileImage: String,
     val profilePicture: String,
-    val secretKey: Any
+    val secretKey: String,
+    val countryCode: Int,
 )

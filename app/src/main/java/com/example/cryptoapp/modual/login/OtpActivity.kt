@@ -1,29 +1,24 @@
 package com.example.cryptoapp.modual.login
 
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Base64
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.airbnb.lottie.LottieDrawable
-import com.example.cryptoapp.Constants
+import androidx.core.net.toUri
+import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Receiver.SmsBroadcastReceiver
 import com.example.cryptoapp.Response.OtpResponse
 import com.example.cryptoapp.Response.RegisterResponse
 import com.example.cryptoapp.Response.SendRegistrationOtpResponce
-import com.example.cryptoapp.model.RegisterPayload
 import com.example.cryptoapp.model.SendRegistrationOtpPayload
 import com.example.cryptoapp.model.VerifyRegistrationOtpPayload
 import com.example.cryptoapp.network.RestApi
@@ -32,9 +27,15 @@ import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.gson.Gson
 import com.mukesh.mukeshotpview.completeListener.MukeshOtpCompleteListener
 import com.mukesh.mukeshotpview.mukeshOtpView.MukeshOtpView
-
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Call
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.util.regex.Pattern
 
 
@@ -63,12 +64,12 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     var firsName: String = ""
     var lastName: String = ""
     var rePassword: String = ""
-    var imageUri: String =""
-    var countryId: String =""
+    lateinit var imageUri: Uri
+    var countryId: String = ""
     var selectedKeyPos: Int = 0
     var selectedKeyPos1: Int = 0
     var generateOtp: String = ""
-    var generateOtp1: String =""
+    var generateOtp1: String = ""
     lateinit var userData: MyData
 
     lateinit var timer: CountDownTimer
@@ -111,17 +112,18 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         progressBar_cardView.setOnClickListener(this)
         ima_back.setOnClickListener(this)
 
-        if(intent.extras != null){
+        if (intent.extras != null) {
             val jsonData = intent.getStringExtra("data")
             val gson = Gson()
-            userData= gson.fromJson(jsonData, MyData::class.java)
+            userData = gson.fromJson(jsonData, MyData::class.java)
             email = userData.email
             phone = userData.phone
             firsName = userData.firsName
             lastName = userData.lastName
             rePassword = userData.rePassword
             countryId = userData.countryId
-            imageUri =bitmapToString(userData.imageUri)
+            imageUri = userData.imageUri.toUri()
+//            imageUri =bitmapToString(userData.imageUri)
 
         }
 
@@ -137,7 +139,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         Log.d("test", firsName)
         Log.d("test", lastName)
         Log.d("test", rePassword)
-        Log.d("test", imageUri)
+        Log.d("test", imageUri.toString())
 
         resend_code.isEnabled = false
         txt_otp_resend.isEnabled = false
@@ -161,12 +163,14 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         countdownTimer()
         //  startSmartUserConsent()
     }
+
     fun bitmapToString(bitmap: Bitmap): String {
         val outputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
         val byteArray = outputStream.toByteArray()
         return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
+
     fun verifyRegistrationOtp(str_email: String, str_phone: String) {
 
         register_progressBar?.visibility = View.VISIBLE
@@ -211,18 +215,66 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         register_progressBar?.visibility = View.VISIBLE
         val response = ServiceBuilder(this@OtpActivity).buildService(RestApi::class.java)
 
+
+//        response.addRegister(
+//            firsName,
+//            lastName,
+//            rePassword,
+//            email,
+//            countryId,
+//            phone,
+//            imageUri,
+//            imageUri.absolutePath
+//        ).enqueue(
+//
+
+
+        val fileDir = applicationContext.filesDir
+        val file = File(fileDir,"image.png")
+        val inputStream = contentResolver.openInputStream(imageUri)
+        val outputStream = FileOutputStream(file)
+        inputStream!!.copyTo(outputStream)
+
+
+//        val requestFile: RequestBody = create(MediaType.parse("multipart/form-data"), file)
+//        val requestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+        val requestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+
+        val part = MultipartBody.Part.createFormData("ProfileImage",file.name,requestBody)
+        val cusName: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), "Apurva")
+        val cusLastName: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), "Patel")
+        val cusLastPassword: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), "Test@123")
+        val cusLastEmail: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), "apurva.skyttus@gmail.com")
+        val cusLastMobile: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), "9714675391")
+        val cusUri: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), file.name)
+
+        showLog("part", part.toString())
+
+//        response.addRegister(
+//            "Apurva",
+//            "Patel",
+//            "Test@123",
+//            "apurva.skyttus@gmail.com",
+//            "9714675391",
+//            part,
+//            imageUri.toString()
+//        ).enqueue
+//
         response.addRegister(
-            firsName,
-            lastName,
-            rePassword,
-            email,
-            countryId,
-            phone,
-            imageUri
+            cusName,
+            cusLastName,
+            cusLastPassword,
+            cusLastEmail,
+            cusLastMobile,
+            part,
+            cusUri
         ).enqueue(
 
-//        var registerPayload = RegisterPayload("aafafasf","asfafasf",email,firsName,lastName,"asfafafa",rePassword,phone,imageUri,"afsasfaf")
+//            "74328de4-7443-442f-6762-08dba49e459b",
+
+//        var registerPayload = RegisterPayload(firsName,lastName,rePassword,email,countryId,phone,imageUri,imageUri.absolutePath)
 //
+//        showLog("registerPayload",Gson().toJson(registerPayload))
 //            response.addRegister(registerPayload)
 //                .enqueue(
             object : retrofit2.Callback<RegisterResponse> {
@@ -249,9 +301,6 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
             }
         )
     }
-
-
-
 
 
     private fun startSmartUserConsent() {
@@ -323,7 +372,6 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 //                }
 
 
-
                 verifyRegistrationOtp(generateOtp, generateOtp1)
 
                 //addCreateAccount()
@@ -337,7 +385,6 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
             R.id.ima_back -> {
                 onBackPressed()
             }
-
 
 
         }

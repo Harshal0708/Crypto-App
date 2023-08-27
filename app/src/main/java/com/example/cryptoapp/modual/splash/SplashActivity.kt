@@ -19,6 +19,7 @@ class SplashActivity : AppCompatActivity() {
 
     lateinit var animationView: LottieAnimationView
     lateinit var preferences: MyPreferences
+
 //    lateinit var data: DataXX
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,21 +44,23 @@ class SplashActivity : AppCompatActivity() {
 
         Handler().postDelayed({
             if (preferences.getRemember() == true) {
-               // val intent = Intent(this, UserActivity::class.java)
+                // val intent = Intent(this, UserActivity::class.java)
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             } else {
-//                val intent = Intent(this, LoginActivity::class.java)
-                if(preferences.getEnable() == false){
-                    val intent = Intent(this, BiometricEnableActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }else{
-                    val intent = Intent(this, BiometricActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+
+//                if(preferences.getEnable() == false){
+//                    val intent = Intent(this, BiometricEnableActivity::class.java)
+//                    startActivity(intent)
+//                    finish()
+//                }else{
+//                    val intent = Intent(this, BiometricActivity::class.java)
+//                    startActivity(intent)
+//                    finish()
+//                }
 
             }
         }, 3000)

@@ -297,7 +297,7 @@ class HomeWithWSFragment : Fragment() , View.OnClickListener {
 
                                 for ((i, value) in airQualityDatalist.withIndex()) {
                                     if (dto.s.equals(value.name)) {
-                                        airQualityDatalist[i] = AirQualityData(dto.s, dto.c)
+                                        airQualityDatalist[i] = AirQualityData(dto.s, dto.c,"1")
 
                                         isAvailable = true
                                         break
@@ -307,11 +307,11 @@ class HomeWithWSFragment : Fragment() , View.OnClickListener {
                                 }
 
                                 if (isAvailable == false) {
-                                    airQualityDatalist.add(AirQualityData(dto.s, dto.c))
+                                    airQualityDatalist.add(AirQualityData(dto.s, dto.c,"1"))
                                 }
 
                             } else {
-                                airQualityDatalist.add(AirQualityData(dto.s, dto.c))
+                                airQualityDatalist.add(AirQualityData(dto.s, dto.c,"1"))
                             }
                     }
                 }

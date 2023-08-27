@@ -10,6 +10,7 @@ MyPreferences(context: Context) {
     val LOGIN_USER_DETAIL = "LoginUserDetail"
     val REMEMBER_ME = "RememberMe"
     val BIO_ENABLE = "BioEnable"
+    val SELECT_AUTH = "SelectAuth"
     val TOKEN = "Token"
 
     val preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
@@ -49,6 +50,19 @@ MyPreferences(context: Context) {
         val remember = preferences.getString(TOKEN, "")
         return remember.toString()
     }
+
+     fun setAuth(auth: Int) {
+        val editor = preferences.edit()
+        editor.putInt(SELECT_AUTH, auth)
+        editor.apply()
+        editor.commit()
+    }
+
+    fun getAuth(): Int {
+        val remember = preferences.getInt(SELECT_AUTH, 0)
+        return remember
+    }
+
 
 
     fun setEnable(isChecked: Boolean) {

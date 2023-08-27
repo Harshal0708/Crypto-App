@@ -39,6 +39,7 @@ class SliderViewPagerAdapter (val context: Context, val imageList: List<CmsAdsLi
 
        // imageView.setImageResource(R.drawable.ic_splash)
 
+//        imageView.setImageBitmap(convertStringToBitmap(imageList.get(position).image))
         imageView.setImageBitmap(convertStringToBitmap(imageList.get(position).image))
 
         txt_cms_slider_name.text=imageList.get(position).title

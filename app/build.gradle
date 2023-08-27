@@ -106,4 +106,6 @@ dependencies {
 
     
     implementation "androidx.biometric:biometric-ktx:1.2.0-alpha04"
+
+    implementation 'com.karumi:dexter:5.0.0'
 }

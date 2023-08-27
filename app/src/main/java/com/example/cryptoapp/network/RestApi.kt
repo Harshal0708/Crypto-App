@@ -14,9 +14,13 @@ import com.strings.cryptoapp.Response.GenerateQrCodeResponnse
 import com.strings.cryptoapp.Response.GetGAKeyByUserIResponse
 import com.strings.cryptoapp.model.CreateUserGAKeyPayload
 import com.strings.cryptoapp.model.Verify2FAPayload
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
+import java.io.File
+import java.util.UUID
 
 interface RestApi {
     @POST(Constants.login)
@@ -31,22 +35,27 @@ interface RestApi {
     @POST(Constants.generateQrCode)
     fun addGenerateQrCode(@Body generateQrCodePayload: GenerateQrCodePayload): Call<BarcodeImageResponse>
 
-//    @POST(Constants.register)
-//    fun addRegister(@Body registerPayload: RegisterPayload): Call<RegisterResponse>
 
-    @FormUrlEncoded
+
+//    @Multipart
+//    @POST(Constants.register)
+//    fun addRegister(@Part registerPayload: RegisterPayload): Call<RegisterResponse>
+
+    @Multipart
     @POST(Constants.register)
     fun addRegister(
-        @Field("FirstName") FirstName: String,
-        @Field("LastName") LastName: String,
-        @Field("Password") Password: String,
-        @Field("Email") Email: String,
-        @Field("CountryId") CountryId: String,
-        @Field("PhoneNumber") PhoneNumber: String,
-        @Field("ProfileImage") ProfileImage: String,
-
+        @Part("FirstName") FirstName: RequestBody,
+        @Part("LastName") LastName: RequestBody,
+        @Part("Password") Password: RequestBody,
+        @Part("Email") Email: RequestBody,
+        @Part("PhoneNumber") PhoneNumber: RequestBody,
+        @Part("ProfileImage") ProfileImage: MultipartBody.Part,
+        @Part("ImageURL") ImageURL: RequestBody,
         ): Call<RegisterResponse>
 
+    //MultipartBody.Part
+
+//    @Part("CountryId") CountryId: String,
     @FormUrlEncoded
     @POST(Constants.updateProfileDetail)
     fun updateProfileDetail(

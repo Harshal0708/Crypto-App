@@ -40,8 +40,10 @@
             android:theme="@style/no_tool_bar" />
         <activity
             android:name=".WebviewActivity"
-            android:exported="false"
-            android:theme="@style/no_tool_bar" />
+            android:exported="true"
+            android:theme="@style/no_tool_bar" >
+
+        </activity>
         <activity
             android:name=".modual.history.PositionDetailActivity"
             android:exported="false"
@@ -154,6 +156,7 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+
         </activity>
         <activity
             android:name=".modual.login.ResetPasswordActivity"
@@ -215,12 +218,12 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".MainActivity"

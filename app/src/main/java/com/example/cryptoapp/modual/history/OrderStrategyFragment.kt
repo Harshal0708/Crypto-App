@@ -75,7 +75,7 @@ class OrderStrategyFragment : Fragment() {
 
             withContext(Dispatchers.Main) {
 //                viewLoader.visibility = View.GONE
-                Constants.showLog("getStrategy1OrderHistoryDetail", response.body().toString())
+                Constants.showLog("GetFilledOrderHistory", response.body().toString())
 
                 if (response.body() != null && response.body()!!.size != 0) {
 

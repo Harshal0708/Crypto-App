@@ -31,7 +31,6 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var preferences: MyPreferences
     lateinit var view: View
-    lateinit var otp_layout: View
     lateinit var register_progressBar: ProgressBar
     lateinit var resent: TextView
     lateinit var progressBar_cardView: RelativeLayout
@@ -54,6 +53,7 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var generateOtp: String
 
+    lateinit var ima_back: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,8 +68,6 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
         txt_otp_resend = findViewById(R.id.txt_otp_resend)
 
         otp_phone_verification = findViewById(R.id.otp_phone_verification)
-        otp_layout = findViewById(R.id.otp_layout)
-
 
         view = findViewById(R.id.btn_progressBar)
         register_progressBar = view.findViewById(R.id.register_progressBar)
@@ -80,20 +78,23 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
         resent = view.findViewById(R.id.resent)
         resent.text = getString(R.string.submit)
         resent.text = getString(R.string.verify_continue)
-        data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
+        ima_back = findViewById(R.id.ima_back)
+//        data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
 
-        otp_phone_verification.setText("Please, enter the verification code we sent to your  Mobile ${data.mobile} and Gmail ${data.email}")
+        otp_phone_verification.setText("Please, enter the verification code we sent to your  Mobile 9714675391 and Gmail apurva.patel@skyttus.com}")
+//        otp_phone_verification.setText("Please, enter the verification code we sent to your  Mobile ${data.mobile} and Gmail ${data.email}")
 
         countdownTimer()
 
         progressBar_cardView.setOnClickListener(this)
-        otp_1 = otp_layout.findViewById(R.id.otp_view)
+        otp_1 = findViewById(R.id.otp_layout)
 
         resend_code.isEnabled = false
         txt_otp_resend.isEnabled = false
         resend_code.setOnClickListener(this)
         txt_otp_resend.setOnClickListener(this)
 
+        ima_back.setOnClickListener(this)
 
     }
 
@@ -243,13 +244,16 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
                     }
                 })
 
-                verifyRegistrationOtp(generateOtp)
+                //verifyRegistrationOtp(generateOtp)
             }
             R.id.txt_sign_in_here -> {
                 resend()
             }
             R.id.txt_otp_resend -> {
                 resend()
+            }
+            R.id.ima_back -> {
+                onBackPressed()
             }
         }
     }

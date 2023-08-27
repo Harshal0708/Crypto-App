@@ -2,9 +2,10 @@ package com.example.cryptoapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.fragment.app.Fragment
+import com.example.cryptoapp.modual.watchlist.WatchlistFragment
 
 class WebviewActivity : AppCompatActivity() {
 
@@ -15,6 +16,7 @@ class WebviewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_webview)
 
         InIt()
+
     }
 
     private fun InIt() {
@@ -24,8 +26,8 @@ class WebviewActivity : AppCompatActivity() {
         webView.webViewClient = WebViewClient()
 
         // this will load the url of the website
-//        webView.loadUrl(intent.getStringExtra("newsUrl").toString())
         webView.loadUrl(intent.getStringExtra("newsUrl").toString())
+//        webView.loadUrl("www.google.com")
 
         webView.settings.javaScriptEnabled = true
         webView.settings.setDomStorageEnabled(true)
@@ -36,7 +38,10 @@ class WebviewActivity : AppCompatActivity() {
 
         // if you want to enable zoom feature
         webView.settings.setSupportZoom(true)
+
+
     }
+
 
     // if you press Back button this code will work
     override fun onBackPressed() {

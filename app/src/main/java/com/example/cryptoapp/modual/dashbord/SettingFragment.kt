@@ -1,6 +1,7 @@
 package com.example.cryptoapp.modual.dashbord
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -11,9 +12,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Base64
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +34,7 @@ import com.example.cryptoapp.network.onItemClickListener
 import com.example.cryptoapp.preferences.MyPreferences
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -40,7 +43,7 @@ import java.io.ByteArrayOutputStream
 import java.util.regex.Pattern
 
 
-class SettingFragment : Fragment(),  View.OnClickListener ,
+class SettingFragment : Fragment(), View.OnClickListener,
     onItemClickListener {
 
     lateinit var edFirstname: EditText
@@ -88,7 +91,7 @@ class SettingFragment : Fragment(),  View.OnClickListener ,
     lateinit var str_array: ByteArray
     lateinit var data: DataXX
     lateinit var mn_et_country_code: TextView
-    lateinit var dialog1 : Dialog
+    lateinit var dialog1: Dialog
 
     lateinit var rv_countryName: RecyclerView
 
@@ -96,6 +99,11 @@ class SettingFragment : Fragment(),  View.OnClickListener ,
 
     lateinit var countriesAdapter: CountriesAdapter
     var countryId: String = ""
+    var selectedSuperStar : String = ""
+    lateinit var radioOtp: RadioButton
+    lateinit var radioFinger: RadioButton
+
+    private lateinit var fragmentContext: Context
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -108,7 +116,9 @@ class SettingFragment : Fragment(),  View.OnClickListener ,
     }
 
     private fun InIt(view1: View) {
-        preferences = MyPreferences(requireContext())
+        preferences = MyPreferences(fragmentContext)
+        radioOtp = view1.findViewById(R.id.radioOtp)
+        radioFinger = view1.findViewById(R.id.radioFinger)
         userDetail = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
         edFirstname = view1.findViewById(R.id.edFirstname)
@@ -134,6 +144,9 @@ class SettingFragment : Fragment(),  View.OnClickListener ,
         progressBar_cardView.setOnClickListener(this)
         profile_img.setOnClickListener(this)
         mn_et_country_code.setOnClickListener(this)
+        radioOtp.setOnClickListener(this)
+        radioFinger.setOnClickListener(this)
+
 
         edFirstname.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -171,7 +184,7 @@ class SettingFragment : Fragment(),  View.OnClickListener ,
                 } else {
                     edEmail.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
                 }
-                
+
 //
 //                sp_et_firstName.setCompoundDrawablesRelativeWithIntrinsicBounds(
 //                    R.drawable.ic_new_email, 0, 0, 0
@@ -265,7 +278,7 @@ class SettingFragment : Fragment(),  View.OnClickListener ,
         if (resultCode == AppCompatActivity.RESULT_OK && requestCode == pickImage) {
             try {
                 imageUri = data?.data
-                val inputStream = requireContext().contentResolver.openInputStream(imageUri!!)
+                val inputStream = fragmentContext.contentResolver.openInputStream(imageUri!!)
                 var bitmap = BitmapFactory.decodeStream(inputStream)
                 profile_img.setImageBitmap(bitmap)
                 encodeBitmapImage(bitmap)
@@ -291,7 +304,7 @@ class SettingFragment : Fragment(),  View.OnClickListener ,
 
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder(requireContext()).buildService(RestApi::class.java)
+            var response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
                 .getUserDetails(id)
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE
@@ -300,9 +313,19 @@ class SettingFragment : Fragment(),  View.OnClickListener ,
                 edLastname.setText(response.body()!!.lastName)
                 edEmail.setText(response.body()!!.email)
                 edPhone.setText(response.body()!!.phoneNumber)
+                mn_et_country_code.setText("+"+response.body()!!.countryCode.toString())
+
 
                 if (response.body()!!.profileImage != null && response.body()!!.profileImage != "") {
-                    profile_img.setImageBitmap(byteArrayToBitmap(response.body()!!.profileImage.toByteArray()))
+//                    profile_img.setImageBitmap(byteArrayToBitmap(response.body()!!.profileImage.toByteArray()))
+                    Picasso.get()
+                        .load(response.body()!!.profileImage.toUri())
+                        .placeholder(R.drawable.ic_app_icon)
+                        .error(R.drawable.ic_app_icon)
+                        .into(profile_img)
+
+                }else{
+                    profile_img.setImageDrawable(fragmentContext.getDrawable(R.drawable.ic_account))
                 }
             }
         }
@@ -311,7 +334,7 @@ class SettingFragment : Fragment(),  View.OnClickListener ,
     fun getUpdateProfileDetail() {
 
         register_progressBar.visibility = View.VISIBLE
-        val response = ServiceBuilder(requireContext()).buildService(RestApi::class.java)
+        val response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
 
 //encodeImageString
         response.updateProfileDetail(
@@ -340,7 +363,7 @@ class SettingFragment : Fragment(),  View.OnClickListener ,
 //                            response.body()?.message,
 //                            Toast.LENGTH_LONG
 //                        ).show()
-                        response.body()?.message?.let { showToast(requireContext(), it) }
+                        response.body()?.message?.let { showToast(fragmentContext, it) }
 
                         var intent = Intent(requireContext(), MainActivity::class.java)
                         startActivity(intent)
@@ -350,7 +373,7 @@ class SettingFragment : Fragment(),  View.OnClickListener ,
 //                            response.body()?.message,
 //                            Toast.LENGTH_LONG
 //                        ).show()
-                        response.body()?.message?.let { showToast(requireContext(), it) }
+                        response.body()?.message?.let { showToast(fragmentContext, it) }
                     }
 
                 }
@@ -391,6 +414,24 @@ class SettingFragment : Fragment(),  View.OnClickListener ,
             R.id.mn_et_country_code -> {
                 exit()
             }
+            R.id.radioOtp -> {
+                selectedSuperStar  = "Otp"
+                showToast(fragmentContext,selectedSuperStar)
+                radioOtp.isChecked=true
+                radioFinger.isChecked=false
+                MyPreferences(fragmentContext).setAuth(0)
+            }
+
+            R.id.radioFinger -> {
+                selectedSuperStar  = "Finger Print"
+                showToast(fragmentContext,selectedSuperStar)
+                radioFinger.isChecked=true
+                radioOtp.isChecked=false
+                MyPreferences(fragmentContext).setAuth(1)
+            }
+
+
+
         }
     }
 
@@ -410,6 +451,7 @@ class SettingFragment : Fragment(),  View.OnClickListener ,
         getCountries()
         dialog1.show()
     }
+
     private fun getCountries() {
 
         viewLoader.visibility = View.VISIBLE
@@ -430,6 +472,7 @@ class SettingFragment : Fragment(),  View.OnClickListener ,
             }
         }
     }
+
     private fun openBottomSheet() {
         dialog = BottomSheetDialog(requireContext())
         val view = layoutInflater.inflate(R.layout.profile_bottom_sheet, null)
@@ -488,4 +531,11 @@ class SettingFragment : Fragment(),  View.OnClickListener ,
         countryId = getCountriesResponseItem.get(pos).id
         dialog1.dismiss()
     }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
+
 }
+

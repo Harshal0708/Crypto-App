@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".WebviewActivity">
 
     <androidx.constraintlayout.widget.Guideline
@@ -38,9 +39,11 @@
         android:id="@+id/webView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/guideline101"
         app:layout_constraintEnd_toStartOf="@+id/guideline100"
         app:layout_constraintStart_toStartOf="@+id/guideline97"
         app:layout_constraintTop_toTopOf="@+id/guideline98" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
