@@ -80,12 +80,13 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
     lateinit var countriesAdapter: CountriesAdapter
     lateinit var rv_countryName: RecyclerView
     lateinit var viewLoader: View
-    lateinit var toolbar: View
-    lateinit var toolbar_img_back: ImageView
+
     lateinit var animationView: LottieAnimationView
     var countryId: String = ""
     lateinit var getCountriesResponseItem: ArrayList<GetCountriesResponseItem>
     lateinit var dialog: Dialog
+
+    private lateinit var ima_back: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,7 +102,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
         login_emailNumber = findViewById(R.id.login_emailNumber)
         pwd_password = findViewById(R.id.pwd_password)
         cb_remember_me = findViewById(R.id.cb_remember_me)
-        login_signUp.setOnClickListener(this)
+
 
         view = findViewById(R.id.btn_progressBar)
         register_progressBar = view.findViewById(R.id.register_progressBar)
@@ -114,9 +115,11 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
         register_progressBar.visibility = GONE
         resent = view.findViewById(R.id.resent)
         resent.text = getString(R.string.sign_in_login)
+
+
+        login_signUp.setOnClickListener(this)
         progressBar_cardView.setOnClickListener(this)
         txt_login_country_code.setOnClickListener(this)
-
         forgot_password.setOnClickListener(this)
         login_create.setOnClickListener(this)
         pwd_password.setOnTouchListener(this)
@@ -256,7 +259,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
                 exit()
             }
 
-            R.id.toolbar_img_back -> {
+            R.id.ima_back -> {
                 dialog.dismiss()
             }
 
@@ -273,9 +276,9 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
         dialog.setCancelable(true)
         dialog.setContentView(R.layout.custom_countries)
         viewLoader = dialog.findViewById(R.id.viewLoader)
-        toolbar = dialog.findViewById(R.id.toolbar)
-        toolbar_img_back = toolbar.findViewById(R.id.toolbar_img_back)
-        toolbar_img_back.setOnClickListener(this)
+        ima_back = dialog.findViewById(R.id.ima_back)
+
+        ima_back.setOnClickListener(this)
         animationView = viewLoader.findViewById(R.id.lotti_img)
         rv_countryName = dialog.findViewById(R.id.rv_countryName)
         setupAnim()
@@ -340,8 +343,6 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 
                 showToast(this@LoginActivity, response.body()?.message.toString())
                 register_progressBar.visibility = GONE
-
-
 
                 if (response.body()?.isSuccess == true) {
 

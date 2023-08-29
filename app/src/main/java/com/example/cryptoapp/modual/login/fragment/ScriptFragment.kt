@@ -103,7 +103,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                 viewLoader.visibility = View.GONE
 
                 if(response.body()?.data?.size != 0){
-                    if (response.body()?.data?.size == 3){
+                    if (response.body()?.data?.size == 4){
                         constraintLayout.visibility=View.VISIBLE
                         txt_sub_monthly.text = response.body()?.data?.get(0)?.planName
                         txt_sub_quartly.text = response.body()?.data?.get(1)?.planName

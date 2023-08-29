@@ -44,10 +44,20 @@
   <!--We are using this image
       view to display our QR code-->
 
+    <ImageView
+        android:id="@+id/ima_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline66"
+        app:layout_constraintTop_toTopOf="@+id/guideline67"
+        app:srcCompat="@drawable/ic_back" />
+
     <TextView
         android:id="@+id/idTVHeading"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
         android:fontFamily="@font/helvetica_bold"
         android:text="@string/qr_code_generator"
         android:textAlignment="viewStart"
@@ -57,7 +67,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline68"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline66"
-        app:layout_constraintTop_toTopOf="@+id/guideline67" />
+        app:layout_constraintTop_toBottomOf="@+id/ima_back" />
 
     <TextView
         android:id="@+id/txt_email_phone"

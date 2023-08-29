@@ -213,25 +213,13 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     fun addCreateAccount() {
         register_progressBar?.visibility = View.VISIBLE
         val response = ServiceBuilder(this@OtpActivity).buildService(RestApi::class.java)
-//        response.addRegister(
-//            firsName,
-//            lastName,
-//            rePassword,
-//            email,
-//            countryId,
-//            phone,
-//            imageUri,
-//            imageUri.absolutePath
-//        ).enqueue(
-//
+
         val fileDir = applicationContext.filesDir
         val file = File(fileDir,"image.png")
         val inputStream = contentResolver.openInputStream(imageUri)
         val outputStream = FileOutputStream(file)
         inputStream!!.copyTo(outputStream)
 
-//        val requestFile: RequestBody = create(MediaType.parse("multipart/form-data"), file)
-//        val requestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
         val requestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
 
         val part = MultipartBody.Part.createFormData("ProfileImage",file.name,requestBody)
@@ -245,16 +233,6 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
         showLog("part", part.toString())
 
-//        response.addRegister(
-//            "Apurva",
-//            "Patel",
-//            "Test@123",
-//            "apurva.skyttus@gmail.com",
-//            "9714675391",
-//            part,
-//            imageUri.toString()
-//        ).enqueue
-//
         response.addRegister(
             cusName,
             cusLastName,
@@ -265,14 +243,6 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
             part,
             cusUri
         ).enqueue(
-
-//            "74328de4-7443-442f-6762-08dba49e459b",
-
-//        var registerPayload = RegisterPayload(firsName,lastName,rePassword,email,countryId,phone,imageUri,imageUri.absolutePath)
-//
-//        showLog("registerPayload",Gson().toJson(registerPayload))
-//            response.addRegister(registerPayload)
-//                .enqueue(
             object : retrofit2.Callback<RegisterResponse> {
                 override fun onResponse(
                     call: Call<RegisterResponse>,

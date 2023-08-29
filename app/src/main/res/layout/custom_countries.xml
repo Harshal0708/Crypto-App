@@ -3,18 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/splash"
+    android:background="@color/background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline74"
@@ -44,6 +36,16 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_end="20dp" />
 
+    <ImageView
+        android:id="@+id/ima_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline74"
+        app:layout_constraintTop_toTopOf="@+id/guideline75"
+        app:srcCompat="@drawable/ic_back" />
+
+
     <include
         android:id="@+id/viewLoader"
         layout="@layout/loader_animation"
@@ -67,7 +69,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/guideline76"
         app:layout_constraintStart_toStartOf="@+id/guideline74"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/guideline77">
 
         <TextView
             android:id="@+id/d_txt_country_code"
@@ -148,10 +150,10 @@
         android:id="@+id/rv_countryName"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="18dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline77"
         app:layout_constraintEnd_toStartOf="@+id/guideline76"
         app:layout_constraintStart_toStartOf="@+id/guideline74"
-        app:layout_constraintTop_toBottomOf="@+id/col_country" />
+        app:layout_constraintTop_toBottomOf="@+id/ima_back" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

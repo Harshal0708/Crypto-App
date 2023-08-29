@@ -54,21 +54,31 @@ interface RestApi {
         @Part("ImageURL") ImageURL: RequestBody,
         ): Call<RegisterResponse>
 
-    //MultipartBody.Part
-
-//    @Part("CountryId") CountryId: String,
-    @FormUrlEncoded
+    @Multipart
     @POST(Constants.updateProfileDetail)
     fun updateProfileDetail(
-        @Field("id") id: String,
-        @Field("email") email: String,
-        @Field("firstName") firstName: String,
-        @Field("lastName") lastName: String,
-        @Field("profileImage") profileImage: String,
-        @Field("phoneNumber") phoneNumber: String,
-        @Field("apiKey") apiKey: String,
-        @Field("secretKey") secretKey: String,
+        @Part("id") id: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("firstName") firstName: RequestBody,
+        @Part("lastName") lastName: RequestBody,
+        @Part ProfileImage: MultipartBody.Part,
+        @Part("phoneNumber") phoneNumber: RequestBody
     ): Call<Userupdatedsuccessfully>
+
+//      @FormUrlEncoded
+//    @POST(Constants.updateProfileDetail)
+//    fun updateProfileDetail(
+//        @Field("id") id: String,
+//        @Field("email") email: String,
+//        @Field("firstName") firstName: String,
+//        @Field("lastName") lastName: String,
+//        @Field("profileImage") profileImage: String,
+//        @Field("phoneNumber") phoneNumber: String,
+//        @Field("apiKey") apiKey: String,
+//        @Field("secretKey") secretKey: String,
+//    ): Call<Userupdatedsuccessfully>
+//
+
 
     @POST(Constants.sendRegistrationOtp)
     fun addSendRegistrationOtp(@Body sendRegistrationOtpPayload: SendRegistrationOtpPayload): Call<SendRegistrationOtpResponce>

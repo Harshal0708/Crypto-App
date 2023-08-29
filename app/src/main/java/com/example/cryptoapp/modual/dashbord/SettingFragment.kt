@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
+import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
@@ -38,8 +39,15 @@ import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Call
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.util.regex.Pattern
 
 
@@ -105,6 +113,8 @@ class SettingFragment : Fragment(), View.OnClickListener,
     lateinit var radioFinger: RadioButton
 
     private lateinit var fragmentContext: Context
+    lateinit var photo: Bitmap
+    private lateinit var ima_back: ImageView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -295,18 +305,39 @@ class SettingFragment : Fragment(), View.OnClickListener,
 
         if (resultCode == AppCompatActivity.RESULT_OK && requestCode == pickImage) {
             try {
-                imageUri = data?.data
-                val inputStream = fragmentContext.contentResolver.openInputStream(imageUri!!)
-                var bitmap = BitmapFactory.decodeStream(inputStream)
-                profile_img.setImageBitmap(bitmap)
-                encodeBitmapImage(bitmap)
+
+                imageUri = data!!.data ?: return
+                profile_img.setImageURI(imageUri)
+//                try {
+//                    val inputStream = contentResolver.openInputStream(imageUri!!)
+//                    val bitmap = BitmapFactory.decodeStream(inputStream)
+//                    inputStream?.close()
+//                    reg_profile_img.setImageBitmap(bitmap)
+//
+//                    Constants.showLog("photo", photo.toString())
+//                } catch (e: IOException) {
+//                    e.printStackTrace()
+//
+//                }
             } catch (ex: Exception) {
             }
         } else if (resultCode == AppCompatActivity.RESULT_OK && requestCode == pickCamera) {
-            val photo: Bitmap = data?.extras?.get("data") as Bitmap
-            encodeBitmapImage(photo)
-            profile_img.setImageBitmap(photo)
+            photo = data?.extras?.get("data") as Bitmap
+            imageUri = saveImageToGallery(photo)
+            profile_img.setImageURI(imageUri)
+
         }
+
+    }
+
+    private fun saveImageToGallery(bitmap: Bitmap): Uri {
+        val savedImageUri = MediaStore.Images.Media.insertImage(
+            fragmentContext.contentResolver,
+            bitmap,
+            "Captured Image",
+            "Image captured from camera"
+        )
+        return Uri.parse(savedImageUri)
     }
 
     private fun encodeBitmapImage(bitmap: Bitmap) {
@@ -354,17 +385,51 @@ class SettingFragment : Fragment(), View.OnClickListener,
         register_progressBar.visibility = View.VISIBLE
         val response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
 
-//encodeImageString
+//        response.updateProfileDetail(
+//            userDetail.userId,
+//            edEmail.text.toString(),
+//            edFirstname.text.toString(),
+//            edLastname.text.toString(),
+//            encodeImageString,
+//            edPhone.text.toString()
+//        ).enqueue(
+//
+        val fileDir = fragmentContext.applicationContext.filesDir
+        val file = File(fileDir, "image.png")
+        val inputStream = fragmentContext.contentResolver.openInputStream(imageUri!!)
+        val outputStream = FileOutputStream(file)
+        inputStream!!.copyTo(outputStream)
+
+        val requestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+
+        val part = MultipartBody.Part.createFormData("ProfileImage", file.name, requestBody)
+        val cusUserId: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), userDetail.userId)
+        val cusName: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), edFirstname.text.toString())
+        val cusLastName: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), edLastname.text.toString())
+        val cusCountryId: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), countryId)
+
+        val cusLastEmail: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), userDetail.email)
+        val cusLastMobile: RequestBody =
+            RequestBody.create("text/plain".toMediaTypeOrNull(), userDetail.mobile)
+        val cusUri: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), file.name)
+
+        Constants.showLog("part", part.toString())
+
         response.updateProfileDetail(
-            userDetail.userId,
-            edEmail.text.toString(),
-            edFirstname.text.toString(),
-            edLastname.text.toString(),
-            encodeImageString,
-            edPhone.text.toString(),
-            "",
-            ""
+            cusUserId,
+            cusLastEmail,
+            cusName,
+            cusLastName,
+            part,
+            cusLastMobile
         ).enqueue(
+
+
             object : retrofit2.Callback<Userupdatedsuccessfully> {
                 override fun onResponse(
                     call: Call<Userupdatedsuccessfully>,
@@ -459,6 +524,10 @@ class SettingFragment : Fragment(), View.OnClickListener,
                 MyPreferences(fragmentContext).setAuth(2)
             }
 
+            R.id.ima_back -> {
+               dialog1.dismiss()
+            }
+
 
         }
     }
@@ -473,6 +542,9 @@ class SettingFragment : Fragment(), View.OnClickListener,
         dialog1.setCancelable(true)
         dialog1.setContentView(R.layout.custom_countries)
         viewLoader = dialog1.findViewById(R.id.viewLoader)
+        ima_back = dialog1.findViewById(R.id.ima_back)
+        ima_back.setOnClickListener(this)
+
         animationView = viewLoader.findViewById(R.id.lotti_img)
         rv_countryName = dialog1.findViewById(R.id.rv_countryName)
         setupAnim()

@@ -54,6 +54,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
     lateinit var progressBar_cardView: RelativeLayout
 
     var generateOtp1: String = ""
+    private lateinit var ima_back: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +65,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
         idTVKey = findViewById(R.id.idTVKey)
         idTVKey1 = findViewById(R.id.idTVKey1)
         ed_totp = findViewById(R.id.ed_totp)
+        ima_back = findViewById(R.id.ima_back)
 
         view = findViewById(R.id.btn_progressBar)
         register_progressBar = view.findViewById(R.id.register_progressBar)
@@ -100,6 +102,12 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
         idTVKey1.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 copyTextToClipboard()
+            }
+        })
+
+        ima_back.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+                onBackPressed()
             }
         })
 
@@ -300,6 +308,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                     userKey = response?.body()!!.data
 
                     idTVKey.visibility = View.GONE
+                    idTVKey1.visibility = View.GONE
                     isTrue = true
                 }
 

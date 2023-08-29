@@ -390,7 +390,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
 
                 if (validation() == true) {
                     sendRegistrationOtp()
-                  //  showLog("encodeImageString",encodeImageString)
+                    //  showLog("encodeImageString",encodeImageString)
                 }
 
             }
@@ -405,7 +405,8 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
             R.id.cb_term_accept -> {
                 //Toast.makeText(this,"cb_term_accept",Toast.LENGTH_SHORT).show()
             }
-            R.id.reg_profile_img -> {6
+            R.id.reg_profile_img -> {
+                6
                 openBottomSheet()
             }
 
@@ -469,8 +470,17 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
                             register_progressBar.visibility = GONE
 
                             val imageBytes = Base64.decode(encodeImageString, 0)
-                            val image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-                            val myData= MyData(email,phone,firsName,lastName,rePassword,imageUri.toString(), countryId)
+                            val image =
+                                BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                            val myData = MyData(
+                                email,
+                                phone,
+                                firsName,
+                                lastName,
+                                rePassword,
+                                imageUri.toString(),
+                                countryId
+                            )
                             val gson = Gson()
                             val jsonData = gson.toJson(myData)
 
@@ -541,94 +551,39 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
             try {
 
                 imageUri = data!!.data ?: return
-                imageFile = File(imageUri?.path)
-                showLog("imageFile",imageFile.absolutePath)
                 try {
                     val inputStream = contentResolver.openInputStream(imageUri!!)
                     val bitmap = BitmapFactory.decodeStream(inputStream)
                     inputStream?.close()
+                    reg_profile_img.setImageBitmap(bitmap)
 
-                    saveBitmapAsPNG(bitmap)
+                    showLog("photo", photo.toString())
                 } catch (e: IOException) {
                     e.printStackTrace()
 
-            }
-
-                val inputStream = contentResolver.openInputStream(imageUri!!)
-                var bitmap = BitmapFactory.decodeStream(inputStream)
-                reg_profile_img.setImageBitmap(bitmap)
-//                encodeBitmapImage(bitmap)
-                showLog("photo", photo.toString())
-
-
-
+                }
             } catch (ex: Exception) {
             }
         } else if (resultCode == RESULT_OK && requestCode == pickCamera) {
             photo = data?.extras?.get("data") as Bitmap
-//            encodeBitmapImage(photo)
-//            saveImageAsPNG(photo)
-            imageFile = createImageFileFromBitmap(photo)
-            showLog("imageFile",imageFile.absolutePath)
-            reg_profile_img.setImageBitmap(photo)
+            imageUri = saveImageToGallery(photo)
+            reg_profile_img.setImageURI(imageUri)
+
         }
 
+
     }
 
-    private fun createImageFileFromBitmap(bitmap: Bitmap): File {
-        val imageFile = File(cacheDir, "temp_image.jpg")
-        imageFile.createNewFile()
-
-        val outputStream = FileOutputStream(imageFile)
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
-
-
-        outputStream.close()
-
-        return imageFile
-    }
-
-
-
-    private fun saveImageAsPNG(imageBitmap: Bitmap) {
-        val storageDir = getExternalFilesDir(null)
-        val imageFile = File.createTempFile(
-            "image",  /* prefix */
-            ".png",   /* suffix */
-            storageDir /* directory */
+    private fun saveImageToGallery(bitmap: Bitmap): Uri {
+        val savedImageUri = MediaStore.Images.Media.insertImage(
+            contentResolver,
+            bitmap,
+            "Captured Image",
+            "Image captured from camera"
         )
-
-        try {
-            val stream = FileOutputStream(imageFile)
-            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-            stream.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-
+        return Uri.parse(savedImageUri)
     }
 
-    private fun saveBitmapAsPNG(bitmap: Bitmap) {
-        val storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-        imageFile = File(storageDir, "my_image.png")
-
-        val outputStream: OutputStream = FileOutputStream(imageFile)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-        outputStream.flush()
-        outputStream.close()
-    }
-
-
-
-
-
-    private fun encodeBitmapImage(bitmap: Bitmap) {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-        bytesofimage = byteArrayOutputStream.toByteArray()
-        encodeImageString = Base64.encodeToString(bytesofimage, Base64.DEFAULT)
-        showLog("photo", encodeImageString.toString())
-    }
 
     fun validation(): Boolean {
 
