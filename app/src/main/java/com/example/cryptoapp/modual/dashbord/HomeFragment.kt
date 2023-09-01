@@ -77,6 +77,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         preferences = MyPreferences(fragmentContext)
 
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
+        showLog("HomeFragment",Gson().toJson(data))
 
         first = ArrayList()
         strategies_rv = view.findViewById(R.id.strategies_rv)
@@ -99,7 +100,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
             client = OkHttpClient.Builder().readTimeout(0, TimeUnit.MINUTES).build()
 
             job1 = CoroutineScope(Dispatchers.Main).launch {
-                getCMSList()
+               // getCMSList()
             }
 
             job2 = CoroutineScope(Dispatchers.IO).launch {
@@ -183,13 +184,13 @@ class HomeFragment : Fragment(), View.OnClickListener {
         //   viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.Main) {
 
-            val response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
+            val response = ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java)
                 .getCmsAdsList(data.userId)
 
             withContext(Dispatchers.Main) {
-                //         viewLoader.visibility = View.GONE
-//                viewPagerAdapter = SliderViewPagerAdapter(fragmentContext, response.body()!!.data)
-//                login_ViewPager.adapter = viewPagerAdapter
+                         viewLoader.visibility = View.GONE
+                viewPagerAdapter = SliderViewPagerAdapter(fragmentContext, response.body()!!.data)
+                login_ViewPager.adapter = viewPagerAdapter
 
             }
         }
@@ -197,8 +198,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     private fun getNewsList() {
 
-        val url = "https://rss.app/feeds/v1.1/ttZsbTXBVGxUxbTW.json"
-
+        val url = "https://rss.app/feeds/v1.1/tO0Is5f6tjkPAo1a.json"
         val client = OkHttpClient()
         val request = Request.Builder()
             .url(url)
@@ -209,15 +209,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 val response = client.newCall(request).execute()
                 val json = response.body?.string()
 
-                // Parse JSON using Gson
                 val gson = Gson()
                 val data = gson.fromJson(json, Feed::class.java)
-                showLog("NewsResponse", Gson().toJson(data))
-                // Now you can work with the parsed JSON data
-                // For example, update UI elements using runOnUiThread
 
                 activity?.runOnUiThread {
-//                     Update UI here with 'data'
                     sliderNewsViewPagerAdapter =
                         SliderNewsViewPagerAdapter(fragmentContext, data.items)
                     view_pager_news.adapter = sliderNewsViewPagerAdapter
@@ -300,7 +295,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         lifecycleScope.launch(Dispatchers.IO) {
 
             val response =
-                ServiceBuilder(fragmentContext).buildService(RestApi::class.java).getStrategy()
+                ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java).getStrategy()
             withContext(Dispatchers.Main) {
 
                 if (response.body()!!.isSuccess == true) {

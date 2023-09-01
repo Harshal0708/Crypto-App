@@ -81,14 +81,15 @@ class StrategyHistoryDetailAdapter(var context: Context, val orderHistoryDetailR
             holder.txt_strategy_pl.text =orderHistoryDetailResponseItem.get(position).pl.toString()
             holder.txt_strategy_pl.setTextColor(context.getColor(R.color.red))
 
-            holder.txt_order_et_time.text = Constants.getDate(orderHistoryDetailResponseItem.get(position).tradeEntryTime)
+            holder.txt_order_et_time.text = Constants.getDateTime(orderHistoryDetailResponseItem.get(position).tradeEntryTime)
+//            holder.txt_order_et_time.text = orderHistoryDetailResponseItem.get(position).tradeEntryTime
             if(orderHistoryDetailResponseItem.get(position).tradingType == 0){
                 holder.txt_order_tt_price.text = "AUTO"
             }else{
                 holder.txt_order_tt_price.text = "Manual"
             }
 
-            holder.txt_order_end_time_price.text = Constants.getDate(orderHistoryDetailResponseItem.get(position).tradeExitTime)
+            holder.txt_order_end_time_price.text = Constants.getDateTime(orderHistoryDetailResponseItem.get(position).tradeExitTime)
 
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

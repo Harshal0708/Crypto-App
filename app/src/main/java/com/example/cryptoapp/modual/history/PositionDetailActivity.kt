@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -22,7 +23,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
-class PositionDetailActivity : AppCompatActivity() {
+class PositionDetailActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var client: OkHttpClient
     private val scope = CoroutineScope(Dispatchers.Main)
@@ -55,6 +56,7 @@ class PositionDetailActivity : AppCompatActivity() {
     lateinit var register_progressBar2: ProgressBar
     lateinit var resent2: TextView
 
+    private lateinit var ima_back: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,6 +83,9 @@ class PositionDetailActivity : AppCompatActivity() {
         txt_target_price = findViewById(R.id.txt_target_price)
         txt_sl_price = findViewById(R.id.txt_sl_price)
         txt_strategy_pl = findViewById(R.id.txt_strategy_pl)
+
+        ima_back = findViewById(R.id.ima_back)
+        ima_back.setOnClickListener(this)
 
         view = findViewById(R.id.btn_sell)
         register_progressBar = view.findViewById(R.id.register_progressBar)
@@ -214,6 +219,16 @@ class PositionDetailActivity : AppCompatActivity() {
         webSocket1.close(1000, "Activity destroyed")
         job1.cancel() // Cancel the coroutine job when the activity is destroyed
 //        scope.cancel()
+    }
+
+    override fun onClick(p0: View?) {
+        val id = p0!!.id
+        when (id) {
+            R.id.ima_back -> {
+                onBackPressed()
+            }
+
+        }
     }
 
 }

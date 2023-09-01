@@ -73,14 +73,14 @@ class SubscriptionFragment : Fragment() {
 
     fun getSubscriptionHistoryList(pageNumber: Int, pageSize: Int) {
         viewLoader.visibility = View.VISIBLE
-        val response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
+        val response = ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java)
         var payload = GetOrderHistoryListPayload(
             pageNumber,
             pageSize,
             data.userId
         )
 
-        response.addSubscriptionHistoryList(payload)
+        response.addSubscriptionHistory(payload)
             .enqueue(
                 object : Callback<UserSubscriptionsResponse> {
                     override fun onResponse(
@@ -89,6 +89,7 @@ class SubscriptionFragment : Fragment() {
                     ) {
                         if (response.body()?.isSuccess == true) {
                             viewLoader.visibility = View.GONE
+
                             if(response.body()!!.data.userSubscriptions.size != 0){
                                 rec_sub_history.layoutManager = LinearLayoutManager(activity)
                                 subscriptionHistoryAdapter =

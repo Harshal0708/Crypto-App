@@ -57,7 +57,7 @@ class UserFragment : Fragment(), View.OnClickListener {
         //register_progressBar.visibility = View.VISIBLE
 
         val response =
-            context?.let { ServiceBuilder(it).buildService(RestApi::class.java) }
+            context?.let { ServiceBuilder(it,false).buildService(RestApi::class.java) }
 
         val payload = CreateApiKeysPayload(
             doc_api_key.text.toString(),

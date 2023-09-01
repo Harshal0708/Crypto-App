@@ -121,7 +121,7 @@ class DocumentFragment : Fragment(), View.OnClickListener {
     private fun getDocuments() {
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
+            var response = ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java)
                 .getDocuments()
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE
@@ -133,7 +133,7 @@ class DocumentFragment : Fragment(), View.OnClickListener {
     private fun getDocumentsByCountry() {
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
+            var response = ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java)
                 .getDocumentsByCountry("90346729-3d9f-4f0d-886a-08db3f0422fd")
                 //.getDocumentsByCountry("179fc3dc-42b6-4985-74bd-08db13d960a2")
             withContext(Dispatchers.Main) {

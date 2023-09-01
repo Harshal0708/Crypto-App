@@ -121,7 +121,7 @@ class OrderFragment : Fragment() {
         showLog("pageNumber", (pageNumber).toString())
         showLog("pageSize", (pageSize).toString())
         val response =
-            ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
+            ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java)
         var payload = GetOrderHistoryListPayload(
             pageNumber,
             pageSize,
@@ -206,7 +206,7 @@ class OrderFragment : Fragment() {
         showLog("pageSize", (pageSize).toString())
         viewLoader.visibility = View.VISIBLE
 //        isLoading == true
-        val response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
+        val response = ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java)
         var payload = GetOrderHistoryListPayload(
             pageNumber,
             pageSize,

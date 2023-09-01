@@ -5,6 +5,7 @@ import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -50,8 +51,9 @@ class Constants {
         const val getSubscriptionDetails = "UserSubscriptionApi/GetSubscriptionDetails"
         const val createUserSubscription = "UserSubscriptionApi/createUserSubscription"
 
-        const val getOrderHistoryList = "HistoryApi/GetOrderHistoryList"
-        const val getSubscriptionHistoryList = "HistoryApi/GetSubscriptionHistoryList"
+
+
+
 
         const val stripe_payment_customers_id = "customers"
         const val stripe_payment_ephemeral_keys = "ephemeral_keys"
@@ -68,6 +70,8 @@ class Constants {
         const val getDocumentsByCountry = "AccountsApi/getDocumentsByCountry"
 
         const val getStrategy1OrderHistoryDetail = "OrderApi/GetFilledOrderHistory"
+        const val getOrderHistoryList = "OrderApi/GetOrderHistoryList"
+        const val getSubscriptionHistory= "OrderApi/getSubscriptionHistoryList"
 
         const val createApiKeys = "AccountsApi/createApiKeys"
 
@@ -107,11 +111,25 @@ class Constants {
             val inputFormatter = DateTimeFormatter.ISO_DATE_TIME
             val myDate1 = LocalDate.parse(date, inputFormatter)
 
-
+//2023-08-25T09:59:30.5077164
             var formatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy")
+//            var formatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy HH:mm:ss.SSSSSSS")
             var formattedDate1 = myDate1.format(formatter)
 
             return formattedDate1
         }
+          fun getDateTime(date: String): String {
+              val dateString = date
+              val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS")
+
+              val date: Date = inputFormat.parse(dateString)
+
+              val outputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+              val formattedDate = outputFormat.format(date)
+
+            return formattedDate
+        }
+
+
     }
 }

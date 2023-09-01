@@ -113,7 +113,14 @@ class HomeDetailActivity : AppCompatActivity() {
 
         resent.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                openBottomSheet()
+
+                if(data.haveAnySubscription == false){
+                    showToast(this@HomeDetailActivity,"Please subscribed...")
+                }else{
+                    openBottomSheet()
+                }
+
+
             }
         })
 
@@ -244,7 +251,7 @@ class HomeDetailActivity : AppCompatActivity() {
         animationView.visibility = View.VISIBLE
 
         lifecycleScope.launch(Dispatchers.IO) {
-            val response = ServiceBuilder(this@HomeDetailActivity).buildService(RestApi::class.java)
+            val response = ServiceBuilder(this@HomeDetailActivity,false).buildService(RestApi::class.java)
                 .getStrategyById(id)
             withContext(Dispatchers.Main) {
 

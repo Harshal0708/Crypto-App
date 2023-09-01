@@ -13,10 +13,14 @@ import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
+import com.example.cryptoapp.Response.DataXX
+import com.example.cryptoapp.Response.LiveOrderResponse
+import com.example.cryptoapp.Response.LiveTopGainersResponse
 import com.example.cryptoapp.Response.TickerResponse
 import com.example.cryptoapp.model.CryptoName
 import com.example.cryptoapp.modual.home.adapter.AirQualityData
 import com.example.cryptoapp.modual.watchlist.adapter.WatchlistAdapter
+import com.example.cryptoapp.preferences.MyPreferences
 import com.example.cryptoapp.singleton.MySingleton
 import com.google.gson.Gson
 import kotlinx.coroutines.*
@@ -41,13 +45,16 @@ class WatchlistFragment : Fragment() {
     lateinit var webSocket1: WebSocket
     val airQualityDatalist = ArrayList<AirQualityData>()
     private lateinit var fragmentContext: Context
-
+    lateinit var data: DataXX
+    lateinit var preferences: MyPreferences
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_watchlist, container, false)
+        preferences = MyPreferences(fragmentContext)
+        data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
         client = OkHttpClient.Builder().readTimeout(0, TimeUnit.MINUTES).build()
         rv_watchlist = view.findViewById(R.id.rv_watchlist)
@@ -61,8 +68,8 @@ class WatchlistFragment : Fragment() {
 
             val ws1 = async {
                 showLog("IO", "1")
-                webSocket1 = createWebSocket("wss://fstream.binance.com:443/ws/!ticker@arr", 1)
-//                webSocket1 = createWebSocket("ws://103.14.99.42/LiveTopGainers", 1)
+//                webSocket1 = createWebSocket("wss://fstream.binance.com:443/ws/!ticker@arr", 1)
+                webSocket1 = createWebSocket("ws://103.14.99.42/GetLiveTopGainers", 1)
             }
 
             ws1.await()
@@ -103,7 +110,7 @@ class WatchlistFragment : Fragment() {
 
             override fun onOpen(webSocket: WebSocket, response: Response) {
                 super.onOpen(webSocket, response)
-
+               // webSocket.send(data.userId)
             }
         }
 
@@ -125,105 +132,112 @@ class WatchlistFragment : Fragment() {
 
 
     fun setUpBtcPriceText(message: String?, value: Int) {
-         showLog("objectList", message.toString())
+        showLog("objectList", message.toString())
+//        val gson = Gson()
+//        val objectList = gson.fromJson(message, LiveTopGainersResponse::class.java)
+//        requireActivity().runOnUiThread {
+//            rv_watchlist.layoutManager = LinearLayoutManager(fragmentContext)
+//            watchlistAdapter = WatchlistAdapter(fragmentContext, objectList)
+//            rv_watchlist.adapter = watchlistAdapter
+//        }
 
-        message?.let {
-
-            if (value == 1) {
-                val gson = Gson()
-                first.add(CryptoName("BTCUSDT"))
-//                first.add(CryptoName("MAGICBTC"))
-//                first.add(CryptoName("ETHUSDT"))
-//                first.add(CryptoName("MCUSDT"))
-//                first.add(CryptoName("BNBBTC"))
-//                first.add(CryptoName("NEOBTC"))
-//                first.add(CryptoName("LTCBTC"))
-//                first.add(CryptoName("EOSBTC"))
-
-                val objectList = gson.fromJson(message, TickerResponse::class.java)
-
-                var isAvailable = false
-
-                objectList.mapIndexed { index, dto ->
-
-                    for (person in first) {
-                        if (dto.s.equals(person.name))
-                            if (airQualityDatalist.size != 0) {
-
-                                for ((i, value) in airQualityDatalist.withIndex()) {
-
-                                    if (dto.s.equals(value.name)) {
-                                        airQualityDatalist[i] = AirQualityData(dto.s, dto.c, dto.c)
-//                                        showLog("-------", "--------------------------------")
-//                                        showLog("objectList", dto.c)
-//                                        showLog("airQualityDatalist", value.price)
+//        message?.let {
+//
+//            if (value == 1) {
+//                val gson = Gson()
+//                first.add(CryptoName("BTCUSDT"))
+////                first.add(CryptoName("MAGICBTC"))
+////                first.add(CryptoName("ETHUSDT"))
+////                first.add(CryptoName("MCUSDT"))
+////                first.add(CryptoName("BNBBTC"))
+////                first.add(CryptoName("NEOBTC"))
+////                first.add(CryptoName("LTCBTC"))
+////                first.add(CryptoName("EOSBTC"))
+//
+//                val objectList = gson.fromJson(message, TickerResponse::class.java)
+//
+//                var isAvailable = false
+//
+//                objectList.mapIndexed { index, dto ->
+//
+//                    for (person in first) {
+//                        if (dto.s.equals(person.name))
+//                            if (airQualityDatalist.size != 0) {
+//
+//                                for ((i, value) in airQualityDatalist.withIndex()) {
+//
+//                                    if (dto.s.equals(value.name)) {
+//                                        airQualityDatalist[i] = AirQualityData(dto.s, dto.c, dto.c)
+////                                        showLog("-------", "--------------------------------")
+////                                        showLog("objectList", dto.c)
+////                                        showLog("airQualityDatalist", value.price)
+////
+////
+////                                        showLog("-------", "--------------------------------")
+//
+////                                        if (value.price.toDouble() < dto.c.toDouble()) {
+////                                            airQualityDatalist[i] = AirQualityData(dto.s, dto.c, dto.c)
+//////                                            val isTrue = value.price.toDouble() < dto.c.toDouble()
+//////                                            showLog("1", value.price + ":" + dto.c.toDouble() + "----"  + isTrue)
+////                                        } else {
+////
+////                                            if(value.price.toDouble() > dto.c.toDouble()){
+////                                                airQualityDatalist[i] = AirQualityData(dto.s, dto.c, dto.c)
+//////                                                val isTrue = value.price.toDouble() < dto.c.toDouble()
+//////                                                showLog("2", value.price + ":" + dto.c.toDouble() + "----"  + isTrue)
+////                                            } else {
+////                                                airQualityDatalist[i] = AirQualityData(dto.s, dto.c, value.price)
+//////                                                val isTrue = value.price.toDouble() < dto.c.toDouble()
+//////                                                showLog("3", value.price + ":" + dto.c.toDouble() + "----"  + isTrue)
+////                                            }
+////
+////                                        }
 //
 //
-//                                        showLog("-------", "--------------------------------")
-
-//                                        if (value.price.toDouble() < dto.c.toDouble()) {
-//                                            airQualityDatalist[i] = AirQualityData(dto.s, dto.c, dto.c)
-////                                            val isTrue = value.price.toDouble() < dto.c.toDouble()
-////                                            showLog("1", value.price + ":" + dto.c.toDouble() + "----"  + isTrue)
-//                                        } else {
 //
-//                                            if(value.price.toDouble() > dto.c.toDouble()){
-//                                                airQualityDatalist[i] = AirQualityData(dto.s, dto.c, dto.c)
-////                                                val isTrue = value.price.toDouble() < dto.c.toDouble()
-////                                                showLog("2", value.price + ":" + dto.c.toDouble() + "----"  + isTrue)
-//                                            } else {
-//                                                airQualityDatalist[i] = AirQualityData(dto.s, dto.c, value.price)
-////                                                val isTrue = value.price.toDouble() < dto.c.toDouble()
-////                                                showLog("3", value.price + ":" + dto.c.toDouble() + "----"  + isTrue)
-//                                            }
+////                                        var previewPrice = MySingleton().getStoredValue()
 //
-//                                        }
-
-
-
-//                                        var previewPrice = MySingleton().getStoredValue()
-
-//                                        if (previewPrice.equals("")) {
-//                                            airQualityDatalist[i] =
-//                                                AirQualityData(dto.s, dto.c, dto.c)
-//                                        } else {
-//                                            if (dto.c.toDouble() > previewPrice.toDouble()) {
-//                                                airQualityDatalist[i] =
-//                                                    AirQualityData(dto.s, dto.c, previewPrice)
-//                                            } else {
-//                                                airQualityDatalist[i] =
-//                                                    AirQualityData(dto.s, dto.c, dto.c)
-//                                            }
-//                                        }
-
-
-//                                        MySingleton().setStoredValue(dto.c)
-                                        isAvailable = true
-
-                                        break
-                                    } else {
-                                        isAvailable = false
-                                    }
-                                }
-
-                                if (isAvailable == false) {
-                                    airQualityDatalist.add(AirQualityData(dto.s, dto.c, "0.00"))
-                                }
-
-                            } else {
-                                airQualityDatalist.add(AirQualityData(dto.s, dto.c, "0.00"))
-                            }
-                    }
-                }
-
-                isAvailable = false
-
-                requireActivity().runOnUiThread {
-                    rv_watchlist.layoutManager = LinearLayoutManager(fragmentContext)
-                    watchlistAdapter = WatchlistAdapter(fragmentContext, airQualityDatalist)
-                    rv_watchlist.adapter = watchlistAdapter
-                }
-            }
-        }
+////                                        if (previewPrice.equals("")) {
+////                                            airQualityDatalist[i] =
+////                                                AirQualityData(dto.s, dto.c, dto.c)
+////                                        } else {
+////                                            if (dto.c.toDouble() > previewPrice.toDouble()) {
+////                                                airQualityDatalist[i] =
+////                                                    AirQualityData(dto.s, dto.c, previewPrice)
+////                                            } else {
+////                                                airQualityDatalist[i] =
+////                                                    AirQualityData(dto.s, dto.c, dto.c)
+////                                            }
+////                                        }
+//
+//
+////                                        MySingleton().setStoredValue(dto.c)
+//                                        isAvailable = true
+//
+//                                        break
+//                                    } else {
+//                                        isAvailable = false
+//                                    }
+//                                }
+//
+//                                if (isAvailable == false) {
+//                                    airQualityDatalist.add(AirQualityData(dto.s, dto.c, "0.00"))
+//                                }
+//
+//                            } else {
+//                                airQualityDatalist.add(AirQualityData(dto.s, dto.c, "0.00"))
+//                            }
+//                    }
+//                }
+//
+//                isAvailable = false
+//
+//                requireActivity().runOnUiThread {
+//                    rv_watchlist.layoutManager = LinearLayoutManager(fragmentContext)
+//                    watchlistAdapter = WatchlistAdapter(fragmentContext, airQualityDatalist)
+//                    rv_watchlist.adapter = watchlistAdapter
+//                }
+//            }
+//        }
     }
 }

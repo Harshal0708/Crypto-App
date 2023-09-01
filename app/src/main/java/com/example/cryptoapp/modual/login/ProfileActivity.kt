@@ -303,7 +303,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener , onItemClickL
 
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder(this@ProfileActivity).buildService(RestApi::class.java)
+            var response = ServiceBuilder(this@ProfileActivity,false).buildService(RestApi::class.java)
                 .getUserDetails(id)
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE
@@ -323,7 +323,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener , onItemClickL
     fun getUpdateProfileDetail() {
 
         register_progressBar.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@ProfileActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@ProfileActivity,false).buildService(RestApi::class.java)
 
         val fileDir = applicationContext.filesDir
         val file = File(fileDir,"image.png")
@@ -444,7 +444,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener , onItemClickL
 
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder(this@ProfileActivity).buildService(RestApi::class.java)
+            var response = ServiceBuilder(this@ProfileActivity,false).buildService(RestApi::class.java)
                 .getCountries()
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE

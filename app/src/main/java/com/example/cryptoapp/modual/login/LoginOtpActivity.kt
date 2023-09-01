@@ -118,7 +118,7 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
 
 
         register_progressBar?.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@LoginOtpActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@LoginOtpActivity,false).buildService(RestApi::class.java)
 
         val payload = SendLoginOtpPayload(
             email!!,
@@ -273,7 +273,7 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
     fun verifyRegistrationOtp(otp: String) {
 
         register_progressBar.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@LoginOtpActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@LoginOtpActivity,false).buildService(RestApi::class.java)
 
         val payload = VerifyLoginOtpPayload(
             data.mobile,

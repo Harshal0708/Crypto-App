@@ -36,7 +36,7 @@ class OrderStrategyFragment : Fragment() {
     lateinit var response: Response<OrderHistoryDetailResponse>
     lateinit var strategyHistoryDetailAdapter: StrategyHistoryDetailAdapter
 
-        var orderHistoryDetailResponseItem: ArrayList<OrderHistoryDetailResponseItemX> = ArrayList()
+    var orderHistoryDetailResponseItem: ArrayList<OrderHistoryDetailResponseItemX> = ArrayList()
 
     lateinit var data: DataXX
 
@@ -70,12 +70,12 @@ class OrderStrategyFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
 
 
-            response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
+            response = ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java)
                 .getStrategy1OrderHistoryDetail(data.userId)
 
             withContext(Dispatchers.Main) {
 //                viewLoader.visibility = View.GONE
-                Constants.showLog("GetFilledOrderHistory", response.body().toString())
+//                Constants.showLog("GetFilledOrderHistory", response.body().toString())
 
                 if (response.body() != null && response.body()!!.size != 0) {
 

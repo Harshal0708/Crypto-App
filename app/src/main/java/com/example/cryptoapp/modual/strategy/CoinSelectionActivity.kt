@@ -76,8 +76,8 @@ class CoinSelectionActivity : AppCompatActivity() {
     private fun getLiveTopGainers() {
         // viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            val response = ServiceBuilder(this@CoinSelectionActivity).buildService(RestApi::class.java)
-                .getLiveTopGainers()
+            val response = ServiceBuilder(this@CoinSelectionActivity,false).buildService(RestApi::class.java)
+                .getLiveTopGainers("607f1057-620c-4fb7-9899-5fd86136576f")
             withContext(Dispatchers.Main) {
                 //viewLoader.visibility = View.GONE
 

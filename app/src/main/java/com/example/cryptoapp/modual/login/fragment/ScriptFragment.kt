@@ -98,7 +98,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
             var response =
-                ServiceBuilder(fragmentContext).buildService(RestApi::class.java).getPlans()
+                ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java).getPlans()
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE
 
@@ -130,7 +130,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
         viewLoader.visibility = View.VISIBLE
    // <--- Removes all elements
 
-        val response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
+        val response = ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java)
         var payload = UserSubscriptionModel(
             id.toString(),
             "",

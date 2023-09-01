@@ -72,7 +72,7 @@
             app:layout_constraintTop_toTopOf="@+id/guideline18" />
 
         <ImageView
-            android:id="@+id/img_ic_user"
+            android:id="@+id/img_country_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -92,7 +92,7 @@
             app:layout_constraintEnd_toStartOf="@+id/guideline19"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/guideline17"
-            app:layout_constraintTop_toBottomOf="@+id/img_ic_user">
+            app:layout_constraintTop_toBottomOf="@+id/img_country_code">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/login_con"

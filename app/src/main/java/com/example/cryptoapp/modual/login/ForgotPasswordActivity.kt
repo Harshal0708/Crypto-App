@@ -122,7 +122,7 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
     fun forgotPassword() {
 
         progressBar_cardView.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@ForgotPasswordActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@ForgotPasswordActivity,false).buildService(RestApi::class.java)
 
         val payload = ForgotPayload(email)
         response.addForgotPassword(payload).enqueue(object : retrofit2.Callback<ForgotResponse> {

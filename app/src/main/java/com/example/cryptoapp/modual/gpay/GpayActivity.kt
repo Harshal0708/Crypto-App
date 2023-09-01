@@ -44,7 +44,7 @@ class GpayActivity : AppCompatActivity() {
 
     private fun getClientSecretKey() {
 
-        val response = ServiceBuilder(this@GpayActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@GpayActivity,true).buildService(RestApi::class.java)
 
         response.addCardPaymentIntents("${amount}00","INR")
             .enqueue(

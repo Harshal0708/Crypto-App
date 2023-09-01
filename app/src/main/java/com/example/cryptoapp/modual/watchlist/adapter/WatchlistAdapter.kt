@@ -12,13 +12,14 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.R
+import com.example.cryptoapp.Response.LiveTopGainersResponseItem
 import com.example.cryptoapp.Response.StrategyRes
 import com.example.cryptoapp.Response.TickerResponseItem
 import com.example.cryptoapp.modual.home.adapter.AirQualityData
 import com.example.cryptoapp.singleton.MySingleton
 import com.squareup.picasso.Picasso
 
-class WatchlistAdapter(var context: Context, var tickerResponseItem: ArrayList<AirQualityData>) :
+class WatchlistAdapter(var context: Context, var tickerResponseItem: ArrayList<LiveTopGainersResponseItem>) :
     RecyclerView.Adapter<WatchlistAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) :
@@ -35,16 +36,17 @@ class WatchlistAdapter(var context: Context, var tickerResponseItem: ArrayList<A
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.output_name.text = "${tickerResponseItem.get(position).name}"
+        holder.output_name.text = "${tickerResponseItem.get(position).Symbol}"
         holder.output_name.setTextColor(ContextCompat.getColor(context, R.color.black))
+        holder.output_price.text = "$ ${tickerResponseItem.get(position).Price}"
+//        if (tickerResponseItem.get(position).Price.toDouble() > tickerResponseItem.get(position).prePrice.toDouble()) {
+//            holder.output_price.setTextColor(ContextCompat.getColor(context, R.color.light_green))
+//        } else {
 
-        if (tickerResponseItem.get(position).price.toDouble() > tickerResponseItem.get(position).prePrice.toDouble()) {
-            holder.output_price.setTextColor(ContextCompat.getColor(context, R.color.light_green))
-        } else {
-            holder.output_price.setTextColor(ContextCompat.getColor(context, R.color.red))
-        }
-
-        holder.output_price.text = "$ ${tickerResponseItem.get(position).prePrice}"
+//            holder.output_price.setTextColor(ContextCompat.getColor(context, R.color.red))
+//        }
+//
+//        holder.output_price.text = "$ ${tickerResponseItem.get(position).prePrice}"
 
 
 //        holder.output_name.text = "${tickerResponseItem.get(position).name}"

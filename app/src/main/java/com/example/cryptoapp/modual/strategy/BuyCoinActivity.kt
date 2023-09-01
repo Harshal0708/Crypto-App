@@ -82,7 +82,7 @@ class BuyCoinActivity : AppCompatActivity(), onItemClickListener {
     private fun getTradeSlotApi() {
         // viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            val response = ServiceBuilder(this@BuyCoinActivity).buildService(RestApi::class.java)
+            val response = ServiceBuilder(this@BuyCoinActivity,false).buildService(RestApi::class.java)
                 .getTradeSlotApi()
             withContext(Dispatchers.Main) {
                 //viewLoader.visibility = View.GONE

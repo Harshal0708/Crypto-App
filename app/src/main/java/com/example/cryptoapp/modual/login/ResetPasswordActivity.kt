@@ -32,6 +32,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var passowrd: String
     private lateinit var rePassowrd: String
     lateinit var preferences: MyPreferences
+    lateinit var ima_back: ImageView
 
     val EMAIL_ADDRESS_PATTERN = Pattern.compile(
         "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -60,6 +61,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
         rp_et_email = findViewById(R.id.rp_et_email)
         rp_et_password = findViewById(R.id.rp_et_password)
         rp_et_rePassword = findViewById(R.id.rp_et_rePassword)
+        ima_back = findViewById(R.id.ima_back)
 
         view = findViewById(R.id.btn_progressBar)
         register_progressBar = view.findViewById(R.id.register_progressBar)
@@ -69,6 +71,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
         resent = view.findViewById(R.id.resent)
         resent.text = getString(R.string.reset)
         progressBar_cardView.setOnClickListener(this)
+        ima_back.setOnClickListener(this)
 
 
         rp_et_email.addTextChangedListener(object : TextWatcher {
@@ -163,13 +166,17 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
                     resentPassword()
                 }
             }
+
+            R.id.ima_back -> {
+                onBackPressed()
+            }
         }
     }
 
     fun resentPassword() {
 
-        register_progressBar?.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@ResetPasswordActivity).buildService(RestApi::class.java)
+        register_progressBar.visibility = View.VISIBLE
+        val response = ServiceBuilder(this@ResetPasswordActivity,false).buildService(RestApi::class.java)
 
         val payload = ResetPayload(email, rePassowrd)
 

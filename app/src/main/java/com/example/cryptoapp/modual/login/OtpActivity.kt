@@ -173,8 +173,8 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
     fun verifyRegistrationOtp(str_email: String, str_phone: String) {
 
-        register_progressBar?.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@OtpActivity).buildService(RestApi::class.java)
+        register_progressBar.visibility = View.VISIBLE
+        val response = ServiceBuilder(this@OtpActivity,false).buildService(RestApi::class.java)
 
         //val payload = RegisterPayload(password,rePassword,email,firsName,lastName,"","","","","",phone,"Appu25")
         val payload = VerifyRegistrationOtpPayload(
@@ -212,7 +212,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
     fun addCreateAccount() {
         register_progressBar?.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@OtpActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@OtpActivity,false).buildService(RestApi::class.java)
 
         val fileDir = applicationContext.filesDir
         val file = File(fileDir,"image.png")
@@ -389,7 +389,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     fun addOtp(str_email: String, str_phone: String) {
 
         register_progressBar.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@OtpActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@OtpActivity,false).buildService(RestApi::class.java)
 
 
         response.addOtp(str_phone, str_email, email, phone)
@@ -430,7 +430,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         selectedKeyPos = 0
         selectedKeyPos1 = 0
         register_progressBar.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@OtpActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@OtpActivity,false).buildService(RestApi::class.java)
 
         val payload = SendRegistrationOtpPayload(
             email,

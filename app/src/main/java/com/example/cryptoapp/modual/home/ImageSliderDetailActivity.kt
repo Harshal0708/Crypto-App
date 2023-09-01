@@ -41,7 +41,7 @@ class ImageSliderDetailActivity : AppCompatActivity() {
     fun getSubscriptionHistoryList(userId: String) {
         // viewLoader.visibility = View.VISIBLE
         val response =
-            ServiceBuilder(this@ImageSliderDetailActivity).buildService(RestApi::class.java)
+            ServiceBuilder(this@ImageSliderDetailActivity,false).buildService(RestApi::class.java)
 
         val payload = CmsAdsAddPayload(userId, false, data.userId)
 

@@ -295,7 +295,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
     private fun getCountries() {
         viewLoader.visibility = VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder(this@LoginActivity).buildService(RestApi::class.java)
+            var response = ServiceBuilder(this@LoginActivity,false).buildService(RestApi::class.java)
                 .getCountries()
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = GONE
@@ -315,7 +315,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
     private fun addLogin(email: String) {
         register_progressBar.visibility = View.VISIBLE
 
-        val response = ServiceBuilder(this@LoginActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@LoginActivity,false).buildService(RestApi::class.java)
 
         var str_email = ""
         var str_mobile = ""

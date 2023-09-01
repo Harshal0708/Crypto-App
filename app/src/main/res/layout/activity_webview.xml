@@ -35,15 +35,25 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_end="20dp" />
 
+
+    <ImageView
+        android:id="@+id/ima_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/guideline97"
+        app:layout_constraintTop_toTopOf="@+id/guideline98"
+        app:srcCompat="@drawable/ic_back" />
+
     <WebView
         android:id="@+id/webView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/guideline101"
         app:layout_constraintEnd_toStartOf="@+id/guideline100"
         app:layout_constraintStart_toStartOf="@+id/guideline97"
-        app:layout_constraintTop_toTopOf="@+id/guideline98" />
+        app:layout_constraintTop_toBottomOf="@+id/ima_back" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

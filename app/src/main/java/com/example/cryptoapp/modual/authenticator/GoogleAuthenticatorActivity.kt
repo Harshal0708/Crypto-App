@@ -135,7 +135,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
         //register_progressBar.visibility = View.VISIBLE
 
         val response =
-            ServiceBuilder(this@GoogleAuthenticatorActivity).buildService(RestApi::class.java)
+            ServiceBuilder(this@GoogleAuthenticatorActivity,false).buildService(RestApi::class.java)
         val payload = GenerateQrCodePayload(
             data.email
         )
@@ -171,7 +171,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
         //register_progressBar.visibility = View.VISIBLE
         showLog("setupCode", setupCode)
         val response =
-            ServiceBuilder(this@GoogleAuthenticatorActivity).buildService(RestApi::class.java)
+            ServiceBuilder(this@GoogleAuthenticatorActivity,false).buildService(RestApi::class.java)
         val payload = CreateUserGAKeyPayload(
             userKey,
             "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -216,7 +216,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
         //register_progressBar.visibility = View.VISIBLE
 
         val response =
-            ServiceBuilder(this@GoogleAuthenticatorActivity).buildService(RestApi::class.java)
+            ServiceBuilder(this@GoogleAuthenticatorActivity,false).buildService(RestApi::class.java)
 
         val payload = Verify2FAPayload(
             generateOtp1,
@@ -277,7 +277,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
         // viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
             var response =
-                ServiceBuilder(this@GoogleAuthenticatorActivity).buildService(RestApi::class.java)
+                ServiceBuilder(this@GoogleAuthenticatorActivity,false).buildService(RestApi::class.java)
                     .getCheckUserGAKey(id)
             withContext(Dispatchers.Main) {
                 //viewLoader.visibility = View.GONE
@@ -299,7 +299,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
         // viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
             var response =
-                ServiceBuilder(this@GoogleAuthenticatorActivity).buildService(RestApi::class.java)
+                ServiceBuilder(this@GoogleAuthenticatorActivity,false).buildService(RestApi::class.java)
                     .getGAKeyByUserId(id)
             withContext(Dispatchers.Main) {
                 //viewLoader.visibility = View.GONE

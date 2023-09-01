@@ -358,7 +358,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
 
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder(this@RegisterActivity).buildService(RestApi::class.java)
+            var response = ServiceBuilder(this@RegisterActivity,false).buildService(RestApi::class.java)
                 .getCountries()
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = GONE
@@ -451,7 +451,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
     fun sendRegistrationOtp() {
 
         register_progressBar.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@RegisterActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@RegisterActivity,false).buildService(RestApi::class.java)
 
         val payload = SendRegistrationOtpPayload(
             email,

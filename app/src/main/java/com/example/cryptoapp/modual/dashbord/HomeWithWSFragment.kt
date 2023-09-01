@@ -215,7 +215,7 @@ class HomeWithWSFragment : Fragment() , View.OnClickListener {
         //   viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.Main) {
 
-            var response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
+            var response = ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java)
                 .getCmsAdsList(data.userId)
 
             withContext(Dispatchers.Main) {

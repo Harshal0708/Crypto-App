@@ -62,7 +62,6 @@ class SettingFragment : Fragment(), View.OnClickListener,
     lateinit var register_progressBar: ProgressBar
     lateinit var resent: TextView
     lateinit var progressBar_cardView: RelativeLayout
-
     private lateinit var email: String
     private lateinit var phone: String
 
@@ -353,7 +352,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
 
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
+            var response = ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java)
                 .getUserDetails(id)
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE
@@ -383,7 +382,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
     fun getUpdateProfileDetail() {
 
         register_progressBar.visibility = View.VISIBLE
-        val response = ServiceBuilder(fragmentContext).buildService(RestApi::class.java)
+        val response = ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java)
 
 //        response.updateProfileDetail(
 //            userDetail.userId,
@@ -556,7 +555,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
 
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder(requireContext()).buildService(RestApi::class.java)
+            var response = ServiceBuilder(requireContext(),false).buildService(RestApi::class.java)
                 .getCountries()
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE

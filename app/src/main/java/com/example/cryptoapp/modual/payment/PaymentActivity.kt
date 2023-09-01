@@ -70,7 +70,7 @@ class PaymentActivity : AppCompatActivity(), View.OnClickListener {
         pay.setOnClickListener(this)
         addCustomer.setOnClickListener(this)
 
-        GooglePayInit()
+//        GooglePayInit()
         StripePayment()
         getPaymentList()
     }
@@ -82,20 +82,20 @@ class PaymentActivity : AppCompatActivity(), View.OnClickListener {
             currencyCode = "INR" // Required for Setup Intents, optional for Payment Intents
         )
     }
-
+//
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            R.id.pay -> {
-                if (clientSecretId != "" && ephemeralId != "") {
-                    presentPaymentSheet(clientSecretId, ephemeralId)
-                } else {
-                    showToast(this@PaymentActivity, "clientSecretId & ephemeralId not created")
-                }
-            }
-
-            R.id.addCustomer -> {
-                addCustomer()
-            }
+//            R.id.pay -> {
+//                if (clientSecretId != "" && ephemeralId != "") {
+//                    presentPaymentSheet(clientSecretId, ephemeralId)
+//                } else {
+//                    showToast(this@PaymentActivity, "clientSecretId & ephemeralId not created")
+//                }
+//            }
+//
+//            R.id.addCustomer -> {
+//                addCustomer()
+//            }
 
 
 
@@ -105,7 +105,7 @@ class PaymentActivity : AppCompatActivity(), View.OnClickListener {
 
     fun addCustomer() {
 
-        val response = ServiceBuilder(this@PaymentActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@PaymentActivity,true).buildService(RestApi::class.java)
 
         response.addCreateCustomer("apurva.skyttus@gmail.com","apurva")
             .enqueue(
@@ -117,6 +117,11 @@ class PaymentActivity : AppCompatActivity(), View.OnClickListener {
 
                         response.body()?.let { showToast(this@PaymentActivity, it.email) }
                         showLog("customerId", response.body().toString())
+                        if (clientSecretId != "" && ephemeralId != "") {
+                            presentPaymentSheet(clientSecretId, ephemeralId)
+                        } else {
+                            showToast(this@PaymentActivity, "clientSecretId & ephemeralId not created")
+                        }
                     }
 
                     override fun onFailure(call: Call<CreateCustomerResponse>, t: Throwable) {
@@ -128,14 +133,13 @@ class PaymentActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun StripePayment() {
         PaymentConfiguration.init(this, PUBLISH_KEY)
-
         paymentSheet = PaymentSheet(this@PaymentActivity, ::onPaymentSheetResult)
     }
 
 
     fun getPaymentList() {
 
-        val response = ServiceBuilder(this@PaymentActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@PaymentActivity,true).buildService(RestApi::class.java)
 
         response.addCustomerIdCreate()
             .enqueue(
@@ -165,7 +169,7 @@ class PaymentActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun getEphemeral_keys(key: String) {
-        val response = ServiceBuilder(this@PaymentActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@PaymentActivity,true).buildService(RestApi::class.java)
 
         response.addEhemeralkeys(key)
             .enqueue(
@@ -196,7 +200,7 @@ class PaymentActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun getClientSecretKey(key: String) {
-        val response = ServiceBuilder(this@PaymentActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@PaymentActivity,true).buildService(RestApi::class.java)
 
         response.addStripePaymentIntents(key, "${amount}00", "INR", "off_session",true)
             .enqueue(
@@ -210,6 +214,7 @@ class PaymentActivity : AppCompatActivity(), View.OnClickListener {
                         showLog("clientSecretId", clientSecretId)
                         showLog("response", response.body()!!.id)
                         showToast(this@PaymentActivity, clientSecretId)
+                        addCustomer()
                     }
 
                     override fun onFailure(call: Call<PaymentIntentRespomse>, t: Throwable) {
@@ -235,7 +240,7 @@ class PaymentActivity : AppCompatActivity(), View.OnClickListener {
                 // Set `allowsDelayedPaymentMethods` to true if your business
                 // can handle payment methods that complete payment after a delay, like SEPA Debit and Sofort.
                 allowsDelayedPaymentMethods = true,
-                googlePay = googlePayConfiguration,
+                //googlePay = googlePayConfiguration,
 
             )
 
@@ -269,9 +274,10 @@ class PaymentActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun getStripePaymentId(confirmId: String) {
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder(this@PaymentActivity).buildService(RestApi::class.java)
+            var response = ServiceBuilder(this@PaymentActivity,true).buildService(RestApi::class.java)
                 .getStripePaymentId(confirmId)
             withContext(Dispatchers.Main) {
+                showLog("getStripePaymentId",response.body().toString())
                 payment_price.text =
                     "${response.body()?.amount.toString()} ${response.body()?.currency}"
                 payment_id.text =

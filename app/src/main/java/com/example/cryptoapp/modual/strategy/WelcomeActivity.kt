@@ -95,7 +95,7 @@ class WelcomeActivity : AppCompatActivity(), View.OnClickListener {
         val formattedDate: String = formatter.format(date)
 
         val response =
-            this.let { ServiceBuilder(it).buildService(RestApi::class.java) }
+            this.let { ServiceBuilder(it,false).buildService(RestApi::class.java) }
 
         val payload = CreateTradeSlotPayload(
             coinSeparatedString.trimEnd(','),

@@ -1,21 +1,22 @@
 package com.example.cryptoapp.modual.subscription
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.ProgressBar
-import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants.Companion.showToast
+import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.CmsAdsAddResponse
 import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.Response.UserSubscriptionDetail
 import com.example.cryptoapp.model.CreateUserSubscriptionPayload
 import com.example.cryptoapp.model.UserSubscriptionModel
+import com.example.cryptoapp.modual.card.CardActivity
+import com.example.cryptoapp.modual.payment.PaymentActivity
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.preferences.MyPreferences
@@ -44,6 +45,8 @@ class SubscriptionDetailActivity : AppCompatActivity() , View.OnClickListener {
     lateinit var resent: TextView
     lateinit var progressBar_cardView: RelativeLayout
 
+    lateinit var ima_back: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_subscription_detail)
@@ -67,6 +70,9 @@ class SubscriptionDetailActivity : AppCompatActivity() , View.OnClickListener {
         register_progressBar = view.findViewById(R.id.register_progressBar)
         progressBar_cardView = view.findViewById(R.id.progressBar_cardView)
 
+        ima_back = findViewById(R.id.ima_back)
+        ima_back.setOnClickListener(this)
+
         register_progressBar.visibility = View.GONE
         resent = view.findViewById(R.id.resent)
         resent.text = getString(R.string.subscription)
@@ -74,6 +80,7 @@ class SubscriptionDetailActivity : AppCompatActivity() , View.OnClickListener {
 
         setupAnim()
         getUserSubscriptionDetail()
+
     }
 
     private fun setupAnim() {
@@ -83,7 +90,7 @@ class SubscriptionDetailActivity : AppCompatActivity() , View.OnClickListener {
     }
     fun getUserSubscriptionDetail() {
         viewLoader.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@SubscriptionDetailActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@SubscriptionDetailActivity,false).buildService(RestApi::class.java)
         var payload = UserSubscriptionModel(
             intent.getStringExtra("planId").toString(),
             intent.getStringExtra("subscriptionId").toString(),
@@ -121,7 +128,7 @@ class SubscriptionDetailActivity : AppCompatActivity() , View.OnClickListener {
     }
     fun addCreateUserSubscription() {
         viewLoader.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@SubscriptionDetailActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@SubscriptionDetailActivity,false).buildService(RestApi::class.java)
         var payload = CreateUserSubscriptionPayload(
             intent.getStringExtra("planId").toString(),
             intent.getStringExtra("subscriptionId").toString(),
@@ -138,6 +145,8 @@ class SubscriptionDetailActivity : AppCompatActivity() , View.OnClickListener {
                         viewLoader.visibility = View.GONE
 
                         if (response.body()?.isSuccess == true) {
+                            val intent  = Intent(this@SubscriptionDetailActivity ,MainActivity::class.java)
+                            startActivity(intent)
                             Toast.makeText(this@SubscriptionDetailActivity,"Subscription Done",Toast.LENGTH_SHORT).show()
                         } else {
                             Toast.makeText(this@SubscriptionDetailActivity,"Please subscribe",Toast.LENGTH_SHORT).show()
@@ -159,7 +168,12 @@ class SubscriptionDetailActivity : AppCompatActivity() , View.OnClickListener {
         val id = p0!!.id
         when (id) {
             R.id.progressBar_cardView -> {
-                addCreateUserSubscription()
+//                addCreateUserSubscription()
+                val intent  = Intent(this@SubscriptionDetailActivity , PaymentActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.ima_back -> {
+                onBackPressed()
             }
         }
     }

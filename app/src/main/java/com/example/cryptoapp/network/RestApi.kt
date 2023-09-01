@@ -132,8 +132,8 @@ interface RestApi {
     @POST(Constants.getOrderHistoryList)
     fun addOrderHistoryList(@Body getOrderHistoryListPayload: GetOrderHistoryListPayload): Call<OrderHistoriesResponse>
 
-    @POST(Constants.getSubscriptionHistoryList)
-    fun addSubscriptionHistoryList(@Body getOrderHistoryListPayload: GetOrderHistoryListPayload): Call<UserSubscriptionsResponse>
+    @POST(Constants.getSubscriptionHistory)
+    fun addSubscriptionHistory(@Body getOrderHistoryListPayload: GetOrderHistoryListPayload): Call<UserSubscriptionsResponse>
 
     @GET(Constants.cmsAdsList)
     suspend fun getCmsAdsList(@Query("userId") userId: String): Response<CmsAdsListResponse>
@@ -219,6 +219,6 @@ interface RestApi {
     fun addCreateTradeSlot(@Body createTradeSlotPayload: CreateTradeSlotPayload): Call<CreateTradeSlotResponse>
 
     @GET(Constants.getLiveTopGainers)
-    suspend fun getLiveTopGainers(): Response<getLiveTopGainersResponse>
+    suspend fun getLiveTopGainers(@Query("UserId") UserId: String): Response<getLiveTopGainersResponse>
 
 }
