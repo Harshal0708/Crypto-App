@@ -56,11 +56,13 @@ class ImageSliderDetailActivity : AppCompatActivity() {
                             //viewLoader.visibility = View.GONE
                             showToast(
                                 this@ImageSliderDetailActivity,
+                                this@ImageSliderDetailActivity,
                                 response.body()?.code.toString()
                             )
                         } else {
                             //viewLoader.visibility = View.GONE
                             showToast(
+                                this@ImageSliderDetailActivity,
                                 this@ImageSliderDetailActivity,
                                 getString(R.string.data_not_found)
                             )
@@ -70,6 +72,7 @@ class ImageSliderDetailActivity : AppCompatActivity() {
                     override fun onFailure(call: Call<CmsAdsAddResponse>, t: Throwable) {
                         //viewLoader.visibility = View.GONE
                         showToast(
+                            this@ImageSliderDetailActivity,
                             this@ImageSliderDetailActivity,
                             getString(R.string.data_not_found)
                         )

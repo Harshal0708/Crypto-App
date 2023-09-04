@@ -158,7 +158,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
 
                     override fun onFailure(call: Call<UserSubscriptionResponse>, t: Throwable) {
                         // register_progressBar?.visibility = View.GONE
-                        Constants.showToast(fragmentContext, getString(R.string.data_not_found))
+                        Constants.showToast(fragmentContext,requireActivity(),getString(R.string.data_not_found))
                     }
 
                 }

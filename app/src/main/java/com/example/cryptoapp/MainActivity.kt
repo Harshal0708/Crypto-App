@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
 
         txt_privacy.setOnClickListener(object :OnClickListener{
             override fun onClick(p0: View?) {
-                showToast(this@MainActivity,"Privacy")
+                showToast(this@MainActivity,this@MainActivity,"Privacy")
                 val intent = Intent(this@MainActivity, HomeDetailActivity::class.java)
                 startActivity(intent)
 
@@ -223,7 +223,7 @@ class MainActivity : AppCompatActivity() {
                     var intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
                     finish()
-                    showToast(this@MainActivity, getString(R.string.logout_successfully))
+                    showToast(this@MainActivity,this@MainActivity, getString(R.string.logout_successfully))
                     true
                 }
 

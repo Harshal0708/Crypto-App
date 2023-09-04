@@ -307,6 +307,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
 
                 imageUri = data!!.data ?: return
                 profile_img.setImageURI(imageUri)
+
 //                try {
 //                    val inputStream = contentResolver.openInputStream(imageUri!!)
 //                    val bitmap = BitmapFactory.decodeStream(inputStream)
@@ -318,7 +319,9 @@ class SettingFragment : Fragment(), View.OnClickListener,
 //                    e.printStackTrace()
 //
 //                }
+
             } catch (ex: Exception) {
+
             }
         } else if (resultCode == AppCompatActivity.RESULT_OK && requestCode == pickCamera) {
             photo = data?.extras?.get("data") as Bitmap
@@ -445,7 +448,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
 //                            response.body()?.message,
 //                            Toast.LENGTH_LONG
 //                        ).show()
-                        response.body()?.message?.let { showToast(fragmentContext, it) }
+                        response.body()?.message?.let { showToast(fragmentContext,requireActivity(), it) }
 
                         var intent = Intent(requireContext(), MainActivity::class.java)
                         startActivity(intent)
@@ -455,7 +458,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
 //                            response.body()?.message,
 //                            Toast.LENGTH_LONG
 //                        ).show()
-                        response.body()?.message?.let { showToast(fragmentContext, it) }
+                        response.body()?.message?.let { showToast(fragmentContext, requireActivity(),it) }
                     }
 
                 }
@@ -498,7 +501,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
             }
             R.id.radioGoogle -> {
                 selectedSuperStar = "Google"
-                showToast(fragmentContext, selectedSuperStar)
+                showToast(fragmentContext, requireActivity(),selectedSuperStar)
                 radioGoogle.isChecked = true
                 radioFinger.isChecked = false
                 radioOtp.isChecked = false
@@ -507,7 +510,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
 
             R.id.radioFinger -> {
                 selectedSuperStar = "Finger Print"
-                showToast(fragmentContext, selectedSuperStar)
+                showToast(fragmentContext,requireActivity(), selectedSuperStar)
                 radioFinger.isChecked = true
                 radioGoogle.isChecked = false
                 radioOtp.isChecked = false
@@ -516,7 +519,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
 
             R.id.radioOtp -> {
                 selectedSuperStar = "Otp Print"
-                showToast(fragmentContext, selectedSuperStar)
+                showToast(fragmentContext,requireActivity(), selectedSuperStar)
                 radioOtp.isChecked = true
                 radioFinger.isChecked = false
                 radioGoogle.isChecked = false

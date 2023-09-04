@@ -67,7 +67,7 @@ class CoinSelectionActivity : AppCompatActivity() {
             ) {
                 this@CoinSelectionActivity.finish()
             } else {
-                Constants.showToast(this@CoinSelectionActivity, resources.getString(R.string.Please_other_select_coin))
+                Constants.showToast(this@CoinSelectionActivity, this@CoinSelectionActivity,resources.getString(R.string.Please_other_select_coin))
             }
         }
         getLiveTopGainers()

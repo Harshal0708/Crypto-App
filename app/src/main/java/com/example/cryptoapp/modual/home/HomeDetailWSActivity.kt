@@ -245,7 +245,7 @@ class HomeDetailWSActivity : AppCompatActivity() {
                 }
 
                 if (coin.equals("")) {
-                    Constants.showToast(this@HomeDetailWSActivity, "Please select option")
+                    Constants.showToast(this@HomeDetailWSActivity, this@HomeDetailWSActivity,"Please select option")
                 } else {
                     val intent = Intent(this@HomeDetailWSActivity, BuyCoinActivity::class.java)
                     intent.putExtra("tradingType", coin)

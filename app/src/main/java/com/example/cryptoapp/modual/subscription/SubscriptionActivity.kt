@@ -26,7 +26,6 @@ class SubscriptionActivity : AppCompatActivity(), View.OnClickListener {
         fragmentTransaction.replace(R.id.fram_subscription, ScriptFragment())
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
-
     }
 
     override fun onBackPressed() {

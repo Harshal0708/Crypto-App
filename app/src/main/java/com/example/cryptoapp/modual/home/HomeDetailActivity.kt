@@ -115,7 +115,7 @@ class HomeDetailActivity : AppCompatActivity() {
             override fun onClick(p0: View?) {
 
                 if(data.haveAnySubscription == false){
-                    showToast(this@HomeDetailActivity,"Please subscribed...")
+                    showToast(this@HomeDetailActivity,this@HomeDetailActivity,"Please subscribed...")
                 }else{
                     openBottomSheet()
                 }
@@ -134,7 +134,7 @@ class HomeDetailActivity : AppCompatActivity() {
                     getStrategyId(intent.getStringExtra("strategyId").toString())
                 } else {
                     view.visibility = View.GONE
-                    showToast(this@HomeDetailActivity, getString(R.string.something_wrong))
+                    showToast(this@HomeDetailActivity,this@HomeDetailActivity, getString(R.string.something_wrong))
                 }
 
             }
@@ -227,6 +227,7 @@ class HomeDetailActivity : AppCompatActivity() {
                 if (coin == -1) {
                     showToast(
                         this@HomeDetailActivity,
+                        this@HomeDetailActivity,
                         this@HomeDetailActivity.getString(R.string.Please_select_option)
                     )
                 } else {
@@ -283,7 +284,7 @@ class HomeDetailActivity : AppCompatActivity() {
                         )
                     }
                 }else{
-                    showToast(this@HomeDetailActivity, getString(R.string.data_not_found))
+                    showToast(this@HomeDetailActivity,this@HomeDetailActivity, getString(R.string.data_not_found))
                 }
 
             }

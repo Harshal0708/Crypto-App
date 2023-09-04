@@ -89,7 +89,7 @@ class PaymentActivity : AppCompatActivity(), View.OnClickListener {
 //                if (clientSecretId != "" && ephemeralId != "") {
 //                    presentPaymentSheet(clientSecretId, ephemeralId)
 //                } else {
-//                    showToast(this@PaymentActivity, "clientSecretId & ephemeralId not created")
+//                    showToast(this@PaymentActivity,this@PaymentActivity, "clientSecretId & ephemeralId not created")
 //                }
 //            }
 //
@@ -115,17 +115,17 @@ class PaymentActivity : AppCompatActivity(), View.OnClickListener {
                         response: Response<CreateCustomerResponse>
                     ) {
 
-                        response.body()?.let { showToast(this@PaymentActivity, it.email) }
+                        response.body()?.let { showToast(this@PaymentActivity,this@PaymentActivity, it.email) }
                         showLog("customerId", response.body().toString())
                         if (clientSecretId != "" && ephemeralId != "") {
                             presentPaymentSheet(clientSecretId, ephemeralId)
                         } else {
-                            showToast(this@PaymentActivity, "clientSecretId & ephemeralId not created")
+                            showToast(this@PaymentActivity, this@PaymentActivity,"clientSecretId & ephemeralId not created")
                         }
                     }
 
                     override fun onFailure(call: Call<CreateCustomerResponse>, t: Throwable) {
-                        showToast(this@PaymentActivity, t.toString())
+                        showToast(this@PaymentActivity, this@PaymentActivity,t.toString())
                     }
                 }
             )
@@ -150,19 +150,19 @@ class PaymentActivity : AppCompatActivity(), View.OnClickListener {
                     ) {
 
                         customerId = response.body()?.id.toString()
-                        showToast(this@PaymentActivity, customerId)
+                        showToast(this@PaymentActivity,this@PaymentActivity, customerId)
                         showLog("customerId", customerId)
 
                         if (customerId != "") {
                             getEphemeral_keys(customerId)
                         } else {
-                            showToast(this@PaymentActivity, "customerId not created")
+                            showToast(this@PaymentActivity, this@PaymentActivity,"customerId not created")
                         }
 
                     }
 
                     override fun onFailure(call: Call<CreateCustomerIdResponse>, t: Throwable) {
-                        showToast(this@PaymentActivity, t.toString())
+                        showToast(this@PaymentActivity,this@PaymentActivity, t.toString())
                     }
                 }
             )
@@ -181,19 +181,19 @@ class PaymentActivity : AppCompatActivity(), View.OnClickListener {
                     {
 
                         ephemeralId = response.body()?.id.toString()
-                        showToast(this@PaymentActivity, ephemeralId)
+                        showToast(this@PaymentActivity,this@PaymentActivity, ephemeralId)
                         showLog("ephemeralId", ephemeralId)
 
                         if (ephemeralId != "") {
                             getClientSecretKey(customerId)
                         } else {
-                            showToast(this@PaymentActivity, "ephemeralId not created")
+                            showToast(this@PaymentActivity, this@PaymentActivity,"ephemeralId not created")
                         }
 
                     }
 
                     override fun onFailure(call: Call<EphemeralKeyResponse>, t: Throwable) {
-                        showToast(this@PaymentActivity, t.toString())
+                        showToast(this@PaymentActivity,this@PaymentActivity, t.toString())
                     }
                 }
             )
@@ -213,12 +213,12 @@ class PaymentActivity : AppCompatActivity(), View.OnClickListener {
                         confirmId = response.body()!!.id
                         showLog("clientSecretId", clientSecretId)
                         showLog("response", response.body()!!.id)
-                        showToast(this@PaymentActivity, clientSecretId)
+                        showToast(this@PaymentActivity,this@PaymentActivity, clientSecretId)
                         addCustomer()
                     }
 
                     override fun onFailure(call: Call<PaymentIntentRespomse>, t: Throwable) {
-                        showToast(this@PaymentActivity, t.toString())
+                        showToast(this@PaymentActivity,this@PaymentActivity, t.toString())
                     }
                 }
             )
@@ -252,18 +252,18 @@ class PaymentActivity : AppCompatActivity(), View.OnClickListener {
         when (paymentSheetResult) {
             is PaymentSheetResult.Canceled -> {
                 print("Canceled")
-                showToast(this@PaymentActivity, "Canceled")
+                showToast(this@PaymentActivity, this@PaymentActivity,"Canceled")
                 showLog("Canceled", paymentSheetResult.toString())
             }
             is PaymentSheetResult.Failed -> {
                 print("Error: ${paymentSheetResult.error}")
-                showToast(this@PaymentActivity, paymentSheetResult.error.toString())
+                showToast(this@PaymentActivity,this@PaymentActivity, paymentSheetResult.error.toString())
                 showLog("Error", paymentSheetResult.toString())
             }
             is PaymentSheetResult.Completed -> {
                 // Display for example, an order confirmation screen
                 print("Completed")
-                showToast(this@PaymentActivity, "Completed")
+                showToast(this@PaymentActivity,this@PaymentActivity, "Completed")
                 if (confirmId != "") {
                     getStripePaymentId(confirmId)
                 }

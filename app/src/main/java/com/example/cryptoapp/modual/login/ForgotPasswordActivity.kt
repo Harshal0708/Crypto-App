@@ -134,7 +134,7 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
                         response.body()?.message?.let {
                             showToast(
-                                this@ForgotPasswordActivity, it
+                                this@ForgotPasswordActivity,this@ForgotPasswordActivity, it
                             )
                         }
                         val intent = Intent(this@ForgotPasswordActivity, LoginActivity::class.java)
@@ -146,7 +146,9 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
                         response.body()?.message?.let {
                             showToast(
-                                this@ForgotPasswordActivity, it
+                                this@ForgotPasswordActivity,
+                                this@ForgotPasswordActivity,
+                                it
                             )
                         }
                     }
@@ -155,7 +157,7 @@ class ForgotPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
                 override fun onFailure(call: Call<ForgotResponse>, t: Throwable) {
                     progressBar_cardView.visibility = View.GONE
-                    showToast(this@ForgotPasswordActivity, getString(R.string.forgot_password_not_completed))
+                    showToast(this@ForgotPasswordActivity,this@ForgotPasswordActivity, getString(R.string.forgot_password_not_completed))
                 }
 
             })

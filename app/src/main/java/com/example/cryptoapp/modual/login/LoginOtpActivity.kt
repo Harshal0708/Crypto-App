@@ -134,7 +134,7 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
                     ) {
                         if (response.body()?.isSuccess == true) {
                             register_progressBar.visibility = View.GONE
-                            response.body()?.message?.let { showToast(this@LoginOtpActivity, it) }
+                            response.body()?.message?.let { showToast(this@LoginOtpActivity,this@LoginOtpActivity, it) }
                         }
                     }
 
@@ -143,7 +143,7 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
                         t: Throwable
                     ) {
                         register_progressBar.visibility = View.GONE
-                        showToast(this@LoginOtpActivity, getString(R.string.otp_failed))
+                        showToast(this@LoginOtpActivity,this@LoginOtpActivity, getString(R.string.otp_failed))
                     }
                 }
             )
@@ -300,16 +300,16 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
                             var intent = Intent(this@LoginOtpActivity, UserActivity::class.java)
                             startActivity(intent)
                             finish()
-                            response.body()?.message?.let { showToast(this@LoginOtpActivity, it) }
+                            response.body()?.message?.let { showToast(this@LoginOtpActivity,this@LoginOtpActivity, it) }
                         } else {
                             register_progressBar.visibility = View.GONE
-                            response.body()?.message?.let { showToast(this@LoginOtpActivity, it) }
+                            response.body()?.message?.let { showToast(this@LoginOtpActivity,this@LoginOtpActivity, it) }
                         }
                     }
 
                     override fun onFailure(call: Call<SendRegistrationOtpResponce>, t: Throwable) {
                         register_progressBar.visibility = View.GONE
-                        showToast(this@LoginOtpActivity, getString(R.string.otp_failed))
+                        showToast(this@LoginOtpActivity, this@LoginOtpActivity,getString(R.string.otp_failed))
                     }
 
                 }

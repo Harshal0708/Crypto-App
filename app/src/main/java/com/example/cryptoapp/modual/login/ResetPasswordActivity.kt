@@ -112,7 +112,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     rp_et_password.setError(getString(R.string.valid_password))
                 } else {
-                    showToast(this@ResetPasswordActivity, getString(R.string.password_verify_done))
+                    showToast(this@ResetPasswordActivity,this@ResetPasswordActivity, getString(R.string.password_verify_done))
                 }
             }
 
@@ -141,7 +141,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     rp_et_rePassword.setError(getString(R.string.valid_password))
                 } else {
-                    showToast(this@ResetPasswordActivity, getString(R.string.password_verify_done))
+                    showToast(this@ResetPasswordActivity,this@ResetPasswordActivity, getString(R.string.password_verify_done))
                 }
             }
 
@@ -192,6 +192,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
                             response.body()?.message?.let {
                                 showToast(this@ResetPasswordActivity,
+                                    this@ResetPasswordActivity,
                                     it
                                 )
                             }
@@ -208,6 +209,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
                             response.body()?.message?.let {
                                 showToast(this@ResetPasswordActivity,
+                                    this@ResetPasswordActivity,
                                     it
                                 )
                             }
@@ -217,7 +219,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
                     override fun onFailure(call: Call<ResetResponse>, t: Throwable) {
                         register_progressBar?.visibility = View.GONE
-                        showToast(this@ResetPasswordActivity, getString(R.string.reset_password_not_completed))
+                        showToast(this@ResetPasswordActivity,this@ResetPasswordActivity, getString(R.string.reset_password_not_completed))
                     }
 
                 }

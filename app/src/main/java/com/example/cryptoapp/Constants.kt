@@ -1,14 +1,22 @@
 package com.example.cryptoapp
 
+import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
+
 
 class Constants {
 
@@ -102,8 +110,22 @@ class Constants {
             Log.d("test:-${hint}", log)
         }
 
-        fun showToast(context: Context, msg: String) {
-            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        fun showToast(context: Context, activity: Activity, msg: String) {
+           // Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+
+            val view = LayoutInflater.from(context)
+                .inflate(R.layout.toast_layout, activity.findViewById(R.id.toast_root))
+
+
+            val toastText: TextView = view.findViewById(R.id.toast_text)
+            val toastImage: ImageView = view.findViewById(R.id.toast_image)
+            toastText.text = msg
+            toastImage.setImageResource(R.drawable.ic_home)
+            val toast = Toast(context)
+            toast.setGravity(Gravity.BOTTOM, 0, 0)
+            toast.duration = Toast.LENGTH_LONG
+            toast.setView(view)
+            toast.show()
         }
 
         @RequiresApi(Build.VERSION_CODES.O)

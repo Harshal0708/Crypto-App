@@ -305,7 +305,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                     strategies_rv.adapter = homeAdapter
                 } else {
                     viewLoader.visibility = View.GONE
-                    showToast(fragmentContext, getString(R.string.data_not_found))
+                    showToast(fragmentContext,requireActivity(), getString(R.string.data_not_found))
                 }
 
             }

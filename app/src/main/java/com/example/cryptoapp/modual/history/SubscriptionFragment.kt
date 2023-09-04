@@ -106,6 +106,7 @@ class SubscriptionFragment : Fragment() {
                             viewLoader.visibility = View.GONE
                             Constants.showToast(
                                 fragmentContext,
+                                requireActivity(),
                                 getString(R.string.data_not_found)
                             )
                         }
@@ -115,6 +116,7 @@ class SubscriptionFragment : Fragment() {
                         viewLoader.visibility = View.GONE
                         Constants.showToast(
                             fragmentContext,
+                            requireActivity(),
                             getString(R.string.data_not_found)
                         )
                     }

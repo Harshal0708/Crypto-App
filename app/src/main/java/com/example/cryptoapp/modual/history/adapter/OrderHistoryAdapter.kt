@@ -76,26 +76,26 @@ class OrderHistoryAdapter(var context: Context, val orderHistories: ArrayList<Or
 
         if (holder is ViewHolder) {
 
-            holder.txt_order_history_name.text = orderHistories.get(position)?.symbol
+            holder.txt_order_history_name.text = orderHistories.get(position).symbol
 //        holder.txt_order_history_quantity.text="Quantity :- ${orderHistories.get(position).quantity}"
 //        holder.txt_order_history_price.text="Price :- ${orderHistories.get(position).price}"
 //        holder.txt_order_history_status.text="Status :- ${orderHistories.get(position).status}"
 
-            holder.txt_order_history_quantity.text = "${orderHistories.get(position)?.quantity}"
-            holder.txt_order_history_price.text = "${orderHistories.get(position)?.price}"
+            holder.txt_order_history_quantity.text = "${orderHistories.get(position).quantity}"
+            holder.txt_order_history_price.text = "${orderHistories.get(position).price}"
 
 //            val dateString = orderHistories.get(position)?.timestamp
 //            val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 //            val date = format.parse(dateString)
-            holder.txt_order_history_trading_date.text = "${orderHistories.get(position)?.timestamp?.let {
+            holder.txt_order_history_trading_date.text = "${orderHistories.get(position).timestamp?.let {
                 Constants.getDate(
                     it
                 )
             }}"
 
-            if (orderHistories.get(position)?.side == 0) {
+            if (orderHistories.get(position).side == 0) {
                 holder.txt_order_history_status.text = "Buy"
-            } else if (orderHistories.get(position)?.side == 1) {
+            } else if (orderHistories.get(position).side == 1) {
                 holder.txt_order_history_status.text = "Sell"
             }
 

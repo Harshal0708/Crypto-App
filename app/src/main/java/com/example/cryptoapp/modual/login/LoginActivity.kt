@@ -195,10 +195,10 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     if (pwd.length > 5) {
-                        showToast(this@LoginActivity, getString(R.string.valid_password))
+                        showToast(this@LoginActivity,this@LoginActivity, getString(R.string.valid_password))
                     }
                 } else {
-                    showToast(this@LoginActivity, getString(R.string.password_verify_done))
+                    showToast(this@LoginActivity, this@LoginActivity,getString(R.string.password_verify_done))
                 }
 
             }
@@ -341,7 +341,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
                 call: retrofit2.Call<LoginResponse>, response: retrofit2.Response<LoginResponse>
             ) {
 
-                showToast(this@LoginActivity, response.body()?.message.toString())
+                showToast(this@LoginActivity,this@LoginActivity, response.body()?.message.toString())
                 register_progressBar.visibility = GONE
 
                 if (response.body()?.isSuccess == true) {
@@ -431,7 +431,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 
             override fun onFailure(call: retrofit2.Call<LoginResponse>, t: Throwable) {
                 register_progressBar.visibility = GONE
-                showToast(this@LoginActivity, getString(R.string.login_failed))
+                showToast(this@LoginActivity,this@LoginActivity, getString(R.string.login_failed))
             }
 
         })

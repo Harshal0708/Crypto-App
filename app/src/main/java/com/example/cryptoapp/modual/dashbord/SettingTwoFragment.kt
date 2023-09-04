@@ -91,12 +91,12 @@ class SettingTwoFragment : Fragment(), View.OnClickListener {
 
             }
             R.id.txt_setting_share_app -> {
-                Constants.showToast(requireContext(), "Share App")
+                Constants.showToast(requireContext(), requireActivity(),"Share App")
 //                val intent = Intent(activity, PaymentActivity::class.java)
 //                startActivity(intent)
             }
             R.id.txt_setting_privacy_policy -> {
-                Constants.showToast(requireContext(), "Privacy Policy")
+                Constants.showToast(requireContext(), requireActivity(),"Privacy Policy")
             }
             R.id.txt_setting_logout -> {
                 preferences.setRemember(false)
@@ -105,7 +105,7 @@ class SettingTwoFragment : Fragment(), View.OnClickListener {
                 var intent = Intent(activity, LoginActivity::class.java)
                 startActivity(intent)
                 activity?.finish()
-                Constants.showToast(requireContext(), getString(R.string.logout_successfully))
+                Constants.showToast(requireContext(),requireActivity(), getString(R.string.logout_successfully))
             }
         }
     }

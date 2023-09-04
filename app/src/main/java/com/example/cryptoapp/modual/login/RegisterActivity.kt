@@ -313,7 +313,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     sp_et_password.setError(getString(R.string.valid_password))
                 } else {
-                    showToast(this@RegisterActivity, getString(R.string.password_verify_done))
+                    showToast(this@RegisterActivity,this@RegisterActivity, getString(R.string.password_verify_done))
                 }
 
             }
@@ -337,7 +337,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     sp_et_rePassword.setError(getString(R.string.valid_password))
                 } else {
-                    showToast(this@RegisterActivity, getString(R.string.re_password_verify_done))
+                    showToast(this@RegisterActivity,this@RegisterActivity, getString(R.string.re_password_verify_done))
                 }
             }
 
@@ -488,7 +488,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
                             intent.putExtra("data", jsonData)
                             startActivity(intent)
 
-                            response.body()?.message?.let { showToast(this@RegisterActivity, it) }
+                            response.body()?.message?.let { showToast(this@RegisterActivity,this@RegisterActivity, it) }
 
                         } else {
                             register_progressBar.visibility = GONE
@@ -503,7 +503,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
                         t: Throwable
                     ) {
                         register_progressBar.visibility = GONE
-                        showToast(this@RegisterActivity, getString(R.string.register_failed))
+                        showToast(this@RegisterActivity,this@RegisterActivity, getString(R.string.register_failed))
                     }
                 }
             )
@@ -636,7 +636,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
         }
 
         if (cb_term_accept.isChecked == false) {
-            showToast(this@RegisterActivity, getString(R.string.please_accept_condition))
+            showToast(this@RegisterActivity,this@RegisterActivity, getString(R.string.please_accept_condition))
             return false
         }
 

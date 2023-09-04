@@ -81,7 +81,7 @@ class BiometricEnableActivity : AppCompatActivity(), View.OnClickListener {
                 info = "No biometric features available on this device."
                 Constants.showLog("BIOMETRIC_ERROR_NO_HARDWARE: ",info)
                 isEnabled = false
-                Constants.showToast(this@BiometricEnableActivity,info)
+                Constants.showToast(this@BiometricEnableActivity,this@BiometricEnableActivity,info)
 
             }
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
@@ -89,7 +89,7 @@ class BiometricEnableActivity : AppCompatActivity(), View.OnClickListener {
                 info = "Biometric features are currently unavailable."
                 Constants.showLog("BIOMETRIC_ERROR_HW_UNAVAILABLE: ",info)
                 isEnabled = false
-                Constants.showToast(this@BiometricEnableActivity,info)
+                Constants.showToast(this@BiometricEnableActivity,this@BiometricEnableActivity,info)
 
             }
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {

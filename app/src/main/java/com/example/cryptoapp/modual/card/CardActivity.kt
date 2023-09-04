@@ -109,20 +109,20 @@ class CardActivity : AppCompatActivity() {
             is PaymentResult.Completed -> {
                 "Completed!"
 
-                showToast(this@CardActivity,"Completed!")
+                showToast(this@CardActivity,this@CardActivity,"Completed!")
             }
             is PaymentResult.Canceled -> {
                 "Canceled!"
-                showToast(this@CardActivity,"Canceled!")
+                showToast(this@CardActivity,this@CardActivity,"Canceled!")
             }
             is PaymentResult.Failed -> {
                 // This string comes from the PaymentIntent's error message.
                 // See here: https://stripe.com/docs/api/payment_intents/object#payment_intent_object-last_payment_error-message
                 "Failed: " + paymentResult.throwable.message
-                showToast(this@CardActivity,paymentResult.throwable.message.toString())
+                showToast(this@CardActivity,this@CardActivity,paymentResult.throwable.message.toString())
             }
         }
-        showToast(this@CardActivity,"Payment Result:${message}",)
+        showToast(this@CardActivity,this@CardActivity,"Payment Result:${message}",)
         showLog("onPaymentResult",message.toString())
     }
 }

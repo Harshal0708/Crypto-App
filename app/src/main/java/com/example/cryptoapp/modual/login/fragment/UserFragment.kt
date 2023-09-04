@@ -73,7 +73,7 @@ class UserFragment : Fragment(), View.OnClickListener {
                 ) {
 
                     if (response.body()?.isSuccess == true) {
-                       Constants.showToast(context!!,"Document Verification Successfully.")
+                       Constants.showToast(context!!,requireActivity(),"Document Verification Successfully.")
                     }
 
                 }
@@ -84,7 +84,7 @@ class UserFragment : Fragment(), View.OnClickListener {
 
                     //register_progressBar.visibility = View.GONE
                     Constants.showToast(
-                        context!!,
+                        context!!,requireActivity(),
                         getString(R.string.login_failed)
                     )
                 }

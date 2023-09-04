@@ -108,7 +108,7 @@ class GpayActivity : AppCompatActivity() {
     private fun onGooglePayResult(result: GooglePayLauncher.Result) {
         // implemented below
         showLog("onGooglePayResult",result.toString())
-        showToast(this@GpayActivity,result.toString())
+        showToast(this@GpayActivity,this@GpayActivity,result.toString())
     }
 
     private fun onGooglePayReady(isReady: Boolean) {
@@ -124,7 +124,7 @@ class GpayActivity : AppCompatActivity() {
                 // Payment details successfully captured.
                 // Send the paymentMethodId to your server to finalize payment.
                 val paymentMethodId = result.paymentMethod.id
-                showToast(this@GpayActivity,paymentMethodId.toString())
+                showToast(this@GpayActivity,this@GpayActivity,paymentMethodId.toString())
             }
 
             GooglePayPaymentMethodLauncher.Result.Canceled -> {

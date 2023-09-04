@@ -105,7 +105,7 @@ class WatchlistFragment : Fragment() {
 
             override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
                 super.onMessage(webSocket, bytes)
-                showToast(requireContext(), bytes.hex())
+                showToast(requireContext(),requireActivity(), bytes.hex())
             }
 
             override fun onOpen(webSocket: WebSocket, response: Response) {

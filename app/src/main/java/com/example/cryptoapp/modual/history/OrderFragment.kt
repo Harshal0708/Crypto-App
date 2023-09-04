@@ -14,6 +14,7 @@ import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Constants.Companion.showLog
+import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.Response.OrderHistoriesResponse
@@ -159,8 +160,9 @@ class OrderFragment : Fragment() {
                         } else {
                             // viewLoader.visibility = View.GONE
 
-                            Constants.showToast(
+                            showToast(
                                 fragmentContext,
+                                requireActivity(),
                                 "End of data reached.."
                             )
 
@@ -173,8 +175,9 @@ class OrderFragment : Fragment() {
                     ) {
                         // viewLoader.visibility = View.GONE
 
-                        Constants.showToast(
+                        showToast(
                             fragmentContext,
+                            requireActivity(),
                             getString(R.string.data_not_found)
                         )
 
@@ -238,6 +241,7 @@ class OrderFragment : Fragment() {
                             // viewLoader.visibility = View.GONE
                             Constants.showToast(
                                 fragmentContext,
+                                requireActivity(),
                                 getString(R.string.data_not_found)
                             )
 
@@ -248,6 +252,7 @@ class OrderFragment : Fragment() {
                         // viewLoader.visibility = View.GONE
                         Constants.showToast(
                             fragmentContext,
+                            requireActivity(),
                             getString(R.string.data_not_found)
                         )
                     }

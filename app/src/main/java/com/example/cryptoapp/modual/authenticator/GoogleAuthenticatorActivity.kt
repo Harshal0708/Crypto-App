@@ -159,7 +159,8 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
 
                 override fun onFailure(call: retrofit2.Call<BarcodeImageResponse>, t: Throwable) {
                     //register_progressBar.visibility = View.GONE
-                    Constants.showToast(
+                    showToast(
+                        this@GoogleAuthenticatorActivity,
                         this@GoogleAuthenticatorActivity,
                         getString(R.string.login_failed)
                     )
@@ -206,6 +207,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                     //register_progressBar.visibility = View.GONE
                     Constants.showToast(
                         this@GoogleAuthenticatorActivity,
+                        this@GoogleAuthenticatorActivity,
                         getString(R.string.login_failed)
                     )
                 }
@@ -249,7 +251,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                         }
 
                     } else {
-                        showToast(this@GoogleAuthenticatorActivity, "Failed")
+                        showToast(this@GoogleAuthenticatorActivity,this@GoogleAuthenticatorActivity, "Failed")
                     }
 
                 }
@@ -260,7 +262,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                 ) {
                     //register_progressBar.visibility = View.GONE
                     showToast(
-                        this@GoogleAuthenticatorActivity,
+                        this@GoogleAuthenticatorActivity,this@GoogleAuthenticatorActivity,
                         getString(R.string.login_failed)
                     )
                 }

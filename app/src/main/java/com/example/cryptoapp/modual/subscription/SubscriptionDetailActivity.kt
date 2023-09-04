@@ -34,7 +34,6 @@ class SubscriptionDetailActivity : AppCompatActivity() , View.OnClickListener {
     lateinit var preferences: MyPreferences
     lateinit var userDetail: DataXX
 
-
     lateinit var viewLoader: View
     lateinit var animationView: LottieAnimationView
 
@@ -71,13 +70,13 @@ class SubscriptionDetailActivity : AppCompatActivity() , View.OnClickListener {
         progressBar_cardView = view.findViewById(R.id.progressBar_cardView)
 
         ima_back = findViewById(R.id.ima_back)
-        ima_back.setOnClickListener(this)
+
 
         register_progressBar.visibility = View.GONE
         resent = view.findViewById(R.id.resent)
         resent.text = getString(R.string.subscription)
         progressBar_cardView.setOnClickListener(this)
-
+        ima_back.setOnClickListener(this)
         setupAnim()
         getUserSubscriptionDetail()
 
@@ -91,6 +90,7 @@ class SubscriptionDetailActivity : AppCompatActivity() , View.OnClickListener {
     fun getUserSubscriptionDetail() {
         viewLoader.visibility = View.VISIBLE
         val response = ServiceBuilder(this@SubscriptionDetailActivity,false).buildService(RestApi::class.java)
+
         var payload = UserSubscriptionModel(
             intent.getStringExtra("planId").toString(),
             intent.getStringExtra("subscriptionId").toString(),
@@ -112,7 +112,6 @@ class SubscriptionDetailActivity : AppCompatActivity() , View.OnClickListener {
                             txt_sub_detail_is_active.text = "Active"
                         } else {
                             txt_sub_detail_is_active.text = "Not Active"
-
                         }
                     }
 
@@ -120,11 +119,13 @@ class SubscriptionDetailActivity : AppCompatActivity() , View.OnClickListener {
                         viewLoader.visibility = View.GONE
                         showToast(
                             this@SubscriptionDetailActivity,
+                            this@SubscriptionDetailActivity,
                             getString(R.string.data_not_found)
                         )
                     }
                 }
             )
+
     }
     fun addCreateUserSubscription() {
         viewLoader.visibility = View.VISIBLE
@@ -157,6 +158,7 @@ class SubscriptionDetailActivity : AppCompatActivity() , View.OnClickListener {
                     override fun onFailure(call: Call<CmsAdsAddResponse>, t: Throwable) {
                         viewLoader.visibility = View.GONE
                         showToast(
+                            this@SubscriptionDetailActivity,
                             this@SubscriptionDetailActivity,
                             getString(R.string.data_not_found)
                         )

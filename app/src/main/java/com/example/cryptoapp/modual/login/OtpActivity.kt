@@ -194,16 +194,16 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                         if (response.body()?.isSuccess == true) {
                             register_progressBar.visibility = View.GONE
                             addCreateAccount()
-                            response.body()?.message?.let { showToast(this@OtpActivity, it) }
+                            response.body()?.message?.let { showToast(this@OtpActivity,this@OtpActivity, it) }
                         } else {
                             register_progressBar.visibility = View.GONE
-                            response.body()?.message?.let { showToast(this@OtpActivity, it) }
+                            response.body()?.message?.let { showToast(this@OtpActivity,this@OtpActivity, it) }
                         }
                     }
 
                     override fun onFailure(call: Call<SendRegistrationOtpResponce>, t: Throwable) {
                         register_progressBar.visibility = View.GONE
-                        showToast(this@OtpActivity, getString(R.string.otp_failed))
+                        showToast(this@OtpActivity,this@OtpActivity, getString(R.string.otp_failed))
                     }
 
                 }
@@ -250,19 +250,19 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                 ) {
                     if (response.body()?.isSuccess == true) {
                         register_progressBar.visibility = View.GONE
-                        response.body()?.message?.let { showToast(this@OtpActivity, it) }
+                        response.body()?.message?.let { showToast(this@OtpActivity,this@OtpActivity, it) }
                         var intent = Intent(this@OtpActivity, LoginActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {
-                        response.body()?.message?.let { showToast(this@OtpActivity, it) }
+                        response.body()?.message?.let { showToast(this@OtpActivity,this@OtpActivity, it) }
                         register_progressBar.visibility = View.GONE
                     }
                 }
 
                 override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
                     register_progressBar.visibility = View.GONE
-                    showToast(this@OtpActivity, getString(R.string.register_failed))
+                    showToast(this@OtpActivity,this@OtpActivity, getString(R.string.register_failed))
                 }
             }
         )
@@ -401,7 +401,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                     ) {
                         if (response.body()?.code == "200") {
                             register_progressBar.visibility = View.GONE
-                            response.body()?.message?.let { showToast(this@OtpActivity, it) }
+                            response.body()?.message?.let { showToast(this@OtpActivity, this@OtpActivity,it) }
 //                            Log.d("test", str_phone_otp + "")
 //                            Log.d("test", str_email_otp + "")
                             var intent = Intent(this@OtpActivity, LoginActivity::class.java)
@@ -409,14 +409,14 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                             finish()
                         } else {
                             register_progressBar.visibility = View.GONE
-                            showToast(this@OtpActivity, getString(R.string.user_not_created))
+                            showToast(this@OtpActivity,this@OtpActivity, getString(R.string.user_not_created))
                         }
 
                     }
 
                     override fun onFailure(call: Call<OtpResponse>, t: Throwable) {
                         register_progressBar.visibility = View.GONE
-                        showToast(this@OtpActivity, getString(R.string.user_not_created))
+                        showToast(this@OtpActivity,this@OtpActivity, getString(R.string.user_not_created))
                     }
 
                 }
@@ -448,7 +448,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
                         if (response.body()?.isSuccess == true) {
                             register_progressBar.visibility = View.GONE
-                            response.body()?.message?.let { showToast(this@OtpActivity, it) }
+                            response.body()?.message?.let { showToast(this@OtpActivity, this@OtpActivity,it) }
 
                         } else {
                             register_progressBar.visibility = View.GONE
@@ -461,7 +461,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                         t: Throwable
                     ) {
                         register_progressBar.visibility = View.GONE
-                        showToast(this@OtpActivity, getString(R.string.user_not_created))
+                        showToast(this@OtpActivity,this@OtpActivity, getString(R.string.user_not_created))
                     }
 
                 }

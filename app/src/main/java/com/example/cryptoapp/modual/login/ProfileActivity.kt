@@ -370,7 +370,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener , onItemClickL
 //                            response.body()?.message,
 //                            Toast.LENGTH_LONG
 //                        ).show()
-                        response.body()?.message?.let { showToast(this@ProfileActivity, it) }
+                        response.body()?.message?.let { showToast(this@ProfileActivity,this@ProfileActivity, it) }
 
                         var intent = Intent(this@ProfileActivity, MainActivity::class.java)
                         startActivity(intent)
@@ -380,7 +380,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener , onItemClickL
 //                            response.body()?.message,
 //                            Toast.LENGTH_LONG
 //                        ).show()
-                        response.body()?.message?.let { showToast(this@ProfileActivity, it) }
+                        response.body()?.message?.let { showToast(this@ProfileActivity,this@ProfileActivity, it) }
                     }
 
                 }

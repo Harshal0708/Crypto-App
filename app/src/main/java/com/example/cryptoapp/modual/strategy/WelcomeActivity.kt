@@ -121,7 +121,7 @@ class WelcomeActivity : AppCompatActivity(), View.OnClickListener {
                         val intent = Intent(this@WelcomeActivity, MainActivity::class.java)
                         startActivity(intent)
                     } else {
-                        Constants.showToast(this@WelcomeActivity, "Failed...")
+                        Constants.showToast(this@WelcomeActivity,this@WelcomeActivity, "Failed...")
                     }
                     register_progressBar.visibility = View.GONE
 
@@ -135,6 +135,7 @@ class WelcomeActivity : AppCompatActivity(), View.OnClickListener {
 
                     register_progressBar.visibility = View.GONE
                     Constants.showToast(
+                        this@WelcomeActivity,
                         this@WelcomeActivity,
                         getString(R.string.login_failed)
                     )

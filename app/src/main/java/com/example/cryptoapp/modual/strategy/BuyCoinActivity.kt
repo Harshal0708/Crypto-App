@@ -48,7 +48,7 @@ class BuyCoinActivity : AppCompatActivity(), onItemClickListener {
             strategyId = intent.getStringExtra("strategyId").toString()
             userId = intent.getStringExtra("userId").toString()
         } else {
-            showToast(this@BuyCoinActivity, getString(R.string.something_wrong))
+            showToast(this@BuyCoinActivity, this@BuyCoinActivity,getString(R.string.something_wrong))
         }
 
         continuousSlider.setLabelFormatter { value: Float ->
@@ -98,7 +98,7 @@ class BuyCoinActivity : AppCompatActivity(), onItemClickListener {
                     )
                     rvBuyCoin.adapter = buyCoinAdapter
                 } else {
-                    showToast(this@BuyCoinActivity, getString(R.string.data_not_found))
+                    showToast(this@BuyCoinActivity,this@BuyCoinActivity, getString(R.string.data_not_found))
                 }
 
 
@@ -108,10 +108,10 @@ class BuyCoinActivity : AppCompatActivity(), onItemClickListener {
 
     override fun onItemClick(pos: Int) {
         if (sliderPrice == -1) {
-            showToast(this@BuyCoinActivity, resources.getString(R.string.Please_select_price))
+            showToast(this@BuyCoinActivity,this@BuyCoinActivity, resources.getString(R.string.Please_select_price))
             return
         } else if (data[pos].endValue > sliderPrice) {
-            showToast(this@BuyCoinActivity, resources.getString(R.string.Please_other_select_price))
+            showToast(this@BuyCoinActivity,this@BuyCoinActivity, resources.getString(R.string.Please_other_select_price))
             return
         } else {
             sendData(tradingType, pos)
