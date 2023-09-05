@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants
+import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
@@ -47,7 +48,6 @@ import retrofit2.Call
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 import java.util.regex.Pattern
 
 
@@ -420,7 +420,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
             RequestBody.create("text/plain".toMediaTypeOrNull(), userDetail.mobile)
         val cusUri: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), file.name)
 
-        Constants.showLog("part", part.toString())
+        showLog("part", part.toString())
 
         response.updateProfileDetail(
             cusUserId,
@@ -430,7 +430,6 @@ class SettingFragment : Fragment(), View.OnClickListener,
             part,
             cusLastMobile
         ).enqueue(
-
 
             object : retrofit2.Callback<Userupdatedsuccessfully> {
                 override fun onResponse(
@@ -450,7 +449,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
 //                        ).show()
                         response.body()?.message?.let { showToast(fragmentContext,requireActivity(), it) }
 
-                        var intent = Intent(requireContext(), MainActivity::class.java)
+                        var intent = Intent(fragmentContext, MainActivity::class.java)
                         startActivity(intent)
                     } else {
 //                        Toast.makeText(
@@ -529,13 +528,11 @@ class SettingFragment : Fragment(), View.OnClickListener,
             R.id.ima_back -> {
                dialog1.dismiss()
             }
-
-
         }
     }
 
     fun exit() {
-        dialog1 = Dialog(requireContext(), android.R.style.ThemeOverlay)
+        dialog1 = Dialog(fragmentContext, android.R.style.ThemeOverlay)
         dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog1.getWindow()?.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
@@ -558,14 +555,14 @@ class SettingFragment : Fragment(), View.OnClickListener,
 
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder(requireContext(),false).buildService(RestApi::class.java)
+            var response = ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java)
                 .getCountries()
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE
                 getCountriesResponseItem = response.body()!!
-                rv_countryName.layoutManager = LinearLayoutManager(requireContext())
+                rv_countryName.layoutManager = LinearLayoutManager(fragmentContext)
                 countriesAdapter = CountriesAdapter(
-                    requireContext(),
+                    fragmentContext,
                     getCountriesResponseItem,
                     requireActivity(),
                     this@SettingFragment
@@ -576,7 +573,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
     }
 
     private fun openBottomSheet() {
-        dialog = BottomSheetDialog(requireContext())
+        dialog = BottomSheetDialog(fragmentContext)
         val view = layoutInflater.inflate(R.layout.profile_bottom_sheet, null)
         dialog.setCancelable(true)
         bs_img_camera = view.findViewById(R.id.bs_img_camera)
