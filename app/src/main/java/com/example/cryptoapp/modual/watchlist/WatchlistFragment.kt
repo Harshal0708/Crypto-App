@@ -65,11 +65,10 @@ class WatchlistFragment : Fragment() {
         first = ArrayList()
 
         scope.launch {
-
             val ws1 = async {
                 showLog("IO", "1")
 //                webSocket1 = createWebSocket("wss://fstream.binance.com:443/ws/!ticker@arr", 1)
-                webSocket1 = createWebSocket("ws://103.14.99.42/GetLiveTopGainers", 1)
+                webSocket1 = createWebSocket("wss://103.14.99.42/LiveTopGainers", 1)
             }
 
             ws1.await()
@@ -132,7 +131,7 @@ class WatchlistFragment : Fragment() {
 
 
     fun setUpBtcPriceText(message: String?, value: Int) {
-        showLog("objectList", message.toString())
+        showLog("1111", message.toString())
 //        val gson = Gson()
 //        val objectList = gson.fromJson(message, LiveTopGainersResponse::class.java)
 //        requireActivity().runOnUiThread {

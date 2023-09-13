@@ -24,7 +24,6 @@ class PositionAdapter(
         var txt_position_pl_price: TextView = itemView.findViewById(R.id.txt_position_pl_price)
         var txt_position_num: TextView = itemView.findViewById(R.id.txt_position_num)
         var txt_position_buy_price: TextView = itemView.findViewById(R.id.txt_position_buy_price)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -44,15 +43,13 @@ class PositionAdapter(
         holder.txt_position_num.text =liveOrderResponseItem.get(position).Strategy.Description
         holder.txt_position_buy_price.text =liveOrderResponseItem.get(position).BuyPrice.toString()
 
-
-
         holder.itemView.setOnClickListener {
             val intent = Intent(context, PositionDetailActivity::class.java)
             intent.putExtra("orderId", liveOrderResponseItem.get(position).OrderId)
             context.startActivity(intent)
         }
-    }
 
+    }
 
     override fun getItemCount(): Int {
         return liveOrderResponseItem.size

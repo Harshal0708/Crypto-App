@@ -115,13 +115,13 @@ class HomeFragment : Fragment(), View.OnClickListener {
             job4 = CoroutineScope(Dispatchers.IO).launch {
                 getNewsList()
             }
+
             CoroutineScope(Dispatchers.IO).launch {
                 job1.join()
                 job2.join()
                 job3.join()
                 job4.join()
             }
-
         }
     }
 
@@ -225,7 +225,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
         }
     }
 
-
     private fun setupAnim() {
         animationView.setAnimation(R.raw.currency)
         animationView.repeatCount = LottieDrawable.INFINITE
@@ -290,8 +289,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     private fun getStrategy() {
-
-
         lifecycleScope.launch(Dispatchers.IO) {
 
             val response =
@@ -310,7 +307,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
             }
         }
-
     }
 
     override fun onClick(p0: View?) {

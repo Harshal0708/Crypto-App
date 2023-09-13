@@ -78,9 +78,11 @@ class ScriptFragment : Fragment(), View.OnClickListener {
         rv_subsribtion = view.findViewById(R.id.rv_subsribtion)
         constraintLayout = view.findViewById(R.id.constraintLayout)
         constraintLayout.visibility=View.GONE
+
         txt_sub_monthly.setOnClickListener(this)
         txt_sub_quartly.setOnClickListener(this)
         txt_sub_yearly.setOnClickListener(this)
+
         setupAnim()
         getPlans()
         //getUserSubscriptionDetail()
@@ -103,7 +105,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                 viewLoader.visibility = View.GONE
 
                 if(response.body()?.data?.size != 0){
-                    if (response.body()?.data?.size == 4){
+                    if (response.body()?.data?.size == 3){
                         constraintLayout.visibility=View.VISIBLE
                         txt_sub_monthly.text = response.body()?.data?.get(0)?.planName
                         txt_sub_quartly.text = response.body()?.data?.get(1)?.planName
@@ -114,9 +116,11 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                         three = response.body()?.data?.get(2)?.id.toString()
                         subscriptionModelList.isNullOrEmpty()
                         getUserSubscription(one)
+
                     }else{
                         txt_script_data_not_found.visibility=View.VISIBLE
                     }
+
                 }else {
                     txt_script_data_not_found.visibility=View.VISIBLE
                 }
@@ -148,12 +152,10 @@ class ScriptFragment : Fragment(), View.OnClickListener {
 
                         if (response.body() != null) {
                             subscriptionModelList = response.body()!!.data
-
                             ScriptAdapter(subscriptionModelList, id.toString())
                         } else {
                             txt_script_data_not_found.visibility=View.VISIBLE
                         }
-
                     }
 
                     override fun onFailure(call: Call<UserSubscriptionResponse>, t: Throwable) {
@@ -163,7 +165,6 @@ class ScriptFragment : Fragment(), View.OnClickListener {
 
                 }
             )
-
     }
 
     override fun onClick(p0: View?) {
@@ -182,6 +183,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                 getUserSubscription(one)
 
             }
+
             R.id.txt_sub_quartly -> {
 
                 txt_sub_monthly.setBackgroundResource(0)
@@ -196,6 +198,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
                 getUserSubscription(two)
 
             }
+
             R.id.txt_sub_yearly -> {
 
                 txt_sub_monthly.setBackgroundResource(0)
@@ -208,6 +211,7 @@ class ScriptFragment : Fragment(), View.OnClickListener {
 
                 subscriptionModelList.isNullOrEmpty()
                 getUserSubscription(three)
+
             }
         }
     }

@@ -48,7 +48,11 @@ class BuyCoinActivity : AppCompatActivity(), onItemClickListener {
             strategyId = intent.getStringExtra("strategyId").toString()
             userId = intent.getStringExtra("userId").toString()
         } else {
-            showToast(this@BuyCoinActivity, this@BuyCoinActivity,getString(R.string.something_wrong))
+            showToast(
+                this@BuyCoinActivity,
+                this@BuyCoinActivity,
+                getString(R.string.something_wrong)
+            )
         }
 
         continuousSlider.setLabelFormatter { value: Float ->
@@ -76,14 +80,16 @@ class BuyCoinActivity : AppCompatActivity(), onItemClickListener {
             { slider, value, fromUser ->
                 sliderPrice = slider.value.toInt()
             })
+
         getTradeSlotApi()
     }
 
     private fun getTradeSlotApi() {
         // viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            val response = ServiceBuilder(this@BuyCoinActivity,false).buildService(RestApi::class.java)
-                .getTradeSlotApi()
+            val response =
+                ServiceBuilder(this@BuyCoinActivity, false).buildService(RestApi::class.java)
+                    .getTradeSlotApi()
             withContext(Dispatchers.Main) {
                 //viewLoader.visibility = View.GONE
 
@@ -98,20 +104,30 @@ class BuyCoinActivity : AppCompatActivity(), onItemClickListener {
                     )
                     rvBuyCoin.adapter = buyCoinAdapter
                 } else {
-                    showToast(this@BuyCoinActivity,this@BuyCoinActivity, getString(R.string.data_not_found))
+                    showToast(
+                        this@BuyCoinActivity,
+                        this@BuyCoinActivity,
+                        getString(R.string.data_not_found)
+                    )
                 }
-
-
             }
         }
     }
 
     override fun onItemClick(pos: Int) {
         if (sliderPrice == -1) {
-            showToast(this@BuyCoinActivity,this@BuyCoinActivity, resources.getString(R.string.Please_select_price))
+            showToast(
+                this@BuyCoinActivity,
+                this@BuyCoinActivity,
+                resources.getString(R.string.Please_select_price)
+            )
             return
         } else if (data[pos].endValue > sliderPrice) {
-            showToast(this@BuyCoinActivity,this@BuyCoinActivity, resources.getString(R.string.Please_other_select_price))
+            showToast(
+                this@BuyCoinActivity,
+                this@BuyCoinActivity,
+                resources.getString(R.string.Please_other_select_price)
+            )
             return
         } else {
             sendData(tradingType, pos)
@@ -119,13 +135,15 @@ class BuyCoinActivity : AppCompatActivity(), onItemClickListener {
     }
 
     private fun sendData(tradingType: Int, pos: Int) {
-        val intent : Intent
-        if(tradingType == 0){
+        val intent: Intent
+
+        if (tradingType == 0) {
             intent = Intent(this@BuyCoinActivity, WelcomeActivity::class.java)
             intent.putExtra("data", "")
-        }else{
+        } else {
             intent = Intent(this@BuyCoinActivity, CoinSelectionActivity::class.java)
         }
+
         intent.putExtra("coin_selection", data[pos].id)
         intent.putExtra("slider_price", sliderPrice)
         intent.putExtra("tradingType", tradingType)
@@ -133,5 +151,6 @@ class BuyCoinActivity : AppCompatActivity(), onItemClickListener {
         intent.putExtra("userId", userId)
         startActivity(intent)
         this.finish()
+
     }
 }

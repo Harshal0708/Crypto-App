@@ -1,18 +1,18 @@
 package com.example.cryptoapp.Response
 
 data class DataXX(
-    val accessToken: String,
-    val countryCode: Int,
-    val countryId: String,
-    val email: String,
-    val firstName: String,
-    val haveAnySubscription: Boolean,
-    val isKycVerify: Boolean,
-    val lastName: String,
-    val mobile: String,
-    val name: String,
-    val profilePicture: String,
-    val refreshToken: String,
-    val refreshTokenExpiryTime: String,
-    val userId: String
+    var accessToken: String,
+    var countryCode: Int,
+    var countryId: String,
+    var email: String,
+    var firstName: String,
+    var haveAnySubscription: Boolean,
+    var isKycVerify: Boolean,
+    var lastName: String,
+    var mobile: String,
+    var name: String,
+    var profilePicture: String,
+    var refreshToken: String,
+    var refreshTokenExpiryTime: String,
+    var userId: String
 )

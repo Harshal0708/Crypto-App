@@ -67,15 +67,12 @@ class WelcomeActivity : AppCompatActivity(), View.OnClickListener {
         strategyId = intent.getStringExtra("strategyId").toString()
         userId = intent.getStringExtra("userId").toString()
 
-
-
         if (!numberList!!.equals("")) {
             coinSelectList = numberList as ArrayList<CoinData>
             coinSeparatedString = concatenateStrings(coinSelectList)
         }else{
             coinSeparatedString=""
         }
-
     }
 
     fun concatenateStrings(list: ArrayList<CoinData>): String {
@@ -86,7 +83,7 @@ class WelcomeActivity : AppCompatActivity(), View.OnClickListener {
         return stringBuilder.toString()
     }
 
-    private fun addCreateApiKeys() {
+    private fun addCreateTradeSlot() {
         register_progressBar.visibility = View.VISIBLE
 
 
@@ -110,7 +107,7 @@ class WelcomeActivity : AppCompatActivity(), View.OnClickListener {
 
         Constants.showLog("test", Gson().toJson(payload))
 
-        response!!.addCreateTradeSlot(payload)
+        response.addCreateTradeSlot(payload)
             .enqueue(object : retrofit2.Callback<CreateTradeSlotResponse> {
                 override fun onResponse(
                     call: retrofit2.Call<CreateTradeSlotResponse>,
@@ -123,8 +120,8 @@ class WelcomeActivity : AppCompatActivity(), View.OnClickListener {
                     } else {
                         Constants.showToast(this@WelcomeActivity,this@WelcomeActivity, "Failed...")
                     }
-                    register_progressBar.visibility = View.GONE
 
+                    register_progressBar.visibility = View.GONE
 
                 }
 
@@ -155,7 +152,7 @@ class WelcomeActivity : AppCompatActivity(), View.OnClickListener {
         when (id) {
 
             R.id.progressBar_cardView -> {
-                addCreateApiKeys()
+                addCreateTradeSlot()
 //                val intent = Intent(this@WelcomeActivity, MainActivity::class.java)
 //                startActivity(intent)
 //                Toast.makeText(this@WelcomeActivity, "Welcome", Toast.LENGTH_SHORT).show()

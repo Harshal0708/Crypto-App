@@ -14,12 +14,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.R
+import com.example.cryptoapp.Response.getLiveTopGainersResponseItem
 import com.example.cryptoapp.modual.strategy.CoinDataset
 import com.example.cryptoapp.modual.strategy.CoinSelectionActivity
 import com.example.cryptoapp.modual.strategy.WelcomeActivity
 import kotlin.math.log
 
-class CoinSelectionAdapter(val context: Context, var list: ArrayList<CoinDataset>) :
+class CoinSelectionAdapter(val context: Context, var list: ArrayList<getLiveTopGainersResponseItem>) :
     RecyclerView.Adapter<CoinSelectionAdapter.ViewHolder>() {
 
     var checkBoxStateArray = SparseBooleanArray()
@@ -35,7 +36,7 @@ class CoinSelectionAdapter(val context: Context, var list: ArrayList<CoinDataset
 
                     cb_coin.isChecked = true
                     checkBoxStateArray.put(adapterPosition,true)
-                    coinSelectList.add(CoinData(list.get(adapterPosition).coin))
+                    coinSelectList.add(CoinData(list.get(adapterPosition).symbol))
                 } else {
                     cb_coin.isChecked = false
                     checkBoxStateArray.put(adapterPosition,false)
@@ -73,7 +74,7 @@ class CoinSelectionAdapter(val context: Context, var list: ArrayList<CoinDataset
         holder.cb_coin.isChecked = checkBoxStateArray.get(position, false)
 
        // var pos = list.get(position).position
-        holder.cb_coin.text = "${list.get(position).coin}"
+        holder.cb_coin.text = "${list.get(position).symbol}"
     }
 
     override fun getItemCount(): Int {

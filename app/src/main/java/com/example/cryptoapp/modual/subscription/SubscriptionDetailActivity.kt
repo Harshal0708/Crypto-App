@@ -38,8 +38,6 @@ class SubscriptionDetailActivity : AppCompatActivity() , View.OnClickListener {
     lateinit var animationView: LottieAnimationView
 
     lateinit var view: View
-    lateinit var otp_layout: View
-    lateinit var otp_layout_two: View
     lateinit var register_progressBar: ProgressBar
     lateinit var resent: TextView
     lateinit var progressBar_cardView: RelativeLayout
@@ -146,6 +144,8 @@ class SubscriptionDetailActivity : AppCompatActivity() , View.OnClickListener {
                         viewLoader.visibility = View.GONE
 
                         if (response.body()?.isSuccess == true) {
+                            userDetail.haveAnySubscription = true
+                            MyPreferences(this@SubscriptionDetailActivity).setLogin(userDetail)
                             val intent  = Intent(this@SubscriptionDetailActivity ,MainActivity::class.java)
                             startActivity(intent)
                             Toast.makeText(this@SubscriptionDetailActivity,"Subscription Done",Toast.LENGTH_SHORT).show()
@@ -170,9 +170,9 @@ class SubscriptionDetailActivity : AppCompatActivity() , View.OnClickListener {
         val id = p0!!.id
         when (id) {
             R.id.progressBar_cardView -> {
-//                addCreateUserSubscription()
-                val intent  = Intent(this@SubscriptionDetailActivity , PaymentActivity::class.java)
-                startActivity(intent)
+                addCreateUserSubscription()
+//                val intent  = Intent(this@SubscriptionDetailActivity , PaymentActivity::class.java)
+//                startActivity(intent)
             }
             R.id.ima_back -> {
                 onBackPressed()

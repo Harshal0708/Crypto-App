@@ -97,7 +97,6 @@ class HomeDetailActivity : AppCompatActivity() {
         view = findViewById(R.id.btn_progressBar)
         register_progressBar = view.findViewById(R.id.register_progressBar)
 
-
         view.visibility = View.GONE
         register_progressBar.visibility = View.GONE
         resent = view.findViewById(R.id.resent)
@@ -119,8 +118,6 @@ class HomeDetailActivity : AppCompatActivity() {
                 }else{
                     openBottomSheet()
                 }
-
-
             }
         })
 
@@ -136,7 +133,6 @@ class HomeDetailActivity : AppCompatActivity() {
                     view.visibility = View.GONE
                     showToast(this@HomeDetailActivity,this@HomeDetailActivity, getString(R.string.something_wrong))
                 }
-
             }
 
             CoroutineScope(Dispatchers.IO).launch {

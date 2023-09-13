@@ -89,7 +89,6 @@ class PositionFragment : Fragment() {
                 if (value == 1) {
                     webSocket.send(data.userId)
                 }
-
             }
 
             @RequiresApi(Build.VERSION_CODES.M)
@@ -116,7 +115,7 @@ class PositionFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setLiveOrderPL(text: String) {
 
-        Constants.showLog("setLiveOrderPL", text)
+       // Constants.showLog("setLiveOrderPL", text)
         val gson = Gson()
         val objectList = gson.fromJson(text, LiveOrderResponse::class.java)
 
