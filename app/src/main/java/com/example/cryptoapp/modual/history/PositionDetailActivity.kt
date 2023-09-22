@@ -93,7 +93,6 @@ class PositionDetailActivity : AppCompatActivity(), View.OnClickListener {
         view2 = findViewById(R.id.btn_add_funds)
         register_progressBar2 = view2.findViewById(R.id.register_progressBar)
 
-
         register_progressBar.visibility = View.GONE
         resent = view.findViewById(R.id.resent)
         resent.text = "Sell"
@@ -176,7 +175,7 @@ class PositionDetailActivity : AppCompatActivity(), View.OnClickListener {
 
         val gson = Gson()
         val positionDetailList = gson.fromJson(text, PositionDetailResponseItem::class.java)
-        Constants.showLog("PDetailActivity", Gson().toJson(text))
+        Constants.showLog("PDetailActivity", text)
 
         txt_sd_strategyName.text = positionDetailList.Strategy.StrategyName
         txt_detail_sd_description.text =

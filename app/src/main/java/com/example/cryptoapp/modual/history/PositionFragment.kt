@@ -131,6 +131,7 @@ class PositionFragment : Fragment() {
             positionAdapter = PositionAdapter(fragmentContext, objectList.liveOrderResponseModels)!!
             rv_position.adapter = positionAdapter
         }
+
     }
 
     override fun onDestroy() {

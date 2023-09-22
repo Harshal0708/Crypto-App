@@ -47,6 +47,7 @@ class WatchlistFragment : Fragment() {
     private lateinit var fragmentContext: Context
     lateinit var data: DataXX
     lateinit var preferences: MyPreferences
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -65,10 +66,12 @@ class WatchlistFragment : Fragment() {
         first = ArrayList()
 
         scope.launch {
+
             val ws1 = async {
                 showLog("IO", "1")
 //                webSocket1 = createWebSocket("wss://fstream.binance.com:443/ws/!ticker@arr", 1)
-                webSocket1 = createWebSocket("wss://103.14.99.42/LiveTopGainers", 1)
+//                webSocket1 = createWebSocket("wss://103.14.99.42/LiveTopGainers", 1)
+                webSocket1 = createWebSocket("wss://103.14.99.42/GetTopGainers", 1)
             }
 
             ws1.await()
@@ -109,7 +112,7 @@ class WatchlistFragment : Fragment() {
 
             override fun onOpen(webSocket: WebSocket, response: Response) {
                 super.onOpen(webSocket, response)
-               // webSocket.send(data.userId)
+//                webSocket.send(data.userId)
             }
         }
 
