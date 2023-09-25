@@ -122,6 +122,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 job3.join()
                 job4.join()
             }
+
+
         }
     }
 

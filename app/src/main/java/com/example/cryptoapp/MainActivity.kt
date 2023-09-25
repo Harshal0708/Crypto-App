@@ -97,8 +97,6 @@ class MainActivity : AppCompatActivity() {
 //            paint.setTextSize(20F)
 //            c.drawText("Apurva", x!!.toFloat(), y!!.toFloat(), paint)
 //            nav_img.setImageBitmap(b)
-
-
      //   }
 
         val fullName = "${data.firstName} ${data.lastName}"

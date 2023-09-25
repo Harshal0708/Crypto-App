@@ -115,8 +115,6 @@ class PositionDetailActivity : AppCompatActivity(), View.OnClickListener {
             }
         })
 
-
-
         executorService.submit {
             // handle WebSocket connection here
             //    scope.launch {
@@ -207,7 +205,6 @@ class PositionDetailActivity : AppCompatActivity(), View.OnClickListener {
                 txt_strategy_tt.text = "Manual"
             }
         }
-
 
         txt_strategy_pl.text = "SL" + positionDetailList.PL.toString()
         txt_strategy_pl.setTextColor(getColor(R.color.red))
