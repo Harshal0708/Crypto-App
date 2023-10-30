@@ -88,7 +88,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
 
     private val pickImage = 100
     private val pickCamera = 200
-    private var imageUri: Uri? = null
+    lateinit var imageUri: Uri
     var encodeImageString: String = ""
 
     lateinit var profile_img: ImageView
@@ -107,9 +107,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
     lateinit var countriesAdapter: CountriesAdapter
     var countryId: String = ""
     var selectedSuperStar: String = ""
-    lateinit var radioGoogle: RadioButton
-    lateinit var radioOtp: RadioButton
-    lateinit var radioFinger: RadioButton
+
 
     private lateinit var fragmentContext: Context
     lateinit var photo: Bitmap
@@ -126,10 +124,8 @@ class SettingFragment : Fragment(), View.OnClickListener,
     }
 
     private fun InIt(view1: View) {
+        imageUri = "null".toUri()
         preferences = MyPreferences(fragmentContext)
-        radioOtp = view1.findViewById(R.id.radioOtp)
-        radioFinger = view1.findViewById(R.id.radioFinger)
-        radioGoogle = view1.findViewById(R.id.radioGoogle)
         userDetail = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
         edFirstname = view1.findViewById(R.id.edFirstname)
@@ -152,27 +148,11 @@ class SettingFragment : Fragment(), View.OnClickListener,
         viewLoader = view1.findViewById(R.id.viewLoader)
         animationView = viewLoader.findViewById(R.id.lotti_img)
 
-        if (MyPreferences(fragmentContext).getAuth() == 0) {
-            radioGoogle.isChecked = true
-            radioFinger.isChecked = false
-            radioOtp.isChecked = false
-        } else if (MyPreferences(fragmentContext).getAuth() == 1) {
-            radioGoogle.isChecked = false
-            radioFinger.isChecked = true
-            radioOtp.isChecked = false
-        } else if (MyPreferences(fragmentContext).getAuth() == 2) {
-            radioGoogle.isChecked = false
-            radioFinger.isChecked = false
-            radioOtp.isChecked = true
-        }
-
 
         progressBar_cardView.setOnClickListener(this)
         profile_img.setOnClickListener(this)
         mn_et_country_code.setOnClickListener(this)
-        radioOtp.setOnClickListener(this)
-        radioFinger.setOnClickListener(this)
-        radioGoogle.setOnClickListener(this)
+
 
 
         edFirstname.addTextChangedListener(object : TextWatcher {
@@ -233,7 +213,6 @@ class SettingFragment : Fragment(), View.OnClickListener,
 
                 if (edLastname.length() > 0) {
                     edLastname.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
-
                 } else {
                     edLastname.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
                 }
@@ -355,29 +334,29 @@ class SettingFragment : Fragment(), View.OnClickListener,
 
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java)
+            var response = ServiceBuilder(fragmentContext, false).buildService(RestApi::class.java)
                 .getUserDetails(id)
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE
 
-                edFirstname.setText(response.body()!!.firstName)
-                edLastname.setText(response.body()!!.lastName)
-                edEmail.setText(response.body()!!.email)
-                edPhone.setText(response.body()!!.phoneNumber)
-                mn_et_country_code.setText("+" + response.body()!!.countryCode.toString())
+                edFirstname.setText(response.body()!!.data.firstName)
+                edLastname.setText(response.body()!!.data.lastName)
+                edEmail.setText(response.body()!!.data.email)
+                edPhone.setText(response.body()!!.data.phoneNumber)
+                mn_et_country_code.setText("+" + response.body()!!.data.countryCode.toString())
 
 
-                if (response.body()!!.profileImage != null && response.body()!!.profileImage != "") {
+//                if (response.body()!!.imageURL != null && response.body()!!.imageURL != "") {
 //                    profile_img.setImageBitmap(byteArrayToBitmap(response.body()!!.profileImage.toByteArray()))
-                    Picasso.get()
-                        .load(response.body()!!.profileImage.toUri())
-                        .placeholder(R.drawable.ic_app_icon)
-                        .error(R.drawable.ic_app_icon)
-                        .into(profile_img)
+                Picasso.get()
+                    .load(response.body()!!.data.imageURL)
+                    .placeholder(R.drawable.ic_app_icon)
+                    .error(R.drawable.ic_app_icon)
+                    .into(profile_img)
 
-                } else {
-                    profile_img.setImageDrawable(fragmentContext.getDrawable(R.drawable.ic_account))
-                }
+//                } else {
+//                    profile_img.setImageDrawable(fragmentContext.getDrawable(R.drawable.ic_account))
+//                }
             }
         }
     }
@@ -385,7 +364,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
     fun getUpdateProfileDetail() {
 
         register_progressBar.visibility = View.VISIBLE
-        val response = ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java)
+        val response = ServiceBuilder(fragmentContext, false).buildService(RestApi::class.java)
 
 //        response.updateProfileDetail(
 //            userDetail.userId,
@@ -396,79 +375,163 @@ class SettingFragment : Fragment(), View.OnClickListener,
 //            edPhone.text.toString()
 //        ).enqueue(
 //
-        val fileDir = fragmentContext.applicationContext.filesDir
-        val file = File(fileDir, "image.png")
-        val inputStream = fragmentContext.contentResolver.openInputStream(imageUri!!)
-        val outputStream = FileOutputStream(file)
-        inputStream!!.copyTo(outputStream)
+        if (imageUri!!.equals("null")) {
 
-        val requestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+            showLog("fragmentContext","1")
 
-        val part = MultipartBody.Part.createFormData("ProfileImage", file.name, requestBody)
-        val cusUserId: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), userDetail.userId)
-        val cusName: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), edFirstname.text.toString())
-        val cusLastName: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), edLastname.text.toString())
-        val cusCountryId: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), countryId)
 
-        val cusLastEmail: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), userDetail.email)
-        val cusLastMobile: RequestBody =
-            RequestBody.create("text/plain".toMediaTypeOrNull(), userDetail.mobile)
-        val cusUri: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), file.name)
+            val cusUserId: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), userDetail.userId)
+            val cusName: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), edFirstname.text.toString())
+            val cusLastName: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), edLastname.text.toString())
+            val cusCountryId: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), countryId)
 
-        showLog("part", part.toString())
+            val cusLastEmail: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), userDetail.email)
+            val cusLastMobile: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), userDetail.mobile)
+//            val cusUri: RequestBody =
+//                RequestBody.create("text/plain".toMediaTypeOrNull(), file.name)
+//
 
-        response.updateProfileDetail(
-            cusUserId,
-            cusLastEmail,
-            cusName,
-            cusLastName,
-            part,
-            cusLastMobile
-        ).enqueue(
+            response.updateProfileDetail(
+                cusUserId,
+                cusLastEmail,
+                cusName,
+                cusLastName,
+                null,
+                cusLastMobile
+            ).enqueue(
 
-            object : retrofit2.Callback<Userupdatedsuccessfully> {
-                override fun onResponse(
-                    call: Call<Userupdatedsuccessfully>,
-                    response: retrofit2.Response<Userupdatedsuccessfully>
-                ) {
+                object : retrofit2.Callback<Userupdatedsuccessfully> {
+                    override fun onResponse(
+                        call: Call<Userupdatedsuccessfully>,
+                        response: retrofit2.Response<Userupdatedsuccessfully>
+                    ) {
 
-                    register_progressBar.visibility = View.GONE
+                        register_progressBar.visibility = View.GONE
 
-                    if (response.body()?.isSuccess == true) {
-                        data = response.body()?.data!!
-                        preferences.setLogin(data)
+                        if (response.body()?.isSuccess == true) {
+                            data = response.body()?.data!!
+                            preferences.setLogin(data)
+                            response.body()?.message?.let {
+                                showToast(
+                                    fragmentContext,
+                                    requireActivity(),
+                                    it
+                                )
+                            }
+
+                            var intent = Intent(fragmentContext, MainActivity::class.java)
+                            startActivity(intent)
+                        } else {
 //                        Toast.makeText(
 //                            this@ProfileActivity,
 //                            response.body()?.message,
 //                            Toast.LENGTH_LONG
 //                        ).show()
-                        response.body()?.message?.let { showToast(fragmentContext,requireActivity(), it) }
+                            response.body()?.message?.let {
+                                showToast(
+                                    fragmentContext,
+                                    requireActivity(),
+                                    it
+                                )
+                            }
+                        }
 
-                        var intent = Intent(fragmentContext, MainActivity::class.java)
-                        startActivity(intent)
-                    } else {
-//                        Toast.makeText(
-//                            this@ProfileActivity,
-//                            response.body()?.message,
-//                            Toast.LENGTH_LONG
-//                        ).show()
-                        response.body()?.message?.let { showToast(fragmentContext, requireActivity(),it) }
                     }
 
-                }
-
-                override fun onFailure(call: Call<Userupdatedsuccessfully>, t: Throwable) {
-                    register_progressBar.visibility = View.GONE
+                    override fun onFailure(call: Call<Userupdatedsuccessfully>, t: Throwable) {
+                        register_progressBar.visibility = View.GONE
 //                    Toast.makeText(this@ProfileActivity, t.toString(), Toast.LENGTH_LONG)
 //                        .show()
+                    }
                 }
-            }
-        )
+            )
+        } else {
+
+            showLog("fragmentContext","2")
+
+            val fileDir = fragmentContext.applicationContext.filesDir
+            val file = File(fileDir, "image.png")
+            val inputStream = fragmentContext.contentResolver.openInputStream(imageUri!!)
+            val outputStream = FileOutputStream(file)
+            inputStream!!.copyTo(outputStream)
+
+            val requestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+
+            val part = MultipartBody.Part.createFormData("ProfileImage", file.name, requestBody)
+            val cusUserId: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), userDetail.userId)
+            val cusName: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), edFirstname.text.toString())
+            val cusLastName: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), edLastname.text.toString())
+            val cusCountryId: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), countryId)
+
+            val cusLastEmail: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), userDetail.email)
+            val cusLastMobile: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), userDetail.mobile)
+            val cusUri: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), file.name)
+
+
+            response.updateProfileDetail(
+                cusUserId,
+                cusLastEmail,
+                cusName,
+                cusLastName,
+                part,
+                cusLastMobile
+            ).enqueue(
+
+                object : retrofit2.Callback<Userupdatedsuccessfully> {
+                    override fun onResponse(
+                        call: Call<Userupdatedsuccessfully>,
+                        response: retrofit2.Response<Userupdatedsuccessfully>
+                    ) {
+
+                        register_progressBar.visibility = View.GONE
+
+                        if (response.body()?.isSuccess == true) {
+                            data = response.body()?.data!!
+                            preferences.setLogin(data)
+
+                            response.body()?.message?.let {
+                                showToast(
+                                    fragmentContext,
+                                    requireActivity(),
+                                    it
+                                )
+                            }
+
+                            var intent = Intent(fragmentContext, MainActivity::class.java)
+                            startActivity(intent)
+                        } else {
+                            response.body()?.message?.let {
+                                showToast(
+                                    fragmentContext,
+                                    requireActivity(),
+                                    it
+                                )
+                            }
+                        }
+
+                    }
+
+                    override fun onFailure(call: Call<Userupdatedsuccessfully>, t: Throwable) {
+                        register_progressBar.visibility = View.GONE
+//                    Toast.makeText(this@ProfileActivity, t.toString(), Toast.LENGTH_LONG)
+//                        .show()
+                    }
+                }
+            )
+        }
     }
 
     fun byteArrayToBitmap(data: ByteArray): Bitmap {
@@ -498,35 +561,8 @@ class SettingFragment : Fragment(), View.OnClickListener,
             R.id.mn_et_country_code -> {
                 exit()
             }
-            R.id.radioGoogle -> {
-                selectedSuperStar = "Google"
-                showToast(fragmentContext, requireActivity(),selectedSuperStar)
-                radioGoogle.isChecked = true
-                radioFinger.isChecked = false
-                radioOtp.isChecked = false
-                MyPreferences(fragmentContext).setAuth(0)
-            }
-
-            R.id.radioFinger -> {
-                selectedSuperStar = "Finger Print"
-                showToast(fragmentContext,requireActivity(), selectedSuperStar)
-                radioFinger.isChecked = true
-                radioGoogle.isChecked = false
-                radioOtp.isChecked = false
-                MyPreferences(fragmentContext).setAuth(1)
-            }
-
-            R.id.radioOtp -> {
-                selectedSuperStar = "Otp Print"
-                showToast(fragmentContext,requireActivity(), selectedSuperStar)
-                radioOtp.isChecked = true
-                radioFinger.isChecked = false
-                radioGoogle.isChecked = false
-                MyPreferences(fragmentContext).setAuth(2)
-            }
-
             R.id.ima_back -> {
-               dialog1.dismiss()
+                dialog1.dismiss()
             }
         }
     }
@@ -555,7 +591,7 @@ class SettingFragment : Fragment(), View.OnClickListener,
 
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java)
+            var response = ServiceBuilder(fragmentContext, false).buildService(RestApi::class.java)
                 .getCountries()
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE

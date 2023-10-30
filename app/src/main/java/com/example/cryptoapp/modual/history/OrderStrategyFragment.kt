@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.Constants
+import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.Response.OrderHistoryDetailResponse
@@ -40,7 +41,6 @@ class OrderStrategyFragment : Fragment() {
 
     lateinit var data: DataXX
 
-
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +53,7 @@ class OrderStrategyFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun init(view: View) {
+
         var preferences: MyPreferences
         preferences = MyPreferences(fragmentContext)
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
@@ -82,6 +83,7 @@ class OrderStrategyFragment : Fragment() {
                     orderHistoryDetailResponseItem =
                         response.body()!!
                     rv_order_strategy.layoutManager = LinearLayoutManager(fragmentContext)
+
                     strategyHistoryDetailAdapter =
                         StrategyHistoryDetailAdapter(
                             fragmentContext,
@@ -91,12 +93,11 @@ class OrderStrategyFragment : Fragment() {
 
                 } else {
                     // txt_subscription_data_not_found.visibility=View.VISIBLE
-                    Toast.makeText(fragmentContext, "No data found", Toast.LENGTH_SHORT).show()
+                    showToast(fragmentContext,requireActivity(),"No data found")
                 }
             }
         }
     }
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

@@ -35,8 +35,6 @@ interface RestApi {
     @POST(Constants.generateQrCode)
     fun addGenerateQrCode(@Body generateQrCodePayload: GenerateQrCodePayload): Call<BarcodeImageResponse>
 
-
-
 //    @Multipart
 //    @POST(Constants.register)
 //    fun addRegister(@Part registerPayload: RegisterPayload): Call<RegisterResponse>
@@ -50,8 +48,8 @@ interface RestApi {
         @Part("CountryId") CountryId: RequestBody,
         @Part("Email") Email: RequestBody,
         @Part("PhoneNumber") PhoneNumber: RequestBody,
-        @Part ProfileImage: MultipartBody.Part,
-        @Part("ImageURL") ImageURL: RequestBody,
+        @Part ProfileImage: MultipartBody.Part?,
+        @Part("ImageURL") ImageURL: RequestBody?,
         ): Call<RegisterResponse>
 
     @Multipart
@@ -61,7 +59,7 @@ interface RestApi {
         @Part("email") email: RequestBody,
         @Part("firstName") firstName: RequestBody,
         @Part("lastName") lastName: RequestBody,
-        @Part ProfileImage: MultipartBody.Part,
+        @Part ProfileImage: MultipartBody.Part?,
         @Part("phoneNumber") phoneNumber: RequestBody
     ): Call<Userupdatedsuccessfully>
 

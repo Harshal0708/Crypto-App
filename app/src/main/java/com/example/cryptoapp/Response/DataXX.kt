@@ -14,5 +14,6 @@ data class DataXX(
     var profilePicture: String,
     var refreshToken: String,
     var refreshTokenExpiryTime: String,
-    var userId: String
+    var userId: String,
+    var imageURL: String
 )

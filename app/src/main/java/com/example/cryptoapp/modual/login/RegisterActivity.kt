@@ -48,7 +48,6 @@ import java.util.regex.Pattern
 
 class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListener {
 
-
     lateinit var sp_et_email: EditText
     lateinit var mn_et_phone: EditText
     lateinit var sp_et_firstName: EditText
@@ -96,7 +95,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
     private val pickCamera = 200
     private var imageUri: Uri? = null
 
-
     lateinit var bs_img_camera: ImageView
     lateinit var bs_img_gallery: ImageView
     lateinit var dialog: BottomSheetDialog
@@ -105,7 +103,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
     var encodeImageString: String = ""
     var countryId: String = ""
     lateinit var imageFile: File
-
 
     lateinit var countriesAdapter: CountriesAdapter
     lateinit var rv_countryName: RecyclerView
@@ -406,7 +403,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
                 //Toast.makeText(this,"cb_term_accept",Toast.LENGTH_SHORT).show()
             }
             R.id.reg_profile_img -> {
-                6
+
                 openBottomSheet()
             }
 
@@ -647,7 +644,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
 
     override fun onItemClick(pos: Int) {
         mn_et_country_code.text = "+ ${getCountriesResponseItem.get(pos).countryCode}"
-        countryId = getCountriesResponseItem.get(pos).id
+        countryId = getCountriesResponseItem.get(pos).countryCode.toString()
         dialog1.dismiss()
     }
 

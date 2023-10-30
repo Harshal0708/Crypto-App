@@ -58,6 +58,7 @@ class SliderViewPagerAdapter (val context: Context, val imageList: List<CmsAdsLi
 
         return itemView
     }
+
     fun convertStringToBitmap(encodedString: String): Bitmap {
         val decodedBytes = Base64.decode(encodedString, Base64.DEFAULT)
         return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)

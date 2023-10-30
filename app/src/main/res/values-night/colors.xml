@@ -20,8 +20,9 @@
     <color name="edit_text_hint_color">#C1C1C1</color>
 
     <color name="background">@color/dark</color>
+    <color name="light_white">#f7f8fa</color>
     <color name="bottom_background">@color/dark</color>
->
+
 
     <color name="background_day">@color/white</color>
 

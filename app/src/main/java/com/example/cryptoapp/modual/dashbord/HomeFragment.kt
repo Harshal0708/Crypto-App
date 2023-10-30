@@ -1,6 +1,7 @@
 package com.example.cryptoapp.modual.dashbord
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,11 +16,14 @@ import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.Constants.Companion.showToast
+import com.example.cryptoapp.MainActivity
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.*
 import com.example.cryptoapp.model.CryptoName
 import com.example.cryptoapp.modual.home.adapter.*
 import com.example.cryptoapp.modual.news.response.Feed
+import com.example.cryptoapp.modual.news.response.screen.NewsListActivity
+import com.example.cryptoapp.modual.watchlist.WatchlistFragment
 import com.example.cryptoapp.network.*
 import com.example.cryptoapp.preferences.MyPreferences
 import com.google.gson.Gson
@@ -36,6 +40,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
     lateinit var rv_top_coin: RecyclerView
 
     lateinit var ouput: TextView
+    lateinit var top_coins_see_all: TextView
+    lateinit var advertisement_see_all: TextView
+    lateinit var top_news_see_all: TextView
+
     lateinit var txt_pl_price: TextView
     lateinit var txt_strategies_desc: TextView
     lateinit var homeAdapter: HomeAdapter
@@ -77,13 +85,16 @@ class HomeFragment : Fragment(), View.OnClickListener {
         preferences = MyPreferences(fragmentContext)
 
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
-        showLog("HomeFragment",Gson().toJson(data))
+        // showLog("HomeFragment",Gson().toJson(data))
 
         first = ArrayList()
         strategies_rv = view.findViewById(R.id.strategies_rv)
         rv_top_coin = view.findViewById(R.id.rv_top_coin)
+        top_news_see_all = view.findViewById(R.id.top_news_see_all)
 
         ouput = view.findViewById(R.id.ouput)
+        top_coins_see_all = view.findViewById(R.id.top_coins_see_all)
+        advertisement_see_all = view.findViewById(R.id.advertisement_see_all)
         txt_pl_price = view.findViewById(R.id.txt_pl_price)
         viewLoader = view.findViewById(R.id.viewLoader)
         animationView = viewLoader.findViewById(R.id.lotti_img)
@@ -93,6 +104,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
         txt_strategies_desc = view.findViewById(R.id.txt_strategies_desc)
 
+        top_coins_see_all.setOnClickListener(this)
+        advertisement_see_all.setOnClickListener(this)
+        top_news_see_all.setOnClickListener(this)
+
         setupAnim()
 
         executorService.submit {
@@ -100,7 +115,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
             client = OkHttpClient.Builder().readTimeout(0, TimeUnit.MINUTES).build()
 
             job1 = CoroutineScope(Dispatchers.Main).launch {
-               // getCMSList()
+                // getCMSList()
             }
 
             job2 = CoroutineScope(Dispatchers.IO).launch {
@@ -117,13 +132,13 @@ class HomeFragment : Fragment(), View.OnClickListener {
             }
 
             CoroutineScope(Dispatchers.IO).launch {
+
                 job1.join()
                 job2.join()
                 job3.join()
                 job4.join()
+
             }
-
-
         }
     }
 
@@ -150,6 +165,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         }
 
         return client.newWebSocket(request, listener)
+
     }
 
     override fun onDestroy() {
@@ -186,21 +202,22 @@ class HomeFragment : Fragment(), View.OnClickListener {
         //   viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.Main) {
 
-            val response = ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java)
+            val response = ServiceBuilder(fragmentContext, false).buildService(RestApi::class.java)
                 .getCmsAdsList(data.userId)
 
             withContext(Dispatchers.Main) {
-                         viewLoader.visibility = View.GONE
+                viewLoader.visibility = View.GONE
                 viewPagerAdapter = SliderViewPagerAdapter(fragmentContext, response.body()!!.data)
                 login_ViewPager.adapter = viewPagerAdapter
 
             }
         }
+
     }
 
     private fun getNewsList() {
 
-        val url = "https://rss.app/feeds/v1.1/tO0Is5f6tjkPAo1a.json"
+        val url = "https://rss.app/feeds/v1.1/tdm707wAO1CzfXTq.json"
         val client = OkHttpClient()
         val request = Request.Builder()
             .url(url)
@@ -256,7 +273,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
                             for ((i, item) in airQualityDatalist.withIndex()) {
                                 if (dto.s.equals(item.name)) {
-                                    airQualityDatalist[i] = AirQualityData(dto.s, dto.c,"1")
+                                    airQualityDatalist[i] = AirQualityData(dto.s, dto.c, "1")
 
                                     isAvailable = true
                                     break
@@ -266,12 +283,13 @@ class HomeFragment : Fragment(), View.OnClickListener {
                             }
 
                             if (isAvailable == false) {
-                                airQualityDatalist.add(AirQualityData(dto.s, dto.c,"1"))
+                                airQualityDatalist.add(AirQualityData(dto.s, dto.c, "1"))
                             }
 
                         } else {
-                            airQualityDatalist.add(AirQualityData(dto.s, dto.c,"1"))
+                            airQualityDatalist.add(AirQualityData(dto.s, dto.c, "1"))
                         }
+
                 }
             }
 
@@ -286,7 +304,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
             }
 
-
         }
     }
 
@@ -294,7 +311,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
         lifecycleScope.launch(Dispatchers.IO) {
 
             val response =
-                ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java).getStrategy()
+                ServiceBuilder(fragmentContext, false).buildService(RestApi::class.java)
+                    .getStrategy()
             withContext(Dispatchers.Main) {
 
                 if (response.body()!!.isSuccess == true) {
@@ -304,7 +322,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
                     strategies_rv.adapter = homeAdapter
                 } else {
                     viewLoader.visibility = View.GONE
-                    showToast(fragmentContext,requireActivity(), getString(R.string.data_not_found))
+                    showToast(
+                        fragmentContext,
+                        requireActivity(),
+                        getString(R.string.data_not_found)
+                    )
                 }
 
             }
@@ -313,7 +335,28 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         when (p0!!.id) {
+            R.id.top_coins_see_all -> {
+                loadFragment(WatchlistFragment())
+            }
+            R.id.advertisement_see_all -> {
+                showToast(requireActivity(), requireActivity(), "ok")
+            }
+
+            R.id.top_news_see_all -> {
+                var intent = Intent(requireContext(), NewsListActivity::class.java)
+                startActivity(intent)
+
+            }
+
 
         }
     }
+
+    private fun loadFragment(fragment: Fragment) {
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, fragment)
+        // transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
 }

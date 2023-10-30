@@ -152,6 +152,7 @@
         android:paddingRight="24dp"
         android:paddingBottom="12dp"
         android:text="@string/next"
+        android:visibility="gone"
         android:textColor="@color/white_color"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline65"

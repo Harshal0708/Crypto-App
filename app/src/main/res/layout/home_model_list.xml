@@ -39,7 +39,7 @@
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:fontFamily="@font/helvetica"
-            android:maxLines="1"
+            android:maxLines="2"
             android:text="@string/hello_there"
             android:textAlignment="viewStart"
             android:textColor="@color/static_txt"
@@ -74,13 +74,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_strategies_desc" />
-
-
-
-
-
-
-
 
 
         <TextView

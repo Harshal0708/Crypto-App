@@ -17,11 +17,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.modual.dashbord.HistoryFragment
 import com.example.cryptoapp.modual.dashbord.HomeFragment
 import com.example.cryptoapp.modual.dashbord.SettingFragment
+import com.example.cryptoapp.modual.dashbord.SettingTwoFragment
 import com.example.cryptoapp.modual.home.HomeDetailActivity
 import com.example.cryptoapp.modual.login.LoginActivity
 import com.example.cryptoapp.modual.login.ResetPasswordActivity
@@ -31,7 +33,7 @@ import com.example.cryptoapp.preferences.MyPreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
-
+import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity() {
 
@@ -85,7 +87,13 @@ class MainActivity : AppCompatActivity() {
         nav_name.text = data.name
         nav_email.text = data.email
 
-       // if (data.profilePicture != null && data.profilePicture != "") {
+        showLog("str_name", data.toString())
+        if (data.imageURL != null && data.imageURL != "") {
+            Picasso.get()
+                .load(data.imageURL)
+                .placeholder(R.drawable.ic_app_icon)
+                .error(R.drawable.ic_app_icon)
+                .into(nav_img)
 //            nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
 //
 //            nav_img.setImageBitmap(writeOnDrawable(R.drawable.background_edittext, "Apurva")?.bitmap)
@@ -97,22 +105,31 @@ class MainActivity : AppCompatActivity() {
 //            paint.setTextSize(20F)
 //            c.drawText("Apurva", x!!.toFloat(), y!!.toFloat(), paint)
 //            nav_img.setImageBitmap(b)
-     //   }
 
-        val fullName = "${data.firstName} ${data.lastName}"
-        val bitmap = createTextImage(fullName)
+        }else{
 
-        nav_img.setImageBitmap(bitmap)
+            val inputString = data.name
+            val parts = inputString.split(" ")
 
-//        nav_name.text = "Apurva Patel"
-//        nav_email.text = "patelappu1495@gmail.com"
+            var str_name = ""
+            for ((index, item) in parts.withIndex()) {
+//            showLog("Index", "$index: ${item.first()}")
+                str_name += item.first().uppercase()
+//            showLog("str_name", str_name)
+            }
+
+
+            nav_img.setImageDrawable(TextDrawable(this, str_name))
+        }
+
+
+
 
         txt_privacy.setOnClickListener(object :OnClickListener{
             override fun onClick(p0: View?) {
                 showToast(this@MainActivity,this@MainActivity,"Privacy")
                 val intent = Intent(this@MainActivity, HomeDetailActivity::class.java)
                 startActivity(intent)
-
             }
         })
 
@@ -165,7 +182,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.setting -> {
-                    loadFragment(SettingFragment())
+                    loadFragment(SettingTwoFragment())
                     return@setOnItemSelectedListener true
                 }
 

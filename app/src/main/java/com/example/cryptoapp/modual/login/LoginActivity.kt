@@ -127,7 +127,8 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
         login_emailNumber.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
         pwd_password.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
 
-        txt_login_country_code.text ="+${GetCountryZipCode()!!}"
+        countryId=GetCountryZipCode()!!
+        txt_login_country_code.text ="+${countryId}"
 
         login_emailNumber.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -145,14 +146,15 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
                 }
 
                 if (pwd.contains("@")) {
+
                     if (!(EMAIL_ADDRESS_PATTERN.toRegex().matches(pwd))) {
                         txt_login_country_code.visibility = GONE
 
                         login_emailNumber.setCompoundDrawablesRelativeWithIntrinsicBounds(
                             R.drawable.ic_new_email, 0, 0, 0
                         )
-
                     }
+
                 } else {
 
                     if (TextUtils.isDigitsOnly(pwd)) {
@@ -168,6 +170,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
                             R.drawable.ic_new_email, 0, 0, 0
                         )
                     }
+
                 }
             }
 
@@ -294,6 +297,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 
     private fun getCountries() {
         viewLoader.visibility = VISIBLE
+
         lifecycleScope.launch(Dispatchers.IO) {
             var response = ServiceBuilder(this@LoginActivity,false).buildService(RestApi::class.java)
                 .getCountries()
@@ -327,7 +331,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
         }
 
         val payload = LoginPayload(
-            str_email, password, str_mobile, false, countryId
+            str_email, password, str_mobile,  countryId
         )
 //
 //
@@ -346,6 +350,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 
                 if (response.body()?.isSuccess == true) {
 
+                    showLog("Login data",response.body()!!.data.toString())
                     MySingleton().setData(response.body()!!.data)
 
                     if(MyPreferences(this@LoginActivity).getAuth() == 0){
@@ -484,7 +489,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
     override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
         val Right = 2
         if (p1?.action == MotionEvent.ACTION_UP) {
-            if (p1.getRawX() >= pwd_password?.right!!.minus(
+            if (p1.getRawX() >= pwd_password.right.minus(
                     pwd_password.compoundDrawables[Right].getBounds().width()
                 )
             ) {
@@ -516,7 +521,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 
     override fun onItemClick(pos: Int) {
         txt_login_country_code.text = "+ ${getCountriesResponseItem.get(pos).countryCode}"
-        countryId = getCountriesResponseItem.get(pos).id
+        countryId = getCountriesResponseItem.get(pos).countryCode.toString()
         dialog.dismiss()
     }
 

@@ -186,6 +186,13 @@ class HomeDetailActivity : AppCompatActivity() {
                         R.drawable.coin_background
                     )
                 )
+
+                val intent = Intent(this@HomeDetailActivity, BuyCoinActivity::class.java)
+                intent.putExtra("tradingType", 0)
+                intent.putExtra("strategyId", strategydata.id)
+                intent.putExtra("userId", data.userId)
+                startActivity(intent)
+                dialog.dismiss()
             }
         })
 
@@ -205,38 +212,45 @@ class HomeDetailActivity : AppCompatActivity() {
                         R.drawable.coin_background
                     )
                 )
+
+                val intent = Intent(this@HomeDetailActivity, BuyCoinActivity::class.java)
+                intent.putExtra("tradingType", 1)
+                intent.putExtra("strategyId", strategydata.id)
+                intent.putExtra("userId", data.userId)
+                startActivity(intent)
+                dialog.dismiss()
             }
         })
 
 
-        btn_progressBar.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(p0: View?) {
-                var coin = -1
-                if (auto == true) {
-                    coin = 0
-                } else if (manual == true) {
-                    coin = 1
-                } else {
-                    coin = -1
-                }
-
-                if (coin == -1) {
-                    showToast(
-                        this@HomeDetailActivity,
-                        this@HomeDetailActivity,
-                        this@HomeDetailActivity.getString(R.string.Please_select_option)
-                    )
-                } else {
-                    val intent = Intent(this@HomeDetailActivity, BuyCoinActivity::class.java)
-                    intent.putExtra("tradingType", coin)
-                    intent.putExtra("strategyId", strategydata.id)
-                    intent.putExtra("userId", data.userId)
-                    startActivity(intent)
-                    dialog.dismiss()
-                }
-
-            }
-        })
+//        btn_progressBar.setOnClickListener(object : View.OnClickListener {
+//            override fun onClick(p0: View?) {
+//                var coin = -1
+//
+//                if (auto == true) {
+//                    coin = 0
+//                } else if (manual == true) {
+//                    coin = 1
+//                } else {
+//                    coin = -1
+//                }
+//
+//                if (coin == -1) {
+//                    showToast(
+//                        this@HomeDetailActivity,
+//                        this@HomeDetailActivity,
+//                        this@HomeDetailActivity.getString(R.string.Please_select_option)
+//                    )
+//                } else {
+//                    val intent = Intent(this@HomeDetailActivity, BuyCoinActivity::class.java)
+//                    intent.putExtra("tradingType", coin)
+//                    intent.putExtra("strategyId", strategydata.id)
+//                    intent.putExtra("userId", data.userId)
+//                    startActivity(intent)
+//                    dialog.dismiss()
+//                }
+//            }
+//        })
 
         dialog.setContentView(viewBottom)
         dialog.show()

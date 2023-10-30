@@ -72,14 +72,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
             android:layout_marginTop="8dp"
-            android:text="Top Coins"
+            android:text="@string/top_coins"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             android:visibility="visible"
-            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintEnd_toStartOf="@+id/top_coins_see_all"
             app:layout_constraintStart_toStartOf="@+id/guideline21"
             app:layout_constraintTop_toBottomOf="@+id/strategies_rv" />
+
 
         <!--        <FrameLayout-->
         <!--            android:id="@+id/view_pager"-->
@@ -102,6 +103,20 @@
         <!--        app:layout_constraintStart_toStartOf="@+id/guideline21"-->
         <!--        app:layout_constraintTop_toBottomOf="@+id/login_ViewPager" />-->
 
+
+        <TextView
+            android:id="@+id/top_coins_see_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/see_all"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/ouput"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintTop_toTopOf="@+id/ouput"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/txt_status"
@@ -175,14 +190,28 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
             android:layout_marginTop="8dp"
-            android:text="Advertisement"
+            android:text="@string/advertisement"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             android:visibility="visible"
-            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintEnd_toStartOf="@+id/advertisement_see_all"
             app:layout_constraintStart_toStartOf="@+id/guideline21"
             app:layout_constraintTop_toBottomOf="@+id/rv_top_coin" />
+
+        <TextView
+            android:id="@+id/advertisement_see_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/see_all"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_top_coin"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintTop_toTopOf="@+id/txt_top_coin" />
+
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/login_ViewPager"
@@ -201,14 +230,27 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
             android:layout_marginTop="8dp"
-            android:text="Top news"
+            android:text="@string/top_news"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             android:visibility="visible"
-            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintEnd_toStartOf="@+id/top_news_see_all"
             app:layout_constraintStart_toStartOf="@+id/guideline21"
             app:layout_constraintTop_toBottomOf="@+id/login_ViewPager" />
+
+        <TextView
+            android:id="@+id/top_news_see_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/see_all"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_top_news"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintTop_toTopOf="@+id/txt_top_news" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager_news"

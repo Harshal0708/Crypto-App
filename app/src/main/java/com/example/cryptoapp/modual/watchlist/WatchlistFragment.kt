@@ -71,6 +71,7 @@ class WatchlistFragment : Fragment() {
                 showLog("IO", "1")
 //                webSocket1 = createWebSocket("wss://fstream.binance.com:443/ws/!ticker@arr", 1)
 //                webSocket1 = createWebSocket("wss://103.14.99.42/LiveTopGainers", 1)
+
                 webSocket1 = createWebSocket("wss://103.14.99.42/GetTopGainers", 1)
             }
 

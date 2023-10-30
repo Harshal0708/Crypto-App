@@ -50,14 +50,13 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var resend_code: TextView
     lateinit var txt_otp_resend: TextView
-    lateinit var otp_phone_verification: TextView
     lateinit var email_otp_verification: TextView
+    lateinit var otp_phone_verification: TextView
     lateinit var txt_email_phone: TextView
     lateinit var resend_timer: TextView
 
     val REQ_USER_CONSENT = 200
     lateinit var smsBroadcastReceiver: SmsBroadcastReceiver
-
 
     var email: String = ""
     var phone: String = ""
@@ -74,11 +73,11 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var timer: CountDownTimer
 
-
     lateinit var otp_view_1: MukeshOtpView
     lateinit var otp_view_2: MukeshOtpView
     lateinit var ima_back: ImageView
-
+    lateinit var part: MultipartBody.Part
+    lateinit var cusUri: RequestBody
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,7 +88,6 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
     fun init() {
 
-
         resend_code = findViewById(R.id.txt_sign_in_here)
         txt_otp_resend = findViewById(R.id.txt_otp_resend)
         resend_timer = findViewById(R.id.resend_timer)
@@ -97,7 +95,6 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         view = findViewById(R.id.btn_progressBar)
 
         txt_email_phone = findViewById(R.id.txt_email_phone)
-
 
         otp_view_1 = findViewById(R.id.otp_view_1)
         otp_view_2 = findViewById(R.id.otp_view_2)
@@ -174,7 +171,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     fun verifyRegistrationOtp(str_email: String, str_phone: String) {
 
         register_progressBar.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@OtpActivity,false).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@OtpActivity, false).buildService(RestApi::class.java)
 
         //val payload = RegisterPayload(password,rePassword,email,firsName,lastName,"","","","","",phone,"Appu25")
         val payload = VerifyRegistrationOtpPayload(
@@ -194,16 +191,32 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                         if (response.body()?.isSuccess == true) {
                             register_progressBar.visibility = View.GONE
                             addCreateAccount()
-                            response.body()?.message?.let { showToast(this@OtpActivity,this@OtpActivity, it) }
+                            response.body()?.message?.let {
+                                showToast(
+                                    this@OtpActivity,
+                                    this@OtpActivity,
+                                    it
+                                )
+                            }
                         } else {
                             register_progressBar.visibility = View.GONE
-                            response.body()?.message?.let { showToast(this@OtpActivity,this@OtpActivity, it) }
+                            response.body()?.message?.let {
+                                showToast(
+                                    this@OtpActivity,
+                                    this@OtpActivity,
+                                    it
+                                )
+                            }
                         }
                     }
 
                     override fun onFailure(call: Call<SendRegistrationOtpResponce>, t: Throwable) {
                         register_progressBar.visibility = View.GONE
-                        showToast(this@OtpActivity,this@OtpActivity, getString(R.string.otp_failed))
+                        showToast(
+                            this@OtpActivity,
+                            this@OtpActivity,
+                            getString(R.string.otp_failed)
+                        )
                     }
 
                 }
@@ -211,61 +224,148 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     fun addCreateAccount() {
-        register_progressBar?.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@OtpActivity,false).buildService(RestApi::class.java)
+        register_progressBar.visibility = View.VISIBLE
+        val response = ServiceBuilder(this@OtpActivity, false).buildService(RestApi::class.java)
 
-        val fileDir = applicationContext.filesDir
-        val file = File(fileDir,"image.png")
-        val inputStream = contentResolver.openInputStream(imageUri)
-        val outputStream = FileOutputStream(file)
-        inputStream!!.copyTo(outputStream)
 
-        val requestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
 
-        val part = MultipartBody.Part.createFormData("ProfileImage",file.name,requestBody)
-        val cusName: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), firsName)
-        val cusLastName: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), lastName)
-        val cusCountryId: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), countryId)
-        val cusLastPassword: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), rePassword)
-        val cusLastEmail: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), email)
-        val cusLastMobile: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), phone)
-        val cusUri: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), file.name)
 
-        showLog("part", part.toString())
+        if (imageUri.equals("null")) {
 
-        response.addRegister(
-            cusName,
-            cusLastName,
-            cusLastPassword,
-            cusCountryId,
-            cusLastEmail,
-            cusLastMobile,
-            part,
-            cusUri
-        ).enqueue(
-            object : retrofit2.Callback<RegisterResponse> {
-                override fun onResponse(
-                    call: Call<RegisterResponse>,
-                    response: retrofit2.Response<RegisterResponse>
-                ) {
-                    if (response.body()?.isSuccess == true) {
+            val fileDir = applicationContext.filesDir
+            val file = File(fileDir, "image.png")
+            val inputStream = contentResolver.openInputStream(imageUri)
+            val outputStream = FileOutputStream(file)
+            inputStream!!.copyTo(outputStream)
+
+            val requestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+            part = MultipartBody.Part.createFormData("ProfileImage", file.name, requestBody)
+            cusUri = RequestBody.create("text/plain".toMediaTypeOrNull(), file.name)
+            val cusName: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), firsName)
+            val cusLastName: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), lastName)
+            val cusCountryId: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), countryId)
+            val cusLastPassword: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), rePassword)
+            val cusLastEmail: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), email)
+            val cusLastMobile: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), phone)
+
+
+            response.addRegister(
+                cusName,
+                cusLastName,
+                cusLastPassword,
+                cusCountryId,
+                cusLastEmail,
+                cusLastMobile,
+                part,
+                cusUri
+            ).enqueue(
+                object : retrofit2.Callback<RegisterResponse> {
+                    override fun onResponse(
+                        call: Call<RegisterResponse>,
+                        response: retrofit2.Response<RegisterResponse>
+                    ) {
+                        if (response.body()?.isSuccess == true) {
+                            register_progressBar.visibility = View.GONE
+                            response.body()?.message?.let {
+                                showToast(
+                                    this@OtpActivity,
+                                    this@OtpActivity,
+                                    it
+                                )
+                            }
+                            var intent = Intent(this@OtpActivity, LoginActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            response.body()?.message?.let {
+                                showToast(
+                                    this@OtpActivity,
+                                    this@OtpActivity,
+                                    it
+                                )
+                            }
+                            register_progressBar.visibility = View.GONE
+                        }
+                    }
+
+                    override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
                         register_progressBar.visibility = View.GONE
-                        response.body()?.message?.let { showToast(this@OtpActivity,this@OtpActivity, it) }
-                        var intent = Intent(this@OtpActivity, LoginActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        response.body()?.message?.let { showToast(this@OtpActivity,this@OtpActivity, it) }
-                        register_progressBar.visibility = View.GONE
+                        showToast(
+                            this@OtpActivity,
+                            this@OtpActivity,
+                            getString(R.string.register_failed)
+                        )
                     }
                 }
+            )
+        } else {
 
-                override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
-                    register_progressBar.visibility = View.GONE
-                    showToast(this@OtpActivity,this@OtpActivity, getString(R.string.register_failed))
+            val cusName: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), firsName)
+            val cusLastName: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), lastName)
+            val cusCountryId: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), countryId)
+            val cusLastPassword: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), rePassword)
+            val cusLastEmail: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), email)
+            val cusLastMobile: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), phone)
+
+
+            response.addRegister(
+                cusName,
+                cusLastName,
+                cusLastPassword,
+                cusCountryId,
+                cusLastEmail,
+                cusLastMobile,
+                null,
+                null
+            ).enqueue(
+                object : retrofit2.Callback<RegisterResponse> {
+                    override fun onResponse(
+                        call: Call<RegisterResponse>,
+                        response: retrofit2.Response<RegisterResponse>
+                    ) {
+                        if (response.body()?.isSuccess == true) {
+                            register_progressBar.visibility = View.GONE
+                            response.body()?.message?.let {
+                                showToast(
+                                    this@OtpActivity,
+                                    this@OtpActivity,
+                                    it
+                                )
+                            }
+                            var intent = Intent(this@OtpActivity, LoginActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            response.body()?.message?.let {
+                                showToast(
+                                    this@OtpActivity,
+                                    this@OtpActivity,
+                                    it
+                                )
+                            }
+                            register_progressBar.visibility = View.GONE
+                        }
+                    }
+
+                    override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                        register_progressBar.visibility = View.GONE
+                        showToast(
+                            this@OtpActivity,
+                            this@OtpActivity,
+                            getString(R.string.register_failed)
+                        )
+                    }
                 }
-            }
-        )
+            )
+        }
+
+
     }
 
 
@@ -379,7 +479,6 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                 resend_code.isEnabled = true
                 txt_otp_resend.isEnabled = true
             }
-
         }
 
         timer.start()
@@ -389,7 +488,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     fun addOtp(str_email: String, str_phone: String) {
 
         register_progressBar.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@OtpActivity,false).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@OtpActivity, false).buildService(RestApi::class.java)
 
 
         response.addOtp(str_phone, str_email, email, phone)
@@ -401,7 +500,13 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                     ) {
                         if (response.body()?.code == "200") {
                             register_progressBar.visibility = View.GONE
-                            response.body()?.message?.let { showToast(this@OtpActivity, this@OtpActivity,it) }
+                            response.body()?.message?.let {
+                                showToast(
+                                    this@OtpActivity,
+                                    this@OtpActivity,
+                                    it
+                                )
+                            }
 //                            Log.d("test", str_phone_otp + "")
 //                            Log.d("test", str_email_otp + "")
                             var intent = Intent(this@OtpActivity, LoginActivity::class.java)
@@ -409,14 +514,22 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                             finish()
                         } else {
                             register_progressBar.visibility = View.GONE
-                            showToast(this@OtpActivity,this@OtpActivity, getString(R.string.user_not_created))
+                            showToast(
+                                this@OtpActivity,
+                                this@OtpActivity,
+                                getString(R.string.user_not_created)
+                            )
                         }
 
                     }
 
                     override fun onFailure(call: Call<OtpResponse>, t: Throwable) {
                         register_progressBar.visibility = View.GONE
-                        showToast(this@OtpActivity,this@OtpActivity, getString(R.string.user_not_created))
+                        showToast(
+                            this@OtpActivity,
+                            this@OtpActivity,
+                            getString(R.string.user_not_created)
+                        )
                     }
 
                 }
@@ -430,7 +543,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
         selectedKeyPos = 0
         selectedKeyPos1 = 0
         register_progressBar.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@OtpActivity,false).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@OtpActivity, false).buildService(RestApi::class.java)
 
         val payload = SendRegistrationOtpPayload(
             email,
@@ -448,7 +561,13 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
 
                         if (response.body()?.isSuccess == true) {
                             register_progressBar.visibility = View.GONE
-                            response.body()?.message?.let { showToast(this@OtpActivity, this@OtpActivity,it) }
+                            response.body()?.message?.let {
+                                showToast(
+                                    this@OtpActivity,
+                                    this@OtpActivity,
+                                    it
+                                )
+                            }
 
                         } else {
                             register_progressBar.visibility = View.GONE
@@ -461,7 +580,11 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                         t: Throwable
                     ) {
                         register_progressBar.visibility = View.GONE
-                        showToast(this@OtpActivity,this@OtpActivity, getString(R.string.user_not_created))
+                        showToast(
+                            this@OtpActivity,
+                            this@OtpActivity,
+                            getString(R.string.user_not_created)
+                        )
                     }
 
                 }

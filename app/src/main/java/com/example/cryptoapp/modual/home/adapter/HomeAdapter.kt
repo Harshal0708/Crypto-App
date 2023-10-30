@@ -19,11 +19,13 @@ import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.StrategyDataRes
 import com.example.cryptoapp.modual.home.HomeDetailActivity
 import com.example.cryptoapp.modual.subscription.SubscriptionActivity
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class HomeAdapter(
     var context: Context,
     var strategyResList: List<StrategyDataRes>,
     var haveAnySubscription: Boolean
+
 ) :
     RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
@@ -35,6 +37,7 @@ class HomeAdapter(
         var txt_strategies_desc: TextView = itemView.findViewById(R.id.txt_strategies_desc)
         var txt_strategies_time: TextView = itemView.findViewById(R.id.txt_strategies_time)
         var txt_status_active: TextView = itemView.findViewById(R.id.txt_status_active)
+        var txt_red_more: TextView = itemView.findViewById(R.id.txt_red_more)
 
         //        var img_strategies_menu: ImageView = itemView.findViewById(R.id.img_strategies_menu)
 
@@ -66,31 +69,23 @@ class HomeAdapter(
             holder.txt_status_active.setTextColor(ContextCompat.getColor(context,R.color.light_green))
         }
 
-//
-//        holder.img_strategies_menu.setOnClickListener {
-//            showDialog()
-//        }
-//
-//        holder.txt_strategies_name.setOnClickListener {
-//            val intent = Intent(context, HomeDetailActivity::class.java)
-//            intent.putExtra("strategyId", strategyResList.get(position).Strategy.Id)
-//            context.startActivity(intent)
-//        }
-//
-//        holder.itemView.setOnClickListener{
-//            if(haveAnySubscription==true){
-//
-//            } else {
-//                showSubscribeDialog()
-//            }
-//        }
+
+        holder.txt_strategies_name.setOnClickListener {
+            val intent = Intent(context, HomeDetailActivity::class.java)
+            intent.putExtra("strategyId", strategyResList.get(position).id)
+            context.startActivity(intent)
+        }
+
+        holder.txt_strategies_time.setOnClickListener {
+            val intent = Intent(context, HomeDetailActivity::class.java)
+            intent.putExtra("strategyId", strategyResList.get(position).id)
+            context.startActivity(intent)
+        }
 
 
-        holder.itemView.setOnClickListener(object : View.OnClickListener {
+        holder.txt_red_more.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                val intent = Intent(context, HomeDetailActivity::class.java)
-                intent.putExtra("strategyId", strategyResList.get(position).id)
-                context.startActivity(intent)
+                showBottomSheetDialog(strategyResList.get(position).description)
             }
 
         })
@@ -98,6 +93,17 @@ class HomeAdapter(
 
     override fun getItemCount(): Int {
         return strategyResList.size
+    }
+
+    private fun showBottomSheetDialog(desc:String) {
+        val dialog = BottomSheetDialog(context)
+        val sheetView = LayoutInflater.from(context).inflate(R.layout.bottom_sheet_layout, null)
+
+        var bottom_txt_desc: TextView = sheetView.findViewById(R.id.bottom_txt_desc)
+        bottom_txt_desc.text=desc
+
+        dialog.setContentView(sheetView)
+        dialog.show()
     }
 
     fun showDialog() {

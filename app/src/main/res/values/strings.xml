@@ -142,5 +142,10 @@
     <string name="enable_biometric_security">Enable biometric devices lock on the app for 2Factor Security.</string>
     <string name="enable">Enable</string>
     <string name="login_with_biometric">Login with biometric</string>
+    <string name="top_coins">Top Coins</string>
+    <string name="see_all">See All</string>
+    <string name="advertisement">Advertisement</string>
+    <string name="top_news">Top news</string>
+    <string name="authentication">Authentication</string>
 
 </resources>

@@ -221,6 +221,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener , onItemClickL
             }
 
         })
+
         edPhone.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -308,14 +309,15 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener , onItemClickL
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = View.GONE
 
-                edFirstname.setText(response.body()!!.firstName)
-                edLastname.setText(response.body()!!.lastName)
-                edEmail.setText(response.body()!!.email)
-                edPhone.setText(response.body()!!.phoneNumber)
+//                edFirstname.setText(response.body()!!.firstName)
+//                edLastname.setText(response.body()!!.lastName)
+//                edEmail.setText(response.body()!!.email)
+//                edPhone.setText(response.body()!!.phoneNumber)
+//
+//                if (response.body()!!.profileImage != null && response.body()!!.profileImage != "") {
+//                    profile_img.setImageBitmap(byteArrayToBitmap(response.body()!!.profileImage.toByteArray()))
+//                }
 
-                if (response.body()!!.profileImage != null && response.body()!!.profileImage != "") {
-                    profile_img.setImageBitmap(byteArrayToBitmap(response.body()!!.profileImage.toByteArray()))
-                }
             }
         }
     }

@@ -31,12 +31,14 @@ class SubscriptionAdapter (val context: Context, var subscriptionModelList: List
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.txt_subscriptionName.text=subscriptionModelList.get(position).subscriptionName
         holder.txt_subscriptionPrice.text="$  ${subscriptionModelList.get(position).subscriptionPrice}"
+
         holder.txt_subscriptionMoreDetail.setOnClickListener {
             val intent  = Intent(context,SubscriptionDetailActivity::class.java)
             intent.putExtra("subscriptionId", subscriptionModelList.get(position).subscriptionId)
             intent.putExtra("planId", planId)
             context.startActivity(intent)
         }
+
     }
 
     override fun getItemCount(): Int {
