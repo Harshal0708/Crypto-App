@@ -44,5 +44,37 @@
         app:layout_constraintStart_toStartOf="@+id/guideline70"
         app:layout_constraintTop_toTopOf="@+id/guideline71" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_watchlist1"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        android:background="@color/blue"
+        app:layout_constraintEnd_toStartOf="@+id/guideline72"
+        app:layout_constraintStart_toStartOf="@+id/guideline70"
+        app:layout_constraintTop_toBottomOf="@+id/rv_watchlist" />
+
+    <FrameLayout
+        android:id="@+id/view_pager"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/guideline72"
+        app:layout_constraintStart_toStartOf="@+id/guideline70"
+        app:layout_constraintTop_toBottomOf="@+id/rv_watchlist1" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_watchlist2"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/red"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/guideline72"
+        app:layout_constraintStart_toStartOf="@+id/guideline70"
+        app:layout_constraintTop_toBottomOf="@+id/view_pager" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

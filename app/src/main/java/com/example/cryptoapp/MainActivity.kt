@@ -6,9 +6,9 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.view.View.OnClickListener
 import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -17,11 +17,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.modual.dashbord.HistoryFragment
 import com.example.cryptoapp.modual.dashbord.HomeFragment
 import com.example.cryptoapp.modual.dashbord.SettingFragment
+import com.example.cryptoapp.modual.dashbord.SettingTwoFragment
+import com.example.cryptoapp.modual.home.HomeDetailActivity
 import com.example.cryptoapp.modual.login.LoginActivity
 import com.example.cryptoapp.modual.login.ResetPasswordActivity
 import com.example.cryptoapp.modual.subscription.SubscriptionActivity
@@ -30,7 +33,7 @@ import com.example.cryptoapp.preferences.MyPreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
-
+import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,13 +47,20 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var nav_img: ImageView
     lateinit var nav_name: TextView
+    lateinit var nav_email: TextView
+    lateinit var txt_privacy: TextView
 
     lateinit var data: DataXX
+
+    lateinit var toolbar: View
+    lateinit var toolbar_img_back: ImageView
+
+     var x :Float? = null
+     var y :Float? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
 
         var preferences: MyPreferences
         preferences = MyPreferences(this)
@@ -60,25 +70,68 @@ class MainActivity : AppCompatActivity() {
         val parentView: View = navView.getHeaderView(0)
         nav_img = parentView.findViewById(R.id.nav_img)
         nav_name = parentView.findViewById(R.id.nav_name)
+        nav_email = parentView.findViewById(R.id.nav_email)
         menuItem = navView.menu.findItem(R.id.nav_switch)
+        txt_privacy = findViewById(R.id.txt_privacy)
+
+        toolbar = findViewById(R.id.toolbar)
+        toolbar_img_back = toolbar.findViewById(R.id.toolbar_img_back)
+
+        toolbar_img_back.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+             drawerLayout?.open()
+            }
+        })
 
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
         nav_name.text = data.name
+        nav_email.text = data.email
 
-        Log.d("test",data.profilePicture)
-        if (data.profilePicture != null && data.profilePicture != "") {
-            nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
+        showLog("str_name", data.toString())
+        if (data.imageURL != null && data.imageURL != "") {
+            Picasso.get()
+                .load(data.imageURL)
+                .placeholder(R.drawable.ic_app_icon)
+                .error(R.drawable.ic_app_icon)
+                .into(nav_img)
+//            nav_img.setImageBitmap(byteArrayToBitmap(data.profilePicture.toByteArray()))
+//
+//            nav_img.setImageBitmap(writeOnDrawable(R.drawable.background_edittext, "Apurva")?.bitmap)
+//            val b = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888)
+//            val c = Canvas(b)
+//            val paint = Paint()
+//            paint.setStyle(Paint.Style.FILL)
+//            paint.setColor(Color.RED)
+//            paint.setTextSize(20F)
+//            c.drawText("Apurva", x!!.toFloat(), y!!.toFloat(), paint)
+//            nav_img.setImageBitmap(b)
+
+        }else{
+
+            val inputString = data.name
+            val parts = inputString.split(" ")
+
+            var str_name = ""
+            for ((index, item) in parts.withIndex()) {
+//            showLog("Index", "$index: ${item.first()}")
+                str_name += item.first().uppercase()
+//            showLog("str_name", str_name)
+            }
+
+
+            nav_img.setImageDrawable(TextDrawable(this, str_name))
         }
 
-        // nav_img.setImageBitmap(writeOnDrawable(R.drawable.background_edittext, "Apurva")?.bitmap)
-//        val b = Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888)
-//        val c = Canvas(b)
-//        val paint = Paint()
-//        paint.setStyle(Paint.Style.FILL)
-//        paint.setColor(Color.RED)
-//        paint.setTextSize(20F)
-//        c.drawText("Apurva", x.toFloat(), y.toFloat(), paint)
-//        nav_img.setImageBitmap(b)
+
+
+
+        txt_privacy.setOnClickListener(object :OnClickListener{
+            override fun onClick(p0: View?) {
+                showToast(this@MainActivity,this@MainActivity,"Privacy")
+                val intent = Intent(this@MainActivity, HomeDetailActivity::class.java)
+                startActivity(intent)
+            }
+        })
 
         compoundButton = menuItem.actionView as CompoundButton
 
@@ -117,42 +170,52 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(HomeFragment())
                     return@setOnItemSelectedListener true
                 }
+
                 R.id.watchlist -> {
                     loadFragment(WatchlistFragment())
                     return@setOnItemSelectedListener true
                 }
+
                 R.id.history -> {
                     loadFragment(HistoryFragment())
                     return@setOnItemSelectedListener true
                 }
+
                 R.id.setting -> {
-                    loadFragment(SettingFragment())
+                    loadFragment(SettingTwoFragment())
                     return@setOnItemSelectedListener true
                 }
 
             }
+
             return@setOnItemSelectedListener true
         }
 
 
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
+
                 R.id.nav_dashboard -> {
                     var intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     finish()
                     true
                 }
+
                 R.id.nav_history -> {
                     loadFragment(HistoryFragment())
                     bottomNav.setSelectedItemId(R.id.history)
                     drawerLayout?.close()
                     true
                 }
+
                 R.id.nav_profile -> {
                     loadFragment(SettingFragment())
                     bottomNav.setSelectedItemId(R.id.setting)
                     drawerLayout?.close()
+//                    var intent = Intent(this, ProfileActivity::class.java)
+//                    startActivity(intent)
+//                    finish()
                     true
                 }
 
@@ -175,12 +238,14 @@ class MainActivity : AppCompatActivity() {
                     var intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
                     finish()
-                    showToast(this@MainActivity, getString(R.string.logout_successfully))
+                    showToast(this@MainActivity,this@MainActivity, getString(R.string.logout_successfully))
                     true
                 }
+
                 else -> {
                     false
                 }
+
             }
         }
 
@@ -222,4 +287,22 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun createTextImage(text: String): Bitmap {
+        val width = 400 // Set your desired width
+        val height = 200 // Set your desired height
+
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        canvas.drawColor(Color.WHITE) // Background color
+
+        val paint = Paint().apply {
+            color = Color.BLACK
+            textSize = 30f
+        }
+
+        canvas.drawText(text, 20f, height / 2f, paint)
+        return bitmap
+    }
+
 }

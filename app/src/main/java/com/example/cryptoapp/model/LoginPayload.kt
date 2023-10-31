@@ -6,6 +6,7 @@ class LoginPayload(
     var email: String,
     var password: String,
     var mobile: String,
-    var rememberMe: Boolean,
+    var countryId: String?,
+    var countryCode: Int,
 
 )

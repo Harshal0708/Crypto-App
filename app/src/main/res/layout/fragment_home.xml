@@ -1,99 +1,272 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:gravity="center"
-    android:orientation="vertical"
+    android:fillViewport="true"
     tools:context=".modual.dashbord.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/loader_animation"
-        layout="@layout/loader_animation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:indeterminateTint="@color/primary_color"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <include
+            android:id="@+id/viewLoader"
+            layout="@layout/loader_animation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:indeterminateTint="@color/primary_color"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline21"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline22"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="20dp" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="20dp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline23"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="20dp" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="20dp" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline24"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="20dp" />
-
-
-    <!--on below line we are adding view pager -->
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/login_ViewPager"
-        android:layout_width="0dp"
-        android:layout_height="250dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline23"
-        app:layout_constraintStart_toStartOf="@+id/guideline21"
-        app:layout_constraintTop_toTopOf="@+id/guideline22" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="20dp" />
 
 
-    <FrameLayout
-        android:id="@+id/view_pager"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/guideline23"
-        app:layout_constraintStart_toStartOf="@+id/guideline21"
-        app:layout_constraintTop_toBottomOf="@+id/login_ViewPager" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/strategies_rv"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline24"
-        app:layout_constraintEnd_toStartOf="@+id/guideline23"
-        app:layout_constraintStart_toStartOf="@+id/guideline21"
-        app:layout_constraintTop_toBottomOf="@+id/view_pager" />
+        <!--on below line we are adding view pager -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/strategies_rv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintStart_toStartOf="@+id/guideline21"
+            app:layout_constraintTop_toBottomOf="@+id/txt_strategies_desc" />
 
 
-    <!--    <TextView-->
-    <!--        android:id="@+id/output"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="PL"-->
-    <!--        android:textColor="@color/txt_color"-->
-    <!--        android:textSize="22sp"-->
-    <!--        app:layout_constraintEnd_toStartOf="@+id/guideline23"-->
-    <!--        app:layout_constraintStart_toStartOf="@+id/guideline21"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/login_ViewPager" />-->
+        <TextView
+            android:id="@+id/ouput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/top_coins"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/top_coins_see_all"
+            app:layout_constraintStart_toStartOf="@+id/guideline21"
+            app:layout_constraintTop_toBottomOf="@+id/strategies_rv" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--        <FrameLayout-->
+        <!--            android:id="@+id/view_pager"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:visibility="visible"-->
+        <!--            app:layout_constraintEnd_toStartOf="@+id/guideline23"-->
+        <!--            app:layout_constraintStart_toStartOf="@+id/guideline21"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/strategies_rv" />-->
+
+
+        <!--    <TextView-->
+        <!--        android:id="@+id/output"-->
+        <!--        android:layout_width="0dp"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:text="PL"-->
+        <!--        android:textColor="@color/txt_color"-->
+        <!--        android:textSize="22sp"-->
+        <!--        app:layout_constraintEnd_toStartOf="@+id/guideline23"-->
+        <!--        app:layout_constraintStart_toStartOf="@+id/guideline21"-->
+        <!--        app:layout_constraintTop_toBottomOf="@+id/login_ViewPager" />-->
+
+
+        <TextView
+            android:id="@+id/top_coins_see_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/see_all"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/ouput"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintTop_toTopOf="@+id/ouput"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/txt_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:text="Basket :"
+            android:textColor="@color/home_text"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/guideline21"
+            app:layout_constraintTop_toTopOf="@+id/guideline22" />
+
+        <TextView
+            android:id="@+id/txt_strategies_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/helvetica_bold"
+            android:maxLines="1"
+            android:text="Total Amount : $ 1000"
+            android:textAlignment="viewStart"
+            android:textColor="@color/home_text"
+            android:textSize="12sp"
+            android:typeface="normal"
+            app:layout_constraintStart_toStartOf="@+id/txt_status"
+            app:layout_constraintTop_toBottomOf="@+id/txt_status" />
+
+
+        <TextView
+            android:id="@+id/txt_pl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:text="Profit /Loss :"
+            android:textColor="@color/home_text"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintTop_toTopOf="@+id/guideline22" />
+
+        <TextView
+            android:id="@+id/txt_pl_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/helvetica_bold"
+            android:maxLines="1"
+            android:text="$ 1000"
+            android:textAlignment="viewStart"
+            android:textColor="@color/home_text"
+            android:textSize="12sp"
+            android:typeface="normal"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintStart_toStartOf="@+id/txt_pl"
+            app:layout_constraintTop_toBottomOf="@+id/txt_pl" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_top_coin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintStart_toStartOf="@+id/guideline21"
+            app:layout_constraintTop_toBottomOf="@+id/ouput" />
+
+        <TextView
+            android:id="@+id/txt_top_coin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/advertisement"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/advertisement_see_all"
+            app:layout_constraintStart_toStartOf="@+id/guideline21"
+            app:layout_constraintTop_toBottomOf="@+id/rv_top_coin" />
+
+        <TextView
+            android:id="@+id/advertisement_see_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/see_all"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_top_coin"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintTop_toTopOf="@+id/txt_top_coin" />
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/login_ViewPager"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="8dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline21"
+            app:layout_constraintTop_toBottomOf="@+id/txt_top_coin" />
+
+        <TextView
+            android:id="@+id/txt_top_news"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/top_news"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/top_news_see_all"
+            app:layout_constraintStart_toStartOf="@+id/guideline21"
+            app:layout_constraintTop_toBottomOf="@+id/login_ViewPager" />
+
+        <TextView
+            android:id="@+id/top_news_see_all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/see_all"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_top_news"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintTop_toTopOf="@+id/txt_top_news" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager_news"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="8dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toStartOf="@+id/guideline23"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/guideline21"
+            app:layout_constraintTop_toBottomOf="@+id/txt_top_news" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
+
+
 
 

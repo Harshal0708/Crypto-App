@@ -7,16 +7,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".modual.login.fragment.DocumentFragment">
 
+    <include
+        android:id="@+id/viewLoader"
+        layout="@layout/loader_animation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:indeterminateTint="@color/primary_color"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView16"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/nunito_bold"
+        android:fontFamily="@font/helvetica_bold"
         android:gravity="center"
         android:text="@string/kyc_verification"
         android:textAlignment="center"
-        android:textColor="@color/txt_color"
+        android:textColor="@color/home_text"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,10 +48,11 @@
         android:maxLength="12"
         android:padding="8dp"
         android:textSize="18dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
-
+        app:layout_constraintTop_toBottomOf="@+id/doc_spinner" />
 
     <EditText
         android:id="@+id/pan_number"
@@ -48,11 +61,12 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/background_edittext"
         android:drawableEnd="@drawable/ic_card"
-        android:hint="@string/pan_number"
+        android:hint="@string/passport"
         android:inputType="textCapCharacters"
         android:maxLength="10"
         android:padding="8dp"
         android:textSize="18dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/aadhar_card_number" />
@@ -69,6 +83,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pan_number" />
+
+    <Spinner
+        android:id="@+id/doc_spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

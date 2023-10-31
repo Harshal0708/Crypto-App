@@ -1,14 +1,15 @@
 package com.example.cryptoapp.model
 
+import java.io.File
+
 data class RegisterPayload(
-    val adharCardNumber: String,
-    val apiKey: String,
-    val email: String,
-    val firstName: String,
-    val lastName: String,
-    val panCardNumber: String,
-    val password: String,
-    val phoneNumber: String,
-    val profileImage: String,
-    val secreteKey: String
+    val FirstName: String,
+    val LastName: String,
+    val Password: String,
+    val Email: String,
+    val CountryId: String,
+    val PhoneNumber: String,
+    val ProfileImage: File,
+    val ImageURL: String,
+
 )

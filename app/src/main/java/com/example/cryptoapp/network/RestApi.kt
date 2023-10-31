@@ -14,9 +14,13 @@ import com.strings.cryptoapp.Response.GenerateQrCodeResponnse
 import com.strings.cryptoapp.Response.GetGAKeyByUserIResponse
 import com.strings.cryptoapp.model.CreateUserGAKeyPayload
 import com.strings.cryptoapp.model.Verify2FAPayload
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
+import java.io.File
+import java.util.UUID
 
 interface RestApi {
     @POST(Constants.login)
@@ -31,34 +35,49 @@ interface RestApi {
     @POST(Constants.generateQrCode)
     fun addGenerateQrCode(@Body generateQrCodePayload: GenerateQrCodePayload): Call<BarcodeImageResponse>
 
+//    @Multipart
 //    @POST(Constants.register)
-//    fun addRegister(@Body registerPayload: RegisterPayload): Call<RegisterResponse>
+//    fun addRegister(@Part registerPayload: RegisterPayload): Call<RegisterResponse>
 
-    @FormUrlEncoded
+    @Multipart
     @POST(Constants.register)
     fun addRegister(
-        @Field("FirstName") FirstName: String,
-        @Field("LastName") LastName: String,
-        @Field("Password") Password: String,
-        @Field("Email") Email: String,
-        @Field("CountryId") CountryId: String,
-        @Field("PhoneNumber") PhoneNumber: String,
-        @Field("ProfileImage") ProfileImage: String,
-
+        @Part("FirstName") FirstName: RequestBody,
+        @Part("LastName") LastName: RequestBody,
+        @Part("Password") Password: RequestBody,
+        @Part("CountryId") CountryId: RequestBody,
+        @Part("Email") Email: RequestBody,
+        @Part("PhoneNumber") PhoneNumber: RequestBody,
+        @Part ProfileImage: MultipartBody.Part?,
+        @Part("ImageURL") ImageURL: RequestBody?,
+        @Part("CountryCode") CountryCode: RequestBody?,
         ): Call<RegisterResponse>
 
-    @FormUrlEncoded
+    @Multipart
     @POST(Constants.updateProfileDetail)
     fun updateProfileDetail(
-        @Field("id") id: String,
-        @Field("email") email: String,
-        @Field("firstName") firstName: String,
-        @Field("lastName") lastName: String,
-        @Field("profileImage") profileImage: String,
-        @Field("phoneNumber") phoneNumber: String,
-        @Field("apiKey") apiKey: String,
-        @Field("secretKey") secretKey: String,
+        @Part("id") id: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("firstName") firstName: RequestBody,
+        @Part("lastName") lastName: RequestBody,
+        @Part ProfileImage: MultipartBody.Part?,
+        @Part("phoneNumber") phoneNumber: RequestBody
     ): Call<Userupdatedsuccessfully>
+
+//      @FormUrlEncoded
+//    @POST(Constants.updateProfileDetail)
+//    fun updateProfileDetail(
+//        @Field("id") id: String,
+//        @Field("email") email: String,
+//        @Field("firstName") firstName: String,
+//        @Field("lastName") lastName: String,
+//        @Field("profileImage") profileImage: String,
+//        @Field("phoneNumber") phoneNumber: String,
+//        @Field("apiKey") apiKey: String,
+//        @Field("secretKey") secretKey: String,
+//    ): Call<Userupdatedsuccessfully>
+//
+
 
     @POST(Constants.sendRegistrationOtp)
     fun addSendRegistrationOtp(@Body sendRegistrationOtpPayload: SendRegistrationOtpPayload): Call<SendRegistrationOtpResponce>
@@ -84,14 +103,18 @@ interface RestApi {
         @Query("mobile") mobile: String,
     ): Call<OtpResponse>
 
-    @GET(Constants.strategy)
+//    @GET(Constants.strategy)
+    @GET("http://103.14.99.42/api/StrategyApi/List")
     suspend fun getStrategy(): Response<StrategyRes>
 
     @GET(Constants.getProfileDetail)
     suspend fun getUserDetails(@Query("email") email: String): Response<UserDetailsResponse>
 
-    @GET("${Constants.strategy}/{id}")
-    suspend fun getStrategyById(@Path("id") id: String): Response<StrategyDetailRes>
+//    @GET("${Constants.strategy}/{id}")
+//    suspend fun getStrategyById(@Path("id") id: String): Response<StrategyDetailRes>
+
+    @GET(Constants.getBystrategyId)
+    suspend fun getStrategyById(@Query("StrategyId") StrategyId: String): Response<StrategyDetailRes>
 
     @GET(Constants.getplans)
     suspend fun getPlans(): Response<GetPlanResponse>
@@ -102,11 +125,14 @@ interface RestApi {
     @POST(Constants.getSubscriptionDetails)
     fun addSubscriptionDetails(@Body userSubscriptionModel: UserSubscriptionModel): Call<UserSubscriptionDetail>
 
+    @POST(Constants.createUserSubscription)
+    fun addCreateUserSubscription(@Body createUserSubscriptionPayload: CreateUserSubscriptionPayload): Call<CmsAdsAddResponse>
+
     @POST(Constants.getOrderHistoryList)
     fun addOrderHistoryList(@Body getOrderHistoryListPayload: GetOrderHistoryListPayload): Call<OrderHistoriesResponse>
 
-    @POST(Constants.getSubscriptionHistoryList)
-    fun addSubscriptionHistoryList(@Body getOrderHistoryListPayload: GetOrderHistoryListPayload): Call<UserSubscriptionsResponse>
+    @POST(Constants.getSubscriptionHistory)
+    fun addSubscriptionHistory(@Body getOrderHistoryListPayload: GetOrderHistoryListPayload): Call<UserSubscriptionsResponse>
 
     @GET(Constants.cmsAdsList)
     suspend fun getCmsAdsList(@Query("userId") userId: String): Response<CmsAdsListResponse>
@@ -172,4 +198,26 @@ interface RestApi {
 
     @GET(Constants.getCountries)
     suspend fun getCountries(): Response<GetCountriesResponse>
+
+    @GET(Constants.getDocuments)
+    suspend fun getDocuments(): Response<DocumentResponse>
+
+    @GET(Constants.getDocumentsByCountry)
+    suspend fun getDocumentsByCountry(@Query("countryId") countryId: String): Response<DocumentResponse>
+
+    @GET(Constants.getStrategy1OrderHistoryDetail)
+    suspend fun getStrategy1OrderHistoryDetail(@Query("UserId") UserId: String): Response<OrderHistoryDetailResponse>
+
+    @POST(Constants.createApiKeys)
+    fun addCreateApiKeys(@Body createApiKeysPayload: CreateApiKeysPayload): Call<CmsAdsAddResponse>
+
+    @GET(Constants.tradeSlotApi)
+    suspend fun getTradeSlotApi(): Response<TradeSlotApiResponse>
+
+    @POST(Constants.createTradeSlot)
+    fun addCreateTradeSlot(@Body createTradeSlotPayload: CreateTradeSlotPayload): Call<CreateTradeSlotResponse>
+
+    @GET(Constants.getLiveTopGainers)
+    suspend fun getLiveTopGainers(@Query("UserId") UserId: String): Response<getLiveTopGainersResponse>
+
 }

@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
@@ -29,21 +30,23 @@ import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
+import com.example.cryptoapp.Response.GetCountriesResponseItem
 import com.example.cryptoapp.Response.SendRegistrationOtpResponce
 import com.example.cryptoapp.model.SendRegistrationOtpPayload
 import com.example.cryptoapp.modual.countries.CountriesAdapter
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
+import com.example.cryptoapp.network.onItemClickListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.ByteArrayOutputStream
+import java.io.*
 import java.util.regex.Pattern
 
 
-class RegisterActivity : AppCompatActivity(), OnClickListener {
-
+class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListener {
 
     lateinit var sp_et_email: EditText
     lateinit var mn_et_phone: EditText
@@ -68,6 +71,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     private lateinit var txt_sign_in_here: TextView
     private lateinit var txt_sign_here_two: TextView
     private lateinit var reg_profile_img: ImageView
+    private lateinit var ima_back: ImageView
 
     val EMAIL_ADDRESS_PATTERN = Pattern.compile(
         "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -91,8 +95,6 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     private val pickCamera = 200
     private var imageUri: Uri? = null
 
-    lateinit var imagePath: String
-
     lateinit var bs_img_camera: ImageView
     lateinit var bs_img_gallery: ImageView
     lateinit var dialog: BottomSheetDialog
@@ -100,12 +102,16 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     lateinit var photo: Bitmap
     var encodeImageString: String = ""
     var countryId: String = ""
-
+    var countryCode: String = ""
+    lateinit var imageFile: File
 
     lateinit var countriesAdapter: CountriesAdapter
     lateinit var rv_countryName: RecyclerView
     lateinit var viewLoader: View
     lateinit var animationView: LottieAnimationView
+    lateinit var getCountriesResponseItem: ArrayList<GetCountriesResponseItem>
+    lateinit var dialog1: Dialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -127,6 +133,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         txt_sign_here_two = findViewById(R.id.txt_sign_here_two)
         reg_profile_img = findViewById(R.id.reg_profile_img)
         mn_et_country_code = findViewById(R.id.mn_et_country_code)
+        ima_back = findViewById(R.id.ima_back)
 
         sp_et_email = findViewById(R.id.sp_et_email)
         mn_et_phone = findViewById(R.id.mn_et_phone)
@@ -140,19 +147,157 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         register_progressBar.visibility = View.GONE
         resent = view.findViewById(R.id.resent)
 
-
-        resent.text = getString(R.string.sign_up)
+        resent.text = getString(R.string.sign_up_account)
         progressBar_cardView.setOnClickListener(this)
         txt_sign_in_here.setOnClickListener(this)
         txt_sign_here_two.setOnClickListener(this)
         cb_term_accept.setOnClickListener(this)
         reg_profile_img.setOnClickListener(this)
         mn_et_country_code.setOnClickListener(this)
+        ima_back.setOnClickListener(this)
 
-        if (intent.getStringExtra("countryCode") != null) {
-            mn_et_country_code.text = "+ ${intent.getStringExtra("countryCode")}"
-            countryId = intent.getStringExtra("countryId").toString()
-        }
+        sp_et_firstName.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+
+        sp_et_lastName.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+        sp_et_email.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+        mn_et_phone.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+        sp_et_password.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+        sp_et_rePassword.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+
+        sp_et_firstName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (sp_et_firstName.length() > 0) {
+                    sp_et_firstName.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+
+                } else {
+                    sp_et_firstName.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+//
+//                sp_et_firstName.setCompoundDrawablesRelativeWithIntrinsicBounds(
+//                    R.drawable.ic_new_email, 0, 0, 0
+//                )
+
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        sp_et_lastName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (sp_et_lastName.length() > 0) {
+                    sp_et_lastName.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    sp_et_lastName.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        sp_et_email.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (sp_et_email.length() > 0) {
+                    sp_et_email.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    sp_et_email.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        mn_et_phone.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (mn_et_phone.length() > 0) {
+                    mn_et_phone.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    mn_et_phone.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+        sp_et_password.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (sp_et_password.length() > 0) {
+                    sp_et_password.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    sp_et_password.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        sp_et_rePassword.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (sp_et_rePassword.length() > 0) {
+                    sp_et_rePassword.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    sp_et_rePassword.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+
+                sp_et_rePassword.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    R.drawable.ic_show, 0, 0, 0
+                )
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
 
         sp_et_password.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -166,8 +311,9 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     sp_et_password.setError(getString(R.string.valid_password))
                 } else {
-                    showToast(this@RegisterActivity, getString(R.string.password_verify_done))
+                    showToast(this@RegisterActivity,this@RegisterActivity, getString(R.string.password_verify_done))
                 }
+
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -189,7 +335,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     sp_et_rePassword.setError(getString(R.string.valid_password))
                 } else {
-                    showToast(this@RegisterActivity, getString(R.string.re_password_verify_done))
+                    showToast(this@RegisterActivity,this@RegisterActivity, getString(R.string.re_password_verify_done))
                 }
             }
 
@@ -210,19 +356,23 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
 
         viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
-            var response = ServiceBuilder(this@RegisterActivity).buildService(RestApi::class.java)
+            var response = ServiceBuilder(this@RegisterActivity,false).buildService(RestApi::class.java)
                 .getCountries()
             withContext(Dispatchers.Main) {
                 viewLoader.visibility = GONE
+                getCountriesResponseItem = response.body()!!
                 rv_countryName.layoutManager = LinearLayoutManager(this@RegisterActivity)
                 countriesAdapter = CountriesAdapter(
                     this@RegisterActivity,
-                    response.body()!!
+                    getCountriesResponseItem,
+                    RegisterActivity(),
+                    this@RegisterActivity
                 )
                 rv_countryName.adapter = countriesAdapter
             }
         }
     }
+
 
     override fun onClick(p0: View?) {
         val id = p0!!.id
@@ -238,12 +388,15 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
 
                 if (validation() == true) {
                     sendRegistrationOtp()
+                    //  showLog("encodeImageString",encodeImageString)
                 }
+
             }
             R.id.txt_sign_in_here -> {
                 signInHere()
 
             }
+
             R.id.txt_sign_here_two -> {
                 signInHere()
             }
@@ -251,12 +404,15 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                 //Toast.makeText(this,"cb_term_accept",Toast.LENGTH_SHORT).show()
             }
             R.id.reg_profile_img -> {
+
                 openBottomSheet()
             }
+
             R.id.bs_img_camera -> {
                 openCamera()
                 dialog.dismiss()
             }
+
             R.id.bs_img_gallery -> {
                 openGallery()
                 dialog.dismiss()
@@ -266,30 +422,34 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                 exit()
             }
 
+            R.id.ima_back -> {
+                onBackPressed()
+            }
+
         }
     }
 
     fun exit() {
-        val dialog = Dialog(this, android.R.style.ThemeOverlay)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.getWindow()?.setLayout(
+        dialog1 = Dialog(this, android.R.style.ThemeOverlay)
+        dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog1.getWindow()?.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.MATCH_PARENT
         );
-        dialog.setCancelable(true)
-        dialog.setContentView(R.layout.custom_countries)
-        viewLoader = dialog.findViewById(R.id.loader_animation)
+        dialog1.setCancelable(true)
+        dialog1.setContentView(R.layout.custom_countries)
+        viewLoader = dialog1.findViewById(R.id.viewLoader)
         animationView = viewLoader.findViewById(R.id.lotti_img)
-        rv_countryName = dialog.findViewById(R.id.rv_countryName)
+        rv_countryName = dialog1.findViewById(R.id.rv_countryName)
         setupAnim()
         getCountries()
-        dialog.show()
+        dialog1.show()
     }
 
     fun sendRegistrationOtp() {
 
         register_progressBar.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@RegisterActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@RegisterActivity,false).buildService(RestApi::class.java)
 
         val payload = SendRegistrationOtpPayload(
             email,
@@ -306,22 +466,35 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                     ) {
                         if (response.body()?.isSuccess == true) {
                             register_progressBar.visibility = GONE
+
+                            val imageBytes = Base64.decode(encodeImageString, 0)
+                            val image =
+                                BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                            val myData = MyData(
+                                email,
+                                phone,
+                                firsName,
+                                lastName,
+                                rePassword,
+                                imageUri.toString(),
+                                countryId,
+                                countryCode.toInt()
+                            )
+                            val gson = Gson()
+                            val jsonData = gson.toJson(myData)
+
                             val intent = Intent(this@RegisterActivity, OtpActivity::class.java)
-                            intent.putExtra("email", email)
-                            intent.putExtra("phone", phone)
-                            intent.putExtra("firsName", firsName)
-                            intent.putExtra("lastName", lastName)
-                            intent.putExtra("rePassword", rePassword)
-                            intent.putExtra("imageUri", encodeImageString)
-                            intent.putExtra("countryId", countryId)
+                            intent.putExtra("data", jsonData)
                             startActivity(intent)
 
-                            response.body()?.message?.let { showToast(this@RegisterActivity, it) }
+                            response.body()?.message?.let { showToast(this@RegisterActivity,this@RegisterActivity, it) }
+
                         } else {
                             register_progressBar.visibility = GONE
                             Toast.makeText(this@RegisterActivity, "Failed", Toast.LENGTH_SHORT)
                                 .show()
                         }
+
                     }
 
                     override fun onFailure(
@@ -329,7 +502,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
                         t: Throwable
                     ) {
                         register_progressBar.visibility = GONE
-                        showToast(this@RegisterActivity, getString(R.string.register_failed))
+                        showToast(this@RegisterActivity,this@RegisterActivity, getString(R.string.register_failed))
                     }
                 }
             )
@@ -343,6 +516,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
     }
 
     private fun openBottomSheet() {
+
         dialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.profile_bottom_sheet, null)
         dialog.setCancelable(true)
@@ -354,6 +528,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
 
         dialog.setContentView(view)
         dialog.show()
+
     }
 
     private fun openCamera() {
@@ -363,6 +538,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
 
     private fun openGallery() {
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        intent.type = "image/*"
         startActivityForResult(gallery, pickImage)
     }
 
@@ -372,30 +548,41 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
 
         if (resultCode == RESULT_OK && requestCode == pickImage) {
             try {
-                imageUri = data?.data
-                val inputStream = contentResolver.openInputStream(imageUri!!)
-                var bitmap = BitmapFactory.decodeStream(inputStream)
-                reg_profile_img.setImageBitmap(bitmap)
-                encodeBitmapImage(bitmap)
-                showLog("photo", photo.toString())
+
+                imageUri = data!!.data ?: return
+                try {
+                    val inputStream = contentResolver.openInputStream(imageUri!!)
+                    val bitmap = BitmapFactory.decodeStream(inputStream)
+                    inputStream?.close()
+                    reg_profile_img.setImageBitmap(bitmap)
+
+                    showLog("photo", photo.toString())
+                } catch (e: IOException) {
+                    e.printStackTrace()
+
+                }
             } catch (ex: Exception) {
             }
         } else if (resultCode == RESULT_OK && requestCode == pickCamera) {
             photo = data?.extras?.get("data") as Bitmap
-            showLog("photo", photo.toString())
-            encodeBitmapImage(photo)
-            reg_profile_img.setImageBitmap(photo)
+            imageUri = saveImageToGallery(photo)
+            reg_profile_img.setImageURI(imageUri)
+
         }
-    }
 
 
-    private fun encodeBitmapImage(bitmap: Bitmap) {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-        bytesofimage = byteArrayOutputStream.toByteArray()
-        encodeImageString = Base64.encodeToString(bytesofimage, Base64.DEFAULT)
-        showLog("photo", encodeImageString.toString())
     }
+
+    private fun saveImageToGallery(bitmap: Bitmap): Uri {
+        val savedImageUri = MediaStore.Images.Media.insertImage(
+            contentResolver,
+            bitmap,
+            "Captured Image",
+            "Image captured from camera"
+        )
+        return Uri.parse(savedImageUri)
+    }
+
 
     fun validation(): Boolean {
 
@@ -415,6 +602,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         }
 
         email = sp_et_email.text.toString().trim()
+
         if (!(EMAIL_ADDRESS_PATTERN.toRegex().matches(email))) {
             sp_et_email.setError(getString(R.string.email_error));
             return false;
@@ -447,11 +635,44 @@ class RegisterActivity : AppCompatActivity(), OnClickListener {
         }
 
         if (cb_term_accept.isChecked == false) {
-            showToast(this@RegisterActivity, getString(R.string.please_accept_condition))
+            showToast(this@RegisterActivity,this@RegisterActivity, getString(R.string.please_accept_condition))
             return false
         }
 
         return true
 
     }
+
+
+    override fun onItemClick(pos: Int) {
+        mn_et_country_code.text = "+ ${getCountriesResponseItem.get(pos).countryCode}"
+        countryId = getCountriesResponseItem.get(pos).id
+        countryCode = getCountriesResponseItem.get(pos).countryCode.toString()
+        dialog1.dismiss()
+    }
+
 }
+
+
+//override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//    super.onActivityResult(requestCode, resultCode, data)
+//
+//    if (resultCode == AppCompatActivity.RESULT_OK && requestCode == pickImage) {
+//        try {
+//            imageUri = data?.data
+//            val inputStream = contentResolver.openInputStream(imageUri!!)
+//            var bitmap = BitmapFactory.decodeStream(inputStream)
+//            reg_profile_img.setImageBitmap(bitmap)
+//            encodeBitmapImage(bitmap)
+//            showLog("photo", photo.toString())
+//        } catch (ex: Exception) {
+//        }
+//    } else if (resultCode == AppCompatActivity.RESULT_OK && requestCode == pickCamera) {
+//        photo = data?.extras?.get("data") as Bitmap
+//        showLog("photo", photo.toString())
+//        encodeBitmapImage(photo)
+//        reg_profile_img.setImageBitmap(photo)
+//    }
+//
+//}
+

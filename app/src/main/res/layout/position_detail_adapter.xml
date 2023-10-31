@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+
+    <TextView
+        android:id="@+id/txt_sd_strategyName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/helvetica_bold"
+        android:textAlignment="viewStart"
+        android:textColor="@color/hello_1"
+        android:textSize="24sp"
+        android:typeface="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_strategy_pl"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/helvetica_bold"
+        android:textAlignment="textEnd"
+        android:textColor="@color/static_txt"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_sd_strategyName" />
+    <TextView
+        android:id="@+id/txt_detail_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/helvetica_bold"
+        android:text="Strategy Description :"
+        android:textColor="@color/hello"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_strategy_pl" />
+
+    <TextView
+        android:id="@+id/txt_detail_sd_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/helvetica"
+        android:textColor="@color/static_txt"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_detail_description" />
+
+    <TextView
+        android:id="@+id/txt_detail_strategy_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Strategy Number"
+        android:fontFamily="@font/helvetica_bold"
+        android:textColor="@color/hello"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/txt_strategy_number"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_detail_sd_description" />
+
+    <TextView
+        android:id="@+id/txt_strategy_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/helvetica"
+        android:textAlignment="textEnd"
+        android:textColor="@color/static_txt"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_detail_strategy_number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/txt_detail_strategy_number"
+        app:layout_constraintTop_toTopOf="@+id/txt_detail_strategy_number" />
+
+
+    <TextView
+        android:id="@+id/txt_detail_strategy_quantity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Quantity"
+        android:fontFamily="@font/helvetica_bold"
+        android:textColor="@color/hello"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/txt_strategy_quantity"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_detail_strategy_number" />
+
+    <TextView
+        android:id="@+id/txt_strategy_quantity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/helvetica"
+        android:textAlignment="textEnd"
+        android:textColor="@color/static_txt"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_detail_strategy_quantity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/txt_detail_strategy_quantity"
+        app:layout_constraintTop_toTopOf="@+id/txt_detail_strategy_quantity" />
+
+    <TextView
+        android:id="@+id/txt_detail_strategy_om"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Order Mode"
+        android:fontFamily="@font/helvetica_bold"
+        android:textColor="@color/hello"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/txt_strategy_om"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_detail_strategy_quantity" />
+
+    <TextView
+        android:id="@+id/txt_strategy_om"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/helvetica"
+        android:textAlignment="textEnd"
+        android:textColor="@color/static_txt"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_detail_strategy_om"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/txt_detail_strategy_om"
+        app:layout_constraintTop_toTopOf="@+id/txt_detail_strategy_om" />
+
+    <TextView
+        android:id="@+id/txt_detail_strategy_symbol"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Symbol"
+        android:textAlignment="textStart"
+        android:fontFamily="@font/helvetica_bold"
+        android:textColor="@color/hello"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/txt_strategy_symbol"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_detail_strategy_om" />
+
+    <TextView
+        android:id="@+id/txt_strategy_symbol"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/helvetica"
+        android:textAlignment="textEnd"
+        android:textColor="@color/static_txt"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_detail_strategy_symbol"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/txt_detail_strategy_symbol"
+        app:layout_constraintTop_toTopOf="@+id/txt_detail_strategy_symbol" />
+
+    <TextView
+        android:id="@+id/txt_detail_strategy_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Date"
+        android:textAlignment="textStart"
+        android:fontFamily="@font/helvetica_bold"
+        android:textColor="@color/hello"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/txt_strategy_date"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_detail_strategy_symbol" />
+
+
+    <TextView
+        android:id="@+id/txt_strategy_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/helvetica"
+        android:textAlignment="textEnd"
+        android:textColor="@color/static_txt"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_detail_strategy_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/txt_detail_strategy_date"
+        app:layout_constraintTop_toTopOf="@+id/txt_detail_strategy_date" />
+
+    <TextView
+        android:id="@+id/txt_detail_strategy_tdt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Trade Date Time"
+        android:textAlignment="textStart"
+        android:fontFamily="@font/helvetica_bold"
+        android:textColor="@color/hello"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/txt_strategy_tdt"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_detail_strategy_date" />
+
+    <TextView
+        android:id="@+id/txt_strategy_tdt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/helvetica"
+        android:textAlignment="textEnd"
+        android:textColor="@color/static_txt"
+        android:textSize="14sp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/txt_detail_strategy_tdt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/txt_detail_strategy_tdt"
+        app:layout_constraintTop_toTopOf="@+id/txt_detail_strategy_tdt" />
+
+
+    <TextView
+        android:id="@+id/txt_detail_strategy_tt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Trading Type"
+        android:textAlignment="textStart"
+        android:fontFamily="@font/helvetica_bold"
+        android:textColor="@color/hello"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/txt_strategy_tt"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_detail_strategy_tdt" />
+
+    <TextView
+        android:id="@+id/txt_strategy_tt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/helvetica"
+        android:textAlignment="textEnd"
+        android:textColor="@color/sky_light"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_detail_strategy_tt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/txt_detail_strategy_tt"
+        app:layout_constraintTop_toTopOf="@+id/txt_detail_strategy_tt" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/constraintLayout7"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_detail_strategy_tt">
+
+        <TextView
+            android:id="@+id/txt_detail_buy_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Buy Price"
+            android:textAlignment="center"
+            android:fontFamily="@font/helvetica_bold"
+            android:textColor="@color/hello"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txt_buy_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/helvetica"
+            android:textAlignment="center"
+            android:textColor="@color/sky_light"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_detail_buy_price" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout6"
+        app:layout_constraintEnd_toStartOf="@+id/constraintLayout9"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/constraintLayout6"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout6">
+
+        <TextView
+            android:id="@+id/txt_detail_target_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Target Price"
+            android:textAlignment="center"
+            android:fontFamily="@font/helvetica_bold"
+            android:textColor="@color/hello"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txt_target_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/helvetica"
+            android:textAlignment="center"
+            android:textColor="@color/sky_light"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_detail_target_price" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout9"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/constraintLayout7"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout7">
+
+
+        <TextView
+            android:id="@+id/txt_detail_sl_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Stop Loss"
+            android:textAlignment="center"
+            android:fontFamily="@font/helvetica_bold"
+            android:textColor="@color/hello"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txt_sl_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/helvetica"
+            android:textAlignment="center"
+            android:textColor="@color/sky_light"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_detail_sl_price" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

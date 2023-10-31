@@ -1,10 +1,12 @@
 package com.example.cryptoapp.modual.history
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
@@ -27,11 +29,13 @@ import retrofit2.Response
 class SubscriptionFragment : Fragment() {
 
     lateinit var rec_sub_history: RecyclerView
+    lateinit var txt_subscription_data_not_found: TextView
     lateinit var subscriptionHistoryAdapter: SubscriptionHistoryAdapter
     lateinit var preferences: MyPreferences
     lateinit var data: DataXX
     lateinit var viewLoader: View
     lateinit var animationView: LottieAnimationView
+    private lateinit var fragmentContext: Context
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,13 +47,14 @@ class SubscriptionFragment : Fragment() {
     }
 
     private fun InIt(view: View) {
-        preferences = MyPreferences(requireContext())
+        preferences = MyPreferences(fragmentContext)
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
 
-        viewLoader = view.findViewById(R.id.loader_animation)
+        viewLoader = view.findViewById(R.id.viewLoader)
         animationView = viewLoader.findViewById(R.id.lotti_img)
         data = Gson().fromJson(preferences.getLogin(), DataXX::class.java)
         rec_sub_history = view.findViewById(R.id.rec_sub_history)
+        txt_subscription_data_not_found = view.findViewById(R.id.txt_subscription_data_not_found)
         setupAnim()
         getSubscriptionHistoryList(0,10)
 
@@ -61,16 +66,21 @@ class SubscriptionFragment : Fragment() {
         animationView.playAnimation()
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        fragmentContext = context
+    }
+
     fun getSubscriptionHistoryList(pageNumber: Int, pageSize: Int) {
         viewLoader.visibility = View.VISIBLE
-        val response = ServiceBuilder(requireContext()).buildService(RestApi::class.java)
+        val response = ServiceBuilder(fragmentContext,false).buildService(RestApi::class.java)
         var payload = GetOrderHistoryListPayload(
             pageNumber,
             pageSize,
             data.userId
         )
 
-        response.addSubscriptionHistoryList(payload)
+        response.addSubscriptionHistory(payload)
             .enqueue(
                 object : Callback<UserSubscriptionsResponse> {
                     override fun onResponse(
@@ -79,27 +89,34 @@ class SubscriptionFragment : Fragment() {
                     ) {
                         if (response.body()?.isSuccess == true) {
                             viewLoader.visibility = View.GONE
-                            rec_sub_history.layoutManager = LinearLayoutManager(activity)
-                            subscriptionHistoryAdapter =
-                                SubscriptionHistoryAdapter(
-                                    requireContext(),
-                                    response.body()!!.data.userSubscriptions
-                                )
-                            rec_sub_history.adapter = subscriptionHistoryAdapter
+
+                            if(response.body()!!.data.userSubscriptions.size != 0){
+                                rec_sub_history.layoutManager = LinearLayoutManager(activity)
+                                subscriptionHistoryAdapter =
+                                    SubscriptionHistoryAdapter(
+                                        fragmentContext,
+                                        response.body()!!.data.userSubscriptions
+                                    )
+                                rec_sub_history.adapter = subscriptionHistoryAdapter
+                            }else{
+                                txt_subscription_data_not_found.visibility=View.VISIBLE
+                            }
+
                         } else {
                             viewLoader.visibility = View.GONE
                             Constants.showToast(
-                                requireContext(),
+                                fragmentContext,
+                                requireActivity(),
                                 getString(R.string.data_not_found)
                             )
                         }
-
                     }
 
                     override fun onFailure(call: Call<UserSubscriptionsResponse>, t: Throwable) {
                         viewLoader.visibility = View.GONE
                         Constants.showToast(
-                            requireContext(),
+                            fragmentContext,
+                            requireActivity(),
                             getString(R.string.data_not_found)
                         )
                     }

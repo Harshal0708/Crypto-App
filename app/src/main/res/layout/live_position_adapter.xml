@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="2dp"
+    android:layout_marginLeft="2dp"
+    android:layout_marginBottom="8dp"
+    app:cardBackgroundColor="@color/country_code"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/txt_position_coin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:textAlignment="textStart"
+            android:textColor="@color/hello"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/txt_position_buy_price"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txt_position_buy_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/helvetica_bold"
+            android:textAlignment="textEnd"
+            android:textColor="@color/light_green"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_position_coin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/txt_position_coin"
+            app:layout_constraintTop_toTopOf="@+id/txt_position_coin" />
+
+
+        <TextView
+            android:id="@+id/txt_position_num"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:fontFamily="@font/helvetica"
+            android:textAlignment="textStart"
+            android:textColor="@color/static_txt"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_position_pl_price"
+            app:layout_constraintEnd_toStartOf="@+id/txt_position_pl"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_position_coin" />
+
+        <TextView
+            android:id="@+id/txt_position_pl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/helvetica_bold"
+            android:textAlignment="textEnd"
+            android:textColor="@color/hello"
+            android:text="@string/pl"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/txt_position_num"
+            app:layout_constraintTop_toBottomOf="@+id/txt_position_buy_price" />
+
+        <TextView
+            android:id="@+id/txt_position_pl_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/helvetica_bold"
+            android:text="@string/pl"
+            android:textAlignment="center"
+            android:textColor="@color/hello"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/txt_position_pl"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_position_pl" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
+

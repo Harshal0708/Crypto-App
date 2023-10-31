@@ -5,8 +5,8 @@ data class StrategyDataRes(
     val description: String,
     val id: String,
     val isActive: Boolean,
-    val minCapital: Int,
     val modifiedDate: String,
-    val monthlyFee: Int,
-    val strategyName: String
+    val strategyName: String,
+    val strategyNumber: Int,
+
 )

@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.example.cryptoapp.Constants
+import com.example.cryptoapp.Constants.Companion.showLog
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.modual.payment.PaymentIntentRespomse
@@ -45,11 +46,13 @@ class CardActivity : AppCompatActivity() {
         cardInputWidget = findViewById(R.id.cardInputWidget)
         payButton = findViewById(R.id.payButton)
 
-        stripe =Stripe(this,PaymentConfiguration.getInstance(applicationContext).publishableKey)
         PaymentConfiguration.init(
             applicationContext,
             PUBLISH_KEY
         )
+
+        stripe =Stripe(this,PaymentConfiguration.getInstance(applicationContext).publishableKey)
+
         val paymentConfiguration = PaymentConfiguration.getInstance(applicationContext)
         paymentLauncher = PaymentLauncher.Companion.create(
             this,
@@ -57,6 +60,7 @@ class CardActivity : AppCompatActivity() {
             paymentConfiguration.stripeAccountId,
             ::onPaymentResult
         )
+
         getClientSecretKey()
     }
     private fun startCheckout() {
@@ -76,7 +80,7 @@ class CardActivity : AppCompatActivity() {
 
 
     private fun getClientSecretKey() {
-        val response = ServiceBuilder(this@CardActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@CardActivity,true).buildService(RestApi::class.java)
 
         response.addCardPaymentIntents("${amount}00","INR")
             .enqueue(
@@ -86,8 +90,8 @@ class CardActivity : AppCompatActivity() {
                         response: Response<CardPaymentIntentResponse>
                     ) {
                         clientSecretId=response.body()?.client_secret.toString()
-                        Constants.showLog("clientSecretId", clientSecretId)
-                        Constants.showLog("response", response.body()!!.id)
+                        showLog("clientSecretId", clientSecretId)
+                        showLog("response", response.body()!!.id)
 
                         startCheckout()
                     }
@@ -104,19 +108,21 @@ class CardActivity : AppCompatActivity() {
         val message = when (paymentResult) {
             is PaymentResult.Completed -> {
                 "Completed!"
-                showToast(this@CardActivity,"Completed!")
+
+                showToast(this@CardActivity,this@CardActivity,"Completed!")
             }
             is PaymentResult.Canceled -> {
                 "Canceled!"
-                showToast(this@CardActivity,"Canceled!")
+                showToast(this@CardActivity,this@CardActivity,"Canceled!")
             }
             is PaymentResult.Failed -> {
                 // This string comes from the PaymentIntent's error message.
                 // See here: https://stripe.com/docs/api/payment_intents/object#payment_intent_object-last_payment_error-message
                 "Failed: " + paymentResult.throwable.message
-                showToast(this@CardActivity,paymentResult.throwable.message.toString())
+                showToast(this@CardActivity,this@CardActivity,paymentResult.throwable.message.toString())
             }
         }
-        showToast(this@CardActivity,"Payment Result:${message}",)
+        showToast(this@CardActivity,this@CardActivity,"Payment Result:${message}",)
+        showLog("onPaymentResult",message.toString())
     }
 }

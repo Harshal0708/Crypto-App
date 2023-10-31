@@ -49,11 +49,11 @@ class GpayTwoActivity : AppCompatActivity() {
     private fun onGooglePayReady(isReady: Boolean) {
         // implemented below
         googlePayButton.isEnabled=isReady
-        showToast(this@GpayTwoActivity,isReady.toString())
+        showToast(this@GpayTwoActivity,this@GpayTwoActivity,isReady.toString())
     }
 
     private fun onGooglePayResult(result: GooglePayLauncher.Result) {
-        showToast(this@GpayTwoActivity,result.toString())
+        showToast(this@GpayTwoActivity,this@GpayTwoActivity,result.toString())
     }
     
 }

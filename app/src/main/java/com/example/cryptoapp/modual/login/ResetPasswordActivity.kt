@@ -32,6 +32,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var passowrd: String
     private lateinit var rePassowrd: String
     lateinit var preferences: MyPreferences
+    lateinit var ima_back: ImageView
 
     val EMAIL_ADDRESS_PATTERN = Pattern.compile(
         "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
@@ -55,12 +56,12 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
         init()
     }
 
-
     fun init() {
         preferences = MyPreferences(this)
         rp_et_email = findViewById(R.id.rp_et_email)
         rp_et_password = findViewById(R.id.rp_et_password)
         rp_et_rePassword = findViewById(R.id.rp_et_rePassword)
+        ima_back = findViewById(R.id.ima_back)
 
         view = findViewById(R.id.btn_progressBar)
         register_progressBar = view.findViewById(R.id.register_progressBar)
@@ -70,7 +71,28 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
         resent = view.findViewById(R.id.resent)
         resent.text = getString(R.string.reset)
         progressBar_cardView.setOnClickListener(this)
+        ima_back.setOnClickListener(this)
 
+
+        rp_et_email.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (rp_et_email.length() > 0) {
+                    rp_et_email.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    rp_et_email.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
 
         rp_et_password.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -81,11 +103,16 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
                 var pwd = rp_et_password.text.toString().trim()
 
+                if (rp_et_password.length() > 0) {
+                    rp_et_password.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    rp_et_password.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
 
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     rp_et_password.setError(getString(R.string.valid_password))
                 } else {
-                    showToast(this@ResetPasswordActivity, getString(R.string.password_verify_done))
+                    showToast(this@ResetPasswordActivity,this@ResetPasswordActivity, getString(R.string.password_verify_done))
                 }
             }
 
@@ -104,10 +131,17 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
                 var pwd = rp_et_rePassword.text.toString().trim()
 
+
+                if (rp_et_rePassword.length() > 0) {
+                    rp_et_rePassword.setBackground(getResources().getDrawable(R.drawable.edt_bg_selected))
+                } else {
+                    rp_et_rePassword.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
+                }
+
                 if (!(PASSWORD.toRegex().matches(pwd))) {
                     rp_et_rePassword.setError(getString(R.string.valid_password))
                 } else {
-                    showToast(this@ResetPasswordActivity, getString(R.string.password_verify_done))
+                    showToast(this@ResetPasswordActivity,this@ResetPasswordActivity, getString(R.string.password_verify_done))
                 }
             }
 
@@ -132,13 +166,17 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
                     resentPassword()
                 }
             }
+
+            R.id.ima_back -> {
+                onBackPressed()
+            }
         }
     }
 
     fun resentPassword() {
 
-        register_progressBar?.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@ResetPasswordActivity).buildService(RestApi::class.java)
+        register_progressBar.visibility = View.VISIBLE
+        val response = ServiceBuilder(this@ResetPasswordActivity,false).buildService(RestApi::class.java)
 
         val payload = ResetPayload(email, rePassowrd)
 
@@ -154,6 +192,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
                             response.body()?.message?.let {
                                 showToast(this@ResetPasswordActivity,
+                                    this@ResetPasswordActivity,
                                     it
                                 )
                             }
@@ -170,6 +209,7 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
                             response.body()?.message?.let {
                                 showToast(this@ResetPasswordActivity,
+                                    this@ResetPasswordActivity,
                                     it
                                 )
                             }
@@ -179,13 +219,11 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
                     override fun onFailure(call: Call<ResetResponse>, t: Throwable) {
                         register_progressBar?.visibility = View.GONE
-                        showToast(this@ResetPasswordActivity, getString(R.string.reset_password_not_completed))
+                        showToast(this@ResetPasswordActivity,this@ResetPasswordActivity, getString(R.string.reset_password_not_completed))
                     }
 
                 }
             )
-
-
     }
 
 
@@ -218,6 +256,4 @@ class ResetPasswordActivity : AppCompatActivity(), View.OnClickListener {
 
         return true
     }
-
-
 }

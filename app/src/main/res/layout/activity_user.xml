@@ -41,10 +41,10 @@
         android:id="@+id/user_skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/nunito_bold"
+        android:fontFamily="@font/helvetica_bold"
         android:gravity="end"
         android:text="@string/Skip"
-        android:textColor="@color/txt_color"
+        android:textColor="@color/home_text"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline58"
         app:layout_constraintTop_toTopOf="@+id/guideline57" />

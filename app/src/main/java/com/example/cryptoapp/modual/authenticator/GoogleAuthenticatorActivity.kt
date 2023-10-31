@@ -8,13 +8,13 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.cryptoapp.Constants
 import com.example.cryptoapp.Constants.Companion.showLog
+import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Response.DataXX
 import com.example.cryptoapp.model.GenerateQrCodePayload
@@ -22,7 +22,10 @@ import com.example.cryptoapp.modual.login.UserActivity
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.preferences.MyPreferences
+import com.example.cryptoapp.singleton.MySingleton
 import com.google.gson.Gson
+import com.mukesh.mukeshotpview.completeListener.MukeshOtpCompleteListener
+import com.mukesh.mukeshotpview.mukeshOtpView.MukeshOtpView
 import com.strings.cryptoapp.Response.BarcodeImageResponse
 import com.strings.cryptoapp.Response.GenerateQrCodeResponnse
 import com.strings.cryptoapp.model.CreateUserGAKeyPayload
@@ -36,7 +39,8 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
 
     lateinit var qrIV: ImageView
     lateinit var idTVKey: TextView
-    lateinit var ed_totp: EditText
+    lateinit var idTVKey1: TextView
+    lateinit var ed_totp: MukeshOtpView
 
     lateinit var setupCode: String
     lateinit var userKey: String
@@ -44,21 +48,24 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
 
     lateinit var preferences: MyPreferences
     lateinit var data: DataXX
-
-
     lateinit var view: View
     lateinit var register_progressBar: ProgressBar
     lateinit var resent: TextView
     lateinit var progressBar_cardView: RelativeLayout
 
+    var generateOtp1: String = ""
+    private lateinit var ima_back: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_google_authenticator)
+        preferences = MyPreferences(this)
 
         qrIV = findViewById(R.id.idIVQrcode)
         idTVKey = findViewById(R.id.idTVKey)
+        idTVKey1 = findViewById(R.id.idTVKey1)
         ed_totp = findViewById(R.id.ed_totp)
+        ima_back = findViewById(R.id.ima_back)
 
         view = findViewById(R.id.btn_progressBar)
         register_progressBar = view.findViewById(R.id.register_progressBar)
@@ -68,9 +75,12 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
         resent = view.findViewById(R.id.resent)
         resent.text = getString(R.string.login)
 
-        data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
-        preferences = MyPreferences(this)
+//        if(intent.getStringExtra("data") != ""){
+//            data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
+//        }
 
+//        data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
+        data = MySingleton().getData()
 
         progressBar_cardView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
@@ -80,21 +90,37 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                 } else {
                     addVerify2FA()
                 }
-
             }
-
         })
+
         idTVKey.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 copyTextToClipboard()
             }
+        })
 
+        idTVKey1.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+                copyTextToClipboard()
+            }
+        })
+
+        ima_back.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+                onBackPressed()
+            }
+        })
+
+
+        ed_totp.setOtpCompletionListener(object : MukeshOtpCompleteListener {
+            override fun otpCompleteListener(otp: String?) {
+                generateOtp1 = otp.toString()
+            }
         })
 
         getCheckUserGAKey(data.userId)
 
     }
-
 
     private fun copyTextToClipboard() {
         val textToCopy = setupCode
@@ -109,10 +135,11 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
         //register_progressBar.visibility = View.VISIBLE
 
         val response =
-            ServiceBuilder(this@GoogleAuthenticatorActivity).buildService(RestApi::class.java)
+            ServiceBuilder(this@GoogleAuthenticatorActivity,false).buildService(RestApi::class.java)
         val payload = GenerateQrCodePayload(
             data.email
         )
+
         response.addGenerateQrCode(payload)
             .enqueue(object : retrofit2.Callback<BarcodeImageResponse> {
                 override fun onResponse(
@@ -126,13 +153,14 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                     setupCode = response.body()?.data!!.setupCode
                     qrIV.setImageBitmap(byteArrayToBitmap(response.body()?.data!!.barcodeImageUrl!!.toByteArray()))
 
-                    Log.d("test", response.body()?.data!!.setupCode)
+                    showLog("test", response.body()?.data!!.setupCode)
 
                 }
 
                 override fun onFailure(call: retrofit2.Call<BarcodeImageResponse>, t: Throwable) {
                     //register_progressBar.visibility = View.GONE
-                    Constants.showToast(
+                    showToast(
+                        this@GoogleAuthenticatorActivity,
                         this@GoogleAuthenticatorActivity,
                         getString(R.string.login_failed)
                     )
@@ -144,12 +172,13 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
         //register_progressBar.visibility = View.VISIBLE
         showLog("setupCode", setupCode)
         val response =
-            ServiceBuilder(this@GoogleAuthenticatorActivity).buildService(RestApi::class.java)
+            ServiceBuilder(this@GoogleAuthenticatorActivity,false).buildService(RestApi::class.java)
         val payload = CreateUserGAKeyPayload(
             userKey,
             "3fa85f64-5717-4562-b3fc-2c963f66afa6",
             data.userId
         )
+
         response.addCreateUserGAKey(payload)
             .enqueue(object : retrofit2.Callback<GenerateQrCodeResponnse> {
                 override fun onResponse(
@@ -168,7 +197,6 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                     preferences.setToken(data.accessToken)
 
                     var intent = Intent(this@GoogleAuthenticatorActivity, UserActivity::class.java)
-
                     startActivity(intent)
                 }
 
@@ -179,23 +207,24 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                     //register_progressBar.visibility = View.GONE
                     Constants.showToast(
                         this@GoogleAuthenticatorActivity,
+                        this@GoogleAuthenticatorActivity,
                         getString(R.string.login_failed)
                     )
                 }
             })
-
     }
 
     private fun addVerify2FA() {
         //register_progressBar.visibility = View.VISIBLE
 
         val response =
-            ServiceBuilder(this@GoogleAuthenticatorActivity).buildService(RestApi::class.java)
+            ServiceBuilder(this@GoogleAuthenticatorActivity,false).buildService(RestApi::class.java)
 
         val payload = Verify2FAPayload(
-            ed_totp.text.toString(),
+            generateOtp1,
             userKey,
         )
+
 
         response.addVerify2FA(payload)
             .enqueue(object : retrofit2.Callback<GenerateQrCodeResponnse> {
@@ -204,8 +233,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                     response: retrofit2.Response<GenerateQrCodeResponnse>
                 ) {
 
-
-                    if(response.body()?.data == true){
+                    if (response.body()?.data == true) {
                         if (isTrue == false) {
                             addCreateUserGAKey()
                         } else {
@@ -220,13 +248,11 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                             var intent =
                                 Intent(this@GoogleAuthenticatorActivity, UserActivity::class.java)
                             startActivity(intent)
-
                         }
-                    }else{
-                        Toast.makeText(this@GoogleAuthenticatorActivity,"Failed",Toast.LENGTH_LONG).show()
+
+                    } else {
+                        showToast(this@GoogleAuthenticatorActivity,this@GoogleAuthenticatorActivity, "Failed")
                     }
-
-
 
                 }
 
@@ -235,8 +261,8 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
                     t: Throwable
                 ) {
                     //register_progressBar.visibility = View.GONE
-                    Constants.showToast(
-                        this@GoogleAuthenticatorActivity,
+                    showToast(
+                        this@GoogleAuthenticatorActivity,this@GoogleAuthenticatorActivity,
                         getString(R.string.login_failed)
                     )
                 }
@@ -253,7 +279,7 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
         // viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
             var response =
-                ServiceBuilder(this@GoogleAuthenticatorActivity).buildService(RestApi::class.java)
+                ServiceBuilder(this@GoogleAuthenticatorActivity,false).buildService(RestApi::class.java)
                     .getCheckUserGAKey(id)
             withContext(Dispatchers.Main) {
                 //viewLoader.visibility = View.GONE
@@ -275,16 +301,19 @@ class GoogleAuthenticatorActivity : AppCompatActivity() {
         // viewLoader.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO) {
             var response =
-                ServiceBuilder(this@GoogleAuthenticatorActivity).buildService(RestApi::class.java)
+                ServiceBuilder(this@GoogleAuthenticatorActivity,false).buildService(RestApi::class.java)
                     .getGAKeyByUserId(id)
             withContext(Dispatchers.Main) {
                 //viewLoader.visibility = View.GONE
+
                 if (response.body()!!.isSuccess == true) {
                     userKey = response?.body()!!.data
 
                     idTVKey.visibility = View.GONE
+                    idTVKey1.visibility = View.GONE
                     isTrue = true
                 }
+
             }
         }
     }

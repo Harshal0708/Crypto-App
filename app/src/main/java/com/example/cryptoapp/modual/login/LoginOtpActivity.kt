@@ -5,14 +5,10 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.airbnb.lottie.LottieAnimationView
-import com.airbnb.lottie.LottieDrawable
 import com.example.cryptoapp.Constants.Companion.showToast
 import com.example.cryptoapp.R
 import com.example.cryptoapp.Receiver.SmsBroadcastReceiver
@@ -23,8 +19,11 @@ import com.example.cryptoapp.model.VerifyLoginOtpPayload
 import com.example.cryptoapp.network.RestApi
 import com.example.cryptoapp.network.ServiceBuilder
 import com.example.cryptoapp.preferences.MyPreferences
+import com.example.cryptoapp.singleton.MySingleton
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.gson.Gson
+import com.mukesh.mukeshotpview.completeListener.MukeshOtpCompleteListener
+import com.mukesh.mukeshotpview.mukeshOtpView.MukeshOtpView
 import retrofit2.Call
 import java.util.regex.Pattern
 
@@ -33,7 +32,6 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var preferences: MyPreferences
     lateinit var view: View
-    lateinit var otp_layout: View
     lateinit var register_progressBar: ProgressBar
     lateinit var resent: TextView
     lateinit var progressBar_cardView: RelativeLayout
@@ -46,20 +44,17 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var timer: CountDownTimer
 
-    lateinit var animationView: LottieAnimationView
-    lateinit var otp_1: EditText
-    lateinit var otp_2: EditText
-    lateinit var otp_3: EditText
-    lateinit var otp_4: EditText
-    lateinit var otp_5: EditText
-    lateinit var otp_6: EditText
+    lateinit var otp_1: MukeshOtpView
+
 
     lateinit var resend_timer: TextView
 
     lateinit var resend_code: TextView
     lateinit var txt_otp_resend: TextView
 
-    lateinit var generateOtp: String
+    var generateOtp: String = ""
+
+    lateinit var ima_back: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,9 +69,7 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
         txt_otp_resend = findViewById(R.id.txt_otp_resend)
 
         otp_phone_verification = findViewById(R.id.otp_phone_verification)
-        otp_layout = findViewById(R.id.otp_layout)
-        animationView = findViewById(R.id.login_img)
-        setupAnim()
+
         view = findViewById(R.id.btn_progressBar)
         register_progressBar = view.findViewById(R.id.register_progressBar)
         resend_timer = findViewById(R.id.resend_timer)
@@ -86,147 +79,46 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
         resent = view.findViewById(R.id.resent)
         resent.text = getString(R.string.submit)
         resent.text = getString(R.string.verify_continue)
-        data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
+        ima_back = findViewById(R.id.ima_back)
+        otp_1 = findViewById(R.id.otp_layout)
+//        data = Gson().fromJson(intent.getStringExtra("data"), DataXX::class.java)
+        data = MySingleton().getData()
 
+//        otp_phone_verification.setText("Please, enter the verification code we sent to your  Mobile 9714675391 and Gmail apurva.patel@skyttus.com}")
         otp_phone_verification.setText("Please, enter the verification code we sent to your  Mobile ${data.mobile} and Gmail ${data.email}")
 
         countdownTimer()
 
+
+        otp_1.setOtpCompletionListener(object : MukeshOtpCompleteListener {
+            override fun otpCompleteListener(otp: String?) {
+                generateOtp = otp.toString()
+                Toast.makeText(
+                    this@LoginOtpActivity,
+                    "Entered OTP Number is $otp",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        })
+
         progressBar_cardView.setOnClickListener(this)
-        otp_1 = otp_layout.findViewById(R.id.otp_1)
-        otp_2 = otp_layout.findViewById(R.id.otp_2)
-        otp_3 = otp_layout.findViewById(R.id.otp_3)
-        otp_4 = otp_layout.findViewById(R.id.otp_4)
-        otp_5 = otp_layout.findViewById(R.id.otp_5)
-        otp_6 = otp_layout.findViewById(R.id.otp_6)
+
+
         resend_code.isEnabled = false
         txt_otp_resend.isEnabled = false
         resend_code.setOnClickListener(this)
         txt_otp_resend.setOnClickListener(this)
 
-        otp_1.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                    showkeybord(otp_2, otp_1, false)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-        })
-
-        otp_2.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                if (p0?.length!! > 0) {
-                    showkeybord(otp_3, otp_2, false)
-                } else {
-                    showkeybord(otp_1, otp_2, true)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
-
-        otp_3.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                    showkeybord(otp_4, otp_3, false)
-                } else {
-                    showkeybord(otp_2, otp_3, true)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
-
-        otp_4.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                    showkeybord(otp_5, otp_4, false)
-                } else {
-                    showkeybord(otp_3, otp_4, true)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
-
-        otp_5.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                    showkeybord(otp_6, otp_5, false)
-                } else {
-                    showkeybord(otp_4, otp_5, true)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
-
-        otp_6.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                } else {
-                    showkeybord(otp_5, otp_6, true)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
+        ima_back.setOnClickListener(this)
 
     }
 
     fun sendLoginOtp(mobile: String?, email: String?) {
-        otp_1.text.clear()
-        otp_2.text.clear()
-        otp_3.text.clear()
-        otp_4.text.clear()
-        otp_5.text.clear()
-        otp_6.text.clear()
+        otp_1.text?.clear()
+
 
         register_progressBar?.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@LoginOtpActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@LoginOtpActivity,false).buildService(RestApi::class.java)
 
         val payload = SendLoginOtpPayload(
             email!!,
@@ -242,7 +134,7 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
                     ) {
                         if (response.body()?.isSuccess == true) {
                             register_progressBar.visibility = View.GONE
-                            response.body()?.message?.let { showToast(this@LoginOtpActivity, it) }
+                            response.body()?.message?.let { showToast(this@LoginOtpActivity,this@LoginOtpActivity, it) }
                         }
                     }
 
@@ -251,7 +143,7 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
                         t: Throwable
                     ) {
                         register_progressBar.visibility = View.GONE
-                        showToast(this@LoginOtpActivity, getString(R.string.otp_failed))
+                        showToast(this@LoginOtpActivity,this@LoginOtpActivity, getString(R.string.otp_failed))
                     }
                 }
             )
@@ -293,11 +185,7 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
-    private fun setupAnim() {
-        animationView.setAnimation(R.raw.verified)
-        animationView.repeatCount = LottieDrawable.INFINITE
-        animationView.playAnimation()
-    }
+
 
     private fun startSmartUserConsent() {
         val client = SmsRetriever.getClient(this)
@@ -356,12 +244,10 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
         when (id) {
             R.id.progressBar_cardView -> {
 
-                generateOtp = otp_1.text.toString() +
-                        otp_2.text.toString() +
-                        otp_3.text.toString() +
-                        otp_4.text.toString() +
-                        otp_5.text.toString() +
-                        otp_6.text.toString()
+//                otp_1.setOtpCompletionListener {
+//                    generateOtp=it
+//                }
+
 
                 verifyRegistrationOtp(generateOtp)
             }
@@ -370,6 +256,9 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.txt_otp_resend -> {
                 resend()
+            }
+            R.id.ima_back -> {
+                onBackPressed()
             }
         }
     }
@@ -384,7 +273,7 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
     fun verifyRegistrationOtp(otp: String) {
 
         register_progressBar.visibility = View.VISIBLE
-        val response = ServiceBuilder(this@LoginOtpActivity).buildService(RestApi::class.java)
+        val response = ServiceBuilder(this@LoginOtpActivity,false).buildService(RestApi::class.java)
 
         val payload = VerifyLoginOtpPayload(
             data.mobile,
@@ -411,16 +300,16 @@ class LoginOtpActivity : AppCompatActivity(), View.OnClickListener {
                             var intent = Intent(this@LoginOtpActivity, UserActivity::class.java)
                             startActivity(intent)
                             finish()
-                            response.body()?.message?.let { showToast(this@LoginOtpActivity, it) }
+                            response.body()?.message?.let { showToast(this@LoginOtpActivity,this@LoginOtpActivity, it) }
                         } else {
                             register_progressBar.visibility = View.GONE
-                            response.body()?.message?.let { showToast(this@LoginOtpActivity, it) }
+                            response.body()?.message?.let { showToast(this@LoginOtpActivity,this@LoginOtpActivity, it) }
                         }
                     }
 
                     override fun onFailure(call: Call<SendRegistrationOtpResponce>, t: Throwable) {
                         register_progressBar.visibility = View.GONE
-                        showToast(this@LoginOtpActivity, getString(R.string.otp_failed))
+                        showToast(this@LoginOtpActivity, this@LoginOtpActivity,getString(R.string.otp_failed))
                     }
 
                 }

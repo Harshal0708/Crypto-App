@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reg_profile_img"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:fillViewport="true"
+    tools:context=".modual.dashbord.SettingTwoFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/con_img_setting_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_top_bottom"
+            android:padding="12dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_setting_profile"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/star"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/star" />
+
+            <TextView
+                android:id="@+id/txt_setting_username"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/helvetica_bold"
+                android:textAlignment="center"
+                android:textColor="@color/hello"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/img_setting_profile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/img_setting_profile"
+                app:layout_constraintTop_toTopOf="@+id/img_setting_profile"
+                tools:text="Apurva Patel" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/txt_setting_auth"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_top_bottom"
+            android:drawableEnd="@drawable/ic__navigate"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:drawableTint="@color/hello"
+            android:padding="12dp"
+            android:text="@string/authentication"
+            android:textColor="@color/hello"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/con_img_setting_profile" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/con_auto_coin"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/coin_background"
+            app:layout_constraintEnd_toStartOf="@+id/con_finger"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_setting_auth">
+
+            <ImageView
+                android:id="@+id/bs_img_camera"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:tint="@color/sky_light"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_auto"
+                app:tint="@color/sky_light"
+                tools:ignore="UseAppTint" />
+
+            <TextView
+                android:id="@+id/txt_auto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/helvetica_bold"
+                android:gravity="center"
+                android:text="Google"
+                android:textColor="@color/txt_color"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bs_img_camera" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/con_finger"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/coin_background"
+            app:layout_constraintBottom_toBottomOf="@+id/con_auto_coin"
+            app:layout_constraintEnd_toStartOf="@+id/con_otp"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/con_auto_coin"
+            app:layout_constraintTop_toTopOf="@+id/con_auto_coin">
+
+            <ImageView
+                android:id="@+id/bs_img_finger"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:tint="@color/sky_light"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_auto"
+                app:tint="@color/sky_light"
+                tools:ignore="UseAppTint" />
+
+            <TextView
+                android:id="@+id/txt_finger"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/helvetica_bold"
+                android:gravity="center"
+                android:text="Finger"
+                android:textColor="@color/txt_color"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bs_img_finger" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/con_otp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/coin_background"
+            app:layout_constraintBottom_toBottomOf="@+id/con_finger"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/con_finger"
+            app:layout_constraintTop_toTopOf="@+id/con_finger">
+
+            <ImageView
+                android:id="@+id/bs_img_otp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:tint="@color/sky_light"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_auto"
+                app:tint="@color/sky_light"
+                tools:ignore="UseAppTint" />
+
+            <TextView
+                android:id="@+id/txt_otp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/helvetica_bold"
+                android:gravity="center"
+                android:text="Otp"
+                android:textColor="@color/txt_color"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bs_img_otp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/con_auto_coin">
+
+
+            <TextView
+                android:id="@+id/txt_setting_subscription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_top_bottom"
+                android:drawableEnd="@drawable/ic__navigate"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/helvetica_bold"
+                android:padding="12dp"
+                android:text="@string/subscription"
+                android:textColor="@color/hello"
+                android:textSize="20sp"
+                android:drawableTint="@color/hello"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/txt_setting_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_top_bottom"
+                android:drawableEnd="@drawable/ic__navigate"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/helvetica_bold"
+                android:drawableTint="@color/hello"
+                android:padding="12dp"
+                android:text="@string/reset_password"
+                android:textColor="@color/hello"
+                android:textSize="20sp"
+                app:layout_constraintTop_toBottomOf="@+id/txt_setting_subscription"
+                tools:layout_editor_absoluteX="18dp"
+                tools:text="@string/reset_password" />
+
+            <TextView
+                android:id="@+id/txt_setting_share_app"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_top_bottom"
+                android:drawableEnd="@drawable/ic__navigate"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/helvetica_bold"
+                android:padding="12dp"
+                android:text="@string/share_this_app"
+                android:textColor="@color/hello"
+                android:textSize="20sp"
+                android:drawableTint="@color/hello"
+                app:layout_constraintTop_toBottomOf="@+id/txt_setting_password"
+                tools:layout_editor_absoluteX="18dp" />
+
+            <TextView
+                android:id="@+id/txt_setting_privacy_policy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableTint="@color/hello"
+                android:background="@drawable/bg_top_bottom"
+                android:drawableEnd="@drawable/ic__navigate"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/helvetica_bold"
+                android:padding="12dp"
+                android:text="@string/privacy_policy"
+                android:textColor="@color/hello"
+                android:textSize="20sp"
+                app:layout_constraintTop_toBottomOf="@+id/txt_setting_share_app"
+                tools:layout_editor_absoluteX="18dp" />
+
+            <TextView
+                android:id="@+id/txt_setting_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_top_bottom"
+                android:drawableEnd="@drawable/ic__navigate"
+                android:drawablePadding="8dp"
+                android:drawableTint="@color/hello"
+                android:fontFamily="@font/helvetica_bold"
+                android:padding="12dp"
+                android:text="@string/logout"
+                android:textColor="@color/hello"
+                android:textSize="20sp"
+                app:layout_constraintTop_toBottomOf="@+id/txt_setting_privacy_policy"
+                tools:layout_editor_absoluteX="18dp" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
+
+

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/country_code"
+    android:layout_marginRight="2dp"
+    android:layout_marginLeft="2dp"
+    android:layout_marginBottom="8dp"
+    app:cardElevation="8dp"
+    app:cardCornerRadius="8dp">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/txt_order_history_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/helvetica_bold"
+            android:gravity="start"
+            android:text="ok"
+            android:textColor="@color/hello"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/txt_strategy_number"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txt_strategy_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/helvetica_bold"
+            android:gravity="center"
+            android:text="ok"
+            android:textColor="@color/hello"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_order_history_name"
+            app:layout_constraintEnd_toStartOf="@+id/txt_strategy_pl"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/txt_order_history_name"
+            app:layout_constraintTop_toTopOf="@+id/txt_order_history_name" />
+
+
+        <TextView
+            android:id="@+id/txt_strategy_pl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/helvetica_bold"
+            android:gravity="end"
+            android:text="ok"
+            android:textColor="@color/hello"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_strategy_number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/txt_strategy_number"
+            app:layout_constraintTop_toTopOf="@+id/txt_strategy_number" />
+
+        <TextView
+            android:id="@+id/txt_order_hq"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:textColor="@color/hello"
+            android:gravity="start"
+            android:text="Quantity"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/txt_order_hq_price"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_order_history_name" />
+
+        <TextView
+            android:id="@+id/txt_order_hq_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/helvetica"
+            android:gravity="end"
+            android:textColor="@color/static_txt"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_order_hq"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/txt_order_hq"
+            app:layout_constraintTop_toTopOf="@+id/txt_order_hq" />
+
+        <TextView
+            android:id="@+id/txt_order_bp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:textColor="@color/hello"
+            android:gravity="start"
+            android:text="Buy Price"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/txt_order_bp_price"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_order_hq" />
+
+        <TextView
+            android:id="@+id/txt_order_bp_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/helvetica"
+            android:gravity="end"
+            android:textColor="@color/static_txt"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_order_bp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/txt_order_bp"
+            app:layout_constraintTop_toTopOf="@+id/txt_order_bp" />
+
+        <TextView
+            android:id="@+id/txt_order_sp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/helvetica_bold"
+            android:textColor="@color/hello"
+            android:gravity="start"
+            android:text="Sell Price"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/txt_order_sp_price"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_order_bp" />
+
+        <TextView
+            android:id="@+id/txt_order_sp_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/helvetica"
+            android:gravity="end"
+            android:textColor="@color/static_txt"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_order_sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/txt_order_sp"
+            app:layout_constraintTop_toTopOf="@+id/txt_order_sp" />
+
+        <TextView
+            android:id="@+id/txt_orde_Mode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="start"
+            android:text="Mode"
+            android:fontFamily="@font/helvetica_bold"
+            android:textColor="@color/hello"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/txt_order_mode_price"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_order_sp" />
+
+
+        <TextView
+            android:id="@+id/txt_order_mode_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/helvetica"
+            android:gravity="end"
+            android:textColor="@color/static_txt"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_orde_Mode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/txt_orde_Mode"
+            app:layout_constraintTop_toTopOf="@+id/txt_orde_Mode" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/constraintLayout4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_orde_Mode">
+
+            <TextView
+                android:id="@+id/txt_order_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/helvetica_bold"
+                android:textColor="@color/hello"
+                android:gravity="center"
+                android:text="Entry Time"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txt_order_et_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/helvetica"
+                android:gravity="center"
+                android:textColor="@color/sky_light"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_order_et" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout3"
+            app:layout_constraintEnd_toStartOf="@+id/constraintLayout5"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout3"
+            app:layout_constraintTop_toTopOf="@+id/constraintLayout3">
+
+            <TextView
+                android:id="@+id/txt_order_tt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/helvetica_bold"
+                android:textColor="@color/hello"
+                android:gravity="center"
+                android:text="Trading Type"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txt_order_tt_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/helvetica"
+                android:gravity="center"
+                android:textColor="@color/sky_light"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_order_tt" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/constraintLayout4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/constraintLayout4"
+            app:layout_constraintTop_toTopOf="@+id/constraintLayout4">
+
+            <TextView
+                android:id="@+id/txt_order_end"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Exit Time"
+                android:fontFamily="@font/helvetica_bold"
+                android:textColor="@color/hello"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txt_order_end_time_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/helvetica"
+                android:gravity="center"
+                android:textColor="@color/sky_light"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_order_end" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
