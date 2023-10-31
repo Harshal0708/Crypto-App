@@ -102,6 +102,7 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
     lateinit var photo: Bitmap
     var encodeImageString: String = ""
     var countryId: String = ""
+    var countryCode: String = ""
     lateinit var imageFile: File
 
     lateinit var countriesAdapter: CountriesAdapter
@@ -476,7 +477,8 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
                                 lastName,
                                 rePassword,
                                 imageUri.toString(),
-                                countryId
+                                countryId,
+                                countryCode.toInt()
                             )
                             val gson = Gson()
                             val jsonData = gson.toJson(myData)
@@ -644,7 +646,8 @@ class RegisterActivity : AppCompatActivity(), OnClickListener, onItemClickListen
 
     override fun onItemClick(pos: Int) {
         mn_et_country_code.text = "+ ${getCountriesResponseItem.get(pos).countryCode}"
-        countryId = getCountriesResponseItem.get(pos).countryCode.toString()
+        countryId = getCountriesResponseItem.get(pos).id
+        countryCode = getCountriesResponseItem.get(pos).countryCode.toString()
         dialog1.dismiss()
     }
 

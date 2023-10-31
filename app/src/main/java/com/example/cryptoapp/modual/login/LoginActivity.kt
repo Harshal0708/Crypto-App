@@ -82,11 +82,13 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
     lateinit var viewLoader: View
 
     lateinit var animationView: LottieAnimationView
-    var countryId: String = ""
+    var countryId :String=""
+    var countryCode: Int = 0
     lateinit var getCountriesResponseItem: ArrayList<GetCountriesResponseItem>
     lateinit var dialog: Dialog
 
     private lateinit var ima_back: ImageView
+    lateinit var payload: LoginPayload
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -127,8 +129,8 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
         login_emailNumber.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
         pwd_password.setBackground(getResources().getDrawable(R.drawable.edt_bg_normal))
 
-        countryId=GetCountryZipCode()!!
-        txt_login_country_code.text ="+${countryId}"
+        countryCode=GetCountryZipCode()!!.toInt()
+        txt_login_country_code.text ="+${countryCode}"
 
         login_emailNumber.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -330,15 +332,16 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
             str_mobile = email
         }
 
-        val payload = LoginPayload(
-            str_email, password, str_mobile,  countryId
-        )
-//
-//
-//        val payload = LoginPayload(
-//            "apurva.skyttus@gmail.com", "Test@123", "9714675391", false,"973e68ae-1963-430d-2d8f-08db88dc0d87"
-//        )
 
+        if(countryId.equals("")){
+            payload = LoginPayload(
+                str_email, password, str_mobile,  null , countryCode
+            )
+        }else{
+            payload = LoginPayload(
+                str_email, password, str_mobile,  countryId , countryCode
+            )
+        }
 
         response.addLogin(payload).enqueue(object : retrofit2.Callback<LoginResponse> {
             override fun onResponse(
@@ -350,7 +353,7 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 
                 if (response.body()?.isSuccess == true) {
 
-                    showLog("Login data",response.body()!!.data.toString())
+
                     MySingleton().setData(response.body()!!.data)
 
                     if(MyPreferences(this@LoginActivity).getAuth() == 0){
@@ -521,8 +524,9 @@ class LoginActivity : AppCompatActivity(), OnClickListener, OnTouchListener, onI
 
     override fun onItemClick(pos: Int) {
         txt_login_country_code.text = "+ ${getCountriesResponseItem.get(pos).countryCode}"
-        countryId = getCountriesResponseItem.get(pos).countryCode.toString()
-        dialog.dismiss()
+        countryId = getCountriesResponseItem.get(pos).id
+        countryCode = getCountriesResponseItem.get(pos).countryCode
+        dialog.cancel()
     }
 
 }

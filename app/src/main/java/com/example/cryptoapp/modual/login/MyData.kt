@@ -12,4 +12,5 @@ data class MyData(
     val rePassword: String,
     val imageUri: String,
     val countryId: String,
+    val countryCode: Int
 )

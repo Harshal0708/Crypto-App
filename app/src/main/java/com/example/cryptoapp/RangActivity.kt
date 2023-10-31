@@ -26,7 +26,7 @@ class RangActivity : AppCompatActivity(), onRangItemClickListener {
         recyclerView.adapter = adapter
     }
 
-    private fun createRangeItems(): List<RangeItem>? {
+    private fun createRangeItems(): List<RangeItem> {
 
         rangeItems.add(RangeItem("Item 1", 0, 100, 20, 80))
         rangeItems.add(RangeItem("Item 2", 0, 200, 30, 70))

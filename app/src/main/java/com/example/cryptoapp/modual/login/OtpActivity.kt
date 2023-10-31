@@ -65,6 +65,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
     var rePassword: String = ""
     lateinit var imageUri: Uri
     var countryId: String = ""
+    var countryCode: String = ""
     var selectedKeyPos: Int = 0
     var selectedKeyPos1: Int = 0
     var generateOtp: String = ""
@@ -119,6 +120,7 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
             lastName = userData.lastName
             rePassword = userData.rePassword
             countryId = userData.countryId
+            countryCode = userData.countryCode.toString()
             imageUri = userData.imageUri.toUri()
 //            imageUri =bitmapToString(userData.imageUri)
 
@@ -246,6 +248,9 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                 RequestBody.create("text/plain".toMediaTypeOrNull(), lastName)
             val cusCountryId: RequestBody =
                 RequestBody.create("text/plain".toMediaTypeOrNull(), countryId)
+            val countryCode: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), countryCode)
+
             val cusLastPassword: RequestBody =
                 RequestBody.create("text/plain".toMediaTypeOrNull(), rePassword)
             val cusLastEmail: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), email)
@@ -260,7 +265,8 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                 cusLastEmail,
                 cusLastMobile,
                 part,
-                cusUri
+                cusUri,
+                countryCode
             ).enqueue(
                 object : retrofit2.Callback<RegisterResponse> {
                     override fun onResponse(
@@ -308,6 +314,8 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                 RequestBody.create("text/plain".toMediaTypeOrNull(), lastName)
             val cusCountryId: RequestBody =
                 RequestBody.create("text/plain".toMediaTypeOrNull(), countryId)
+            val countryCode: RequestBody =
+                RequestBody.create("text/plain".toMediaTypeOrNull(), countryCode)
             val cusLastPassword: RequestBody =
                 RequestBody.create("text/plain".toMediaTypeOrNull(), rePassword)
             val cusLastEmail: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), email)
@@ -322,7 +330,8 @@ class OtpActivity : AppCompatActivity(), View.OnClickListener {
                 cusLastEmail,
                 cusLastMobile,
                 null,
-                null
+                null,
+                countryCode
             ).enqueue(
                 object : retrofit2.Callback<RegisterResponse> {
                     override fun onResponse(

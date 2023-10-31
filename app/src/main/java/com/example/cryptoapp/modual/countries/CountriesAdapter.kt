@@ -59,6 +59,7 @@ class CountriesAdapter(
             .placeholder(R.drawable.ic_app_icon)
             .error(R.drawable.ic_user)
             .into(holder.img_country_code)
+
         holder.itemView.setOnClickListener {
             onItemClickListener.onItemClick(position)
         }

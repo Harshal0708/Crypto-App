@@ -50,6 +50,7 @@ interface RestApi {
         @Part("PhoneNumber") PhoneNumber: RequestBody,
         @Part ProfileImage: MultipartBody.Part?,
         @Part("ImageURL") ImageURL: RequestBody?,
+        @Part("CountryCode") CountryCode: RequestBody?,
         ): Call<RegisterResponse>
 
     @Multipart
